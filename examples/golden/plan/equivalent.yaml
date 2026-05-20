@@ -1,0 +1,59 @@
+kind: Plan
+id: release.v2.validation_plan
+schema: example.plan.v1
+authority: Canonical
+lifecycle: Active
+created_at: 2026-05-20T18:00:00Z
+status: open
+priority: P0
+owner: team.platform
+title: Release v2 validation plan
+
+intent: |
+  Define the minimum validation requirements for release v2.
+  The plan must remain auditable, reproducible, and easy to review.
+
+scope:
+  in:
+    - schema validation
+    - ui redesign
+  out:
+    - canonicalization feature expansion
+    - semantic relations remote includes
+    - validation reports release automation
+
+milestones:
+  - id: R1
+    status: done
+    gate: validate-syntax
+    evidence: reports/syntax.md
+  - id: R2
+    status: done
+    gate: validate-canonical
+    evidence: reports/canonical.md
+  - id: R3
+    status: pending
+    gate: validate-schema
+    evidence: reports/schema.md
+  - id: R4
+    status: pending
+    gate: validate-semantics
+    evidence: reports/semantics.md
+
+rel:
+  - subject: R3
+    predicate: depends_on
+    object: R2
+  - subject: R4
+    predicate: depends_on
+    object: R3
+  - subject: release.v2.validation_plan
+    predicate: validated_by
+    object: validation.report.v2
+
+rules:
+  - (deny missing(evidence))
+  - (deny dangling(rel))
+  - (deny invalid(lifecycle))
+  - (warn eq(authority,Unknown))
+  

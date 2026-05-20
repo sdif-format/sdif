@@ -1,0 +1,43 @@
+kind: EvidenceReport
+id: validation.report.v2
+schema: example.evidence_report.v1
+authority: Derived
+lifecycle: Active
+subject: release.v2.validation_plan
+verified_at: 2026-05-20T18:15:00Z
+verifier: validator.core
+result: pass
+
+checks:
+  - id: syntax
+    result: pass
+    message: source document parsed successfully
+  - id: canonical
+    result: pass
+    message: canonical output is stable
+  - id: schema
+    result: pass
+    message: required fields are present
+  - id: relations
+    result: pass
+    message: no dangling relations found
+  - id: evidence
+    result: pass
+    message: required evidence references are present
+
+artifacts:
+  - id: summary
+    path: reports/validation-summary.md
+    sha256: TODO
+  - id: details
+    path: reports/validation-details.sdif
+    sha256: TODO
+
+rel:
+  - subject: validation.report.v2
+    predicate: validates
+    object: release.v2.validation_plan
+  - subject: validation.report.v2
+    predicate: emits
+    object: reports/validation-summary.md
+    
