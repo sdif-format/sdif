@@ -1,0 +1,3 @@
+@sdif 0.1
+rel:
+  a depends_on b extra

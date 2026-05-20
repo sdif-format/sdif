@@ -51,6 +51,9 @@ sdif canon examples/plan.sdif --schema examples/schema.sdif
 sdif hash examples/plan.sdif --schema examples/schema.sdif
 ```
 
+The `--schema` option must point to a schema document whose top-level kind is `Schema`. The same guard is enforced by `Schema.from_document()`, so CLI validation and programmatic schema loading reject non-schema documents consistently.
+Do not pass `canonical.sdif` as schema; golden canonical files are expected outputs, not schema inputs.
+
 ## Golden fixtures
 
 Repository golden fixtures live under `examples/golden/<fixture>/`:

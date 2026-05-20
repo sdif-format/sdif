@@ -9,7 +9,7 @@ from pathlib import Path
 from sdif import canonicalize, parse_text, sdif_hash
 from sdif.ai import ai_view
 from sdif.json import document_to_json_data, json_data_to_sdif
-from sdif.validation import Schema, diagnostics_to_json, validate_document
+from sdif.validation import Schema, SchemaError, diagnostics_to_json, validate_document
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -69,8 +69,10 @@ def main(argv: list[str] | None = None) -> int:
         sys.stdout.write(ai_view(text, aliases))
         return 0
     if args.command == "validate":
-        schema_text = args.schema.read_text(encoding="utf-8")
-        diagnostics = validate_document(parse_text(text), Schema.from_document(parse_text(schema_text)))
+        schema = _load_schema(args.schema)
+        if schema is None:  # pragma: no cover - argparse requires --schema for validate
+            raise SystemExit("missing required --schema")
+        diagnostics = validate_document(parse_text(text), schema)
         if args.json_output:
             json.dump({"valid": not diagnostics, "diagnostics": diagnostics_to_json(diagnostics)}, sys.stdout, indent=2)
             sys.stdout.write("\n")
@@ -86,7 +88,10 @@ def main(argv: list[str] | None = None) -> int:
 def _load_schema(path: Path | None) -> Schema | None:
     if path is None:
         return None
-    return Schema.from_document(parse_text(path.read_text(encoding="utf-8")))
+    try:
+        return Schema.from_document(parse_text(path.read_text(encoding="utf-8")))
+    except SchemaError as exc:
+        raise SystemExit(f"invalid --schema `{path}`: {exc}") from exc
 
 
 def _parse_aliases(raw_aliases: list[str]) -> dict[str, str]:

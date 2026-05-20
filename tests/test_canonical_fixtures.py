@@ -81,3 +81,41 @@ milestones[id,status]:
     )
 
     assert hash_run.stdout.strip() == hashlib.sha256(canon_run.stdout.encode("utf-8")).hexdigest()
+
+
+def test_cli_schema_option_rejects_non_schema_document(tmp_path):
+    source = tmp_path / "plan.sdif"
+    source.write_text("@sdif 0.1\nkind Plan\n", encoding="utf-8")
+    not_schema = tmp_path / "canonical.sdif"
+    not_schema.write_text("@sdif 0.1\nkind Plan\n", encoding="utf-8")
+
+    run = subprocess.run(
+        [sys.executable, "tools/sdif-cli.py", "canon", str(source), "--schema", str(not_schema)],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+
+    assert run.returncode != 0
+    assert "expected schema document with `kind Schema`" in run.stderr
+
+
+def test_cli_validate_rejects_non_schema_document(tmp_path):
+    source = tmp_path / "plan.sdif"
+    source.write_text("@sdif 0.1\nkind Plan\n", encoding="utf-8")
+    not_schema = tmp_path / "canonical.sdif"
+    not_schema.write_text("@sdif 0.1\nkind Plan\n", encoding="utf-8")
+
+    run = subprocess.run(
+        [sys.executable, "tools/sdif-cli.py", "validate", str(source), "--schema", str(not_schema)],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+
+    assert run.returncode != 0
+    assert "expected schema document with `kind Schema`" in run.stderr
