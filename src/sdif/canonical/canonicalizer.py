@@ -1,0 +1,95 @@
+"""Canonical SDIF serializer for the MVP AST."""
+from __future__ import annotations
+
+import hashlib
+from sdif.core.ast import Document, Field, Narrative, ObjectBlock, Relation, Rule, Table
+from sdif.parser import parse_text
+from sdif.validation import Schema
+
+_DIRECTIVE_ORDER = {"sdif": 0, "profile": 1, "vocab": 2, "base": 3, "namespace": 4, "include": 5}
+
+
+def canonicalize(source: str | Document, schema: Schema | None = None) -> str:
+    doc = parse_text(source) if isinstance(source, str) else source
+    lines: list[str] = []
+    for directive in sorted(doc.directives, key=lambda d: (_DIRECTIVE_ORDER.get(d.name, 100), d.name, d.args)):
+        args = " ".join(directive.args)
+        lines.append(f"@{directive.name}" + (f" {args}" if args else ""))
+    for statement in _canonical_statement_order(doc.statements, schema):
+        _emit_statement(statement, lines, indent=0, schema=schema)
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def sdif_hash(source: str | Document, schema: Schema | None = None) -> str:
+    return hashlib.sha256(canonicalize(source, schema=schema).encode("utf-8")).hexdigest()
+
+
+def _canonical_statement_order(statements: list[object], schema: Schema | None) -> list[object]:
+    order = {"kind": 0, "id": 1, "schema": 2, "authority": 3, "lifecycle": 4}
+    fields = [s for s in statements if isinstance(s, Field)]
+    relations = sorted([s for s in statements if isinstance(s, Relation)], key=lambda r: (r.subject, r.predicate, r.object))
+    rules = sorted([s for s in statements if isinstance(s, Rule)], key=lambda r: r.source)
+    others = [s for s in statements if not isinstance(s, Field | Relation | Rule)]
+    fields.sort(key=lambda f: (order.get(f.key, 100), f.key))
+    return [*fields, *_canonical_others(others, schema), *relations, *rules]
+
+
+def _canonical_others(statements: list[object], schema: Schema | None) -> list[object]:
+    result: list[object] = []
+    for statement in statements:
+        if isinstance(statement, Table) and schema is not None:
+            policy = schema.table_policies.get(statement.name)
+            if policy is not None and not policy.ordered and policy.primary_key in statement.columns:
+                idx = statement.columns.index(policy.primary_key)  # type: ignore[arg-type]
+                result.append(Table(statement.name, statement.columns, sorted(statement.rows, key=lambda row: row[idx])))
+                continue
+        result.append(statement)
+    return result
+
+
+def _emit_statement(statement: object, lines: list[str], indent: int, schema: Schema | None) -> None:
+    prefix = " " * indent
+    if isinstance(statement, Field):
+        lines.append(f"{prefix}{statement.key} {_quote_if_needed(statement.value)}")
+    elif isinstance(statement, ObjectBlock):
+        lines.append(f"{prefix}{statement.key}:")
+        for child in _canonical_statement_order(statement.statements, schema):
+            _emit_statement(child, lines, indent + 2, schema)
+    elif isinstance(statement, Table):
+        lines.append(f"{prefix}{statement.name}[{','.join(statement.columns)}]:")
+        for row in statement.rows:
+            lines.append(f"{' ' * (indent + 2)}" + "\t".join(row))
+    elif isinstance(statement, Relation):
+        if not _inside_current_block(lines, f"{prefix}rel:"):
+            lines.append(f"{prefix}rel:")
+        relation_object = _quote_if_needed(statement.object)
+        lines.append(f"{' ' * (indent + 2)}{statement.subject} {statement.predicate} {relation_object}")
+    elif isinstance(statement, Rule):
+        if not _inside_current_block(lines, f"{prefix}rules:"):
+            lines.append(f"{prefix}rules:")
+        lines.append(f"{' ' * (indent + 2)}{statement.source}")
+    elif isinstance(statement, Narrative):
+        lines.append(f'{prefix}{statement.key} """')
+        lines.extend(statement.text.split("\n"))
+        lines.append('"""')
+    else:  # pragma: no cover - defensive for future AST nodes
+        raise TypeError(f"unsupported statement: {statement!r}")
+
+
+def _quote_if_needed(value: str) -> str:
+    if value in {"null", "true", "false"}:
+        return value
+    safe = all(ch.isalnum() or ch in "_-./:[] ," for ch in value)
+    if safe and value and " " not in value and "," not in value:
+        return value
+    escaped = value.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
+    return f'"{escaped}"'
+
+
+def _inside_current_block(lines: list[str], header: str) -> bool:
+    for line in reversed(lines):
+        if line == header:
+            return True
+        if not line.startswith("  "):
+            return False
+    return False
