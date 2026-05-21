@@ -169,7 +169,7 @@ def test_semantic_quality_methodology_is_documented_separately_from_token_benchm
     ):
         assert term in docs
 
-    assert "benchmarks/token_comparison.py" in docs
+    assert "scripts/token_comparison.py" in docs
     assert "token" in docs.lower()
     assert "sdif validate examples/plan.sdif --schema examples/schema.sdif" in docs
 

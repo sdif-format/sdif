@@ -27,7 +27,10 @@ typecheck:
 	$(RUN_PREFIX) mypy
 
 benchmark:
-	$(RUN_PREFIX) python benchmarks/token_comparison.py
+	$(RUN_PREFIX) python scripts/token_comparison.py
 
 clean:
 	rm -rf build/ dist/ *.egg-info src/*.egg-info .mypy_cache .pytest_cache .ruff_cache
+
+archive:
+	git archive --format=tar.gz --output=dist/sdif.tar.gz HEAD

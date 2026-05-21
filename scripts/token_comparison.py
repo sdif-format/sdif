@@ -19,6 +19,12 @@ It can count tokens with multiple tokenizers:
 - Llama 3 tokenizer through transformers
 - Claude token counting API through anthropic, opt-in only
 
+Each benchmark execution writes persistent evidence to:
+
+- benchmarks/<timestamp>/comparison.log
+- benchmarks/<timestamp>/comparison.md
+- benchmarks/latest -> <timestamp>
+
 Environment variables:
 
 - SDIF_BENCHMARK_TOON=0
@@ -43,10 +49,15 @@ Environment variables:
 
 - SDIF_BENCHMARK_VERBOSE=1
     Print tokenizer/TOON diagnostic warnings.
+
+- SDIF_TIKTOKEN_ENCODING=<encoding>
+    tiktoken encoding name.
+    Default: cl100k_base
 """
 
 from __future__ import annotations
 
+import contextlib
 import csv
 import functools
 import io
@@ -58,8 +69,9 @@ import subprocess
 import sys
 import tempfile
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any, Callable, TextIO
 from xml.sax.saxutils import escape as xml_escape
 
 import yaml  # type: ignore[import-untyped]
@@ -126,6 +138,150 @@ class TokenizerSpec:
     counter: TokenCounter
 
 
+@dataclass(frozen=True)
+class BenchmarkEvidence:
+    generated_at: str
+    run_dir: Path
+    golden_dir: Path
+    primary_name: str
+    tokenizers: list[TokenizerSpec]
+    results_by_document: dict[str, list[FormatResult]]
+    env_file_loaded: bool
+
+
+# ====================
+# Evidence helpers
+# ====================
+
+
+class Tee:
+    """Write text to multiple streams at once."""
+
+    def __init__(self, *streams: TextIO) -> None:
+        self.streams = streams
+
+    def write(self, data: str) -> int:
+        for stream in self.streams:
+            stream.write(data)
+        return len(data)
+
+    def flush(self) -> None:
+        for stream in self.streams:
+            stream.flush()
+
+
+def utc_now_iso() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def benchmark_timestamp() -> str:
+    return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+
+def create_benchmark_run_dir() -> Path:
+    base_dir = REPO_ROOT / "benchmarks"
+    base_dir.mkdir(parents=True, exist_ok=True)
+
+    timestamp = benchmark_timestamp()
+    run_dir = base_dir / timestamp
+    counter = 1
+
+    while run_dir.exists():
+        run_dir = base_dir / f"{timestamp}-{counter:02d}"
+        counter += 1
+
+    run_dir.mkdir(parents=True)
+    return run_dir
+
+
+def update_latest_symlink(run_dir: Path) -> Path:
+    latest = run_dir.parent / "latest"
+
+    if latest.is_symlink() or latest.is_file():
+        latest.unlink()
+    elif latest.exists():
+        raise RuntimeError(
+            f"Cannot update latest symlink because {latest} exists and is not a symlink."
+        )
+
+    latest.symlink_to(run_dir.name, target_is_directory=True)
+    return latest
+
+
+def markdown_escape(value: object) -> str:
+    return str(value).replace("|", "\\|").replace("\n", "<br>")
+
+
+def env_value(name: str, *, secret: bool = False) -> str:
+    value = os.environ.get(name)
+
+    if not value:
+        return "_unset_"
+
+    if secret:
+        return "_set_"
+
+    return f"`{markdown_escape(value)}`"
+
+
+def parse_env_value(raw_value: str) -> str:
+    """Parse a simple .env value.
+
+    Supports:
+    - KEY=value
+    - KEY="value"
+    - KEY='value'
+    - inline comments only when value is not quoted
+    """
+
+    value = raw_value.strip()
+
+    if not value:
+        return ""
+
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in {"'", '"'}:
+        return value[1:-1]
+
+    if "#" in value:
+        value = value.split("#", 1)[0].rstrip()
+
+    return value
+
+
+def load_env_file(path: Path) -> bool:
+    """Load a local .env file without overriding existing environment variables."""
+
+    if not path.exists():
+        return False
+
+    for line_number, raw_line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        line = raw_line.strip()
+
+        if not line or line.startswith("#"):
+            continue
+
+        if line.startswith("export "):
+            line = line[len("export ") :].strip()
+
+        if "=" not in line:
+            verbose_warning(f"Ignoring invalid .env line {line_number}: missing '='")
+            continue
+
+        key, raw_value = line.split("=", 1)
+        key = key.strip()
+
+        if not key:
+            verbose_warning(f"Ignoring invalid .env line {line_number}: empty key")
+            continue
+
+        if key in os.environ:
+            continue
+
+        os.environ[key] = parse_env_value(raw_value)
+
+    return True
+
+
 # ====================
 # Format generators
 # ====================
@@ -172,8 +328,10 @@ def csv_bundle_generated(data: dict[str, Any]) -> str:
         output = io.StringIO()
         writer = csv.writer(output, lineterminator="\n")
         writer.writerow(["key", "value"])
+
         for key, value in scalar_rows:
             writer.writerow([key, _csv_cell(value)])
+
         sections.insert(0, "# fields\n" + output.getvalue().rstrip("\n"))
 
     return "\n\n".join(sections).rstrip() + "\n"
@@ -453,6 +611,7 @@ def discover_documents(golden_dir: Path) -> list[str]:
 def _emit_xml_value(name: str, value: object, lines: list[str], indent: int) -> None:
     prefix = " " * indent
     tag = _xml_tag(name)
+
     if isinstance(value, dict):
         lines.append(f"{prefix}<{tag}>")
         for key, child in value.items():
@@ -488,9 +647,11 @@ def _is_uniform_object_array(value: object) -> bool:
         return False
     if not all(isinstance(item, dict) for item in value):
         return False
+
     columns = list(value[0].keys())
     if not columns:
         return False
+
     expected = set(columns)
     return all(set(item.keys()) == expected for item in value)
 
@@ -499,20 +660,24 @@ def _csv_section(name: str, rows: list[dict[str, object]]) -> str:
     output = io.StringIO()
     writer = csv.writer(output, lineterminator="\n")
     columns = list(rows[0].keys())
+
     writer.writerow(columns)
+
     for row in rows:
         writer.writerow([_csv_cell(row[column]) for column in columns])
+
     return f"# table:{name}\n{output.getvalue().rstrip(chr(10))}"
 
 
 def _csv_cell(value: object) -> str:
     if isinstance(value, str | int | float) or value is None or isinstance(value, bool):
         return _scalar_text(value)
+
     return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
 
 
 # ====================
-# Rendering
+# Console rendering
 # ====================
 
 
@@ -626,12 +791,191 @@ def print_footer(results_by_document: dict[str, list[FormatResult]]) -> None:
         print("ℹ️  Claude skipped: set SDIF_BENCHMARK_CLAUDE=1 to enable API token counting.")
 
 
+def print_evidence_footer(run_dir: Path, log_path: Path, markdown_path: Path, latest: Path) -> None:
+    print()
+    print("🧾 Benchmark evidence written")
+    print(f"  log:      {log_path.relative_to(REPO_ROOT)}")
+    print(f"  markdown: {markdown_path.relative_to(REPO_ROOT)}")
+    print(f"  latest:   {latest.relative_to(REPO_ROOT)} -> {run_dir.name}")
+
+
+# ====================
+# Markdown report rendering
+# ====================
+
+
+def render_markdown_report(evidence: BenchmarkEvidence) -> str:
+    documents_count = len(evidence.results_by_document)
+
+    lines: list[str] = [
+        "# SDIF Benchmark Evidence Report",
+        "",
+        f"- Generated at: `{evidence.generated_at}`",
+        f"- Run directory: `{evidence.run_dir.relative_to(REPO_ROOT)}`",
+        f"- Semantic source: `{evidence.golden_dir.relative_to(REPO_ROOT)}/<document>/equivalent.json`",
+        f"- Primary ordering and ratio: `{evidence.primary_name}` vs `JSON Compact`",
+        "",
+        "## Environment",
+        "",
+        "| Variable | Value |",
+        "|---|---|",
+        f"| `SDIF_BENCHMARK_TOON` | {env_value('SDIF_BENCHMARK_TOON')} |",
+        f"| `SDIF_BENCHMARK_CLAUDE` | {env_value('SDIF_BENCHMARK_CLAUDE')} |",
+        f"| `SDIF_CLAUDE_MODEL` | {env_value('SDIF_CLAUDE_MODEL')} |",
+        f"| `SDIF_LLAMA_TOKENIZER` | {env_value('SDIF_LLAMA_TOKENIZER')} |",
+        f"| `SDIF_LLAMA_LOCAL_ONLY` | {env_value('SDIF_LLAMA_LOCAL_ONLY')} |",
+        f"| `SDIF_TIKTOKEN_ENCODING` | {env_value('SDIF_TIKTOKEN_ENCODING')} |",
+        f"| `HF_TOKEN` | {env_value('HF_TOKEN', secret=True)} |",
+        f"| `ANTHROPIC_API_KEY` | {env_value('ANTHROPIC_API_KEY', secret=True)} |",
+        "",
+        "## Documents",
+        "",
+    ]
+
+    token_headers = [tokenizer.name for tokenizer in evidence.tokenizers]
+
+    for document_name, rows in evidence.results_by_document.items():
+        lines.extend(
+            [
+                f"### `{markdown_escape(document_name)}`",
+                "",
+                "| Format | Bytes | "
+                + " | ".join(markdown_escape(name) for name in token_headers)
+                + " | vs JSON Compact |",
+                "|---|---:|" + "|".join("---:" for _ in token_headers) + "|---:|",
+            ]
+        )
+
+        for row in rows:
+            token_columns = " | ".join(
+                format_count(row.tokens.get(tokenizer.name)) for tokenizer in evidence.tokenizers
+            )
+
+            lines.append(
+                f"| {markdown_escape(row.name)} "
+                f"| {row.bytes_size} "
+                f"| {token_columns} "
+                f"| {format_ratio(row.primary_ratio).strip()} |"
+            )
+
+        lines.append("")
+
+    lines.extend(
+        [
+            "## Average ratio vs JSON Compact",
+            "",
+        ]
+    )
+
+    for tokenizer in evidence.tokenizers:
+        tokenizer_name = tokenizer.name
+        ratios_by_format: dict[str, list[float]] = {}
+
+        for rows in evidence.results_by_document.values():
+            baseline = next(
+                (row.tokens.get(tokenizer_name) for row in rows if row.name == "JSON Compact"),
+                None,
+            )
+
+            for row in rows:
+                value = ratio(row.tokens.get(tokenizer_name), baseline)
+                if value is not None:
+                    ratios_by_format.setdefault(row.name, []).append(value)
+
+        lines.extend(
+            [
+                f"### `{markdown_escape(tokenizer_name)}`",
+                "",
+            ]
+        )
+
+        if not ratios_by_format:
+            lines.extend(["Unavailable.", ""])
+            continue
+
+        lines.extend(
+            [
+                "| Format | Average | Coverage |",
+                "|---|---:|---:|",
+            ]
+        )
+
+        for format_name, values in sorted(
+            ratios_by_format.items(),
+            key=lambda item: average(item[1]),
+        ):
+            lines.append(
+                f"| {markdown_escape(format_name)} "
+                f"| {average(values):.1f}% "
+                f"| {len(values)}/{documents_count} |"
+            )
+
+        lines.append("")
+
+    lines.extend(
+        [
+            f"## Wins by `{markdown_escape(evidence.primary_name)}`",
+            "",
+            "| Format | Wins |",
+            "|---|---:|",
+        ]
+    )
+
+    wins: dict[str, int] = {}
+
+    for rows in evidence.results_by_document.values():
+        comparable = [row for row in rows if row.tokens.get(evidence.primary_name) is not None]
+
+        if not comparable:
+            continue
+
+        winner = sorted(comparable, key=lambda row: sort_key(row, evidence.primary_name))[0]
+        wins[winner.name] = wins.get(winner.name, 0) + 1
+
+    for format_name, count in sorted(wins.items(), key=lambda item: (-item[1], item[0])):
+        lines.append(f"| {markdown_escape(format_name)} | {count}/{documents_count} |")
+
+    all_formats = {row.name for rows in evidence.results_by_document.values() for row in rows}
+
+    lines.extend(
+        [
+            "",
+            "## Notes",
+            "",
+        ]
+    )
+
+    if os.environ.get("SDIF_BENCHMARK_TOON") == "0":
+        lines.append("- TOON skipped because `SDIF_BENCHMARK_TOON=0`.")
+    elif "TOON" not in all_formats:
+        lines.append(
+            "- TOON skipped because neither global `toon` nor `npx @toon-format/cli` produced output."
+        )
+
+    if os.environ.get("SDIF_BENCHMARK_CLAUDE") != "1":
+        lines.append("- Claude skipped because `SDIF_BENCHMARK_CLAUDE=1` was not set.")
+
+    lines.extend(
+        [
+            "",
+            "## Artifacts",
+            "",
+            f"- Raw log: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.log'}`",
+            f"- Markdown report: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.md'}`",
+            f"- Latest symlink: `{evidence.run_dir.parent.relative_to(REPO_ROOT) / 'latest'}`",
+            "",
+        ]
+    )
+
+    return "\n".join(lines)
+
+
 # ====================
 # Main
 # ====================
 
 
-def main() -> None:
+def run_benchmark(run_dir: Path, *, env_file_loaded: bool) -> BenchmarkEvidence:
     golden_dir = REPO_ROOT / "examples/golden"
     documents = discover_documents(golden_dir)
 
@@ -677,6 +1021,36 @@ def main() -> None:
         primary_name=primary_tokenizer.name,
     )
     print_footer(results_by_document)
+
+    return BenchmarkEvidence(
+        generated_at=utc_now_iso(),
+        run_dir=run_dir,
+        golden_dir=golden_dir,
+        primary_name=primary_tokenizer.name,
+        tokenizers=tokenizers,
+        results_by_document=results_by_document,
+        env_file_loaded=env_file_loaded,
+    )
+
+
+def main() -> None:
+    env_file_loaded = load_env_file(REPO_ROOT / ".env")
+
+    run_dir = create_benchmark_run_dir()
+    log_path = run_dir / "comparison.log"
+    markdown_path = run_dir / "comparison.md"
+
+    with log_path.open("w", encoding="utf-8") as log_file:
+        with contextlib.redirect_stdout(Tee(sys.stdout, log_file)):
+            evidence = run_benchmark(run_dir, env_file_loaded=env_file_loaded)
+
+            markdown_path.write_text(
+                render_markdown_report(evidence),
+                encoding="utf-8",
+            )
+
+            latest = update_latest_symlink(run_dir)
+            print_evidence_footer(run_dir, log_path, markdown_path, latest)
 
 
 if __name__ == "__main__":

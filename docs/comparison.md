@@ -101,7 +101,7 @@ Use JSON for public APIs that already require JSON. Use YAML/TOML for simple loc
 
 ## Benchmark coverage
 
-`benchmarks/token_comparison.py` derives every compared representation from the
+`scripts/token_comparison.py` derives every compared representation from the
 same canonical JSON fixture and currently includes JSON compact, JSON pretty,
 YAML, XML, a practical CSV bundle, SDIF, SDIF AI, and TOON when the official
 TOON CLI is available. `SDIF AI` applies the `.sdif.ai` projection to the

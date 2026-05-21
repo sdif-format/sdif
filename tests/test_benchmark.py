@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-from benchmarks import token_comparison
+from scripts import token_comparison
 
 
 def test_benchmark_main_discovers_golden_fixtures_from_script_location(
@@ -68,7 +68,7 @@ def test_benchmark_script_runs_directly_from_checkout():
     env.pop("PYTHONPATH", None)
 
     run = subprocess.run(
-        [sys.executable, "benchmarks/token_comparison.py"],
+        [sys.executable, "scripts/token_comparison.py"],
         env=env,
         text=True,
         stdout=subprocess.PIPE,
