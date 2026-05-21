@@ -1,6 +1,6 @@
 # SDIF — Semantic Data Interchange Format
 
-[![Status](https://img.shields.io/badge/status-0.2.4--draft-orange)](docs/spec.md)
+[![Status](https://img.shields.io/badge/status-0.2.5--draft-orange)](docs/spec.md)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
@@ -80,7 +80,7 @@ python tools/sdif-cli.py canon examples/registry.sdif
 ## Tree-sitter tooling
 
 `tree-sitter-sdif/` contains the MVP grammar package for editor and incremental
-parse tooling. It includes `grammar.js`, `corpus/core.txt`, and
+parse tooling. It includes `grammar.js`, `tree-sitter.json`, `test/corpus/core.txt`, and
 `queries/highlights.scm`. This layer is intentionally non-normative: SDIF and
 `.sdif.ai` remain the agent-facing formats, and the Python parser remains the
 source of truth for canonical parsing.

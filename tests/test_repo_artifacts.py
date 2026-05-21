@@ -27,10 +27,12 @@ def test_spec_version_matches_package_version():
 
 def test_tree_sitter_tooling_has_package_corpus_and_highlight_queries():
     package = Path("tree-sitter-sdif/package.json").read_text(encoding="utf-8")
-    corpus = Path("tree-sitter-sdif/corpus/core.txt").read_text(encoding="utf-8")
+    config = Path("tree-sitter-sdif/tree-sitter.json").read_text(encoding="utf-8")
+    corpus = Path("tree-sitter-sdif/test/corpus/core.txt").read_text(encoding="utf-8")
     highlights = Path("tree-sitter-sdif/queries/highlights.scm").read_text(encoding="utf-8")
 
     assert '"name": "tree-sitter-sdif"' in package
+    assert '"scope": "source.sdif"' in config
     assert "@sdif 0.1" in corpus
     assert "milestones[id,status,gate]:" in corpus
     assert "(directive" in highlights

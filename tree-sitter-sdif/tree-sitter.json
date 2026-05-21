@@ -1,0 +1,20 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "sdif",
+      "camelcase": "Sdif",
+      "scope": "source.sdif",
+      "path": ".",
+      "file-types": [
+        "sdif"
+      ],
+      "injection-regex": "^sdif$"
+    }
+  ],
+  "metadata": {
+    "version": "0.2.5",
+    "license": "MIT",
+    "description": "Tree-sitter grammar for SDIF editor tooling and incremental syntax support."
+  }
+}

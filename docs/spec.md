@@ -2,7 +2,7 @@
 
 ## Document status
 
-**Version:** 0.2.4-draft
+**Version:** 0.2.5-draft
 **Name:** Semantic Data Interchange Format
 **Short name:** SDIF
 **Recommended source extension:** `.sdif`
@@ -759,9 +759,10 @@ A Tree-sitter grammar is valuable for editor support, syntax highlighting, and i
 The repository now keeps `tree-sitter-sdif/` as an MVP tooling package with:
 
 1. `grammar.js` for core SDIF syntax nodes.
-2. `corpus/core.txt` for a representative agent-facing SDIF document.
-3. `queries/highlights.scm` for editor syntax highlighting.
-4. `package.json` scripts for `tree-sitter generate` and `tree-sitter test` when the Tree-sitter CLI is installed.
+2. `tree-sitter.json` for CLI/editor language metadata.
+3. `test/corpus/core.txt` for a representative agent-facing SDIF document.
+4. `queries/highlights.scm` for editor syntax highlighting.
+5. `package.json` scripts for `tree-sitter generate` and `tree-sitter test` when the Tree-sitter CLI is installed.
 
 Tree-sitter support must stay aligned with the official fixtures and must not require agents to use JSON as their working interchange surface.
 

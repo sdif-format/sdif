@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-sdif",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Tree-sitter grammar for SDIF editor tooling and incremental syntax support.",
   "main": "grammar.js",
   "license": "MIT",
