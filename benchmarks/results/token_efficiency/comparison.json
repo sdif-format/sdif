@@ -1,0 +1,3518 @@
+{
+  "kind": "BenchmarkReport",
+  "version": "1.0",
+  "generatedAt": "2026-05-21T18:05:12Z",
+  "runDirectory": "benchmarks/results/token_efficiency",
+  "semanticSource": "examples/golden/<document>/equivalent.json",
+  "ratiosBaseline": "JSON Compact",
+  "consoleOrderingTokenizer": "tiktoken",
+  "envFileLoaded": true,
+  "documentsCompared": 21,
+  "availableTokenizers": [
+    "Estimate",
+    "tiktoken"
+  ],
+  "tokenizers": [
+    {
+      "name": "Estimate",
+      "status": "available",
+      "type": "heuristic",
+      "notes": "Deterministic fallback: 4 UTF-8 bytes per token."
+    },
+    {
+      "name": "TokenX",
+      "status": "disabled",
+      "type": "heuristic",
+      "notes": "Disabled through SDIF_BENCHMARK_TOKENX=0."
+    },
+    {
+      "name": "tiktoken",
+      "status": "available",
+      "type": "model tokenizer",
+      "notes": "Encoding: cl100k_base."
+    },
+    {
+      "name": "Llama3",
+      "status": "disabled",
+      "type": "model tokenizer",
+      "notes": "Disabled through SDIF_BENCHMARK_LLAMA=0."
+    },
+    {
+      "name": "Claude",
+      "status": "disabled",
+      "type": "API tokenizer",
+      "notes": "Disabled. Set SDIF_BENCHMARK_CLAUDE=1 to enable API token counting."
+    }
+  ],
+  "consensusRanking": [
+    {
+      "format": "SDIF AI",
+      "avgRank": 1.119047619047619,
+      "medianRatio": 61.45031213210969,
+      "bestRatio": 28.662969808995687,
+      "worstRatio": 83.11258278145695,
+      "rankSpread": 1.0,
+      "coverage": 42,
+      "coverageTotal": 42
+    },
+    {
+      "format": "CSV Bundle",
+      "avgRank": 2.119047619047619,
+      "medianRatio": 62.844806339193156,
+      "bestRatio": 28.69993838570548,
+      "worstRatio": 95.36423841059603,
+      "rankSpread": 2.0,
+      "coverage": 42,
+      "coverageTotal": 42
+    },
+    {
+      "format": "SDIF",
+      "avgRank": 2.761904761904762,
+      "medianRatio": 64.90549693055422,
+      "bestRatio": 29.35304990757856,
+      "worstRatio": 83.44370860927152,
+      "rankSpread": 2.0,
+      "coverage": 42,
+      "coverageTotal": 42
+    },
+    {
+      "format": "JSON Compact",
+      "avgRank": 4.476190476190476,
+      "medianRatio": 100.0,
+      "bestRatio": 100.0,
+      "worstRatio": 100.0,
+      "rankSpread": 1.0,
+      "coverage": 42,
+      "coverageTotal": 42
+    },
+    {
+      "format": "YAML",
+      "avgRank": 4.523809523809524,
+      "medianRatio": 107.52276341172887,
+      "bestRatio": 92.03539823008849,
+      "worstRatio": 137.77906081601233,
+      "rankSpread": 1.0,
+      "coverage": 42,
+      "coverageTotal": 42
+    },
+    {
+      "format": "JSON Pretty",
+      "avgRank": 6.0,
+      "medianRatio": 147.9801381782421,
+      "bestRatio": 127.00669374678186,
+      "worstRatio": 192.47073321010475,
+      "rankSpread": 0.0,
+      "coverage": 42,
+      "coverageTotal": 42
+    },
+    {
+      "format": "XML",
+      "avgRank": 7.0,
+      "medianRatio": 179.38734075994378,
+      "bestRatio": 146.36492362263286,
+      "worstRatio": 229.77202711028957,
+      "rankSpread": 0.0,
+      "coverage": 42,
+      "coverageTotal": 42
+    }
+  ],
+  "winnersByTokenizer": [
+    {
+      "tokenizer": "Estimate",
+      "format": "SDIF AI",
+      "wins": 19,
+      "documents": 21
+    },
+    {
+      "tokenizer": "Estimate",
+      "format": "CSV Bundle",
+      "wins": 1,
+      "documents": 21
+    },
+    {
+      "tokenizer": "Estimate",
+      "format": "SDIF",
+      "wins": 1,
+      "documents": 21
+    },
+    {
+      "tokenizer": "tiktoken",
+      "format": "SDIF AI",
+      "wins": 18,
+      "documents": 21
+    },
+    {
+      "tokenizer": "tiktoken",
+      "format": "CSV Bundle",
+      "wins": 3,
+      "documents": 21
+    }
+  ],
+  "directComparison": [
+    {
+      "format": "SDIF AI",
+      "consensusAvgRank": 1.119047619047619,
+      "consensusMedianRatio": 61.45031213210969,
+      "consensusBestRatio": 28.662969808995687,
+      "consensusWorstRatio": 83.11258278145695,
+      "consensusRankSpread": 1.0,
+      "coverage": 42,
+      "coverageTotal": 42,
+      "totalWins": 37,
+      "avgRatioByTokenizer": {
+        "Estimate": 56.1990257757005,
+        "tiktoken": 64.91808554618784
+      }
+    },
+    {
+      "format": "SDIF",
+      "consensusAvgRank": 2.761904761904762,
+      "consensusMedianRatio": 64.90549693055422,
+      "consensusBestRatio": 29.35304990757856,
+      "consensusWorstRatio": 83.44370860927152,
+      "consensusRankSpread": 2.0,
+      "coverage": 42,
+      "coverageTotal": 42,
+      "totalWins": 1,
+      "avgRatioByTokenizer": {
+        "Estimate": 58.03318933242517,
+        "tiktoken": 68.513311887317
+      }
+    },
+    {
+      "format": "CSV Bundle",
+      "consensusAvgRank": 2.119047619047619,
+      "consensusMedianRatio": 62.844806339193156,
+      "consensusBestRatio": 28.69993838570548,
+      "consensusWorstRatio": 95.36423841059603,
+      "consensusRankSpread": 2.0,
+      "coverage": 42,
+      "coverageTotal": 42,
+      "totalWins": 4,
+      "avgRatioByTokenizer": {
+        "Estimate": 57.247974278805195,
+        "tiktoken": 68.31415256589123
+      }
+    },
+    {
+      "format": "JSON Compact",
+      "consensusAvgRank": 4.476190476190476,
+      "consensusMedianRatio": 100.0,
+      "consensusBestRatio": 100.0,
+      "consensusWorstRatio": 100.0,
+      "consensusRankSpread": 1.0,
+      "coverage": 42,
+      "coverageTotal": 42,
+      "totalWins": 0,
+      "avgRatioByTokenizer": {
+        "Estimate": 100.0,
+        "tiktoken": 100.0
+      }
+    }
+  ],
+  "documents": [
+    {
+      "name": "deep-hierarchy-project",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 73179,
+          "jsonCompactTokens": 118574,
+          "savedTokens": 45395,
+          "ratio": 61.715890498760274
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "CSV Bundle",
+          "tokens": 101645,
+          "jsonCompactTokens": 137942,
+          "savedTokens": 36297,
+          "ratio": 73.68676690203128
+        }
+      ],
+      "formats": [
+        {
+          "format": "CSV Bundle",
+          "bytes": 292754,
+          "tokens": {
+            "Estimate": 73189,
+            "TokenX": null,
+            "tiktoken": 101645,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 61.724324050803716,
+            "tiktoken": 73.68676690203128
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "SDIF AI",
+          "bytes": 292716,
+          "tokens": {
+            "Estimate": 73179,
+            "TokenX": null,
+            "tiktoken": 103205,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 61.715890498760274,
+            "tiktoken": 74.81767699467893
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 302202,
+          "tokens": {
+            "Estimate": 75551,
+            "TokenX": null,
+            "tiktoken": 107951,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 63.71632904346652,
+            "tiktoken": 78.25825346884923
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 474294,
+          "tokens": {
+            "Estimate": 118574,
+            "TokenX": null,
+            "tiktoken": 137942,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 452163,
+          "tokens": {
+            "Estimate": 113041,
+            "TokenX": null,
+            "tiktoken": 153735,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 95.33371565435931,
+            "tiktoken": 111.44901480332314
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 648068,
+          "tokens": {
+            "Estimate": 162017,
+            "TokenX": null,
+            "tiktoken": 204303,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 136.63788014235837,
+            "tiktoken": 148.10790042191647
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 768236,
+          "tokens": {
+            "Estimate": 192059,
+            "TokenX": null,
+            "tiktoken": 243817,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 161.97395719128983,
+            "tiktoken": 176.75327311478736
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "github.openapi",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 41843,
+          "jsonCompactTokens": 73106,
+          "savedTokens": 31263,
+          "ratio": 57.2360681749788
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 37829,
+          "jsonCompactTokens": 62704,
+          "savedTokens": 24875,
+          "ratio": 60.329484562388366
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 167369,
+          "tokens": {
+            "Estimate": 41843,
+            "TokenX": null,
+            "tiktoken": 37829,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 57.2360681749788,
+            "tiktoken": 60.329484562388366
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 167539,
+          "tokens": {
+            "Estimate": 41885,
+            "TokenX": null,
+            "tiktoken": 39074,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 57.2935189998085,
+            "tiktoken": 62.31500382750702
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 173649,
+          "tokens": {
+            "Estimate": 43413,
+            "TokenX": null,
+            "tiktoken": 41867,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 59.38363472218423,
+            "tiktoken": 66.76926511865273
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 292422,
+          "tokens": {
+            "Estimate": 73106,
+            "TokenX": null,
+            "tiktoken": 62704,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 283256,
+          "tokens": {
+            "Estimate": 70814,
+            "TokenX": null,
+            "tiktoken": 72783,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 96.86482641643642,
+            "tiktoken": 116.07393467721356
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 386842,
+          "tokens": {
+            "Estimate": 96711,
+            "TokenX": null,
+            "tiktoken": 97266,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 132.2887314310727,
+            "tiktoken": 155.11929063536616
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 472655,
+          "tokens": {
+            "Estimate": 118164,
+            "TokenX": null,
+            "tiktoken": 117756,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 161.6337920280141,
+            "tiktoken": 187.79663179382496
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "large-audit-trail",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 283498,
+          "jsonCompactTokens": 432185,
+          "savedTokens": 148687,
+          "ratio": 65.59644596642642
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 412926,
+          "jsonCompactTokens": 540663,
+          "savedTokens": 127737,
+          "ratio": 76.37400746860799
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 1133989,
+          "tokens": {
+            "Estimate": 283498,
+            "TokenX": null,
+            "tiktoken": 412926,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 65.59644596642642,
+            "tiktoken": 76.37400746860799
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 1134036,
+          "tokens": {
+            "Estimate": 283509,
+            "TokenX": null,
+            "tiktoken": 422357,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 65.59899117276167,
+            "tiktoken": 78.1183472884218
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 1155527,
+          "tokens": {
+            "Estimate": 288882,
+            "TokenX": null,
+            "tiktoken": 423698,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 66.84220877633422,
+            "tiktoken": 78.36637609749512
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 1728738,
+          "tokens": {
+            "Estimate": 432185,
+            "TokenX": null,
+            "tiktoken": 540663,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 1666793,
+          "tokens": {
+            "Estimate": 416699,
+            "TokenX": null,
+            "tiktoken": 584405,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 96.4168122447563,
+            "tiktoken": 108.0904371114724
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 2222275,
+          "tokens": {
+            "Estimate": 555569,
+            "TokenX": null,
+            "tiktoken": 723268,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 128.54888531531637,
+            "tiktoken": 133.77427343835254
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 2576525,
+          "tokens": {
+            "Estimate": 644132,
+            "TokenX": null,
+            "tiktoken": 831285,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 149.04080428520194,
+            "tiktoken": 153.75289228225347
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "large-knowledge-graph",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 69895,
+          "jsonCompactTokens": 129721,
+          "savedTokens": 59826,
+          "ratio": 53.88102157707696
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 86155,
+          "jsonCompactTokens": 132864,
+          "savedTokens": 46709,
+          "ratio": 64.84450264932563
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 279580,
+          "tokens": {
+            "Estimate": 69895,
+            "TokenX": null,
+            "tiktoken": 86155,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 53.88102157707696,
+            "tiktoken": 64.84450264932563
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 279620,
+          "tokens": {
+            "Estimate": 69905,
+            "TokenX": null,
+            "tiktoken": 88495,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 53.8887304291518,
+            "tiktoken": 66.60570207129093
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 289242,
+          "tokens": {
+            "Estimate": 72311,
+            "TokenX": null,
+            "tiktoken": 90989,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 55.7434802383577,
+            "tiktoken": 68.4828094894027
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 518882,
+          "tokens": {
+            "Estimate": 129721,
+            "TokenX": null,
+            "tiktoken": 132864,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 495208,
+          "tokens": {
+            "Estimate": 123802,
+            "TokenX": null,
+            "tiktoken": 153731,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 95.43713045690366,
+            "tiktoken": 115.70553347784201
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 733208,
+          "tokens": {
+            "Estimate": 183302,
+            "TokenX": null,
+            "tiktoken": 213005,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 141.304800302187,
+            "tiktoken": 160.31806960500964
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 884387,
+          "tokens": {
+            "Estimate": 221097,
+            "TokenX": null,
+            "tiktoken": 254541,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 170.44040671903545,
+            "tiktoken": 191.58011199421964
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "large-plan",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 123089,
+          "jsonCompactTokens": 201176,
+          "savedTokens": 78087,
+          "ratio": 61.1847337654591
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 141145,
+          "jsonCompactTokens": 213238,
+          "savedTokens": 72093,
+          "ratio": 66.19129798628762
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 492354,
+          "tokens": {
+            "Estimate": 123089,
+            "TokenX": null,
+            "tiktoken": 141145,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 61.1847337654591,
+            "tiktoken": 66.19129798628762
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 492413,
+          "tokens": {
+            "Estimate": 123104,
+            "TokenX": null,
+            "tiktoken": 144465,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 61.192189923251284,
+            "tiktoken": 67.74824374642418
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 504796,
+          "tokens": {
+            "Estimate": 126199,
+            "TokenX": null,
+            "tiktoken": 147369,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 62.730643814371504,
+            "tiktoken": 69.11010232697737
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 804703,
+          "tokens": {
+            "Estimate": 201176,
+            "TokenX": null,
+            "tiktoken": 213238,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 780329,
+          "tokens": {
+            "Estimate": 195083,
+            "TokenX": null,
+            "tiktoken": 229718,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 96.97130870481568,
+            "tiktoken": 107.72845365272605
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 1048494,
+          "tokens": {
+            "Estimate": 262124,
+            "TokenX": null,
+            "tiktoken": 302381,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 130.2958603411938,
+            "tiktoken": 141.80446261923296
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 1273626,
+          "tokens": {
+            "Estimate": 318407,
+            "TokenX": null,
+            "tiktoken": 366170,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 158.27285560901896,
+            "tiktoken": 171.7189243943387
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "large-registry",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 100680,
+          "jsonCompactTokens": 220956,
+          "savedTokens": 120276,
+          "ratio": 45.565632976701245
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 154451,
+          "jsonCompactTokens": 253063,
+          "savedTokens": 98612,
+          "ratio": 61.032628238818
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 402720,
+          "tokens": {
+            "Estimate": 100680,
+            "TokenX": null,
+            "tiktoken": 154451,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 45.565632976701245,
+            "tiktoken": 61.032628238818
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 402772,
+          "tokens": {
+            "Estimate": 100693,
+            "TokenX": null,
+            "tiktoken": 159696,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 45.57151650102283,
+            "tiktoken": 63.10523466488582
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 426166,
+          "tokens": {
+            "Estimate": 106542,
+            "TokenX": null,
+            "tiktoken": 166177,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 48.21864986694184,
+            "tiktoken": 65.66625701900317
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 883824,
+          "tokens": {
+            "Estimate": 220956,
+            "TokenX": null,
+            "tiktoken": 253063,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 839949,
+          "tokens": {
+            "Estimate": 209988,
+            "TokenX": null,
+            "tiktoken": 283892,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 95.03611578775865,
+            "tiktoken": 112.18234194647184
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 1285316,
+          "tokens": {
+            "Estimate": 321329,
+            "TokenX": null,
+            "tiktoken": 399186,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 145.42669128695306,
+            "tiktoken": 157.74174810225122
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 1652261,
+          "tokens": {
+            "Estimate": 413066,
+            "TokenX": null,
+            "tiktoken": 494780,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 186.9449121091982,
+            "tiktoken": 195.5165314565938
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "large-schema-catalog",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "CSV Bundle",
+          "tokens": 53815,
+          "jsonCompactTokens": 111880,
+          "savedTokens": 58065,
+          "ratio": 48.10064354665713
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "CSV Bundle",
+          "tokens": 71357,
+          "jsonCompactTokens": 126532,
+          "savedTokens": 55175,
+          "ratio": 56.39442986754338
+        }
+      ],
+      "formats": [
+        {
+          "format": "CSV Bundle",
+          "bytes": 215257,
+          "tokens": {
+            "Estimate": 53815,
+            "TokenX": null,
+            "tiktoken": 71357,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 48.10064354665713,
+            "tiktoken": 56.39442986754338
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "SDIF AI",
+          "bytes": 221599,
+          "tokens": {
+            "Estimate": 55400,
+            "TokenX": null,
+            "tiktoken": 75464,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 49.517340007150516,
+            "tiktoken": 59.64024910694528
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 228953,
+          "tokens": {
+            "Estimate": 57239,
+            "TokenX": null,
+            "tiktoken": 79144,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 51.16106542724348,
+            "tiktoken": 62.54860430563019
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 447520,
+          "tokens": {
+            "Estimate": 111880,
+            "TokenX": null,
+            "tiktoken": 126532,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 435031,
+          "tokens": {
+            "Estimate": 108758,
+            "TokenX": null,
+            "tiktoken": 149601,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 97.20951018948874,
+            "tiktoken": 118.23175165175608
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 653078,
+          "tokens": {
+            "Estimate": 163270,
+            "TokenX": null,
+            "tiktoken": 199367,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 145.93314265284235,
+            "tiktoken": 157.56251383049346
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 790035,
+          "tokens": {
+            "Estimate": 197509,
+            "TokenX": null,
+            "tiktoken": 235726,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 176.5364676439042,
+            "tiktoken": 186.29753738184806
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "large-support-export",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 85512,
+          "jsonCompactTokens": 148025,
+          "savedTokens": 62513,
+          "ratio": 57.76862016551259
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 94839,
+          "jsonCompactTokens": 149622,
+          "savedTokens": 54783,
+          "ratio": 63.38573204475277
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 342047,
+          "tokens": {
+            "Estimate": 85512,
+            "TokenX": null,
+            "tiktoken": 94839,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 57.76862016551259,
+            "tiktoken": 63.38573204475277
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 342094,
+          "tokens": {
+            "Estimate": 85524,
+            "TokenX": null,
+            "tiktoken": 96002,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 57.77672690423915,
+            "tiktoken": 64.16302415420192
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 352437,
+          "tokens": {
+            "Estimate": 88110,
+            "TokenX": null,
+            "tiktoken": 100037,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 59.52372909981422,
+            "tiktoken": 66.85982007993478
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 592098,
+          "tokens": {
+            "Estimate": 148025,
+            "TokenX": null,
+            "tiktoken": 149622,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 573388,
+          "tokens": {
+            "Estimate": 143347,
+            "TokenX": null,
+            "tiktoken": 169236,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 96.83972301976017,
+            "tiktoken": 113.10903476761438
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 810127,
+          "tokens": {
+            "Estimate": 202532,
+            "TokenX": null,
+            "tiktoken": 229579,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 136.8228339807465,
+            "tiktoken": 153.43933378781196
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 986732,
+          "tokens": {
+            "Estimate": 246683,
+            "TokenX": null,
+            "tiktoken": 274660,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 166.64955244046612,
+            "tiktoken": 183.56926120490303
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "large-validation-report",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 95944,
+          "jsonCompactTokens": 139832,
+          "savedTokens": 43888,
+          "ratio": 68.61376508953602
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 99633,
+          "jsonCompactTokens": 134533,
+          "savedTokens": 34900,
+          "ratio": 74.05840946087578
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 383776,
+          "tokens": {
+            "Estimate": 95944,
+            "TokenX": null,
+            "tiktoken": 99633,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 68.61376508953602,
+            "tiktoken": 74.05840946087578
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 383821,
+          "tokens": {
+            "Estimate": 95956,
+            "TokenX": null,
+            "tiktoken": 99656,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 68.62234681617942,
+            "tiktoken": 74.0755056380219
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 390534,
+          "tokens": {
+            "Estimate": 97634,
+            "TokenX": null,
+            "tiktoken": 103015,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 69.82235825848161,
+            "tiktoken": 76.57229081340637
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 559328,
+          "tokens": {
+            "Estimate": 139832,
+            "TokenX": null,
+            "tiktoken": 134533,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 549978,
+          "tokens": {
+            "Estimate": 137495,
+            "TokenX": null,
+            "tiktoken": 150198,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 98.32870873619773,
+            "tiktoken": 111.64398326061264
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 710381,
+          "tokens": {
+            "Estimate": 177596,
+            "TokenX": null,
+            "tiktoken": 192034,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 127.00669374678186,
+            "tiktoken": 142.74118617736912
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 818657,
+          "tokens": {
+            "Estimate": 204665,
+            "TokenX": null,
+            "tiktoken": 225834,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 146.36492362263286,
+            "tiktoken": 167.86513346167854
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "medium-invoice-batch",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 18476,
+          "jsonCompactTokens": 34890,
+          "savedTokens": 16414,
+          "ratio": 52.955001433075374
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "CSV Bundle",
+          "tokens": 25965,
+          "jsonCompactTokens": 39858,
+          "savedTokens": 13893,
+          "ratio": 65.1437603492398
+        }
+      ],
+      "formats": [
+        {
+          "format": "CSV Bundle",
+          "bytes": 73941,
+          "tokens": {
+            "Estimate": 18486,
+            "TokenX": null,
+            "tiktoken": 25965,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 52.98366294067068,
+            "tiktoken": 65.1437603492398
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "SDIF AI",
+          "bytes": 73903,
+          "tokens": {
+            "Estimate": 18476,
+            "TokenX": null,
+            "tiktoken": 26707,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 52.955001433075374,
+            "tiktoken": 67.00536906016357
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 75859,
+          "tokens": {
+            "Estimate": 18965,
+            "TokenX": null,
+            "tiktoken": 27688,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 54.35654915448552,
+            "tiktoken": 69.46660645290783
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 139558,
+          "tokens": {
+            "Estimate": 34890,
+            "TokenX": null,
+            "tiktoken": 39858,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 137030,
+          "tokens": {
+            "Estimate": 34258,
+            "TokenX": null,
+            "tiktoken": 46758,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 98.18859271997708,
+            "tiktoken": 117.31145566762005
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 191590,
+          "tokens": {
+            "Estimate": 47898,
+            "TokenX": null,
+            "tiktoken": 58931,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 137.2828890799656,
+            "tiktoken": 147.85237593456773
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 238165,
+          "tokens": {
+            "Estimate": 59542,
+            "TokenX": null,
+            "tiktoken": 70501,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 170.65634852393237,
+            "tiktoken": 176.88042551056247
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "medium-observability-run",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 13983,
+          "jsonCompactTokens": 28689,
+          "savedTokens": 14706,
+          "ratio": 48.73993516678867
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 18170,
+          "jsonCompactTokens": 32253,
+          "savedTokens": 14083,
+          "ratio": 56.335844727622245
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 55931,
+          "tokens": {
+            "Estimate": 13983,
+            "TokenX": null,
+            "tiktoken": 18170,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 48.73993516678867,
+            "tiktoken": 56.335844727622245
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 55978,
+          "tokens": {
+            "Estimate": 13995,
+            "TokenX": null,
+            "tiktoken": 19018,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 48.78176304506954,
+            "tiktoken": 58.96505751402971
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 58377,
+          "tokens": {
+            "Estimate": 14595,
+            "TokenX": null,
+            "tiktoken": 20572,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 50.87315695911325,
+            "tiktoken": 63.78321396459244
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 114756,
+          "tokens": {
+            "Estimate": 28689,
+            "TokenX": null,
+            "tiktoken": 32253,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 109099,
+          "tokens": {
+            "Estimate": 27275,
+            "TokenX": null,
+            "tiktoken": 38569,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 95.07128167590365,
+            "tiktoken": 119.58267447989334
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 167981,
+          "tokens": {
+            "Estimate": 41996,
+            "TokenX": null,
+            "tiktoken": 52300,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 146.38363135696608,
+            "tiktoken": 162.1554584069699
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 205986,
+          "tokens": {
+            "Estimate": 51497,
+            "TokenX": null,
+            "tiktoken": 63274,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 179.50085398584824,
+            "tiktoken": 196.18020029144577
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "medium-policy-catalog",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 12446,
+          "jsonCompactTokens": 24394,
+          "savedTokens": 11948,
+          "ratio": 51.02074280560793
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 18106,
+          "jsonCompactTokens": 28086,
+          "savedTokens": 9980,
+          "ratio": 64.46628213344727
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 49782,
+          "tokens": {
+            "Estimate": 12446,
+            "TokenX": null,
+            "tiktoken": 18106,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 51.02074280560793,
+            "tiktoken": 64.46628213344727
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 51672,
+          "tokens": {
+            "Estimate": 12918,
+            "TokenX": null,
+            "tiktoken": 19054,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 52.955644830696066,
+            "tiktoken": 67.84162928149256
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 49822,
+          "tokens": {
+            "Estimate": 12456,
+            "TokenX": null,
+            "tiktoken": 19159,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 51.061736492580145,
+            "tiktoken": 68.21548102257353
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 97573,
+          "tokens": {
+            "Estimate": 24394,
+            "TokenX": null,
+            "tiktoken": 28086,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 91628,
+          "tokens": {
+            "Estimate": 22907,
+            "TokenX": null,
+            "tiktoken": 32094,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 93.90423874723292,
+            "tiktoken": 114.27045503097628
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 139351,
+          "tokens": {
+            "Estimate": 34838,
+            "TokenX": null,
+            "tiktoken": 43999,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 142.81380667377223,
+            "tiktoken": 156.65812148401338
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 167499,
+          "tokens": {
+            "Estimate": 41875,
+            "TokenX": null,
+            "tiktoken": 52678,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 171.6610641961138,
+            "tiktoken": 187.55963825393434
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "medium-product-catalog",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 11888,
+          "jsonCompactTokens": 27843,
+          "savedTokens": 15955,
+          "ratio": 42.69654850411234
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 21319,
+          "jsonCompactTokens": 33936,
+          "savedTokens": 12617,
+          "ratio": 62.82119283356907
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 47552,
+          "tokens": {
+            "Estimate": 11888,
+            "TokenX": null,
+            "tiktoken": 21319,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 42.69654850411234,
+            "tiktoken": 62.82119283356907
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 47599,
+          "tokens": {
+            "Estimate": 11900,
+            "TokenX": null,
+            "tiktoken": 21445,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 42.73964730812053,
+            "tiktoken": 63.19247996228194
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 50784,
+          "tokens": {
+            "Estimate": 12696,
+            "TokenX": null,
+            "tiktoken": 22938,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 45.59853464066372,
+            "tiktoken": 67.59193776520509
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 111369,
+          "tokens": {
+            "Estimate": 27843,
+            "TokenX": null,
+            "tiktoken": 33936,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 104720,
+          "tokens": {
+            "Estimate": 26180,
+            "TokenX": null,
+            "tiktoken": 39958,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 94.02722407786517,
+            "tiktoken": 117.74516737388025
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 169056,
+          "tokens": {
+            "Estimate": 42264,
+            "TokenX": null,
+            "tiktoken": 55984,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 151.79398771684086,
+            "tiktoken": 164.96935407826496
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 214848,
+          "tokens": {
+            "Estimate": 53712,
+            "TokenX": null,
+            "tiktoken": 69082,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 192.91024674065295,
+            "tiktoken": 203.56553512494108
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "plan",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF",
+          "tokens": 246,
+          "jsonCompactTokens": 317,
+          "savedTokens": 71,
+          "ratio": 77.60252365930599
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 251,
+          "jsonCompactTokens": 302,
+          "savedTokens": 51,
+          "ratio": 83.11258278145695
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 1000,
+          "tokens": {
+            "Estimate": 250,
+            "TokenX": null,
+            "tiktoken": 251,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 78.86435331230284,
+            "tiktoken": 83.11258278145695
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 984,
+          "tokens": {
+            "Estimate": 246,
+            "TokenX": null,
+            "tiktoken": 252,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 77.60252365930599,
+            "tiktoken": 83.44370860927152
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 1039,
+          "tokens": {
+            "Estimate": 260,
+            "TokenX": null,
+            "tiktoken": 288,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 82.01892744479495,
+            "tiktoken": 95.36423841059603
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 1268,
+          "tokens": {
+            "Estimate": 317,
+            "TokenX": null,
+            "tiktoken": 302,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 1197,
+          "tokens": {
+            "Estimate": 300,
+            "TokenX": null,
+            "tiktoken": 334,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 94.6372239747634,
+            "tiktoken": 110.59602649006624
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 1688,
+          "tokens": {
+            "Estimate": 422,
+            "TokenX": null,
+            "tiktoken": 479,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 133.1230283911672,
+            "tiktoken": 158.60927152317882
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 2080,
+          "tokens": {
+            "Estimate": 520,
+            "TokenX": null,
+            "tiktoken": 602,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 164.0378548895899,
+            "tiktoken": 199.33774834437085
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "registry",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 166,
+          "jsonCompactTokens": 240,
+          "savedTokens": 74,
+          "ratio": 69.16666666666667
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 149,
+          "jsonCompactTokens": 205,
+          "savedTokens": 56,
+          "ratio": 72.6829268292683
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 662,
+          "tokens": {
+            "Estimate": 166,
+            "TokenX": null,
+            "tiktoken": 149,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 69.16666666666667,
+            "tiktoken": 72.6829268292683
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 674,
+          "tokens": {
+            "Estimate": 169,
+            "TokenX": null,
+            "tiktoken": 154,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 70.41666666666667,
+            "tiktoken": 75.1219512195122
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 720,
+          "tokens": {
+            "Estimate": 180,
+            "TokenX": null,
+            "tiktoken": 175,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 75.0,
+            "tiktoken": 85.36585365853658
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 960,
+          "tokens": {
+            "Estimate": 240,
+            "TokenX": null,
+            "tiktoken": 205,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 896,
+          "tokens": {
+            "Estimate": 224,
+            "TokenX": null,
+            "tiktoken": 220,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 93.33333333333333,
+            "tiktoken": 107.31707317073172
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 1293,
+          "tokens": {
+            "Estimate": 324,
+            "TokenX": null,
+            "tiktoken": 341,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 135.0,
+            "tiktoken": 166.34146341463415
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 1601,
+          "tokens": {
+            "Estimate": 401,
+            "TokenX": null,
+            "tiktoken": 438,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 167.08333333333334,
+            "tiktoken": 213.65853658536588
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "schema",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 275,
+          "jsonCompactTokens": 529,
+          "savedTokens": 254,
+          "ratio": 51.98487712665406
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 298,
+          "jsonCompactTokens": 534,
+          "savedTokens": 236,
+          "ratio": 55.80524344569289
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 1097,
+          "tokens": {
+            "Estimate": 275,
+            "TokenX": null,
+            "tiktoken": 298,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 51.98487712665406,
+            "tiktoken": 55.80524344569289
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 1161,
+          "tokens": {
+            "Estimate": 291,
+            "TokenX": null,
+            "tiktoken": 323,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 55.009451795841215,
+            "tiktoken": 60.48689138576779
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 1161,
+          "tokens": {
+            "Estimate": 291,
+            "TokenX": null,
+            "tiktoken": 331,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 55.009451795841215,
+            "tiktoken": 61.985018726591754
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 2113,
+          "tokens": {
+            "Estimate": 529,
+            "TokenX": null,
+            "tiktoken": 534,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 2004,
+          "tokens": {
+            "Estimate": 501,
+            "TokenX": null,
+            "tiktoken": 630,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 94.7069943289225,
+            "tiktoken": 117.97752808988764
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 3235,
+          "tokens": {
+            "Estimate": 809,
+            "TokenX": null,
+            "tiktoken": 953,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 152.93005671077503,
+            "tiktoken": 178.46441947565543
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 4189,
+          "tokens": {
+            "Estimate": 1048,
+            "TokenX": null,
+            "tiktoken": 1213,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 198.10964083175804,
+            "tiktoken": 227.15355805243448
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "small-api-catalog",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 410,
+          "jsonCompactTokens": 791,
+          "savedTokens": 381,
+          "ratio": 51.8331226295828
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 544,
+          "jsonCompactTokens": 912,
+          "savedTokens": 368,
+          "ratio": 59.64912280701754
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 1640,
+          "tokens": {
+            "Estimate": 410,
+            "TokenX": null,
+            "tiktoken": 544,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 51.8331226295828,
+            "tiktoken": 59.64912280701754
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 1666,
+          "tokens": {
+            "Estimate": 417,
+            "TokenX": null,
+            "tiktoken": 585,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 52.718078381795195,
+            "tiktoken": 64.14473684210526
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 1716,
+          "tokens": {
+            "Estimate": 429,
+            "TokenX": null,
+            "tiktoken": 585,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 54.23514538558787,
+            "tiktoken": 64.14473684210526
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 3163,
+          "tokens": {
+            "Estimate": 791,
+            "TokenX": null,
+            "tiktoken": 912,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 2909,
+          "tokens": {
+            "Estimate": 728,
+            "TokenX": null,
+            "tiktoken": 1109,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 92.03539823008849,
+            "tiktoken": 121.60087719298245
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 4849,
+          "tokens": {
+            "Estimate": 1213,
+            "TokenX": null,
+            "tiktoken": 1564,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 153.35018963337546,
+            "tiktoken": 171.49122807017542
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 5647,
+          "tokens": {
+            "Estimate": 1412,
+            "TokenX": null,
+            "tiktoken": 1894,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 178.50821744627055,
+            "tiktoken": 207.67543859649123
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "small-incident",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 641,
+          "jsonCompactTokens": 1037,
+          "savedTokens": 396,
+          "ratio": 61.81292189006751
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 706,
+          "jsonCompactTokens": 1064,
+          "savedTokens": 358,
+          "ratio": 66.35338345864662
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 2563,
+          "tokens": {
+            "Estimate": 641,
+            "TokenX": null,
+            "tiktoken": 706,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 61.81292189006751,
+            "tiktoken": 66.35338345864662
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 2637,
+          "tokens": {
+            "Estimate": 660,
+            "TokenX": null,
+            "tiktoken": 723,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 63.645130183220836,
+            "tiktoken": 67.95112781954887
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 2594,
+          "tokens": {
+            "Estimate": 649,
+            "TokenX": null,
+            "tiktoken": 740,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 62.58437801350048,
+            "tiktoken": 69.54887218045113
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 4148,
+          "tokens": {
+            "Estimate": 1037,
+            "TokenX": null,
+            "tiktoken": 1064,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 3947,
+          "tokens": {
+            "Estimate": 987,
+            "TokenX": null,
+            "tiktoken": 1157,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 95.17839922854388,
+            "tiktoken": 108.7406015037594
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 5727,
+          "tokens": {
+            "Estimate": 1432,
+            "TokenX": null,
+            "tiktoken": 1657,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 138.09064609450337,
+            "tiktoken": 155.7330827067669
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 6808,
+          "tokens": {
+            "Estimate": 1702,
+            "TokenX": null,
+            "tiktoken": 1941,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 164.12729026036644,
+            "tiktoken": 182.4248120300752
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "small-invoice",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 352,
+          "jsonCompactTokens": 661,
+          "savedTokens": 309,
+          "ratio": 53.25264750378215
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 476,
+          "jsonCompactTokens": 718,
+          "savedTokens": 242,
+          "ratio": 66.29526462395543
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 1406,
+          "tokens": {
+            "Estimate": 352,
+            "TokenX": null,
+            "tiktoken": 476,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 53.25264750378215,
+            "tiktoken": 66.29526462395543
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 1439,
+          "tokens": {
+            "Estimate": 360,
+            "TokenX": null,
+            "tiktoken": 485,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 54.46293494704992,
+            "tiktoken": 67.54874651810584
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 1454,
+          "tokens": {
+            "Estimate": 364,
+            "TokenX": null,
+            "tiktoken": 503,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 55.06807866868382,
+            "tiktoken": 70.05571030640668
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 2643,
+          "tokens": {
+            "Estimate": 661,
+            "TokenX": null,
+            "tiktoken": 718,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 2537,
+          "tokens": {
+            "Estimate": 635,
+            "TokenX": null,
+            "tiktoken": 850,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 96.06656580937972,
+            "tiktoken": 118.38440111420614
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 3764,
+          "tokens": {
+            "Estimate": 941,
+            "TokenX": null,
+            "tiktoken": 1159,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 142.36006051437215,
+            "tiktoken": 161.42061281337047
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 4738,
+          "tokens": {
+            "Estimate": 1185,
+            "TokenX": null,
+            "tiktoken": 1414,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 179.27382753403933,
+            "tiktoken": 196.9359331476323
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "validation-report",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 173,
+          "jsonCompactTokens": 254,
+          "savedTokens": 81,
+          "ratio": 68.11023622047244
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 149,
+          "jsonCompactTokens": 225,
+          "savedTokens": 76,
+          "ratio": 66.22222222222223
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 691,
+          "tokens": {
+            "Estimate": 173,
+            "TokenX": null,
+            "tiktoken": 149,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 68.11023622047244,
+            "tiktoken": 66.22222222222223
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 735,
+          "tokens": {
+            "Estimate": 184,
+            "TokenX": null,
+            "tiktoken": 166,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 72.44094488188976,
+            "tiktoken": 73.77777777777777
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 773,
+          "tokens": {
+            "Estimate": 194,
+            "TokenX": null,
+            "tiktoken": 195,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 76.37795275590551,
+            "tiktoken": 86.66666666666667
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 1014,
+          "tokens": {
+            "Estimate": 254,
+            "TokenX": null,
+            "tiktoken": 225,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 934,
+          "tokens": {
+            "Estimate": 234,
+            "TokenX": null,
+            "tiktoken": 246,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 92.1259842519685,
+            "tiktoken": 109.33333333333333
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 1378,
+          "tokens": {
+            "Estimate": 345,
+            "TokenX": null,
+            "tiktoken": 382,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 135.82677165354332,
+            "tiktoken": 169.77777777777777
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 1685,
+          "tokens": {
+            "Estimate": 422,
+            "TokenX": null,
+            "tiktoken": 480,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 166.14173228346456,
+            "tiktoken": 213.33333333333334
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "wide-table-survey",
+      "winnersByTokenizer": [
+        {
+          "tokenizer": "Estimate",
+          "format": "SDIF AI",
+          "tokens": 4652,
+          "jsonCompactTokens": 16230,
+          "savedTokens": 11578,
+          "ratio": 28.662969808995687
+        },
+        {
+          "tokenizer": "tiktoken",
+          "format": "SDIF AI",
+          "tokens": 15224,
+          "jsonCompactTokens": 36372,
+          "savedTokens": 21148,
+          "ratio": 41.856373034202136
+        }
+      ],
+      "formats": [
+        {
+          "format": "SDIF AI",
+          "bytes": 18606,
+          "tokens": {
+            "Estimate": 4652,
+            "TokenX": null,
+            "tiktoken": 15224,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 28.662969808995687,
+            "tiktoken": 41.856373034202136
+          },
+          "ranks": {
+            "Estimate": 1,
+            "tiktoken": 1
+          }
+        },
+        {
+          "format": "CSV Bundle",
+          "bytes": 18632,
+          "tokens": {
+            "Estimate": 4658,
+            "TokenX": null,
+            "tiktoken": 15365,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 28.69993838570548,
+            "tiktoken": 42.24403387220939
+          },
+          "ranks": {
+            "Estimate": 2,
+            "tiktoken": 2
+          }
+        },
+        {
+          "format": "SDIF",
+          "bytes": 19054,
+          "tokens": {
+            "Estimate": 4764,
+            "TokenX": null,
+            "tiktoken": 15451,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 29.35304990757856,
+            "tiktoken": 42.48047948971737
+          },
+          "ranks": {
+            "Estimate": 3,
+            "tiktoken": 3
+          }
+        },
+        {
+          "format": "JSON Compact",
+          "bytes": 64917,
+          "tokens": {
+            "Estimate": 16230,
+            "TokenX": null,
+            "tiktoken": 36372,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 100.0,
+            "tiktoken": 100.0
+          },
+          "ranks": {
+            "Estimate": 4,
+            "tiktoken": 4
+          }
+        },
+        {
+          "format": "YAML",
+          "bytes": 70375,
+          "tokens": {
+            "Estimate": 17594,
+            "TokenX": null,
+            "tiktoken": 50113,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 108.40418977202711,
+            "tiktoken": 137.77906081601233
+          },
+          "ranks": {
+            "Estimate": 5,
+            "tiktoken": 5
+          }
+        },
+        {
+          "format": "JSON Pretty",
+          "bytes": 124951,
+          "tokens": {
+            "Estimate": 31238,
+            "TokenX": null,
+            "tiktoken": 58948,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 192.47073321010475,
+            "tiktoken": 162.0697239634884
+          },
+          "ranks": {
+            "Estimate": 6,
+            "tiktoken": 6
+          }
+        },
+        {
+          "format": "XML",
+          "bytes": 149167,
+          "tokens": {
+            "Estimate": 37292,
+            "TokenX": null,
+            "tiktoken": 73594,
+            "Llama3": null,
+            "Claude": null
+          },
+          "ratios": {
+            "Estimate": 229.77202711028957,
+            "tiktoken": 202.33696249862533
+          },
+          "ranks": {
+            "Estimate": 7,
+            "tiktoken": 7
+          }
+        }
+      ]
+    }
+  ],
+  "environment": {
+    "SDIF_BENCHMARK_TOON": "0",
+    "SDIF_BENCHMARK_GOLDEN_DIR": null,
+    "SDIF_BENCHMARK_TOKENX": "0",
+    "SDIF_TOKENX_DEFAULT_CHARS_PER_TOKEN": "6",
+    "SDIF_TOKENX_RESOLVE_DIRS": "tokenx_tokenizers",
+    "SDIF_BENCHMARK_CLAUDE": "0",
+    "SDIF_CLAUDE_MODEL": "claude-sonnet-4-6",
+    "SDIF_BENCHMARK_LLAMA": "0",
+    "SDIF_LLAMA_TOKENIZER": "meta-llama/Meta-Llama-3-8B",
+    "SDIF_LLAMA_LOCAL_ONLY": "1",
+    "SDIF_TIKTOKEN_ENCODING": "cl100k_base",
+    "HF_TOKEN": "unset",
+    "ANTHROPIC_API_KEY": "unset"
+  },
+  "artifacts": {
+    "log": "benchmarks/results/token_efficiency/comparison.log",
+    "markdown": "benchmarks/results/token_efficiency/comparison.md",
+    "summary": "benchmarks/results/token_efficiency/summary.md",
+    "summaryJson": "benchmarks/results/token_efficiency/summary.json",
+    "summarySdif": "benchmarks/results/token_efficiency/summary.sdif",
+    "summarySdifAi": "benchmarks/results/token_efficiency/summary.sdif.ai",
+    "json": "benchmarks/results/token_efficiency/comparison.json",
+    "sdif": "benchmarks/results/token_efficiency/comparison.sdif",
+    "sdifAi": "benchmarks/results/token_efficiency/comparison.sdif.ai",
+    "result": "benchmarks/results/token_efficiency"
+  }
+}

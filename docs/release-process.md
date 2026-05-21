@@ -17,12 +17,12 @@ Run from the repository root:
 PYTHONPATH=src python3 scripts/check_conformance_fixtures.py
 PYTHONPATH=src python3 scripts/check_semantic_quality.py
 PYTHONPATH=src python3 scripts/check_tree_sitter_scaffold.py
-PYTHONPATH=src python3 -m compileall -q src scripts tests tools
+PYTHONPATH=src python3 -m compileall -q src scripts benchmarks/scripts tests tools
 uv run ruff check .
 uv run mypy
 uv run python -c "import sdif; print('sdif import OK')"
 SDIF_ENV_OVERRIDE=0 SDIF_BENCHMARK_TOON=0 SDIF_BENCHMARK_TOKENX=0 SDIF_BENCHMARK_LLAMA=0 SDIF_BENCHMARK_CLAUDE=0 PYTHONPATH=src python3 -m pytest -q
-SDIF_ENV_OVERRIDE=0 SDIF_BENCHMARK_TOON=0 SDIF_BENCHMARK_TOKENX=0 SDIF_BENCHMARK_LLAMA=0 SDIF_BENCHMARK_CLAUDE=0 PYTHONPATH=src python3 benchmarks/scripts/token_efficiency.py
+SDIF_ENV_OVERRIDE=0 SDIF_BENCHMARK_TOON=0 SDIF_BENCHMARK_TOKENX=0 SDIF_BENCHMARK_LLAMA=0 SDIF_BENCHMARK_CLAUDE=0 PYTHONPATH=src uv run python benchmarks/scripts/token_efficiency.py
 ```
 
 ## Artifact hygiene

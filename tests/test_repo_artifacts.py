@@ -21,7 +21,7 @@ def test_spec_version_matches_package_version():
     pyproject = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
     spec = Path("docs/spec.md").read_text(encoding="utf-8")
     match = re.search(
-        r"^\*\*Version:\*\*\s+([0-9]+\.[0-9]+\.[0-9]+)(?:-draft)?$", spec, re.MULTILINE
+        r"^\*\*Version:\*\*\s+([0-9]+\.[0-9]+\.[0-9]+)$", spec, re.MULTILINE
     )
 
     assert match is not None
@@ -228,6 +228,7 @@ def test_public_release_metadata_has_no_draft_or_alpha_contradictions():
         "open decision",
         "mvp",
         "alpha",
+        "sha256:todo",
     ):
         assert forbidden not in public_docs
 
@@ -245,9 +246,9 @@ def test_release_process_uses_git_archive_and_documents_required_gates():
         "scripts/check_conformance_fixtures.py",
         "scripts/check_semantic_quality.py",
         "scripts/check_tree_sitter_scaffold.py",
-        "python3 -m compileall -q src scripts tests tools",
+        "python3 -m compileall -q src scripts benchmarks/scripts tests tools",
         "python3 -m pytest -q",
-        "benchmarks/scripts/token_efficiency.py",
+        "uv run python benchmarks/scripts/token_efficiency.py",
     ):
         assert gate in release_docs
     assert "## 1.0.0 - 2026-05-21" in changelog

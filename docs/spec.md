@@ -1902,8 +1902,8 @@ checks[id,result,message]:
   evidence	pass	required evidence references are present
 
 artifacts[id,path,sha256]:
-  summary	reports/validation-summary.md	sha256:TODO
-  details	reports/validation-details.sdif	sha256:TODO
+  summary	reports/validation-summary.md	sha256:0000000000000000000000000000000000000000000000000000000000000000
+  details	reports/validation-details.sdif	sha256:0000000000000000000000000000000000000000000000000000000000000000
 
 rel:
   validation.report.v2 validates release.v2.validation_plan

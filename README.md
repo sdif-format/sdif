@@ -66,27 +66,26 @@ Latest benchmark summary:
 | Metric                                       |                     Result |
 | -------------------------------------------- | -------------------------: |
 | Documents compared                           |                         21 |
-| Tokenizer/document comparisons               |                         63 |
-| Available tokenizers                         | Estimate, TokenX, tiktoken |
+| Tokenizer/document comparisons               |                         42 |
+| Available tokenizers                         |         Estimate, tiktoken |
 | Best consensus format                        |                    SDIF AI |
-| SDIF AI consensus average rank               |                       1.06 |
-| SDIF AI median ratio vs JSON Compact         |                      56.3% |
-| SDIF AI wins across tokenizer/document pairs |                         59 |
-| SDIF canonical median ratio vs JSON Compact  |                      59.5% |
-| TOON median ratio vs JSON Compact            |                      63.2% |
+| SDIF AI consensus average rank               |                       1.12 |
+| SDIF AI median ratio vs JSON Compact         |                      61.5% |
+| SDIF AI wins across tokenizer/document pairs |                         37 |
+| SDIF canonical median ratio vs JSON Compact  |                      64.9% |
+| CSV Bundle median ratio vs JSON Compact      |                      62.8% |
 | JSON Compact baseline                        |                     100.0% |
 
-In this corpus, SDIF AI preserves structured semantics while reducing median token usage to about **56% of compact JSON**.
+In this corpus, SDIF AI preserves structured semantics while reducing median token usage to about **62% of compact JSON**.
 
 Tokenizer-specific winners:
 
 | Tokenizer | Winning format |  Wins |
 | --------- | -------------- | ----: |
-| Estimate  | SDIF AI        | 20/21 |
-| TokenX    | SDIF AI        | 20/21 |
-| tiktoken  | SDIF AI        | 19/21 |
+| Estimate  | SDIF AI        | 19/21 |
+| tiktoken  | SDIF AI        | 18/21 |
 
-This is not a universal claim that SDIF is always smaller than every alternative. It is current benchmark evidence for this repository corpus, generated from shared canonical fixtures. Claude and Llama3 token counting were disabled in the latest run, so those results are not claimed yet.
+This is not a universal claim that SDIF is always smaller than every alternative. It is current benchmark evidence for this repository corpus, generated from shared canonical fixtures with TokenX, TOON, Claude, and Llama3 disabled in the release gate.
 
 Benchmark artifacts are written under:
 

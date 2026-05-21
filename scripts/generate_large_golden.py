@@ -5,7 +5,7 @@ The generated fixtures are intentionally SDIF-representable.
 
 Important constraint:
 - Arrays of objects are encoded as SDIF tables.
-- SDIF table cells must remain scalar in the current MVP.
+- SDIF table cells remain scalar in the v1 benchmark generator contract.
 - Therefore, complex structures are represented as normalized top-level tables
   linked by IDs instead of nested arrays/objects inside table rows.
 """

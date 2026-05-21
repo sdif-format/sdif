@@ -33,10 +33,8 @@ htmlcov/
 .agents
 .codex
 
-# Benchmark outputs
+# Benchmark temporary outputs
 benchmarks/tmp/
-benchmarks/results/*
-!benchmarks/results/README.md
 
 # Local tmp directories
 **/tmp/

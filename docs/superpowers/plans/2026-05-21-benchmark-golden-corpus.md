@@ -31,10 +31,10 @@
 ### Task 3: Benchmark evidence
 
 **Files:**
-- Modify: `benchmarks/latest` symlink
+- Modify: `benchmarks/results/token_efficiency` result directory
 
 - [ ] Run deterministic benchmark with optional integrations disabled.
-- [ ] Inspect `benchmarks/latest/summary.md` and `summary.json` for corpus count and ranking consistency.
+- [ ] Inspect `benchmarks/results/token_efficiency/summary.md` and `summary.json` for corpus count and ranking consistency.
 
 ### Task 4: Closure
 
