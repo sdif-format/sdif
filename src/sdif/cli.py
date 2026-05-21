@@ -7,7 +7,7 @@ import json
 import sys
 from pathlib import Path
 
-from sdif import canonicalize, parse_text, sdif_hash
+from sdif import Policy, PolicyError, canonicalize, parse_text, parse_file, sdif_hash
 from sdif.ai import ai_view, sdif_from_ai
 from sdif.json import document_to_json_data, json_data_to_sdif
 from sdif.parser import ParseError
@@ -24,8 +24,37 @@ def main(argv: list[str] | None = None) -> int:
         dest="command", required=True, title="subcommands", description="valid subcommands"
     )
 
+    policy_parser = argparse.ArgumentParser(add_help=False)
+    policy_parser.add_argument(
+        "--allow-include",
+        action="store_true",
+        dest="allow_includes",
+        help="Allow parsing local includes (@include directive)",
+    )
+    policy_parser.add_argument(
+        "--allow-include-path",
+        type=Path,
+        action="append",
+        dest="allow_include_paths",
+        default=[],
+        help="Add a path directory/file to the allowlist for includes (can be specified multiple times)",
+    )
+    policy_parser.add_argument(
+        "--allow-remote-include",
+        action="store_true",
+        dest="allow_remote_includes",
+        help="Allow parsing remote/URL includes",
+    )
+    policy_parser.add_argument(
+        "--allow-remote-schema",
+        action="store_true",
+        dest="allow_remote_schemas",
+        help="Allow loading remote/URL schemas",
+    )
+
     parse = sub.add_parser(
         "parse",
+        parents=[policy_parser],
         help="Parse an SDIF document and display counts of directives and statements",
         description="Parse an SDIF document and display counts of directives and statements.",
     )
@@ -33,6 +62,7 @@ def main(argv: list[str] | None = None) -> int:
 
     canon = sub.add_parser(
         "canon",
+        parents=[policy_parser],
         help="Format an SDIF document to its canonical form and write to stdout",
         description="Format an SDIF document to its canonical form and write to stdout.",
     )
@@ -43,6 +73,7 @@ def main(argv: list[str] | None = None) -> int:
 
     hash_cmd = sub.add_parser(
         "hash",
+        parents=[policy_parser],
         help="Generate a stable SHA-256 hash of the canonicalized SDIF document",
         description="Generate a stable SHA-256 hash of the canonicalized SDIF document.",
     )
@@ -53,6 +84,7 @@ def main(argv: list[str] | None = None) -> int:
 
     tokens = sub.add_parser(
         "tokens",
+        parents=[policy_parser],
         help="Analyze and count tokens and bytes in an SDIF document",
         description="Analyze and count tokens and bytes in an SDIF document.",
     )
@@ -60,6 +92,7 @@ def main(argv: list[str] | None = None) -> int:
 
     to_json = sub.add_parser(
         "to-json",
+        parents=[policy_parser],
         help="Convert an SDIF document into its corresponding JSON data representation",
         description="Convert an SDIF document into its corresponding JSON data representation.",
     )
@@ -74,6 +107,7 @@ def main(argv: list[str] | None = None) -> int:
 
     ai = sub.add_parser(
         "ai",
+        parents=[policy_parser],
         help="Project an SDIF document into the token-dense .sdif.ai AI-friendly format",
         description="Project an SDIF document into the token-dense .sdif.ai AI-friendly format.",
     )
@@ -88,6 +122,7 @@ def main(argv: list[str] | None = None) -> int:
 
     from_ai = sub.add_parser(
         "from-ai",
+        parents=[policy_parser],
         help="Convert a .sdif.ai projection back into canonical source SDIF",
         description="Convert a .sdif.ai projection back into canonical source SDIF.",
     )
@@ -95,6 +130,7 @@ def main(argv: list[str] | None = None) -> int:
 
     validate = sub.add_parser(
         "validate",
+        parents=[policy_parser],
         help="Validate an SDIF document against a given schema",
         description="Validate an SDIF document against a given schema.",
     )
@@ -111,6 +147,7 @@ def main(argv: list[str] | None = None) -> int:
 
     inspect_cmd = sub.add_parser(
         "inspect",
+        parents=[policy_parser],
         help="Inspect the internal AST of an SDIF document",
         description="Inspect the internal AST of an SDIF document.",
     )
@@ -129,6 +166,7 @@ def main(argv: list[str] | None = None) -> int:
 
     fmt = sub.add_parser(
         "fmt",
+        parents=[policy_parser],
         help="Format an SDIF document in-place or check formatting compliance",
         description="Format an SDIF document in-place or check formatting compliance.",
     )
@@ -143,124 +181,157 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     args = parser.parse_args(argv)
-    text = args.path.read_text(encoding="utf-8")
 
-    if args.command == "parse":
-        doc = parse_text(text)
-        print(f"directives={len(doc.directives)} statements={len(doc.statements)}")
-        return 0
-    if args.command == "canon":
-        sys.stdout.write(canonicalize(text, schema=_load_schema(args.schema)))
-        return 0
-    if args.command == "hash":
-        print(sdif_hash(text, schema=_load_schema(args.schema)))
-        return 0
-    if args.command == "tokens":
-        byte_count = len(text.encode("utf-8"))
-        tokenizer, token_count = _count_tokens(text, byte_count)
-        print(f"bytes={byte_count} tokenizer={tokenizer} tokens={token_count}")
-        return 0
-    if args.command == "to-json":
-        json.dump(document_to_json_data(parse_text(text)), sys.stdout, indent=2)
-        sys.stdout.write("\n")
-        return 0
-    if args.command == "from-json":
-        sys.stdout.write(json_data_to_sdif(json.loads(text)))
-        return 0
-    if args.command == "ai":
-        aliases = _parse_aliases(args.alias)
-        sys.stdout.write(ai_view(text, aliases))
-        return 0
-    if args.command == "from-ai":
-        sys.stdout.write(sdif_from_ai(text))
-        return 0
-    if args.command == "validate":
-        schema = _load_schema(args.schema)
-        if schema is None:  # pragma: no cover - argparse requires --schema for validate
-            raise SystemExit("missing required --schema")
-        try:
-            doc = parse_text(text)
-        except ParseError as exc:
-            diagnostics = [_diagnostic_from_parse_error(exc)]
-        else:
-            diagnostics = validate_document(doc, schema)
-        if args.json_output:
-            json.dump(
-                {"valid": not diagnostics, "diagnostics": diagnostics_to_json(diagnostics)},
-                sys.stdout,
-                indent=2,
-            )
-            sys.stdout.write("\n")
-        elif diagnostics:
-            for diagnostic in diagnostics:
-                print(
-                    f"{diagnostic.severity}: {diagnostic.code} {diagnostic.path}: {diagnostic.message}"
-                )
-        else:
-            print("valid")
-        return 0 if not diagnostics else 1
+    policy = Policy(
+        allow_includes=getattr(args, "allow_includes", False),
+        allowed_include_paths=frozenset(getattr(args, "allow_include_paths", [])),
+        allow_remote_includes=getattr(args, "allow_remote_includes", False),
+        allow_remote_schemas=getattr(args, "allow_remote_schemas", False),
+    )
 
-    if args.command == "inspect":
-        try:
-            doc = parse_text(text)
-            diagnostics = []
-            if args.schema:
-                schema = _load_schema(args.schema)
-                if schema:
-                    diagnostics = validate_document(doc, schema)
-        except ParseError as exc:
-            if args.json_output:
-                err_result = {
-                    "ast": None,
-                    "diagnostics": diagnostics_to_json([_diagnostic_from_parse_error(exc)]),
-                }
-                json.dump(err_result, sys.stdout, indent=2)
-                sys.stdout.write("\n")
-                return 1
-            else:
-                sys.stderr.write(f"Parse error: {exc}\n")
-                return 1
-
-        if args.json_output:
-            ast_result = {"ast": _ast_to_json(doc)}
-            if args.schema:
-                ast_result["diagnostics"] = diagnostics_to_json(diagnostics)
-            json.dump(ast_result, sys.stdout, indent=2)
-            sys.stdout.write("\n")
-            return 0 if not diagnostics else 1
-        else:
+    try:
+        if args.command == "parse":
+            doc = parse_file(args.path, policy=policy)
             print(f"directives={len(doc.directives)} statements={len(doc.statements)}")
-            if diagnostics:
+            return 0
+        if args.command == "canon":
+            doc = parse_file(args.path, policy=policy)
+            sys.stdout.write(canonicalize(doc, schema=_load_schema(args.schema, policy=policy)))
+            return 0
+        if args.command == "hash":
+            doc = parse_file(args.path, policy=policy)
+            print(sdif_hash(doc, schema=_load_schema(args.schema, policy=policy)))
+            return 0
+        if args.command == "tokens":
+            doc = parse_file(args.path, policy=policy)
+            text = args.path.read_text(encoding="utf-8")
+            byte_count = len(text.encode("utf-8"))
+            tokenizer, token_count = _count_tokens(text, byte_count)
+            print(f"bytes={byte_count} tokenizer={tokenizer} tokens={token_count}")
+            return 0
+        if args.command == "to-json":
+            doc = parse_file(args.path, policy=policy)
+            json.dump(document_to_json_data(doc), sys.stdout, indent=2)
+            sys.stdout.write("\n")
+            return 0
+        if args.command == "from-json":
+            text = args.path.read_text(encoding="utf-8")
+            sys.stdout.write(json_data_to_sdif(json.loads(text)))
+            return 0
+        if args.command == "ai":
+            aliases = _parse_aliases(args.alias)
+            doc = parse_file(args.path, policy=policy)
+            sys.stdout.write(ai_view(doc, aliases))
+            return 0
+        if args.command == "from-ai":
+            doc = parse_file(args.path, policy=policy)
+            sys.stdout.write(sdif_from_ai(doc))
+            return 0
+        if args.command == "validate":
+            schema = _load_schema(args.schema, policy=policy)
+            if schema is None:  # pragma: no cover - argparse requires --schema for validate
+                raise SystemExit("missing required --schema")
+            try:
+                doc = parse_file(args.path, policy=policy)
+            except ParseError as exc:
+                diagnostics = [_diagnostic_from_parse_error(exc)]
+            else:
+                diagnostics = validate_document(doc, schema)
+            if args.json_output:
+                json.dump(
+                    {"valid": not diagnostics, "diagnostics": diagnostics_to_json(diagnostics)},
+                    sys.stdout,
+                    indent=2,
+                )
+                sys.stdout.write("\n")
+            elif diagnostics:
                 for diagnostic in diagnostics:
                     print(
                         f"{diagnostic.severity}: {diagnostic.code} {diagnostic.path}: {diagnostic.message}"
                     )
-                return 1
-            return 0
+            else:
+                print("valid")
+            return 0 if not diagnostics else 1
 
-    if args.command == "fmt":
-        schema = _load_schema(args.schema)
-        try:
-            doc = parse_text(text)
-            is_ai_projection = any(directive.name == "sdif.ai" for directive in doc.directives)
-            canonical_text = (
-                sdif_from_ai(doc) if is_ai_projection else canonicalize(doc, schema=schema)
+        if args.command == "inspect":
+            try:
+                doc = parse_file(args.path, policy=policy)
+                diagnostics = []
+                if args.schema:
+                    schema = _load_schema(args.schema, policy=policy)
+                    if schema:
+                        diagnostics = validate_document(doc, schema)
+            except ParseError as exc:
+                if args.json_output:
+                    err_result = {
+                        "ast": None,
+                        "diagnostics": diagnostics_to_json([_diagnostic_from_parse_error(exc)]),
+                    }
+                    json.dump(err_result, sys.stdout, indent=2)
+                    sys.stdout.write("\n")
+                    return 1
+                else:
+                    sys.stderr.write(f"Parse error: {exc}\n")
+                    return 1
+
+            if args.json_output:
+                ast_result = {"ast": _ast_to_json(doc)}
+                if args.schema:
+                    ast_result["diagnostics"] = diagnostics_to_json(diagnostics)
+                json.dump(ast_result, sys.stdout, indent=2)
+                sys.stdout.write("\n")
+                return 0 if not diagnostics else 1
+            else:
+                print(f"directives={len(doc.directives)} statements={len(doc.statements)}")
+                if diagnostics:
+                    for diagnostic in diagnostics:
+                        print(
+                            f"{diagnostic.severity}: {diagnostic.code} {diagnostic.path}: {diagnostic.message}"
+                        )
+                    return 1
+                return 0
+
+        if args.command == "fmt":
+            schema = _load_schema(args.schema, policy=policy)
+            try:
+                doc = parse_file(args.path, policy=policy)
+                is_ai_projection = any(directive.name == "sdif.ai" for directive in doc.directives)
+                canonical_text = (
+                    sdif_from_ai(doc) if is_ai_projection else canonicalize(doc, schema=schema)
+                )
+            except ParseError as exc:
+                sys.stderr.write(f"Format error: parse failed: {exc}\n")
+                return 1
+
+            if args.check:
+                text = args.path.read_text(encoding="utf-8")
+                if text != canonical_text:
+                    sys.stderr.write(f"Format check failed: {args.path} is not canonicalized\n")
+                    return 1
+                return 0
+            else:
+                text = args.path.read_text(encoding="utf-8")
+                if text != canonical_text:
+                    args.path.write_text(canonical_text, encoding="utf-8")
+                    print(f"Reformatted {args.path}")
+                return 0
+
+    except PolicyError as exc:
+        if getattr(args, "json_output", False):
+            json.dump(
+                {
+                    "policy_denial": {
+                        "code": exc.code,
+                        "message": exc.message,
+                    }
+                },
+                sys.stdout,
+                indent=2,
             )
-        except ParseError as exc:
-            sys.stderr.write(f"Format error: parse failed: {exc}\n")
-            return 1
-
-        if args.check:
-            if text != canonical_text:
-                sys.stderr.write(f"Format check failed: {args.path} is not canonicalized\n")
-                return 1
-            return 0
+            sys.stdout.write("\n")
         else:
-            if text != canonical_text:
-                args.path.write_text(canonical_text, encoding="utf-8")
-                print(f"Reformatted {args.path}")
-            return 0
-    return 2
+            sys.stderr.write(f"Policy denial: {exc.code}: {exc.message}\n")
+        return 2
 
 
 def _diagnostic_from_parse_error(exc: ParseError) -> Diagnostic:
@@ -286,11 +357,24 @@ def _count_tokens(text: str, byte_count: int) -> tuple[str, int]:
     return f"tiktoken/{encoding_name}", len(encoder.encode(text))
 
 
-def _load_schema(path: Path | None) -> Schema | None:
+def _load_schema(path: Path | None, policy: Policy | None = None) -> Schema | None:
     if path is None:
         return None
+    policy = policy or Policy()
+    path_str = str(path)
+    is_remote = path_str.startswith(("http://", "https://", "ftp://"))
+    if is_remote:
+        if not policy.allow_remote_schemas:
+            raise PolicyError(
+                "SDIF_POLICY_REMOTE_SCHEMA",
+                f"Remote schema loading of {path_str} is disabled by policy",
+            )
+        raise PolicyError(
+            "SDIF_POLICY_REMOTE_SCHEMA",
+            f"Remote schemas not supported: {path_str}",
+        )
     try:
-        return Schema.from_document(parse_text(path.read_text(encoding="utf-8")))
+        return Schema.from_document(parse_file(path, policy=policy))
     except SchemaError as exc:
         raise SystemExit(f"invalid --schema `{path}`: {exc}") from exc
 
