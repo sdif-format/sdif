@@ -250,6 +250,27 @@ def test_canonicalization_doc_records_m2_table_order_contract():
         assert term in docs
 
 
+def test_spec_records_v1_m3_validation_contract():
+    spec = Path("docs/spec.md").read_text(encoding="utf-8")
+
+    for term in (
+        "fields[name,type,required,default]:",
+        "tables[name,ordered,primary_key]:",
+        "columns[table,name,type,required]:",
+        "relations[predicate,subject_type,object_type,required]:",
+        "rule_functions[name,min_args,max_args]:",
+        "* Required fields.",
+        "* Types.",
+        "* Enumerations.",
+        "* Allowed tables.",
+        "* Required columns.",
+        "* Allowed relation predicates.",
+        "* Allowed rule functions.",
+    ):
+        assert term in spec
+
+
+
 def test_comparison_doc_includes_examples_for_all_compared_formats():
     docs = Path("docs/comparison.md").read_text(encoding="utf-8")
 

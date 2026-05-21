@@ -38,8 +38,8 @@ status blocked
 milestones[id,status,count]:
   R1\tunknown\tnan
 rules:
-  (allow missing(evidence))
-  (deny missing(evidence) eq(status,open))
+  (deny unknown_func(evidence))
+  (deny eq(status,open,extra))
 """)
 
     diagnostics = validate_document(doc, schema)

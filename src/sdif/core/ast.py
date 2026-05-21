@@ -66,8 +66,28 @@ class Relation:
 
 
 @dataclass(frozen=True)
+class Identifier:
+    name: str
+
+
+@dataclass(frozen=True)
+class Call:
+    name: str
+    args: list[object] = field(default_factory=list)
+
+
+@dataclass(frozen=True)
+class RuleExpression:
+    action: str
+    function: str
+    args: list[object] = field(default_factory=list)
+
+
+@dataclass(frozen=True)
 class Rule:
     source: str
+    expression: RuleExpression | None = None
+
 
 
 @dataclass(frozen=True)

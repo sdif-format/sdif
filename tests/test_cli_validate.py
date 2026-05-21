@@ -27,7 +27,7 @@ rule_functions[name,min_args,max_args]:
 kind Plan
 status blocked
 rules:
-  (allow missing(evidence))
+  (deny unknown_func(evidence))
 """.strip()
         + "\n",
         encoding="utf-8",

@@ -15,6 +15,9 @@ from sdif.core.ast import (
     Rule,
     Table,
     Statement,
+    Identifier,
+    Call,
+    RuleExpression,
 )
 
 _TABLE_HEADER_RE = re.compile(r"^(?P<name>[A-Za-z_][A-Za-z0-9_-]*)\[(?P<cols>[^\]]+)\]:$")
@@ -281,13 +284,22 @@ class _Parser:
             if actual != child_indent:
                 raise ParseError("SDIF_INDENT", "invalid rule row indentation", row_no, actual + 1)
             source = _strip_inline_comment(raw[child_indent:]).strip()
-            if not _balanced_parens(source):
+            try:
+                tokens = _tokenize_rule(source)
+                expr_ast, pos = _parse_rule_expression_node(tokens, 0)
+                if pos < len(tokens):
+                    raise ValueError("Extra tokens at end of rule expression")
+                if not isinstance(expr_ast, Call):
+                    raise ValueError("Rule expression must start with a parenthesized action call")
+                rule_expr = _to_rule_expression(expr_ast)
+            except Exception as exc:
                 raise ParseError(
-                    "SDIF_RULE_EXPR", "rule expression must have balanced parentheses", row_no
+                    "SDIF_RULE_EXPR", f"invalid rule expression: {exc}", row_no
                 )
-            rules.append(Rule(source))
+            rules.append(Rule(source, rule_expr))
             self.index += 1
         return rules
+
 
     def _parse_narrative(self, key: str, indent: int, line_no: int) -> Narrative:
         self.index += 1
@@ -392,13 +404,119 @@ def _split_quoted_whitespace(source: str, line_no: int, error_code: str) -> list
     return parts
 
 
-def _balanced_parens(source: str) -> bool:
-    depth = 0
-    for char in source:
-        if char == "(":
-            depth += 1
-        elif char == ")":
-            depth -= 1
-            if depth < 0:
-                return False
-    return depth == 0 and source.startswith("(") and source.endswith(")")
+def _tokenize_rule(source: str) -> list[str]:
+    tokens = []
+    i = 0
+    while i < len(source):
+        if source[i].isspace():
+            i += 1
+            continue
+        if source[i] in "()":
+            tokens.append(source[i])
+            i += 1
+            continue
+        if source[i] == ",":
+            tokens.append(source[i])
+            i += 1
+            continue
+        if source[i] == '"':
+            start = i
+            i += 1
+            escaped = False
+            while i < len(source):
+                if escaped:
+                    escaped = False
+                elif source[i] == "\\":
+                    escaped = True
+                elif source[i] == '"':
+                    i += 1
+                    break
+                i += 1
+            tokens.append(source[start:i])
+            continue
+        start = i
+        while i < len(source) and (source[i].isalnum() or source[i] in "_-./:[]"):
+            i += 1
+        if i > start:
+            tokens.append(source[start:i])
+        else:
+            tokens.append(source[i])
+            i += 1
+    return tokens
+
+
+def _parse_rule_expression_node(tokens: list[str], pos: int) -> tuple[object, int]:
+    if pos >= len(tokens):
+        raise ValueError("Unexpected end of expression")
+    
+    token = tokens[pos]
+    if token == "(":
+        pos += 1
+        if pos >= len(tokens):
+            raise ValueError("Unterminated parenthesis")
+        name = tokens[pos]
+        if not (name.isalnum() or name in "_-./:[]"):
+            raise ValueError(f"Expected identifier for call name, got `{name}`")
+        pos += 1
+        args = []
+        while pos < len(tokens) and tokens[pos] != ")":
+            arg, pos = _parse_rule_expression_node(tokens, pos)
+            args.append(arg)
+        if pos >= len(tokens) or tokens[pos] != ")":
+            raise ValueError("Expected `)` to close call")
+        pos += 1
+        return Call(name, args), pos
+    
+    if pos + 1 < len(tokens) and tokens[pos + 1] == "(":
+        name = token
+        pos += 2
+        args = []
+        while pos < len(tokens) and tokens[pos] != ")":
+            if tokens[pos] == ",":
+                pos += 1
+                continue
+            arg, pos = _parse_rule_expression_node(tokens, pos)
+            args.append(arg)
+        if pos >= len(tokens) or tokens[pos] != ")":
+            raise ValueError("Expected `)` to close compact call")
+        pos += 1
+        return Call(name, args), pos
+    
+    pos += 1
+    if token.startswith('"') and token.endswith('"'):
+        return _unquote(token), pos
+    if token == "null":
+        return None, pos
+    if token == "true":
+        return True, pos
+    if token == "false":
+        return False, pos
+    if re.match(r"^[+-]?[0-9]+$", token):
+        return int(token), pos
+    if re.match(r"^[+-]?[0-9]+\.[0-9]+$", token):
+        return float(token), pos
+    return Identifier(token), pos
+
+
+def _to_rule_expression(call: Call) -> RuleExpression:
+    if call.name not in {"deny", "warn"}:
+        raise ValueError(f"Invalid rule action: `{call.name}`. Must be `deny` or `warn`.")
+    if not call.args:
+        raise ValueError("Rule expression must have at least one function or argument")
+    
+    first = call.args[0]
+    if isinstance(first, Call):
+        return RuleExpression(
+            action=call.name,
+            function=first.name,
+            args=first.args
+        )
+    elif isinstance(first, Identifier):
+        return RuleExpression(
+            action=call.name,
+            function=first.name,
+            args=call.args[1:]
+        )
+    else:
+        raise ValueError(f"Invalid rule function or first argument: `{first}`")
+

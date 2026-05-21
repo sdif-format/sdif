@@ -6,7 +6,7 @@ import re
 from dataclasses import asdict, dataclass, field
 from datetime import date, datetime
 
-from sdif.core.ast import Document, Field, Table
+from sdif.core.ast import Document, Field, Table, RuleExpression, Call
 
 _IDENTIFIER_RE = re.compile(r"^[A-Za-z0-9_./:-][A-Za-z0-9_./:-]*$")
 _INTEGER_RE = re.compile(r"^[+-]?[0-9]+$")
@@ -166,7 +166,7 @@ def validate_document(doc: Document, schema: Schema) -> list[Diagnostic]:
     diagnostics.extend(_validate_allowed_tables(doc, schema))
     fields = doc.fields
     for field_name in sorted(schema.required_fields):
-        if field_name not in fields:
+        if field_name not in fields and field_name not in doc.objects:
             diagnostics.append(
                 Diagnostic(
                     code="SDIF_REQUIRED_FIELD",
@@ -179,6 +179,23 @@ def validate_document(doc: Document, schema: Schema) -> list[Diagnostic]:
 
     for field_name, type_name in schema.field_types.items():
         if field_name not in fields:
+            if field_name in doc.objects:
+                obj = doc.objects[field_name]
+                list_type = _list_element_type(type_name)
+                if list_type is not None:
+                    for idx, stmt in enumerate(obj.statements):
+                        if isinstance(stmt, Field) and stmt.key == "-":
+                            diagnostics.extend(_validate_value(stmt.value, list_type, f"{field_name}[{idx}]"))
+                        else:
+                            diagnostics.append(
+                                Diagnostic(
+                                    code="SDIF_TYPE",
+                                    severity="error",
+                                    message=f"mismatched block list structure for `{field_name}`: expected `- value` statements",
+                                    path=f"{field_name}[{idx}]",
+                                )
+                            )
+                    continue
             continue
         diagnostics.extend(_validate_value(fields[field_name].value, type_name, field_name))
 
@@ -226,7 +243,7 @@ def validate_document(doc: Document, schema: Schema) -> list[Diagnostic]:
 
     if schema.rule_functions:
         for rule_idx, rule in enumerate(doc.rules):
-            diagnostics.extend(_validate_rule(rule.source, schema, f"rules[{rule_idx}]"))
+            diagnostics.extend(_validate_rule(rule.expression, schema, f"rules[{rule_idx}]"))
 
     return diagnostics
 
@@ -308,6 +325,12 @@ def _validate_relations(doc: Document, schema: Schema) -> list[Diagnostic]:
     return diagnostics
 
 
+def _list_element_type(type_name: str) -> str | None:
+    if type_name.startswith("List<") and type_name.endswith(">"):
+        return type_name[5:-1].strip()
+    return None
+
+
 def _validate_value(value: str, type_name: str, path: str) -> list[Diagnostic]:
     enum_values = _enum_values(type_name)
     if enum_values is not None:
@@ -316,6 +339,23 @@ def _validate_value(value: str, type_name: str, path: str) -> list[Diagnostic]:
                 _diag("SDIF_ENUM", path, f"value `{value}` is not in enum {sorted(enum_values)}")
             ]
         return []
+
+    list_type = _list_element_type(type_name)
+    if list_type is not None:
+        if not (value.startswith("[") and value.endswith("]")):
+            return [_diag("SDIF_TYPE", path, f"value `{value}` does not match type {type_name}")]
+        inner = value[1:-1].strip()
+        if not inner:
+            return []
+        elements = []
+        for el in [x.strip() for x in inner.split(",")]:
+            if (el.startswith('"') and el.endswith('"')) or (el.startswith("'") and el.endswith("'")):
+                el = el[1:-1]
+            elements.append(el)
+        diags = []
+        for idx, el in enumerate(elements):
+            diags.extend(_validate_value(el, list_type, f"{path}[{idx}]"))
+        return diags
 
     ok = True
     if type_name == "Boolean":
@@ -339,9 +379,24 @@ def _validate_value(value: str, type_name: str, path: str) -> list[Diagnostic]:
     )
 
 
-def _validate_rule(source: str, schema: Schema, path: str) -> list[Diagnostic]:
+def _validate_rule(expression: RuleExpression | None, schema: Schema, path: str) -> list[Diagnostic]:
+    if expression is None:
+        return []
     diagnostics: list[Diagnostic] = []
-    for name, args in _extract_rule_calls(source):
+
+    def collect_calls(node: object) -> list[tuple[str, list[object]]]:
+        calls = []
+        if isinstance(node, RuleExpression):
+            calls.append((node.function, node.args))
+            for arg in node.args:
+                calls.extend(collect_calls(arg))
+        elif isinstance(node, Call):
+            calls.append((node.name, node.args))
+            for arg in node.args:
+                calls.extend(collect_calls(arg))
+        return calls
+
+    for name, args in collect_calls(expression):
         function = schema.rule_functions.get(name)
         if function is None:
             diagnostics.append(_diag("SDIF_RULE_FUNCTION", path, f"unknown rule function `{name}`"))
@@ -356,113 +411,6 @@ def _validate_rule(source: str, schema: Schema, path: str) -> list[Diagnostic]:
                 )
             )
     return diagnostics
-
-
-def _extract_rule_calls(source: str) -> list[tuple[str, list[str]]]:
-    source = source.strip()
-    calls: list[tuple[str, list[str]]] = []
-    if source.startswith("("):
-        close = _matching_paren(source, 0)
-        if close is not None:
-            inner = source[1:close].strip()
-            name, args_text = _leading_name_and_args(inner)
-            if name:
-                args = _split_top_level_args(args_text) if args_text else []
-                calls.append((name, args))
-                calls.extend(_extract_inline_calls(args_text))
-            return calls
-    calls.extend(_extract_inline_calls(source))
-    return calls
-
-
-def _extract_inline_calls(text: str) -> list[tuple[str, list[str]]]:
-    calls: list[tuple[str, list[str]]] = []
-    idx = 0
-    while idx < len(text):
-        if not (text[idx].isalpha() or text[idx] == "_"):
-            idx += 1
-            continue
-        name_start = idx
-        idx += 1
-        while idx < len(text) and (text[idx].isalnum() or text[idx] in "_-"):
-            idx += 1
-        name = text[name_start:idx]
-        if idx >= len(text) or text[idx] != "(":
-            continue
-        close = _matching_paren(text, idx)
-        if close is None:
-            break
-        args_text = text[idx + 1 : close].strip()
-        args = _split_top_level_args(args_text) if args_text else []
-        calls.append((name, args))
-        calls.extend(_extract_inline_calls(args_text))
-        idx = close + 1
-    return calls
-
-
-def _leading_name_and_args(inner: str) -> tuple[str, str]:
-    idx = 0
-    while idx < len(inner) and (inner[idx].isalnum() or inner[idx] in "_-"):
-        idx += 1
-    if idx == 0:
-        return "", ""
-    return inner[:idx], inner[idx:].strip()
-
-
-def _matching_paren(source: str, open_idx: int) -> int | None:
-    depth = 0
-    for idx in range(open_idx, len(source)):
-        if source[idx] == "(":
-            depth += 1
-        elif source[idx] == ")":
-            depth -= 1
-            if depth == 0:
-                return idx
-    return None
-
-
-def _count_call_args(source: str, start: int) -> int:
-    depth = 1
-    current = []
-    args: list[str] = []
-    idx = start
-    while idx < len(source):
-        char = source[idx]
-        if char == "(":
-            depth += 1
-            current.append(char)
-        elif char == ")":
-            depth -= 1
-            if depth == 0:
-                arg = "".join(current).strip()
-                if arg:
-                    args.extend(_split_top_level_args(arg))
-                return len(args)
-            current.append(char)
-        else:
-            current.append(char)
-        idx += 1
-    return 0
-
-
-def _split_top_level_args(text: str) -> list[str]:
-    args: list[str] = []
-    current: list[str] = []
-    depth = 0
-    for char in text:
-        if char == "(":
-            depth += 1
-        elif char == ")":
-            depth -= 1
-        if (char.isspace() or char == ",") and depth == 0:
-            if current:
-                args.append("".join(current).strip())
-                current = []
-            continue
-        current.append(char)
-    if current:
-        args.append("".join(current).strip())
-    return args
 
 
 def _enum_values(type_name: str) -> set[str] | None:
