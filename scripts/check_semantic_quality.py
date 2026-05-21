@@ -6,6 +6,7 @@ benchmarks. It verifies that the documented axes in docs/semantic-quality.md
 are backed by current parser, JSON conversion, validation, AI projection, and
 canonicalization behavior.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -59,10 +60,14 @@ def main() -> int:
 
 def _check_relational_expressivity(doc: object, errors: list[str]) -> None:
     relations = getattr(doc, "relations", [])
-    _expect(bool(relations), errors, "relational expressivity: examples/plan.sdif must contain rel rows")
+    _expect(
+        bool(relations), errors, "relational expressivity: examples/plan.sdif must contain rel rows"
+    )
     _expect(
         any(
-            relation.subject == "R3" and relation.predicate == "depends_on" and relation.object == "R2"
+            relation.subject == "R3"
+            and relation.predicate == "depends_on"
+            and relation.object == "R2"
             for relation in relations
         ),
         errors,
@@ -79,27 +84,71 @@ def _check_round_trip_fidelity(doc: object, errors: list[str]) -> None:
     data = document_to_json_data(doc)  # type: ignore[arg-type]
     recreated = parse_text(json_data_to_sdif(data))
     round_trip = document_to_json_data(recreated)
-    _expect(round_trip == data, errors, "round-trip fidelity: SDIF -> JSON data -> SDIF must preserve JSON data")
-    _expect("milestones" in data, errors, "round-trip fidelity: milestones table must survive conversion")
+    _expect(
+        round_trip == data,
+        errors,
+        "round-trip fidelity: SDIF -> JSON data -> SDIF must preserve JSON data",
+    )
+    _expect(
+        "milestones" in data,
+        errors,
+        "round-trip fidelity: milestones table must survive conversion",
+    )
     _expect("rel" in data, errors, "round-trip fidelity: relation block must survive conversion")
 
 
 def _check_schema_validation(doc: object, schema: Schema, errors: list[str]) -> None:
     diagnostics = validate_document(doc, schema)  # type: ignore[arg-type]
-    _expect(not diagnostics, errors, f"schema validation: expected valid plan, got {len(diagnostics)} diagnostics")
-    _expect("status" in schema.field_types, errors, "schema validation: schema must type the status field")
-    _expect("milestones" in schema.table_column_types, errors, "schema validation: schema must type milestones")
-    _expect("depends_on" in schema.relation_policies, errors, "schema validation: schema must type depends_on relations")
+    _expect(
+        not diagnostics,
+        errors,
+        f"schema validation: expected valid plan, got {len(diagnostics)} diagnostics",
+    )
+    _expect(
+        "status" in schema.field_types,
+        errors,
+        "schema validation: schema must type the status field",
+    )
+    _expect(
+        "milestones" in schema.table_column_types,
+        errors,
+        "schema validation: schema must type milestones",
+    )
+    _expect(
+        "depends_on" in schema.relation_policies,
+        errors,
+        "schema validation: schema must type depends_on relations",
+    )
 
 
 def _check_sdif_ai_semantic_retention(plan_text: str, errors: list[str]) -> None:
     ai = ai_view(plan_text, {"kind": "k", "status": "st"})
     ai_doc = parse_text(ai)
-    _expect(ai.startswith("@sdif.ai 0.1"), errors, "SDIF AI semantic retention: projection must use sdif.ai directive")
-    _expect("alias[k=kind,st=status]" in ai, errors, "SDIF AI semantic retention: projection must include alias header")
-    _expect("milestones[id,st,gate,evidence]:" in ai, errors, "SDIF AI semantic retention: table aliases must retain shape")
-    _expect("\nR1\tdone\tvalidate-syntax" in ai, errors, "SDIF AI semantic retention: top-level rows must be compact")
-    _expect(bool(ai_doc.relations), errors, "SDIF AI semantic retention: relations must remain parseable")
+    _expect(
+        ai.startswith("@sdif.ai 0.1"),
+        errors,
+        "SDIF AI semantic retention: projection must use sdif.ai directive",
+    )
+    _expect(
+        "alias[k=kind,st=status]" in ai,
+        errors,
+        "SDIF AI semantic retention: projection must include alias header",
+    )
+    _expect(
+        "milestones[id,st,gate,evidence]:" in ai,
+        errors,
+        "SDIF AI semantic retention: table aliases must retain shape",
+    )
+    _expect(
+        "\nR1\tdone\tvalidate-syntax" in ai,
+        errors,
+        "SDIF AI semantic retention: top-level rows must be compact",
+    )
+    _expect(
+        bool(ai_doc.relations),
+        errors,
+        "SDIF AI semantic retention: relations must remain parseable",
+    )
     _expect(bool(ai_doc.rules), errors, "SDIF AI semantic retention: rules must remain parseable")
 
 

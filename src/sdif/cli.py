@@ -1,4 +1,5 @@
 """Command-line interface for the SDIF MVP tools."""
+
 from __future__ import annotations
 
 import argparse
@@ -14,7 +15,9 @@ from sdif.validation import Diagnostic, Schema, SchemaError, diagnostics_to_json
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="sdif", description="SDIF parser and canonicalization tools")
+    parser = argparse.ArgumentParser(
+        prog="sdif", description="SDIF parser and canonicalization tools"
+    )
     sub = parser.add_subparsers(dest="command", required=True)
 
     parse = sub.add_parser("parse")
@@ -22,11 +25,15 @@ def main(argv: list[str] | None = None) -> int:
 
     canon = sub.add_parser("canon")
     canon.add_argument("path", type=Path)
-    canon.add_argument("--schema", type=Path, help="optional schema for schema-aware canonical policies")
+    canon.add_argument(
+        "--schema", type=Path, help="optional schema for schema-aware canonical policies"
+    )
 
     hash_cmd = sub.add_parser("hash")
     hash_cmd.add_argument("path", type=Path)
-    hash_cmd.add_argument("--schema", type=Path, help="optional schema for schema-aware canonical policies")
+    hash_cmd.add_argument(
+        "--schema", type=Path, help="optional schema for schema-aware canonical policies"
+    )
 
     for name in ("tokens", "to-json", "from-json"):
         cmd = sub.add_parser(name)
@@ -79,11 +86,17 @@ def main(argv: list[str] | None = None) -> int:
         else:
             diagnostics = validate_document(doc, schema)
         if args.json_output:
-            json.dump({"valid": not diagnostics, "diagnostics": diagnostics_to_json(diagnostics)}, sys.stdout, indent=2)
+            json.dump(
+                {"valid": not diagnostics, "diagnostics": diagnostics_to_json(diagnostics)},
+                sys.stdout,
+                indent=2,
+            )
             sys.stdout.write("\n")
         elif diagnostics:
             for diagnostic in diagnostics:
-                print(f"{diagnostic.severity}: {diagnostic.code} {diagnostic.path}: {diagnostic.message}")
+                print(
+                    f"{diagnostic.severity}: {diagnostic.code} {diagnostic.path}: {diagnostic.message}"
+                )
         else:
             print("valid")
         return 0 if not diagnostics else 1

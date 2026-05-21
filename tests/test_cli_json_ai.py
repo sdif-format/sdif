@@ -40,11 +40,7 @@ def test_cli_to_json_from_json_and_ai_alias_projection(tmp_path):
 def test_ai_projection_omits_table_row_indent_for_token_density(tmp_path):
     source = tmp_path / "doc.sdif"
     source.write_text(
-        "@sdif 0.1\n"
-        "kind Plan\n"
-        "items[id,status]:\n"
-        "  R1\tdone\n"
-        "  R2\tpending\n",
+        "@sdif 0.1\nkind Plan\nitems[id,status]:\n  R1\tdone\n  R2\tpending\n",
         encoding="utf-8",
     )
 
@@ -56,10 +52,7 @@ def test_ai_projection_omits_table_row_indent_for_token_density(tmp_path):
 def test_ai_projection_marks_string_columns_to_remove_repeated_scalar_quotes(tmp_path):
     source = tmp_path / "doc.sdif"
     source.write_text(
-        "@sdif 0.1\n"
-        "items[id,value]:\n"
-        "  I1\t\"null\"\n"
-        "  I2\t\"42\"\n",
+        '@sdif 0.1\nitems[id,value]:\n  I1\t"null"\n  I2\t"42"\n',
         encoding="utf-8",
     )
 

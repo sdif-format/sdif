@@ -53,18 +53,14 @@ And multiline.
 
 
 def test_compact_ai_table_rows_may_omit_indentation_and_canonicalize_back():
-    source = '\n@sdif.ai 0.1\nitems[id,status]:\nR1\tdone\nR2\tpending\nkind Plan\n'
+    source = "\n@sdif.ai 0.1\nitems[id,status]:\nR1\tdone\nR2\tpending\nkind Plan\n"
 
     doc = parse_text(source)
 
     assert doc.tables["items"].rows == [["R1", "done"], ["R2", "pending"]]
     assert doc.fields["kind"].value == "Plan"
     assert canonicalize(doc) == (
-        "@sdif.ai 0.1\n"
-        "kind Plan\n"
-        "items[id,status]:\n"
-        "  R1\tdone\n"
-        "  R2\tpending\n"
+        "@sdif.ai 0.1\nkind Plan\nitems[id,status]:\n  R1\tdone\n  R2\tpending\n"
     )
 
 
@@ -83,11 +79,11 @@ def test_sdif_ai_alias_header_is_parseable_and_canonicalized():
 
 def test_table_rows_must_use_htab_and_match_header_arity():
     with pytest.raises(ParseError) as excinfo:
-        parse_text('''
+        parse_text("""
 @sdif 0.1
 items[id,status]:
   item.1 open
-''')
+""")
 
     assert excinfo.value.code == "SDIF_TABLE_ARITY"
     assert "literal HTAB" in excinfo.value.message
@@ -95,17 +91,17 @@ items[id,status]:
 
 def test_relation_rows_have_exactly_three_parts():
     with pytest.raises(ParseError) as excinfo:
-        parse_text('''
+        parse_text("""
 @sdif 0.1
 rel:
   a depends_on b extra
-''')
+""")
 
     assert excinfo.value.code == "SDIF_REL_ARITY"
 
 
 def test_canonicalization_removes_comments_and_hashes_stable_bytes():
-    left = '''
+    left = """
 # source comment
 @profile source
 @sdif 0.1
@@ -113,8 +109,8 @@ id release.v2
 kind Plan
 milestones[id,status]:
   R1\tdone
-'''
-    right = '''
+"""
+    right = """
 @sdif 0.1
 @profile source
 kind Plan
@@ -122,7 +118,7 @@ id release.v2 # inline comment
 
 milestones[id,status]:
   R1\tdone
-'''
+"""
 
     canon = canonicalize(left)
 
@@ -177,21 +173,21 @@ def test_cli_parse_canon_hash_and_tokens(tmp_path):
 def test_table_cells_preserve_spaces_as_data():
     padded = "  padded label  "
 
-    doc = parse_text(f'''
+    doc = parse_text(f"""
 @sdif 0.1
 items[id,label]:
   item.1	{padded}
-''')
+""")
 
     assert doc.tables["items"].rows == [["item.1", padded]]
 
 
 def test_relation_object_supports_quoted_strings_with_spaces():
-    doc = parse_text('''
+    doc = parse_text("""
 @sdif 0.1
 rel:
   doc.1 describes "hello world"
-''')
+""")
 
     assert doc.relations[0].object == "hello world"
     assert canonicalize(doc) == '@sdif 0.1\nrel:\n  doc.1 describes "hello world"\n'
@@ -202,11 +198,11 @@ def test_relation_and_rule_rows_require_exact_child_indentation(block):
     body = "a depends_on b" if block == "rel" else "(deny missing(evidence))"
 
     with pytest.raises(ParseError) as excinfo:
-        parse_text(f'''
+        parse_text(f"""
 @sdif 0.1
 {block}:
     {body}
-''')
+""")
 
     assert excinfo.value.code == "SDIF_INDENT"
 

@@ -1,4 +1,5 @@
 """Line-oriented lexer for the SDIF MVP parser."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass

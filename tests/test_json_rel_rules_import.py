@@ -14,7 +14,9 @@ def test_json_data_to_sdif_imports_relations_rules_lists_and_nested_objects():
         }
     )
 
-    assert text == '''
+    assert (
+        text
+        == """
 kind Plan
 id demo
 tags [release,validation]
@@ -25,7 +27,8 @@ rel:
   R2 depends_on R1
 rules:
   (deny missing(evidence))
-'''.lstrip()
+""".lstrip()
+    )
     doc = parse_text(text)
     assert doc.fields["tags"].value == "[release,validation]"
     assert doc.relations[0].predicate == "depends_on"

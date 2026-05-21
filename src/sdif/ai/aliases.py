@@ -1,4 +1,5 @@
 """Generate compact `.sdif.ai` projections with explicit aliases."""
+
 from __future__ import annotations
 
 from sdif import parse_text
@@ -10,7 +11,10 @@ def ai_view(source: str | Document, aliases: dict[str, str], *, include_header: 
     inverse = {canonical: alias for canonical, alias in aliases.items()}
     lines = ["@sdif.ai 0.1"] if include_header else []
     if include_header and aliases:
-        entries = ",".join(f"{alias}={canonical}" for canonical, alias in sorted(aliases.items(), key=lambda item: item[1]))
+        entries = ",".join(
+            f"{alias}={canonical}"
+            for canonical, alias in sorted(aliases.items(), key=lambda item: item[1])
+        )
         lines.append(f"alias[{entries}]")
     for statement in doc.statements:
         _emit(statement, lines, inverse, 0)
@@ -29,12 +33,11 @@ def _unquote(value: str) -> str:
     return bytes(value[1:-1], "utf-8").decode("unicode_escape")
 
 
-def _ai_columns_and_rows(table: Table, inverse: dict[str, str]) -> tuple[list[str], list[list[str]]]:
+def _ai_columns_and_rows(
+    table: Table, inverse: dict[str, str]
+) -> tuple[list[str], list[list[str]]]:
     string_columns = {
-        index
-        for row in table.rows
-        for index, cell in enumerate(row)
-        if _is_quoted(cell)
+        index for row in table.rows for index, cell in enumerate(row) if _is_quoted(cell)
     }
     columns = [
         f"{_name(column, inverse)}$" if index in string_columns else _name(column, inverse)
@@ -67,7 +70,9 @@ def _emit(statement: object, lines: list[str], inverse: dict[str, str], indent: 
     elif isinstance(statement, Relation):
         if not lines or lines[-1] != f"{prefix}rel:":
             lines.append(f"{prefix}rel:")
-        lines.append(f"{' ' * (indent + 2)}{statement.subject} {statement.predicate} {statement.object}")
+        lines.append(
+            f"{' ' * (indent + 2)}{statement.subject} {statement.predicate} {statement.object}"
+        )
     elif isinstance(statement, Rule):
         if not lines or lines[-1] != f"{prefix}rules:":
             lines.append(f"{prefix}rules:")

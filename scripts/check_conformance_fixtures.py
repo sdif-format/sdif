@@ -46,7 +46,11 @@ def main() -> int:
     if cases is None:
         errors.append("manifest must include cases table")
         return _fail(errors)
-    _expect(cases.columns == CASE_COLUMNS, errors, "cases table columns must be id,profile,source,canonical,tree,sha256")
+    _expect(
+        cases.columns == CASE_COLUMNS,
+        errors,
+        "cases table columns must be id,profile,source,canonical,tree,sha256",
+    )
     _expect(bool(cases.rows), errors, "cases table must contain at least one case")
 
     grammar_nodes = _grammar_rule_names(_read(GRAMMAR, errors))
@@ -97,7 +101,11 @@ def _check_case(case: dict[str, str], grammar_nodes: set[str], errors: list[str]
         errors,
         f"{case_id}: manifest sha256 does not match canonical bytes",
     )
-    _expect(_tables_with_multiple_columns_use_htab(source), errors, f"{case_id}: table rows must use literal HTAB")
+    _expect(
+        _tables_with_multiple_columns_use_htab(source),
+        errors,
+        f"{case_id}: table rows must use literal HTAB",
+    )
     _expect(
         _tables_with_multiple_columns_use_htab(expected_canonical),
         errors,

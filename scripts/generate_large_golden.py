@@ -194,9 +194,7 @@ def make_large_registry(multiplier: int) -> JsonObject:
                         "name": f"capability_{module_index}_{component_index}_{capability_index}",
                         "kind": ["read", "write", "execute", "govern"][capability_index % 4],
                         "authority_required": capability_index % 3 == 0,
-                        "stability": ["experimental", "stable", "deprecated"][
-                            capability_index % 3
-                        ],
+                        "stability": ["experimental", "stable", "deprecated"][capability_index % 3],
                     }
                 )
 
@@ -294,9 +292,7 @@ def make_large_schema_catalog(multiplier: int) -> JsonObject:
                     "required": field_index % 4 != 0,
                     "unique": field_index in {1, 2},
                     "default": "null" if field_index % 5 else f"default-{field_index}",
-                    "description": (
-                        "Synthetic schema field with validation and UI metadata."
-                    ),
+                    "description": ("Synthetic schema field with validation and UI metadata."),
                 }
             )
 
@@ -396,9 +392,7 @@ def make_large_validation_report(multiplier: int) -> JsonObject:
 
         for case_index in range(1, 41):
             case_id = f"CASE-{suite_index:03d}-{case_index:03d}"
-            status = ["passed", "failed", "skipped", "warning"][
-                (suite_index + case_index) % 4
-            ]
+            status = ["passed", "failed", "skipped", "warning"][(suite_index + case_index) % 4]
 
             if status == "passed":
                 passed += 1
@@ -438,9 +432,7 @@ def make_large_validation_report(multiplier: int) -> JsonObject:
                             "Synthetic diagnostic entry used to benchmark repeated "
                             "validation output with evidence references."
                         ),
-                        "severity": ["debug", "info", "warning", "error"][
-                            diagnostic_index % 4
-                        ],
+                        "severity": ["debug", "info", "warning", "error"][diagnostic_index % 4],
                     }
                 )
 
@@ -448,9 +440,7 @@ def make_large_validation_report(multiplier: int) -> JsonObject:
             {
                 "id": suite_id,
                 "name": f"validation_suite_{suite_index}",
-                "profile": ["smoke", "workspace", "governance", "release"][
-                    suite_index % 4
-                ],
+                "profile": ["smoke", "workspace", "governance", "release"][suite_index % 4],
                 "passed": passed,
                 "failed": failed,
                 "skipped": skipped,

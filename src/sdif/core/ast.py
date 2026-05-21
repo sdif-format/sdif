@@ -1,4 +1,5 @@
 """Core AST nodes for the SDIF MVP parser."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field

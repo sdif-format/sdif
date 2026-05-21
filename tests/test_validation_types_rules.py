@@ -2,7 +2,7 @@ from sdif import parse_text
 from sdif.validation import Schema, validate_document
 
 
-SCHEMA = '''
+SCHEMA = """
 @sdif 0.1
 kind Schema
 id example.plan.v1
@@ -22,12 +22,12 @@ rule_functions[name,min_args,max_args]:
   warn\t1\t1
   missing\t1\t1
   eq\t2\t2
-'''
+"""
 
 
 def test_validator_checks_field_types_table_types_and_rule_functions():
     schema = Schema.from_document(parse_text(SCHEMA))
-    doc = parse_text('''
+    doc = parse_text("""
 @sdif 0.1
 kind Plan
 id demo
@@ -40,7 +40,7 @@ milestones[id,status,count]:
 rules:
   (allow missing(evidence))
   (deny missing(evidence) eq(status,open))
-''')
+""")
 
     diagnostics = validate_document(doc, schema)
 

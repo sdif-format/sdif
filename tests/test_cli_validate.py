@@ -34,7 +34,15 @@ rules:
     )
 
     run = subprocess.run(
-        [sys.executable, "tools/sdif-cli.py", "validate", str(doc), "--schema", str(schema), "--json"],
+        [
+            sys.executable,
+            "tools/sdif-cli.py",
+            "validate",
+            str(doc),
+            "--schema",
+            str(schema),
+            "--json",
+        ],
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -86,7 +94,15 @@ def test_cli_validate_json_reports_parse_errors_as_structured_diagnostics(tmp_pa
     doc.write_text("@sdif 0.1\nitems[id,status]:\n  one open\n", encoding="utf-8")
 
     run = subprocess.run(
-        [sys.executable, "tools/sdif-cli.py", "validate", str(doc), "--schema", str(schema), "--json"],
+        [
+            sys.executable,
+            "tools/sdif-cli.py",
+            "validate",
+            str(doc),
+            "--schema",
+            str(schema),
+            "--json",
+        ],
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

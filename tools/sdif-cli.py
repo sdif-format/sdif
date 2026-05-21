@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Development wrapper for `python -m sdif.cli` without requiring installation."""
+
 from pathlib import Path
 import sys
 

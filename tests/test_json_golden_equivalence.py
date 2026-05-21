@@ -69,7 +69,10 @@ def test_json_to_sdif_rejects_reserved_array_encoding_keys():
 def test_canonicalize_preserves_json_string_type_markers():
     from sdif import canonicalize
 
-    data = {"numeric_string": "123", "rel": [{"subject": "a", "predicate": "points_to", "object": "456"}]}
+    data = {
+        "numeric_string": "123",
+        "rel": [{"subject": "a", "predicate": "points_to", "object": "456"}],
+    }
     text = json_data_to_sdif(data, include_header=True)
     canonical = canonicalize(text)
 

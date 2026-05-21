@@ -2,7 +2,7 @@ from sdif.parser.lexer import TokenKind, lex_lines
 
 
 def test_lexer_classifies_directives_blocks_tables_fields_comments_and_indent():
-    tokens = lex_lines('''
+    tokens = lex_lines("""
 # comment
 @sdif 0.1
 kind Plan
@@ -10,7 +10,7 @@ owner:
   id team.platform
 items[id,status]:
   R1\tdone
-''')
+""")
 
     assert [(t.kind, t.value, t.indent) for t in tokens] == [
         (TokenKind.COMMENT, "# comment", 0),

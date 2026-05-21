@@ -4,14 +4,14 @@ from sdif import parse_text
 
 
 def test_schema_policy_orders_table_rows_relations_and_rules_when_unordered():
-    schema_doc = parse_text('''
+    schema_doc = parse_text("""
 @sdif 0.1
 kind Schema
 tables[name,ordered,primary_key]:
   milestones\tfalse\tid
-''')
+""")
     schema = Schema.from_document(schema_doc)
-    source = '''
+    source = """
 @sdif 0.1
 kind Plan
 id demo
@@ -24,9 +24,11 @@ rel:
 rules:
   (warn missing(x))
   (deny missing(y))
-'''
+"""
 
-    assert canonicalize(source, schema=schema) == '''
+    assert (
+        canonicalize(source, schema=schema)
+        == """
 @sdif 0.1
 kind Plan
 id demo
@@ -39,4 +41,5 @@ rel:
 rules:
   (deny missing(y))
   (warn missing(x))
-'''.lstrip()
+""".lstrip()
+    )

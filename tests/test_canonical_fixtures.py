@@ -63,13 +63,16 @@ milestones[id,status]:
         check=True,
     )
 
-    assert canon_run.stdout == """\
+    assert (
+        canon_run.stdout
+        == """\
 @sdif 0.1
 kind Plan
 milestones[id,status]:
   R1	done
   R2	pending
 """
+    )
 
     hash_run = subprocess.run(
         [sys.executable, "tools/sdif-cli.py", "hash", str(source), "--schema", str(schema)],
