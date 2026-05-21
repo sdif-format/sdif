@@ -101,7 +101,6 @@ Executable benchmark runners live in:
 benchmarks/scripts/
 ```
 
-
 ## Result Model
 
 A normal token benchmark run writes:
