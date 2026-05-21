@@ -48,6 +48,8 @@ class _Parser:
         if self.lines and self.lines[-1] == "":
             self.lines.pop()
         self.index = 0
+        self.is_ai_profile = False
+        self.alias_to_canonical: dict[str, str] = {}
 
     def parse_document(self) -> Document:
         directives: list[Directive] = []
@@ -84,7 +86,11 @@ class _Parser:
         alias = _ALIAS_HEADER_RE.match(_strip_inline_comment(body))
         if alias:
             self.index += 1
-            return Directive("alias", alias.group("entries").split(","))
+            entries = alias.group("entries").split(",")
+            for entry in entries:
+                alias_name, canonical_name = entry.split("=", 1)
+                self.alias_to_canonical[alias_name] = canonical_name
+            return Directive("alias", entries)
 
         narrative = _NARRATIVE_RE.match(body)
         if narrative:
@@ -92,6 +98,16 @@ class _Parser:
 
         table = _TABLE_HEADER_RE.match(_strip_inline_comment(body))
         if table:
+            if self._is_relation_subject_header(table.group("name")):
+                if not self.is_ai_profile:
+                    raise ParseError(
+                        "SDIF_AI_REL_SUBJECT",
+                        "rel[subject]: syntax is only valid in .sdif.ai documents",
+                        line_no,
+                    )
+                return self._parse_relations_for_subject(
+                    table.group("cols"), indent, line_no
+                )
             return self._parse_table(table, indent, line_no)
 
         block = _BLOCK_RE.match(_strip_inline_comment(body))
@@ -111,7 +127,12 @@ class _Parser:
         parts = body[1:].split()
         if not parts:
             raise ParseError("SDIF_DIRECTIVE", "empty directive", line_no)
+        if parts[0] == "sdif.ai":
+            self.is_ai_profile = True
         return Directive(parts[0], parts[1:])
+
+    def _is_relation_subject_header(self, name: str) -> bool:
+        return name == "rel" or self.alias_to_canonical.get(name) == "rel"
 
     def _parse_field(self, body: str, line_no: int) -> Field:
         clean = _strip_inline_comment(body)
@@ -208,6 +229,40 @@ class _Parser:
                 )
             relations.append(
                 Relation(parts[0], parts[1], _unquote(parts[2]), object_quoted=_is_quoted(parts[2]))
+            )
+            self.index += 1
+        return relations
+
+    def _parse_relations_for_subject(
+        self, subject: str, indent: int, line_no: int
+    ) -> list[Relation]:
+        self.index += 1
+        child_indent = indent + 2
+        relations: list[Relation] = []
+        while self.index < len(self.lines):
+            row_no = self.index + 1
+            raw = self.lines[self.index]
+            if raw.strip() == "":
+                self.index += 1
+                continue
+            actual = _indent(raw, row_no)
+            if actual < child_indent:
+                break
+            if actual != child_indent:
+                raise ParseError(
+                    "SDIF_INDENT", "invalid relation row indentation", row_no, actual + 1
+                )
+            parts = _split_quoted_whitespace(
+                _strip_inline_comment(raw[child_indent:]), row_no, "SDIF_REL_QUOTE"
+            )
+            if len(parts) != 2:
+                raise ParseError(
+                    "SDIF_REL_ARITY",
+                    "subject-grouped relation row must have exactly two parts",
+                    row_no,
+                )
+            relations.append(
+                Relation(subject, parts[0], _unquote(parts[1]), object_quoted=_is_quoted(parts[1]))
             )
             self.index += 1
         return relations

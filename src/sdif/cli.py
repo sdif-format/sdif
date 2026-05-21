@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 from sdif import canonicalize, parse_text, sdif_hash
-from sdif.ai import ai_view
+from sdif.ai import ai_view, sdif_from_ai
 from sdif.json import document_to_json_data, json_data_to_sdif
 from sdif.parser import ParseError
 from sdif.core.ast import Directive, Document, Field, Narrative, ObjectBlock, Relation, Rule, Table
@@ -83,6 +83,13 @@ def main(argv: list[str] | None = None) -> int:
         metavar="FIELD=ALIAS",
         help="Optional alias to map a field/column name for the AI view (can be specified multiple times)"
     )
+
+    from_ai = sub.add_parser(
+        "from-ai",
+        help="Convert a .sdif.ai projection back into canonical source SDIF",
+        description="Convert a .sdif.ai projection back into canonical source SDIF.",
+    )
+    from_ai.add_argument("path", type=Path, help="Path to the SDIF AI file")
 
     validate = sub.add_parser(
         "validate",
@@ -162,6 +169,9 @@ def main(argv: list[str] | None = None) -> int:
         aliases = _parse_aliases(args.alias)
         sys.stdout.write(ai_view(text, aliases))
         return 0
+    if args.command == "from-ai":
+        sys.stdout.write(sdif_from_ai(text))
+        return 0
     if args.command == "validate":
         schema = _load_schema(args.schema)
         if schema is None:  # pragma: no cover - argparse requires --schema for validate
@@ -229,7 +239,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "fmt":
         schema = _load_schema(args.schema)
         try:
-            canonical_text = canonicalize(text, schema=schema)
+            doc = parse_text(text)
+            is_ai_projection = any(directive.name == "sdif.ai" for directive in doc.directives)
+            canonical_text = sdif_from_ai(doc) if is_ai_projection else canonicalize(doc, schema=schema)
         except ParseError as exc:
             sys.stderr.write(f"Format error: parse failed: {exc}\n")
             return 1

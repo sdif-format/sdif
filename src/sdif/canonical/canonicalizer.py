@@ -72,6 +72,7 @@ def _canonical_others(statements: Sequence[object], schema: Schema | None) -> li
                         statement.name,
                         statement.columns,
                         sorted(statement.rows, key=lambda row: row[idx]),
+                        statement.quoted_columns,
                     )
                 )
                 continue
@@ -94,7 +95,13 @@ def _emit_statement(
     elif isinstance(statement, Table):
         lines.append(f"{prefix}{statement.name}[{','.join(statement.columns)}]:")
         for row in statement.rows:
-            lines.append(f"{' ' * (indent + 2)}" + "\t".join(row))
+            cells = [
+                _quote_if_needed(cell, force=True)
+                if index in statement.quoted_columns
+                else cell
+                for index, cell in enumerate(row)
+            ]
+            lines.append(f"{' ' * (indent + 2)}" + "\t".join(cells))
     elif isinstance(statement, Relation):
         if not _inside_current_block(lines, f"{prefix}rel:"):
             lines.append(f"{prefix}rel:")

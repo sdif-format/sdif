@@ -54,6 +54,7 @@ class Table:
     name: str
     columns: list[str]
     rows: list[list[str]]
+    quoted_columns: frozenset[int] = field(default_factory=frozenset)
 
 
 @dataclass(frozen=True)
