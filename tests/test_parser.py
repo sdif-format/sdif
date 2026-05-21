@@ -141,7 +141,8 @@ def test_cli_parse_canon_hash_and_tokens(tmp_path):
         check=True,
     )
     assert "bytes=" in token_run.stdout
-    assert "tokens_estimate=" in token_run.stdout
+    assert "tokenizer=" in token_run.stdout
+    assert "tokens=" in token_run.stdout
 
 
 def test_table_cells_preserve_spaces_as_data():

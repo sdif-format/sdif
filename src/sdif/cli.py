@@ -54,9 +54,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "tokens":
         byte_count = len(text.encode("utf-8"))
-        # Lightweight dependency-free estimate for the base CLI; benchmark script can use tiktoken.
-        estimate = max(1, (byte_count + 3) // 4)
-        print(f"bytes={byte_count} tokens_estimate={estimate}")
+        tokenizer, token_count = _count_tokens(text, byte_count)
+        print(f"bytes={byte_count} tokenizer={tokenizer} tokens={token_count}")
         return 0
     if args.command == "to-json":
         json.dump(document_to_json_data(parse_text(text)), sys.stdout, indent=2)
@@ -100,6 +99,17 @@ def _diagnostic_from_parse_error(exc: ParseError) -> Diagnostic:
         line=exc.line,
         column=exc.column,
     )
+
+
+def _count_tokens(text: str, byte_count: int) -> tuple[str, int]:
+    try:
+        import tiktoken  # type: ignore[import-not-found]
+    except ImportError:
+        return "estimate/4bytes", max(1, (byte_count + 3) // 4)
+
+    encoding_name = "cl100k_base"
+    encoder = tiktoken.get_encoding(encoding_name)
+    return f"tiktoken/{encoding_name}", len(encoder.encode(text))
 
 
 def _load_schema(path: Path | None) -> Schema | None:
