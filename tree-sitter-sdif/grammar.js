@@ -1,5 +1,5 @@
-// MVP Tree-sitter grammar for SDIF editor tooling and incremental parsing.
-// Keep this tooling grammar aligned with conformance/manifest.sdif.
+// Tree-sitter grammar for SDIF editor tooling and incremental parsing.
+// Keep this tooling grammar aligned with the official specification and conformance suite.
 module.exports = grammar({
   name: 'sdif',
 

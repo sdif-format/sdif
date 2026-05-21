@@ -101,7 +101,6 @@ def test_tree_sitter_grammar_names_core_syntax_nodes_for_highlighting():
 def test_normative_docs_table_examples_use_literal_htab_rows():
     for path in (
         Path("docs/spec.md"),
-        Path("docs/sdif_v0.1.md"),
         Path("README.md"),
         Path("docs/comparison.md"),
     ):
@@ -173,15 +172,6 @@ def test_benchmark_golden_corpus_has_representative_size_and_complexity_mix():
         "large-audit-trail",
     ):
         assert required in fixture_names
-
-
-def test_versioned_spec_is_pointer_to_authoritative_spec():
-    legacy = Path("docs/sdif_v0.1.md").read_text(encoding="utf-8")
-    spec = Path("docs/spec.md").read_text(encoding="utf-8")
-
-    assert "docs/spec.md" in legacy
-    assert "authoritative" in legacy.lower()
-    assert len(legacy) < len(spec) // 10
 
 
 def test_semantic_quality_methodology_is_documented_separately_from_token_benchmark():

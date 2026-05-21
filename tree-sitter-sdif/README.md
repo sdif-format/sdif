@@ -1,6 +1,6 @@
 # tree-sitter-sdif
 
-MVP Tree-sitter package for SDIF editor tooling, syntax highlighting, and
+Tree-sitter package for SDIF editor tooling, syntax highlighting, and
 incremental parse experiments. This package is intentionally tooling-only: the
 normative parser and canonical AST remain in the Python package under `src/sdif/`.
 

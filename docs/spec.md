@@ -725,7 +725,7 @@ Reserved words may be used as values when unambiguous, but their use as keys may
 
 ## 10. Normative MVP decisions
 
-This section closes several design questions for the 0.1 MVP.
+This section closes several design questions for the v1.0 MVP.
 
 ### 10.1 Table separator
 
@@ -871,6 +871,7 @@ document        = spacing, statement*, EOF ;
 statement       = blank_line
                 | comment_line
                 | directive_line
+                | alias_header
                 | field_line
                 | object_block
                 | table_block
@@ -1486,7 +1487,7 @@ The canonicalizer should:
 10. Sort table rows when order is not significant.
 11. Preserve order when the schema declares order significant.
 
-The v0.1 MVP intentionally does not yet normalize aliases, booleans beyond parser-preserved literals, null spellings, dates, date-times, or numeric representation as semantic equivalence classes. Those policies require explicit versioning and golden fixtures.
+The v1.0 MVP intentionally does not yet normalize aliases, booleans beyond parser-preserved literals, null spellings, dates, date-times, or numeric representation as semantic equivalence classes. Those policies require explicit versioning and golden fixtures.
 
 ### 15.3 Hashing
 
@@ -2213,7 +2214,7 @@ Compact aliases may be appropriate in `.sdif.ai`, but source documents should fa
 
 ## 30. Open questions
 
-The 0.1 draft intentionally leaves several topics open.
+The 1.0 draft intentionally leaves several topics open.
 
 ### 30.1 Inline comments in tables
 
