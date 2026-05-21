@@ -13,6 +13,7 @@ The benchmark derives all compared formats from the same canonical JSON source:
 
 It can count tokens with multiple tokenizers:
 
+- Estimate, deterministic 4 UTF-8 bytes per token fallback
 - tiktoken / cl100k_base
 - Llama 3 tokenizer through transformers
 - Claude token counting API through anthropic, opt-in only
@@ -294,6 +295,11 @@ def get_anthropic_client() -> Any:
     return Anthropic()
 
 
+def count_estimate(text: str) -> int:
+    byte_count = len(text.encode("utf-8"))
+    return max(1, (byte_count + 3) // 4)
+
+
 def count_claude(text: str) -> int | None:
     """Count tokens with Anthropic's message token counting endpoint.
 
@@ -326,10 +332,20 @@ def count_claude(text: str) -> int | None:
 
 def available_tokenizers() -> list[TokenizerSpec]:
     return [
+        TokenizerSpec("Estimate", count_estimate),
         TokenizerSpec("tiktoken", count_tiktoken),
         TokenizerSpec("Llama3", count_llama3),
         TokenizerSpec("Claude", count_claude),
     ]
+
+
+def select_primary_tokenizer(tokenizers: list[TokenizerSpec], sample_text: str) -> TokenizerSpec:
+    for preferred_name in ("tiktoken", "Estimate"):
+        for tokenizer in tokenizers:
+            if tokenizer.name == preferred_name and tokenizer.counter(sample_text) is not None:
+                return tokenizer
+
+    return tokenizers[0]
 
 
 # ====================
@@ -381,11 +397,12 @@ def count_format(
     name: str,
     text: str,
     tokenizers: list[TokenizerSpec],
+    primary_name: str,
     primary_baseline: int | None,
 ) -> FormatResult:
     tokens = {tokenizer.name: tokenizer.counter(text) for tokenizer in tokenizers}
 
-    primary_tokens = tokens.get("tiktoken")
+    primary_tokens = tokens.get(primary_name)
     primary_ratio = ratio(primary_tokens, primary_baseline)
 
     return FormatResult(
@@ -397,8 +414,8 @@ def count_format(
     )
 
 
-def sort_key(row: FormatResult) -> tuple[int, int, int, str]:
-    primary = row.tokens.get("tiktoken")
+def sort_key(row: FormatResult, primary_name: str) -> tuple[int, int, int, str]:
+    primary = row.tokens.get(primary_name)
 
     if primary is None:
         return (1, 10**12, row.bytes_size, row.name)
@@ -476,13 +493,13 @@ def _csv_cell(value: object) -> str:
 # ====================
 
 
-def print_header(tokenizers: list[TokenizerSpec]) -> None:
+def print_header(tokenizers: list[TokenizerSpec], primary_name: str) -> None:
     tokenizer_columns = "".join(f" {tokenizer.name:>9}" for tokenizer in tokenizers)
 
     print("📊 SDIF BENCHMARK - Multi-Tokenizer")
     print("Semantic source: examples/golden/<document>/equivalent.json")
-    print("Primary ordering and ratio: tiktoken vs JSON Compact\n")
-    print(f"{'Document':<24} {'Format':<12}{tokenizer_columns} {'Bytes':>8} {'vs JSON/tik':>12}")
+    print(f"Primary ordering and ratio: {primary_name} vs JSON Compact\n")
+    print(f"{'Document':<24} {'Format':<12}{tokenizer_columns} {'Bytes':>8} {'vs JSON':>12}")
     print("=" * 112)
 
 
@@ -516,6 +533,7 @@ def print_summary(
     documents_count: int,
     results_by_document: dict[str, list[FormatResult]],
     tokenizers: list[TokenizerSpec],
+    primary_name: str,
 ) -> None:
     print("\n📈 Average ratio vs JSON Compact")
     print("=" * 112)
@@ -550,18 +568,18 @@ def print_summary(
                 f"coverage: {len(values)}/{documents_count}"
             )
 
-    print("\n🏁 Wins by tiktoken")
+    print(f"\n🏁 Wins by {primary_name}")
     print("=" * 112)
 
     wins: dict[str, int] = {}
 
     for rows in results_by_document.values():
-        comparable = [row for row in rows if row.tokens.get("tiktoken") is not None]
+        comparable = [row for row in rows if row.tokens.get(primary_name) is not None]
 
         if not comparable:
             continue
 
-        winner = sorted(comparable, key=sort_key)[0]
+        winner = sorted(comparable, key=lambda row: sort_key(row, primary_name))[0]
         wins[winner.name] = wins.get(winner.name, 0) + 1
 
     for format_name, count in sorted(wins.items(), key=lambda item: (-item[1], item[0])):
@@ -598,28 +616,31 @@ def main() -> None:
         raise SystemExit("No golden files found under examples/golden/*/equivalent.json")
 
     tokenizers = available_tokenizers()
+    sample_data = json.loads((golden_dir / documents[0] / "equivalent.json").read_text(encoding="utf-8"))
+    primary_tokenizer = select_primary_tokenizer(tokenizers, json_compact(sample_data))
     results_by_document: dict[str, list[FormatResult]] = {}
 
-    print_header(tokenizers)
+    print_header(tokenizers, primary_tokenizer.name)
 
     for document_name in documents:
         source = golden_dir / document_name / "equivalent.json"
         data: dict[str, Any] = json.loads(source.read_text(encoding="utf-8"))
 
         compact_json = json_compact(data)
-        primary_baseline = count_tiktoken(compact_json)
+        primary_baseline = primary_tokenizer.counter(compact_json)
 
         rows = [
             count_format(
                 name=format_name,
                 text=text,
                 tokenizers=tokenizers,
+                primary_name=primary_tokenizer.name,
                 primary_baseline=primary_baseline,
             )
             for format_name, text in build_formats(data)
         ]
 
-        rows.sort(key=sort_key)
+        rows.sort(key=lambda row: sort_key(row, primary_tokenizer.name))
         results_by_document[document_name] = rows
 
         print_document_rows(document_name, rows, tokenizers)
@@ -628,6 +649,7 @@ def main() -> None:
         documents_count=len(documents),
         results_by_document=results_by_document,
         tokenizers=tokenizers,
+        primary_name=primary_tokenizer.name,
     )
     print_footer(results_by_document)
 
