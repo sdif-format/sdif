@@ -118,3 +118,43 @@ def test_policy_remote_include(tmp_path):
     with pytest.raises(PolicyError) as excinfo:
         parse_file(f1, policy=policy)
     assert excinfo.value.code == "SDIF_POLICY_REMOTE_INCLUDE"
+
+
+def test_policy_alias_reserved():
+    # Reserved term as alias name
+    with pytest.raises(PolicyError) as excinfo:
+        parse_text("@sdif.ai 1.0\nalias[include=myval]\n")
+    assert excinfo.value.code == "SDIF_POLICY_ALIAS_RESERVED"
+
+    # Reserved term as canonical name
+    with pytest.raises(PolicyError) as excinfo:
+        parse_text("@sdif.ai 1.0\nalias[myval=include]\n")
+    assert excinfo.value.code == "SDIF_POLICY_ALIAS_RESERVED"
+
+
+def test_policy_alias_collision():
+    with pytest.raises(PolicyError) as excinfo:
+        parse_text("@sdif.ai 1.0\nalias[st=status,st=other]\n")
+    assert excinfo.value.code == "SDIF_POLICY_ALIAS_COLLISION"
+
+
+def test_policy_alias_expansion():
+    from sdif.ai.aliases import sdif_from_ai
+
+    # alias expansion limit set to 2
+    policy = Policy(max_alias_expansion=2)
+
+    ai_doc = (
+        "@sdif.ai 1.0\n"
+        "alias[st=status,pr=priority,lif=lifecycle]\n"
+        "st open\n"
+        "pr P0\n"
+        "lif Active\n"
+    )
+
+    # 3 expansions (st -> status, pr -> priority, lif -> lifecycle)
+    # This exceeds limit = 2
+    with pytest.raises(PolicyError) as excinfo:
+        sdif_from_ai(ai_doc, policy=policy)
+    assert excinfo.value.code == "SDIF_POLICY_ALIAS_EXPANSION"
+
