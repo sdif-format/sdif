@@ -10,7 +10,7 @@ rel:
 rules:
   require evidence when status done
 notes"""
-Use SDIF AI directly instead of JSON.
+Use SDIF AI directly for agent context.
 """
 ---
 (source_file

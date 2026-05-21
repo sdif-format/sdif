@@ -39,6 +39,22 @@ def test_tree_sitter_tooling_has_package_corpus_and_highlight_queries():
     assert "(table_header" in highlights
 
 
+def test_tree_sitter_scaffold_checker_passes():
+    import subprocess
+    import sys
+
+    run = subprocess.run(
+        [sys.executable, "scripts/check_tree_sitter_scaffold.py"],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+
+    assert run.returncode == 0, run.stderr
+    assert "tree-sitter-sdif scaffold OK" in run.stdout
+
+
 def test_tree_sitter_grammar_names_core_syntax_nodes_for_highlighting():
     grammar = Path("tree-sitter-sdif/grammar.js").read_text(encoding="utf-8")
 

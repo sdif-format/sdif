@@ -2,7 +2,7 @@
 
 ## Document status
 
-**Version:** 0.2.5-draft
+**Version:** 0.2.6-draft
 **Name:** Semantic Data Interchange Format
 **Short name:** SDIF
 **Recommended source extension:** `.sdif`
@@ -12,9 +12,9 @@
 **Encoding:** UTF-8
 **Design mode:** schema-first, semantic-first, token-aware, canonicalization-ready
 
-This document defines an initial public technical specification for SDIF, a compact semantic data interchange format designed for humans, machines, and AI agents.
+This document defines an initial public technical specification for SDIF, a compact semantic data interchange format designed for AI agents and deterministic machine workflows, with human-auditable source files.
 
-SDIF is not intended to universally replace JSON, YAML, TOML, CSV, Markdown, RDF, or other data formats. Its purpose is narrower: to represent structured, semantic, verifiable, and token-efficient documents in a way that remains readable by humans and deterministic for machines.
+SDIF is not intended to universally replace JSON, YAML, TOML, CSV, Markdown, RDF, or other data formats. Its purpose is narrower: to represent structured, semantic, verifiable, and token-efficient documents in a way that agents and tools can process directly while humans can audit the source when needed.
 
 ---
 
@@ -45,7 +45,7 @@ SDIF = structured data + compact tables + semantic relations + declarative rules
 
 SDIF should:
 
-1. Be readable by humans.
+1. Be directly useful to AI agents and deterministic machine workflows.
 2. Be efficient for AI models to process.
 3. Be deterministic to parse.
 4. Be validatable through schemas.
@@ -53,7 +53,7 @@ SDIF should:
 6. Support stable hashing and signing.
 7. Represent scalar data, objects, lists, tables, relations, rules, and narrative blocks.
 8. Avoid unnecessary repetition, especially in uniform arrays of objects.
-9. Support both human-authored source files and machine-normalized canonical files.
+9. Support auditable source files and machine-normalized canonical files.
 10. Remain implementation-friendly and portable.
 
 ---
@@ -130,9 +130,9 @@ Every valid SDIF document should be convertible into a unique canonical represen
 
 The canonical form removes comments, stylistic variation, non-essential whitespace, ambiguous ordering, and syntactic sugar.
 
-### 4.5 Human source, machine truth
+### 4.5 Auditable source, machine truth
 
-The `.sdif` profile is intended for human authorship. The `.sdif.canon` profile is intended for reproducible validation, hashing, signing, and machine comparison.
+The `.sdif` profile is intended for agent/tool authoring with human auditability. It is not optimized for casual copy-paste in environments that rewrite tabs. The `.sdif.canon` profile is intended for reproducible validation, hashing, signing, and machine comparison.
 
 ### 4.6 AI views are projections, not authority
 
@@ -191,7 +191,7 @@ Recommended extension:
 .sdif
 ```
 
-The source profile is optimized for human authorship.
+The source profile is optimized for compact agent/tool authoring with human auditability.
 
 It may include:
 
@@ -663,7 +663,7 @@ This section closes several design questions for the 0.1 MVP.
 
 ### 10.1 Table separator
 
-The MVP uses the horizontal tab character (`HTAB`, U+0009) as the table column separator.
+The MVP uses the horizontal tab character (`HTAB`, U+0009) as the table column separator. This is a deliberate tradeoff, not a universal human-ergonomics claim: SDIF-aware tooling must preserve literal tabs, and environments that silently rewrite tabs to spaces can corrupt table rows.
 
 ```sdif
 items[id,status,owner]:
@@ -2166,11 +2166,11 @@ Open decision: should order be significant by default, or should primary-key sor
 
 ## 31. Conclusion
 
-SDIF is a compact, schema-governed semantic data interchange format for humans, machines, and AI agents.
+SDIF is a compact, schema-governed semantic data interchange format for AI agents and deterministic machine workflows, with human-auditable source files.
 
 Its value is not that it is merely shorter than JSON or cleaner than YAML. Its value is the combination of four properties that rarely appear together:
 
-1. Human readability.
+1. Agent-first compactness with human auditability.
 2. Token efficiency.
 3. Explicit semantics.
 4. Strong validation and canonicalization.

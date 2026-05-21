@@ -1,12 +1,12 @@
 # SDIF — Semantic Data Interchange Format
 
-[![Status](https://img.shields.io/badge/status-0.2.5--draft-orange)](docs/spec.md)
+[![Status](https://img.shields.io/badge/status-0.2.6--draft-orange)](docs/spec.md)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-SDIF is a compact, semantic, canonicalizable data interchange format for humans, machines, and AI agents.
+SDIF is a compact, semantic, canonicalizable data interchange format for AI agents and deterministic machine workflows, with human-auditable source files.
 
-It targets documents that need more meaning and auditability than CSV, less ambiguity than YAML, more token efficiency than JSON, and deterministic bytes for hashing/signing.
+It targets documents that need more meaning and auditability than CSV, less ambiguity than YAML, more token efficiency than JSON in repeated records, and deterministic bytes for hashing/signing.
 
 ```text
 SDIF = structured data + compact tables + semantic relations + declarative rules + canonical form
@@ -23,7 +23,7 @@ JSON repeats field names in arrays:
 ]
 ```
 
-SDIF declares the shape once and uses literal tabs (`HTAB`) between table cells:
+SDIF declares the shape once and uses literal tabs (`HTAB`) between table cells. This is a deliberate agent/tooling tradeoff: it keeps table cells compact and unquoted, but editors must preserve tabs:
 
 ```sdif
 milestones[id,status,gate,evidence]:
