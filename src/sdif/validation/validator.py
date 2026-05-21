@@ -472,7 +472,7 @@ def _required_column(columns: list[str], name: str, table: str) -> int:
     try:
         return columns.index(name)
     except ValueError as exc:
-        raise ValueError(f"schema table `{table}` requires `{name}` column") from exc
+        raise SchemaError(f"schema table `{table}` requires `{name}` column") from exc
 
 
 def _optional_column(columns: list[str], name: str) -> int | None:

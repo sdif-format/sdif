@@ -131,3 +131,26 @@ def test_cli_validate_text_reports_parse_errors_without_traceback(tmp_path):
         "error: SDIF_TABLE_ARITY $parse: "
         "row has 1 cells but table declares 2 columns; use literal HTAB as the column separator\n"
     )
+
+
+def test_cli_validate_reports_malformed_schema_without_traceback(tmp_path):
+    schema = tmp_path / "schema.sdif"
+    schema.write_text(
+        "@sdif 0.1\nkind Schema\nfields[name,type]:\n  kind\tIdentifier\n",
+        encoding="utf-8",
+    )
+    doc = tmp_path / "doc.sdif"
+    doc.write_text("@sdif 0.1\nkind Plan\n", encoding="utf-8")
+
+    run = subprocess.run(
+        [sys.executable, "tools/sdif-cli.py", "validate", str(doc), "--schema", str(schema)],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+
+    assert run.returncode != 0
+    assert "Traceback" not in run.stderr
+    assert "invalid --schema" in run.stderr
+    assert "schema table `fields` requires `required` column" in run.stderr

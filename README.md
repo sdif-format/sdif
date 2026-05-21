@@ -65,6 +65,10 @@ sdif from-json document.json
 sdif ai examples/plan.sdif --alias kind=k --alias status=st
 ```
 
+`sdif tokens` reports byte size, tokenizer identity, and token count. It uses
+`tiktoken/cl100k_base` when `tiktoken` is installed and otherwise falls back to
+a deterministic 4-bytes-per-token estimate.
+
 You can also run the development CLI script:
 
 ```bash

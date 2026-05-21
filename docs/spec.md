@@ -2213,6 +2213,11 @@ sdif from-json document.json
 sdif ai examples/plan.sdif --alias kind=k --alias status=st
 ```
 
+`sdif tokens` emits `bytes=<n> tokenizer=<name> tokens=<n>`. The MVP CLI uses
+`tiktoken/cl100k_base` when the optional `tiktoken` dependency is available and
+falls back to `estimate/4bytes` otherwise. The benchmark script remains the
+authoritative multi-format comparison surface.
+
 ### AST model
 
 The MVP AST is intentionally small and source-independent:
@@ -2250,6 +2255,10 @@ The MVP validator can load an SDIF schema document and emit either text output o
 sdif validate examples/plan.sdif --schema examples/schema.sdif
 sdif validate examples/plan.sdif --schema examples/schema.sdif --json
 ```
+
+The `--schema` argument must parse as an SDIF document with `kind Schema`.
+Malformed schema tables fail before validation with an `invalid --schema`
+message instead of a Python traceback.
 
 Structured diagnostics use this shape:
 
