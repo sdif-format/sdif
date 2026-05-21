@@ -1,4 +1,4 @@
-.PHONY: install test lint format typecheck benchmark clean
+.PHONY: install test test-cov lint format typecheck benchmark clean
 
 # Detect if uv is installed
 UV := $(shell command -v uv 2> /dev/null)
@@ -16,6 +16,9 @@ install:
 
 test:
 	$(RUN_PREFIX) pytest
+
+test-cov:
+	$(RUN_PREFIX) pytest --cov=sdif --cov-report=term-missing
 
 lint:
 	$(RUN_PREFIX) ruff check .
