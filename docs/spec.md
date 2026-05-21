@@ -2,7 +2,7 @@
 
 ## Document status
 
-**Version:** 0.2.3-draft
+**Version:** 0.2.4-draft
 **Name:** Semantic Data Interchange Format
 **Short name:** SDIF
 **Recommended source extension:** `.sdif`
@@ -754,17 +754,16 @@ A table cell must only escape a literal tab, a line break, or a reserved control
 
 ### 10.4 Normative parser before editor tooling
 
-A Tree-sitter grammar is valuable for editor support, syntax highlighting, and incremental parsing, but it should not be the normative parser for the initial specification.
+A Tree-sitter grammar is valuable for editor support, syntax highlighting, and incremental parsing, but it is not the normative parser for the initial specification. The normative parser remains the Python package under `src/sdif/`.
 
-The MVP should define first:
+The repository now keeps `tree-sitter-sdif/` as an MVP tooling package with:
 
-1. Normative lexer.
-2. Normative parser.
-3. Normative AST.
-4. Canonical serializer.
-5. Round-trip fixtures.
+1. `grammar.js` for core SDIF syntax nodes.
+2. `corpus/core.txt` for a representative agent-facing SDIF document.
+3. `queries/highlights.scm` for editor syntax highlighting.
+4. `package.json` scripts for `tree-sitter generate` and `tree-sitter test` when the Tree-sitter CLI is installed.
 
-Tree-sitter support may follow and should be validated against the official fixtures.
+Tree-sitter support must stay aligned with the official fixtures and must not require agents to use JSON as their working interchange surface.
 
 ### 10.5 Canonicalizer from the first implementation slice
 
@@ -1989,10 +1988,11 @@ Schema-valid fixtures pass and schema-invalid fixtures fail with structured diag
 
 Deliverables:
 
-1. Tree-sitter grammar.
-2. Syntax highlighting.
-3. Optional minimal language server.
-4. Fixture alignment with the normative parser.
+1. Tree-sitter grammar package.
+2. Syntax highlighting queries.
+3. Corpus fixtures aligned with representative SDIF documents.
+4. Optional minimal language server.
+5. Fixture alignment with the normative parser.
 
 Closure criterion:
 

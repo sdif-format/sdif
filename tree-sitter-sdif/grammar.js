@@ -1,5 +1,5 @@
-// MVP Tree-sitter grammar scaffold for SDIF syntax highlighting.
-// The normative parser is the Python parser under src/sdif/parser.
+// MVP Tree-sitter grammar for SDIF editor tooling and incremental parsing.
+// The normative parser is the Python package under src/sdif/.
 module.exports = grammar({
   name: 'sdif',
 
@@ -19,8 +19,8 @@ module.exports = grammar({
       $.comment
     ),
 
-    directive: $ => seq('@', $.identifier, repeat1($.atom)),
-    field: $ => seq($.identifier, repeat1($.atom)),
+    directive: $ => seq('@', $.identifier, repeat1($._value)),
+    field: $ => seq($.identifier, repeat1($._value)),
     block_header: $ => seq($.identifier, ':'),
     table: $ => seq($.table_header, repeat($.table_row)),
     table_header: $ => seq($.identifier, '[', commaSep1($.identifier), ']', ':'),
@@ -33,7 +33,9 @@ module.exports = grammar({
     narrative_text: _ => token(/[^"]+/),
     comment: _ => token(seq('#', /.*/)),
     identifier: _ => /[A-Za-z_][A-Za-z0-9_-]*/,
-    atom: _ => /[^\s#]+/,
+    _value: $ => choice($.string, $.atom),
+    string: _ => token(seq('"', repeat(choice(/[^"\\]/, /\\./)), '"')),
+    atom: _ => /[^\s#"]+/,
   }
 });
 

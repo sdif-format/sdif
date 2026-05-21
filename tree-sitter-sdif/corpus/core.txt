@@ -1,0 +1,24 @@
+==================
+Core agent-facing document
+==================
+@sdif 0.1
+title "Agent friendly plan"
+milestones[id,status,gate]:
+  R1	done	validate-syntax
+rel:
+  R1 blocks R2
+rules:
+  require evidence when status done
+notes"""
+Use SDIF AI directly instead of JSON.
+"""
+---
+(source_file
+  (directive (identifier) (atom))
+  (field (identifier) (string))
+  (table
+    (table_header (identifier) (identifier) (identifier) (identifier))
+    (table_row))
+  (relation_block (relation_row))
+  (rules_block (rule_row))
+  (narrative_block (identifier) (narrative_text)))

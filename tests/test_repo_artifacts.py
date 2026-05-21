@@ -1,3 +1,4 @@
+import json
 import re
 import tomllib
 from pathlib import Path
@@ -19,6 +20,21 @@ def test_spec_version_matches_package_version():
 
     assert match is not None
     assert match.group(1) == pyproject["project"]["version"]
+
+    tree_sitter_package = json.loads(Path("tree-sitter-sdif/package.json").read_text(encoding="utf-8"))
+    assert tree_sitter_package["version"] == pyproject["project"]["version"]
+
+
+def test_tree_sitter_tooling_has_package_corpus_and_highlight_queries():
+    package = Path("tree-sitter-sdif/package.json").read_text(encoding="utf-8")
+    corpus = Path("tree-sitter-sdif/corpus/core.txt").read_text(encoding="utf-8")
+    highlights = Path("tree-sitter-sdif/queries/highlights.scm").read_text(encoding="utf-8")
+
+    assert '"name": "tree-sitter-sdif"' in package
+    assert "@sdif 0.1" in corpus
+    assert "milestones[id,status,gate]:" in corpus
+    assert "(directive" in highlights
+    assert "(table_header" in highlights
 
 
 def test_tree_sitter_grammar_names_core_syntax_nodes_for_highlighting():

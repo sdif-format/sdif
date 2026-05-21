@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sdif"
-version = "0.2.3"
+version = "0.2.4"
 description = "Semantic Data Interchange Format - Formato semántico compacto, canonicalizable y eficiente en tokens"
 readme = "README.md"
 license = { text = "MIT" }

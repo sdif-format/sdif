@@ -1,0 +1,29 @@
+{
+  "name": "tree-sitter-sdif",
+  "version": "0.2.4",
+  "description": "Tree-sitter grammar for SDIF editor tooling and incremental syntax support.",
+  "main": "grammar.js",
+  "license": "MIT",
+  "keywords": [
+    "tree-sitter",
+    "sdif",
+    "semantic-data",
+    "syntax"
+  ],
+  "scripts": {
+    "generate": "tree-sitter generate",
+    "test": "tree-sitter test"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.22.6"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.sdif",
+      "file-types": [
+        "sdif"
+      ],
+      "highlights": "queries/highlights.scm"
+    }
+  ]
+}
