@@ -110,6 +110,9 @@ separately from canonical SDIF. The benchmark keeps that projection compact by
 choosing the smaller of a headerless context-window view and an explicit
 alias-header view. The benchmark always includes an `Estimate` token column
 using a deterministic 4-UTF-8-bytes-per-token fallback, while `tiktoken` remains
-the preferred primary metric when installed. The CSV output is named `CSV
-Bundle` because nested SDIF documents cannot be represented honestly as a single
-flat CSV table.
+the preferred primary metric when installed. External tokenizers such as Llama3
+and Claude are strictly opt-in via environment variables to avoid unnecessary network
+access or heavy dependencies. The benchmark writes a summary report in SDIF format under
+`benchmarks/latest/benchmark-summary.sdif` (which is ignored by version control). The CSV
+output is named `CSV Bundle` because nested SDIF documents cannot be represented honestly
+as a single flat CSV table.

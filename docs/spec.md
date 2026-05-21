@@ -494,6 +494,28 @@ The document should remain auditable and reproducible.
 
 Narrative blocks are useful for intent, rationale, notes, acceptance criteria, and other bounded human context.
 
+#### 7.9.1 Nested Narratives
+
+Narrative blocks may be nested within object blocks. A nested narrative block closes with the triple-quote delimiter `"""` aligned at the exact same indentation level where it opened. Body lines within the narrative block are normalized by removing the indentation prefix corresponding to the opening line's indentation level.
+
+Example:
+
+```sdif
+owner:
+  id team.platform
+  notes """
+  This note belongs to owner.
+  It is nested, but canonicalizable.
+  """
+```
+
+In the example above, the indentation level is 2 spaces. The closing delimiter `"""` is aligned at 2 spaces. During parsing, up to 2 spaces of indentation prefix are stripped from each body line of the narrative, yielding the semantic content:
+
+```text
+This note belongs to owner.
+It is nested, but canonicalizable.
+```
+
 ### 7.10 Comments
 
 Comments begin with `#`.
@@ -1580,6 +1602,35 @@ Possible JSON:
 }
 ```
 
+### 16.6 Heterogeneous lists
+
+To represent heterogeneous or nested lists in JSON without expanding the core SDIF source grammar with list-of-block syntax, SDIF uses a reserved repeated `__item` object block convention. A scalar value inside a nested list is wrapped in a field named `__value`.
+
+This mapping is a technical projection for JSON interoperability and is not the preferred syntax for human-authored SDIF documents.
+
+SDIF:
+
+```sdif
+list:
+  __item:
+    __value item1
+  __item:
+    key value
+```
+
+JSON:
+
+```json
+{
+  "list": [
+    "item1",
+    {
+      "key": "value"
+    }
+  ]
+}
+```
+
 ---
 
 ## 17. Comparison with other formats
@@ -2054,7 +2105,7 @@ Editor parse trees align with shared SDIF conformance fixtures for the MVP gramm
 
 ### 28.1 Format version
 
-The `@sdif` directive declares the format version.
+The `@sdif` directive declares the format version. This format version (e.g. `@sdif 0.1`) represents the syntax and semantic contract of the format, and is versioned independently of any specific parser, tool, or library package implementation version (e.g., Python package version `0.2.9`).
 
 ```sdif
 @sdif 0.1

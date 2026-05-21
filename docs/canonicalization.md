@@ -27,7 +27,12 @@ The MVP canonicalizer currently:
 9. Sorts relations by `(subject, predicate, object)`.
 10. Sorts rules by source expression.
 11. Sorts schema-declared unordered table rows by `primary_key` when a schema is provided.
-12. Computes SHA-256 over the canonical UTF-8 bytes.
+12. Normalizes nested narrative indentation by stripping the opening line's indentation prefix from body lines.
+13. Computes SHA-256 over the canonical UTF-8 bytes.
+
+## Format Version Contract
+
+The `@sdif 0.1` format version header represents the syntax and semantic contract of the format. This contract is independent of the library implementation version (e.g. Python package version `0.2.9`).
 
 ## Schema-aware policies
 
