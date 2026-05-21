@@ -1,5 +1,4 @@
 @sdif 0.1
-@profile source
 kind EvidenceReport
 id validation.report.v2
 schema example.evidence_report.v1
@@ -9,18 +8,15 @@ subject release.v2.validation_plan
 verified_at 2026-05-20T18:15:00Z
 verifier validator.core
 result pass
-
 checks[id,result,message]:
   syntax	pass	source document parsed successfully
   canonical	pass	canonical output is stable
   schema	pass	required fields are present
   relations	pass	no dangling relations found
   evidence	pass	required evidence references are present
-
 artifacts[id,path,sha256]:
-  summary	reports/validation-summary.md	sha256:TODO
-  details	reports/validation-details.sdif	sha256:TODO
-
+  summary	reports/validation-summary.md	TODO
+  details	reports/validation-details.sdif	TODO
 rel:
   validation.report.v2 validates release.v2.validation_plan
   validation.report.v2 emits reports/validation-summary.md

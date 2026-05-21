@@ -50,7 +50,7 @@ def _canonical_others(statements: list[object], schema: Schema | None) -> list[o
 def _emit_statement(statement: object, lines: list[str], indent: int, schema: Schema | None) -> None:
     prefix = " " * indent
     if isinstance(statement, Field):
-        lines.append(f"{prefix}{statement.key} {_quote_if_needed(statement.value)}")
+        lines.append(f"{prefix}{statement.key} {_quote_if_needed(statement.value, force=getattr(statement, 'quoted', False))}")
     elif isinstance(statement, ObjectBlock):
         lines.append(f"{prefix}{statement.key}:")
         for child in _canonical_statement_order(statement.statements, schema):
@@ -62,7 +62,7 @@ def _emit_statement(statement: object, lines: list[str], indent: int, schema: Sc
     elif isinstance(statement, Relation):
         if not _inside_current_block(lines, f"{prefix}rel:"):
             lines.append(f"{prefix}rel:")
-        relation_object = _quote_if_needed(statement.object)
+        relation_object = _quote_if_needed(statement.object, force=getattr(statement, 'object_quoted', False))
         lines.append(f"{' ' * (indent + 2)}{statement.subject} {statement.predicate} {relation_object}")
     elif isinstance(statement, Rule):
         if not _inside_current_block(lines, f"{prefix}rules:"):
@@ -76,7 +76,10 @@ def _emit_statement(statement: object, lines: list[str], indent: int, schema: Sc
         raise TypeError(f"unsupported statement: {statement!r}")
 
 
-def _quote_if_needed(value: str) -> str:
+def _quote_if_needed(value: str, *, force: bool = False) -> str:
+    if force:
+        escaped = value.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
+        return f'"{escaped}"'
     if value in {"null", "true", "false"}:
         return value
     safe = all(ch.isalnum() or ch in "_-./:[] ," for ch in value)

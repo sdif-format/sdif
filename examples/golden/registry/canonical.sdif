@@ -1,5 +1,4 @@
 @sdif 0.1
-@profile source
 kind Registry
 id example.registry
 schema example.semantic_registry.v1

@@ -5,7 +5,6 @@ schema sdif.schema.v1
 authority Canonical
 lifecycle Active
 for_kind Plan
-
 fields[name,type,required,default]:
   kind	Identifier	true	null
   id	Identifier	true	null
@@ -15,11 +14,9 @@ fields[name,type,required,default]:
   title	String	true	null
   status	Enum(open,closed,blocked)	true	open
   priority	Enum(P0,P1,P2,P3)	false	P2
-
 tables[name,ordered,primary_key]:
   milestones	false	id
   scope	true	null
-
 columns[table,name,type,required]:
   milestones	id	Identifier	true
   milestones	status	Enum(done,pending,blocked)	true
@@ -27,13 +24,11 @@ columns[table,name,type,required]:
   milestones	evidence	Path	false
   scope	in	String	true
   scope	out	String	true
-
 relations[predicate,subject_type,object_type,required]:
   depends_on	Identifier	Identifier	false
   validated_by	Identifier	Identifier	false
   governed_by	Identifier	Identifier	false
   emits	Identifier	Path	false
-
 rule_functions[name,min_args,max_args]:
   deny	1	1
   warn	1	1
