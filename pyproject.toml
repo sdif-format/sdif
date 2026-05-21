@@ -57,6 +57,7 @@ line-length = 100
 
 [dependency-groups]
 dev = [
+    "huggingface-hub>=1.15.0",
     "pyyaml>=6.0.3",
     "sentencepiece>=0.2.1",
     "tiktoken>=0.13.0",

@@ -1079,6 +1079,7 @@ dev = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "huggingface-hub" },
     { name = "pyyaml" },
     { name = "sentencepiece" },
     { name = "tiktoken" },
@@ -1101,6 +1102,7 @@ provides-extras = ["dev", "bench"]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "huggingface-hub", specifier = ">=1.15.0" },
     { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "sentencepiece", specifier = ">=0.2.1" },
     { name = "tiktoken", specifier = ">=0.13.0" },

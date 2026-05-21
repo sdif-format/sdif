@@ -28,3 +28,4 @@ htmlcov/
 *.sdif.canon
 
 .claude
+.env
