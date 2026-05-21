@@ -1,4 +1,4 @@
-# JSON vs YAML vs TOON vs SDIF
+# JSON vs YAML vs TOON vs XML vs CSV vs SDIF
 
 ## Summary
 
@@ -7,6 +7,8 @@
 | JSON | Universal API interchange and simple data model | Verbose repeated keys; comments absent; canonicalization is external policy | SDIF keeps JSON-like structure but reduces repetition and adds semantic blocks |
 | YAML | Human-friendly configuration | Large grammar, implicit typing surprises, many equivalent spellings | SDIF intentionally narrows syntax for deterministic parsing and canonicalization |
 | TOON | Token-efficient object/table notation for LLM contexts | Primarily optimized for compact transfer, not semantic validation or canonical hashes | SDIF adopts table compactness but adds relations, rules, profiles, schemas, canonical bytes |
+| XML | Mature document markup, namespaces, schemas, mixed content | Very tag-heavy for repeated machine data; noisy for LLM context windows | SDIF keeps explicit structure while avoiding repeated open/close tags for table-like data |
+| CSV/TSV | Extremely compact for a single flat table | Cannot represent nested objects, metadata, relations, or rule blocks without an external bundle convention | SDIF preserves CSV-like row density but embeds table meaning, fields, relations, and rules in one document |
 | SDIF | Semantic density, tabular compaction, relationships, declarative rules, canonicalization | New ecosystem; narrower MVP; requires SDIF-aware tooling | Best fit for auditable semantic documents and AI-agent exchange |
 
 ## Repeated records
@@ -39,6 +41,33 @@ TOON compacts repeated object keys by declaring a tabular shape for LLM transfer
   R2,pending,schema
 ```
 
+XML is explicit but repeats tags around every value:
+
+```xml
+<milestones>
+  <item>
+    <id>R1</id>
+    <status>done</status>
+    <gate>syntax</gate>
+  </item>
+  <item>
+    <id>R2</id>
+    <status>pending</status>
+    <gate>schema</gate>
+  </item>
+</milestones>
+```
+
+CSV is compact for this one table, but needs external context to say what table
+it belongs to and cannot carry document metadata, relationships, and rules in
+the same flat file without a bundle convention:
+
+```csv
+id,status,gate
+R1,done,syntax
+R2,pending,schema
+```
+
 SDIF uses a table shape once, then literal `HTAB` separated cells, and the same document can also include relations, rules, schemas, and canonical hashes:
 
 ```sdif
@@ -68,4 +97,12 @@ SDIF treats canonicalization as core behavior rather than an afterthought:
 
 ## When not to use SDIF
 
-Use JSON for public APIs that already require JSON. Use YAML/TOML for simple local configuration where canonical hashes, semantic relations, and compact repeated records do not matter. Use CSV/TSV for plain flat tables.
+Use JSON for public APIs that already require JSON. Use YAML/TOML for simple local configuration where canonical hashes, semantic relations, and compact repeated records do not matter. Use XML when existing document-markup tooling, namespaces, or mixed-content workflows dominate. Use CSV/TSV for plain flat tables.
+
+## Benchmark coverage
+
+`benchmarks/token_comparison.py` derives every compared representation from the
+same canonical JSON fixture and currently includes JSON compact, JSON pretty,
+YAML, XML, a practical CSV bundle, SDIF, and TOON when the official TOON CLI is
+available. The CSV output is named `CSV Bundle` because nested SDIF documents
+cannot be represented honestly as a single flat CSV table.

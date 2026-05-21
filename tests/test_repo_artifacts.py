@@ -1,3 +1,5 @@
+import re
+import tomllib
 from pathlib import Path
 
 
@@ -8,6 +10,15 @@ def test_ci_tree_sitter_and_docs_artifacts_exist():
     assert "Minimum normative AST" in docs
     assert "Canonicalization" in docs
     assert "CLI" in docs
+
+
+def test_spec_version_matches_package_version():
+    pyproject = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
+    spec = Path("docs/spec.md").read_text(encoding="utf-8")
+    match = re.search(r"^\*\*Version:\*\*\s+([0-9]+\.[0-9]+\.[0-9]+)-draft$", spec, re.MULTILINE)
+
+    assert match is not None
+    assert match.group(1) == pyproject["project"]["version"]
 
 
 def test_tree_sitter_grammar_names_core_syntax_nodes_for_highlighting():
@@ -26,7 +37,12 @@ def test_tree_sitter_grammar_names_core_syntax_nodes_for_highlighting():
 
 
 def test_normative_docs_table_examples_use_literal_htab_rows():
-    for path in (Path("docs/spec.md"), Path("docs/sdif_v0.1.md"), Path("README.md"), Path("docs/comparison.md")):
+    for path in (
+        Path("docs/spec.md"),
+        Path("docs/sdif_v0.1.md"),
+        Path("README.md"),
+        Path("docs/comparison.md"),
+    ):
         _assert_sdif_table_rows_use_htab(path)
 
 

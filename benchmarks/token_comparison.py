@@ -6,6 +6,8 @@ The benchmark derives all compared formats from the same canonical JSON source:
 - JSON Compact
 - JSON Pretty
 - YAML
+- XML
+- CSV Bundle
 - SDIF
 - TOON, when the official CLI is available
 
@@ -43,21 +45,27 @@ Environment variables:
 
 from __future__ import annotations
 
+import csv
 import functools
+import io
 import json
 import os
+import re
 import shutil
 import subprocess
+import sys
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
+from xml.sax.saxutils import escape as xml_escape
 
 import yaml
 
-from sdif.json import json_data_to_sdif
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT / "src"))
+
+from sdif.json import json_data_to_sdif  # noqa: E402
 
 
 # ====================
@@ -108,6 +116,7 @@ class TokenizerSpec:
 # Format generators
 # ====================
 
+
 def json_compact(data: dict[str, Any]) -> str:
     return json.dumps(data, ensure_ascii=False, separators=(",", ":"))
 
@@ -118,6 +127,42 @@ def json_pretty(data: dict[str, Any]) -> str:
 
 def yaml_generated(data: dict[str, Any]) -> str:
     return yaml.safe_dump(data, sort_keys=False, allow_unicode=True)
+
+
+def xml_generated(data: dict[str, Any]) -> str:
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>']
+    _emit_xml_value("document", data, lines, indent=0)
+    return "\n".join(lines) + "\n"
+
+
+def csv_bundle_generated(data: dict[str, Any]) -> str:
+    """Render a deterministic CSV bundle from the canonical JSON source.
+
+    CSV alone is a flat-table format, so nested/list values are encoded as
+    compact JSON cells and repeated top-level object arrays get their own CSV
+    section. This keeps the comparison honest: it measures a practical CSV
+    interchange bundle rather than pretending one CSV table can represent the
+    whole semantic document.
+    """
+
+    sections: list[str] = []
+    scalar_rows: list[tuple[str, object]] = []
+
+    for key, value in data.items():
+        if _is_uniform_object_array(value):
+            sections.append(_csv_section(key, value))  # type: ignore[arg-type]
+        else:
+            scalar_rows.append((key, value))
+
+    if scalar_rows:
+        output = io.StringIO()
+        writer = csv.writer(output, lineterminator="\n")
+        writer.writerow(["key", "value"])
+        for key, value in scalar_rows:
+            writer.writerow([key, _csv_cell(value)])
+        sections.insert(0, "# fields\n" + output.getvalue().rstrip("\n"))
+
+    return "\n\n".join(sections).rstrip() + "\n"
 
 
 def run_command(command: list[str], output: Path, timeout_seconds: int = 30) -> str | None:
@@ -186,6 +231,7 @@ def toon_from_cli(data: dict[str, Any]) -> str | None:
 # ====================
 # Token counters
 # ====================
+
 
 @functools.lru_cache(maxsize=1)
 def get_tiktoken_encoder() -> Any:
@@ -290,6 +336,7 @@ def available_tokenizers() -> list[TokenizerSpec]:
 # Benchmark helpers
 # ====================
 
+
 def verbose_warning(message: str) -> None:
     if os.environ.get("SDIF_BENCHMARK_VERBOSE") == "1":
         print(f"⚠️  {message}")
@@ -318,6 +365,8 @@ def build_formats(data: dict[str, Any]) -> list[tuple[str, str]]:
         ("JSON Compact", json_compact(data)),
         ("JSON Pretty", json_pretty(data)),
         ("YAML", yaml_generated(data)),
+        ("XML", xml_generated(data)),
+        ("CSV Bundle", csv_bundle_generated(data)),
         ("SDIF", json_data_to_sdif(data, include_header=True)),
     ]
 
@@ -334,10 +383,7 @@ def count_format(
     tokenizers: list[TokenizerSpec],
     primary_baseline: int | None,
 ) -> FormatResult:
-    tokens = {
-        tokenizer.name: tokenizer.counter(text)
-        for tokenizer in tokenizers
-    }
+    tokens = {tokenizer.name: tokenizer.counter(text) for tokenizer in tokenizers}
 
     primary_tokens = tokens.get("tiktoken")
     primary_ratio = ratio(primary_tokens, primary_baseline)
@@ -361,15 +407,74 @@ def sort_key(row: FormatResult) -> tuple[int, int, int, str]:
 
 
 def discover_documents(golden_dir: Path) -> list[str]:
-    return [
-        path.parent.name
-        for path in sorted(golden_dir.glob("*/equivalent.json"))
-    ]
+    return [path.parent.name for path in sorted(golden_dir.glob("*/equivalent.json"))]
+
+
+def _emit_xml_value(name: str, value: object, lines: list[str], indent: int) -> None:
+    prefix = " " * indent
+    tag = _xml_tag(name)
+    if isinstance(value, dict):
+        lines.append(f"{prefix}<{tag}>")
+        for key, child in value.items():
+            _emit_xml_value(str(key), child, lines, indent + 2)
+        lines.append(f"{prefix}</{tag}>")
+    elif isinstance(value, list):
+        lines.append(f"{prefix}<{tag}>")
+        for item in value:
+            _emit_xml_value("item", item, lines, indent + 2)
+        lines.append(f"{prefix}</{tag}>")
+    else:
+        lines.append(f"{prefix}<{tag}>{xml_escape(_scalar_text(value))}</{tag}>")
+
+
+def _xml_tag(name: str) -> str:
+    if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_.-]*", name):
+        return name
+    return "item"
+
+
+def _scalar_text(value: object) -> str:
+    if value is None:
+        return "null"
+    if value is True:
+        return "true"
+    if value is False:
+        return "false"
+    return str(value)
+
+
+def _is_uniform_object_array(value: object) -> bool:
+    if not isinstance(value, list) or not value:
+        return False
+    if not all(isinstance(item, dict) for item in value):
+        return False
+    columns = list(value[0].keys())
+    if not columns:
+        return False
+    expected = set(columns)
+    return all(set(item.keys()) == expected for item in value)
+
+
+def _csv_section(name: str, rows: list[dict[str, object]]) -> str:
+    output = io.StringIO()
+    writer = csv.writer(output, lineterminator="\n")
+    columns = list(rows[0].keys())
+    writer.writerow(columns)
+    for row in rows:
+        writer.writerow([_csv_cell(row[column]) for column in columns])
+    return f"# table:{name}\n{output.getvalue().rstrip(chr(10))}"
+
+
+def _csv_cell(value: object) -> str:
+    if isinstance(value, str | int | float) or value is None or isinstance(value, bool):
+        return _scalar_text(value)
+    return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
 
 
 # ====================
 # Rendering
 # ====================
+
 
 def print_header(tokenizers: list[TokenizerSpec]) -> None:
     tokenizer_columns = "".join(f" {tokenizer.name:>9}" for tokenizer in tokenizers)
@@ -377,13 +482,7 @@ def print_header(tokenizers: list[TokenizerSpec]) -> None:
     print("📊 SDIF BENCHMARK - Multi-Tokenizer")
     print("Semantic source: examples/golden/<document>/equivalent.json")
     print("Primary ordering and ratio: tiktoken vs JSON Compact\n")
-    print(
-        f"{'Document':<24} "
-        f"{'Format':<12}"
-        f"{tokenizer_columns}"
-        f" {'Bytes':>8}"
-        f" {'vs JSON/tik':>12}"
-    )
+    print(f"{'Document':<24} {'Format':<12}{tokenizer_columns} {'Bytes':>8} {'vs JSON/tik':>12}")
     print("=" * 112)
 
 
@@ -397,8 +496,7 @@ def print_document_rows(
     for row in rows:
         prefix = document_name if first else ""
         token_columns = "".join(
-            f" {format_count(row.tokens.get(tokenizer.name)):>9}"
-            for tokenizer in tokenizers
+            f" {format_count(row.tokens.get(tokenizer.name)):>9}" for tokenizer in tokenizers
         )
 
         print(
@@ -458,11 +556,7 @@ def print_summary(
     wins: dict[str, int] = {}
 
     for rows in results_by_document.values():
-        comparable = [
-            row
-            for row in rows
-            if row.tokens.get("tiktoken") is not None
-        ]
+        comparable = [row for row in rows if row.tokens.get("tiktoken") is not None]
 
         if not comparable:
             continue
@@ -477,11 +571,7 @@ def print_summary(
 def print_footer(results_by_document: dict[str, list[FormatResult]]) -> None:
     print("\n✅ Benchmark completed by deriving all formats from canonical JSON.")
 
-    all_formats = {
-        row.name
-        for rows in results_by_document.values()
-        for row in rows
-    }
+    all_formats = {row.name for rows in results_by_document.values() for row in rows}
 
     if os.environ.get("SDIF_BENCHMARK_TOON") == "0":
         print("ℹ️  TOON skipped: SDIF_BENCHMARK_TOON=0.")
@@ -498,6 +588,7 @@ def print_footer(results_by_document: dict[str, list[FormatResult]]) -> None:
 # ====================
 # Main
 # ====================
+
 
 def main() -> None:
     golden_dir = REPO_ROOT / "examples/golden"

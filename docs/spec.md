@@ -2,7 +2,7 @@
 
 ## Document status
 
-**Version:** 0.1-draft
+**Version:** 0.2.0-draft
 **Name:** Semantic Data Interchange Format
 **Short name:** SDIF
 **Recommended source extension:** `.sdif`
@@ -2217,6 +2217,12 @@ sdif ai examples/plan.sdif --alias kind=k --alias status=st
 `tiktoken/cl100k_base` when the optional `tiktoken` dependency is available and
 falls back to `estimate/4bytes` otherwise. The benchmark script remains the
 authoritative multi-format comparison surface.
+
+The repository benchmark derives JSON compact, JSON pretty, YAML, XML, CSV
+Bundle, SDIF, and optionally TOON from the same canonical JSON fixture source.
+`CSV Bundle` is intentionally named as a bundle because a full semantic SDIF
+document may contain metadata, nested values, relations, and rules that cannot
+fit in a single honest flat CSV table.
 
 ### AST model
 
