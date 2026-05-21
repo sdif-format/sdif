@@ -10,6 +10,21 @@ def test_ci_tree_sitter_and_docs_artifacts_exist():
     assert "CLI" in docs
 
 
+def test_tree_sitter_grammar_names_core_syntax_nodes_for_highlighting():
+    grammar = Path("tree-sitter-sdif/grammar.js").read_text(encoding="utf-8")
+
+    for node in (
+        "table_header",
+        "table_row",
+        "relation_block",
+        "relation_row",
+        "rules_block",
+        "rule_row",
+        "narrative_block",
+    ):
+        assert f"{node}:" in grammar
+
+
 def test_normative_docs_table_examples_use_literal_htab_rows():
     for path in (Path("docs/spec.md"), Path("docs/sdif_v0.1.md"), Path("README.md"), Path("docs/comparison.md")):
         _assert_sdif_table_rows_use_htab(path)
