@@ -225,7 +225,7 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         if args.command == "from-ai":
             doc = parse_file(args.path, policy=policy)
-            sys.stdout.write(sdif_from_ai(doc))
+            sys.stdout.write(sdif_from_ai(doc, policy=policy))
             return 0
         if args.command == "validate":
             schema = _load_schema(args.schema, policy=policy)
@@ -297,7 +297,7 @@ def main(argv: list[str] | None = None) -> int:
                 doc = parse_file(args.path, policy=policy)
                 is_ai_projection = any(directive.name == "sdif.ai" for directive in doc.directives)
                 canonical_text = (
-                    sdif_from_ai(doc) if is_ai_projection else canonicalize(doc, schema=schema)
+                    sdif_from_ai(doc, policy=policy) if is_ai_projection else canonicalize(doc, schema=schema)
                 )
             except ParseError as exc:
                 sys.stderr.write(f"Format error: parse failed: {exc}\n")

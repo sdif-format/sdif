@@ -33,7 +33,7 @@ def ai_view(source: str | Document, aliases: dict[str, str], *, include_header: 
     return "\n".join(lines).rstrip() + "\n"
 
 
-def sdif_from_ai(source: str | Document) -> str:
+def sdif_from_ai(source: str | Document, *, policy: Policy | None = None) -> str:
     """Convert a `.sdif.ai` projection back to canonical source SDIF.
 
     The reverse contract is canonical/semantic, not byte-for-byte source
@@ -42,12 +42,18 @@ def sdif_from_ai(source: str | Document) -> str:
     must be proven by comparing canonical hashes of the original source and
     this restored source.
     """
+    from sdif.core.policy import Policy
+    pol = policy or Policy()
 
-    doc = parse_text(source) if isinstance(source, str) else source
+    doc = parse_text(source, policy=pol) if isinstance(source, str) else source
     aliases = _alias_to_canonical(doc)
     directives = _source_directives(doc)
+
+    expansion_count = [0]
+    limit = pol.max_alias_expansion
+
     statements: list[Statement] = [
-        _expand_statement(statement, aliases) for statement in doc.statements
+        _expand_statement(statement, aliases, expansion_count, limit) for statement in doc.statements
     ]
     return canonicalize(Document(directives=directives, statements=statements))
 
@@ -56,17 +62,51 @@ def _name(name: str, inverse: dict[str, str]) -> str:
     return inverse.get(name, name)
 
 
-def _expanded_name(name: str, aliases: dict[str, str]) -> str:
-    return aliases.get(name, name)
+def _expanded_name(
+    name: str,
+    aliases: dict[str, str],
+    expansion_count: list[int] | None = None,
+    limit: int = 0,
+) -> str:
+    if name in aliases:
+        if expansion_count is not None:
+            expansion_count[0] += 1
+            if expansion_count[0] > limit:
+                from sdif.core.policy import PolicyError
+                raise PolicyError(
+                    "SDIF_POLICY_ALIAS_EXPANSION",
+                    f"Alias expansion limit of {limit} exceeded",
+                )
+        return aliases[name]
+    return name
 
 
 def _alias_to_canonical(doc: Document) -> dict[str, str]:
+    from sdif.core.policy import RESERVED_TERMS, PolicyError
     aliases: dict[str, str] = {}
     for directive in doc.directives:
         if directive.name != "alias":
             continue
         for entry in directive.args:
+            if "=" not in entry:
+                continue
             alias, canonical = entry.split("=", 1)
+            alias = alias.strip()
+            canonical = canonical.strip()
+
+            # Check reserved terms
+            if alias in RESERVED_TERMS or canonical in RESERVED_TERMS:
+                raise PolicyError(
+                    "SDIF_POLICY_ALIAS_RESERVED",
+                    f"Alias entry '{entry}' uses or targets a reserved term",
+                )
+
+            # Check duplicate collision
+            if alias in aliases and aliases[alias] != canonical:
+                raise PolicyError(
+                    "SDIF_POLICY_ALIAS_COLLISION",
+                    f"Alias collision: '{alias}' is mapped to both '{aliases[alias]}' and '{canonical}'",
+                )
             aliases[alias] = canonical
     return aliases
 
@@ -89,13 +129,22 @@ def _source_directives(doc: Document) -> list[Directive]:
     return directives
 
 
-def _expand_statement(statement: object, aliases: dict[str, str]) -> Statement:
+def _expand_statement(
+    statement: object,
+    aliases: dict[str, str],
+    expansion_count: list[int] | None = None,
+    limit: int = 0,
+) -> Statement:
     if isinstance(statement, Field):
-        return Field(_expanded_name(statement.key, aliases), statement.value, statement.quoted)
+        return Field(
+            _expanded_name(statement.key, aliases, expansion_count, limit),
+            statement.value,
+            statement.quoted,
+        )
     if isinstance(statement, ObjectBlock):
         return ObjectBlock(
-            _expanded_name(statement.key, aliases),
-            [_expand_statement(child, aliases) for child in statement.statements],
+            _expanded_name(statement.key, aliases, expansion_count, limit),
+            [_expand_statement(child, aliases, expansion_count, limit) for child in statement.statements],
         )
     if isinstance(statement, Table):
         columns: list[str] = []
@@ -104,9 +153,9 @@ def _expand_statement(statement: object, aliases: dict[str, str]) -> Statement:
             if column.endswith("$"):
                 quoted_columns.add(index)
                 column = column[:-1]
-            columns.append(_expanded_name(column, aliases))
+            columns.append(_expanded_name(column, aliases, expansion_count, limit))
         return Table(
-            _expanded_name(statement.name, aliases),
+            _expanded_name(statement.name, aliases, expansion_count, limit),
             columns,
             statement.rows,
             frozenset(quoted_columns),
@@ -114,14 +163,17 @@ def _expand_statement(statement: object, aliases: dict[str, str]) -> Statement:
     if isinstance(statement, Relation):
         return Relation(
             statement.subject,
-            _expanded_name(statement.predicate, aliases),
+            _expanded_name(statement.predicate, aliases, expansion_count, limit),
             statement.object,
             statement.object_quoted,
         )
     if isinstance(statement, Rule):
         return statement
     if isinstance(statement, Narrative):
-        return Narrative(_expanded_name(statement.key, aliases), statement.text)
+        return Narrative(
+            _expanded_name(statement.key, aliases, expansion_count, limit),
+            statement.text,
+        )
     raise TypeError(f"unsupported statement: {statement!r}")
 
 

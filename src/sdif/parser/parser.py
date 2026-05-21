@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 from dataclasses import dataclass
 
-from sdif.core.policy import Policy, PolicyError
+from sdif.core.policy import Policy, PolicyError, RESERVED_TERMS
 from sdif.core.ast import (
     Directive,
     Document,
@@ -108,7 +108,24 @@ class _Parser:
             self.index += 1
             entries = alias.group("entries").split(",")
             for entry in entries:
+                if "=" not in entry:
+                    raise ParseError("SDIF_ALIAS_SYNTAX", "invalid alias entry syntax", line_no)
                 alias_name, canonical_name = entry.split("=", 1)
+                alias_name = alias_name.strip()
+                canonical_name = canonical_name.strip()
+
+                # Check reserved terms
+                if alias_name in RESERVED_TERMS or canonical_name in RESERVED_TERMS:
+                    raise PolicyError(
+                        "SDIF_POLICY_ALIAS_RESERVED",
+                        f"Alias entry '{entry}' uses or targets a reserved term",
+                    )
+                # Check duplicate collision
+                if alias_name in self.alias_to_canonical and self.alias_to_canonical[alias_name] != canonical_name:
+                    raise PolicyError(
+                        "SDIF_POLICY_ALIAS_COLLISION",
+                        f"Alias collision: '{alias_name}' is mapped to both '{self.alias_to_canonical[alias_name]}' and '{canonical_name}'",
+                    )
                 self.alias_to_canonical[alias_name] = canonical_name
             return Directive("alias", entries)
 

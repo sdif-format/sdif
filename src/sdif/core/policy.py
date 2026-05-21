@@ -2,6 +2,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import FrozenSet
 
+RESERVED_TERMS = frozenset({"include", "alias"})
+
 
 class PolicyError(Exception):
     """Raised when a security policy is violated."""
