@@ -11,6 +11,7 @@ def test_benchmark_main_discovers_golden_fixtures_from_script_location(
     capsys,
 ):
     monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("SDIF_ENV_OVERRIDE", "0")
     monkeypatch.setenv("SDIF_BENCHMARK_TOON", "0")
     monkeypatch.setattr(
         token_comparison,

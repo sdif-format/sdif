@@ -4,7 +4,19 @@ from __future__ import annotations
 
 from sdif import parse_text
 from sdif.canonical import canonicalize
-from sdif.core.ast import Directive, Document, Field, Narrative, ObjectBlock, Relation, Rule, Table
+from typing import Sequence
+
+from sdif.core.ast import (
+    Directive,
+    Document,
+    Field,
+    Narrative,
+    ObjectBlock,
+    Relation,
+    Rule,
+    Statement,
+    Table,
+)
 
 
 def ai_view(source: str | Document, aliases: dict[str, str], *, include_header: bool = True) -> str:
@@ -34,7 +46,9 @@ def sdif_from_ai(source: str | Document) -> str:
     doc = parse_text(source) if isinstance(source, str) else source
     aliases = _alias_to_canonical(doc)
     directives = _source_directives(doc)
-    statements = [_expand_statement(statement, aliases) for statement in doc.statements]
+    statements: list[Statement] = [
+        _expand_statement(statement, aliases) for statement in doc.statements
+    ]
     return canonicalize(Document(directives=directives, statements=statements))
 
 
@@ -75,7 +89,7 @@ def _source_directives(doc: Document) -> list[Directive]:
     return directives
 
 
-def _expand_statement(statement: object, aliases: dict[str, str]) -> object:
+def _expand_statement(statement: object, aliases: dict[str, str]) -> Statement:
     if isinstance(statement, Field):
         return Field(_expanded_name(statement.key, aliases), statement.value, statement.quoted)
     if isinstance(statement, ObjectBlock):
@@ -170,7 +184,7 @@ def _emit(statement: object, lines: list[str], inverse: dict[str, str], indent: 
 
 
 def _emit_statements(
-    statements: list[object], lines: list[str], inverse: dict[str, str], indent: int
+    statements: Sequence[object], lines: list[str], inverse: dict[str, str], indent: int
 ) -> None:
     relation_groups: dict[str, list[Relation]] = {}
     relation_subjects: list[str] = []
