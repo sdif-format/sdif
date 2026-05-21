@@ -77,3 +77,35 @@ fields[name,type,required,default]:
 
     assert run.returncode == 0
     assert run.stdout.strip() == "valid"
+
+
+def test_cli_validate_json_reports_parse_errors_as_structured_diagnostics(tmp_path):
+    schema = tmp_path / "schema.sdif"
+    schema.write_text("@sdif 0.1\nkind Schema\n", encoding="utf-8")
+    doc = tmp_path / "doc.sdif"
+    doc.write_text("@sdif 0.1\nitems[id,status]:\n  one open\n", encoding="utf-8")
+
+    run = subprocess.run(
+        [sys.executable, "tools/sdif-cli.py", "validate", str(doc), "--schema", str(schema), "--json"],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+
+    assert run.returncode == 1
+    assert run.stderr == ""
+    payload = json.loads(run.stdout)
+    assert payload == {
+        "valid": False,
+        "diagnostics": [
+            {
+                "code": "SDIF_TABLE_ARITY",
+                "severity": "error",
+                "message": "row has 1 cells but table declares 2 columns; use literal HTAB as the column separator",
+                "path": "$parse",
+                "line": 3,
+                "column": 3,
+            }
+        ],
+    }

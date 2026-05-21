@@ -9,7 +9,8 @@ from pathlib import Path
 from sdif import canonicalize, parse_text, sdif_hash
 from sdif.ai import ai_view
 from sdif.json import document_to_json_data, json_data_to_sdif
-from sdif.validation import Schema, SchemaError, diagnostics_to_json, validate_document
+from sdif.parser import ParseError
+from sdif.validation import Diagnostic, Schema, SchemaError, diagnostics_to_json, validate_document
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -72,7 +73,12 @@ def main(argv: list[str] | None = None) -> int:
         schema = _load_schema(args.schema)
         if schema is None:  # pragma: no cover - argparse requires --schema for validate
             raise SystemExit("missing required --schema")
-        diagnostics = validate_document(parse_text(text), schema)
+        try:
+            doc = parse_text(text)
+        except ParseError as exc:
+            diagnostics = [_diagnostic_from_parse_error(exc)]
+        else:
+            diagnostics = validate_document(doc, schema)
         if args.json_output:
             json.dump({"valid": not diagnostics, "diagnostics": diagnostics_to_json(diagnostics)}, sys.stdout, indent=2)
             sys.stdout.write("\n")
@@ -83,6 +89,17 @@ def main(argv: list[str] | None = None) -> int:
             print("valid")
         return 0 if not diagnostics else 1
     return 2
+
+
+def _diagnostic_from_parse_error(exc: ParseError) -> Diagnostic:
+    return Diagnostic(
+        code=exc.code,
+        severity="error",
+        message=exc.message,
+        path="$parse",
+        line=exc.line,
+        column=exc.column,
+    )
 
 
 def _load_schema(path: Path | None) -> Schema | None:
