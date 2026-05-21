@@ -102,6 +102,7 @@ npm test
 - [Specification draft](docs/spec.md)
 - [Canonicalization contract](docs/canonicalization.md)
 - [Format comparison](docs/comparison.md)
+- [Semantic quality comparison](docs/semantic-quality.md)
 - [Examples](examples/)
 
 ## License

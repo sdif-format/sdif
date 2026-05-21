@@ -131,6 +131,22 @@ def test_versioned_spec_is_pointer_to_authoritative_spec():
     assert len(legacy) < len(spec) // 10
 
 
+def test_semantic_quality_methodology_is_documented_separately_from_token_benchmark():
+    docs = Path("docs/semantic-quality.md").read_text(encoding="utf-8")
+
+    for term in (
+        "relational expressivity",
+        "round-trip fidelity",
+        "schema validation",
+        "SDIF AI",
+        "canonicalization",
+    ):
+        assert term in docs
+
+    assert "benchmarks/token_comparison.py" in docs
+    assert "token" in docs.lower()
+    assert "sdif validate examples/plan.sdif --schema examples/schema.sdif" in docs
+
 def test_comparison_doc_includes_examples_for_all_compared_formats():
     docs = Path("docs/comparison.md").read_text(encoding="utf-8")
 
