@@ -105,9 +105,7 @@ class _Parser:
                         "rel[subject]: syntax is only valid in .sdif.ai documents",
                         line_no,
                     )
-                return self._parse_relations_for_subject(
-                    table.group("cols"), indent, line_no
-                )
+                return self._parse_relations_for_subject(table.group("cols"), indent, line_no)
             return self._parse_table(table, indent, line_no)
 
         block = _BLOCK_RE.match(_strip_inline_comment(body))

@@ -918,7 +918,9 @@ def ranked_rows_for_tokenizer(
     return sorted(
         comparable,
         key=lambda row: (
-            row.tokens.get(tokenizer_name) if row.tokens.get(tokenizer_name) is not None else 10**12,
+            row.tokens.get(tokenizer_name)
+            if row.tokens.get(tokenizer_name) is not None
+            else 10**12,
             row.bytes_size,
             row.name,
         ),
@@ -1393,7 +1395,16 @@ def render_summary_report(evidence: BenchmarkEvidence) -> str:
     ]
 
     if consensus:
-        best_format, avg_rank, median_ratio, _best_ratio, _worst_ratio, _rank_spread, coverage, total = consensus[0]
+        (
+            best_format,
+            avg_rank,
+            median_ratio,
+            _best_ratio,
+            _worst_ratio,
+            _rank_spread,
+            coverage,
+            total,
+        ) = consensus[0]
         lines.extend(
             [
                 f"- Best consensus format: **{markdown_escape(best_format)}** "
@@ -1443,7 +1454,16 @@ def render_summary_report(evidence: BenchmarkEvidence) -> str:
         ]
     )
 
-    for format_name, avg_rank, median_ratio, best_ratio, worst_ratio, rank_spread, coverage, total in consensus:
+    for (
+        format_name,
+        avg_rank,
+        median_ratio,
+        best_ratio,
+        worst_ratio,
+        rank_spread,
+        coverage,
+        total,
+    ) in consensus:
         lines.append(
             f"| {markdown_escape(format_name)} "
             f"| {avg_rank:.2f} "
@@ -1472,9 +1492,7 @@ def render_summary_report(evidence: BenchmarkEvidence) -> str:
             "| Format | Consensus Avg Rank | Consensus Median Ratio | Wins Across Tokenizer/Document Pairs | "
             + " | ".join(f"`{markdown_escape(name)}` Avg Ratio" for name in available_names)
             + " |",
-            "| --- | ---: |---:|---:|"
-            + "|".join("---:" for _ in available_names)
-            + "|",
+            "| --- | ---: |---:|---:|" + "|".join("---:" for _ in available_names) + "|",
         ]
     )
 
@@ -1539,7 +1557,9 @@ def structured_report_data(evidence: BenchmarkEvidence) -> dict[str, Any]:
         "environment": {
             "SDIF_BENCHMARK_TOON": os.environ.get("SDIF_BENCHMARK_TOON"),
             "SDIF_BENCHMARK_TOKENX": os.environ.get("SDIF_BENCHMARK_TOKENX"),
-            "SDIF_TOKENX_DEFAULT_CHARS_PER_TOKEN": os.environ.get("SDIF_TOKENX_DEFAULT_CHARS_PER_TOKEN"),
+            "SDIF_TOKENX_DEFAULT_CHARS_PER_TOKEN": os.environ.get(
+                "SDIF_TOKENX_DEFAULT_CHARS_PER_TOKEN"
+            ),
             "SDIF_TOKENX_RESOLVE_DIRS": os.environ.get("SDIF_TOKENX_RESOLVE_DIRS"),
             "SDIF_BENCHMARK_CLAUDE": os.environ.get("SDIF_BENCHMARK_CLAUDE"),
             "SDIF_CLAUDE_MODEL": os.environ.get("SDIF_CLAUDE_MODEL"),
@@ -1574,7 +1594,16 @@ def structured_report_data(evidence: BenchmarkEvidence) -> dict[str, Any]:
             }
         )
 
-    for format_name, avg_rank, median_ratio, best_ratio, worst_ratio, rank_spread, coverage, total in consensus_rows(evidence):
+    for (
+        format_name,
+        avg_rank,
+        median_ratio,
+        best_ratio,
+        worst_ratio,
+        rank_spread,
+        coverage,
+        total,
+    ) in consensus_rows(evidence):
         data["consensusRanking"].append(
             {
                 "format": format_name,
@@ -1607,7 +1636,9 @@ def structured_report_data(evidence: BenchmarkEvidence) -> dict[str, Any]:
         if format_name not in consensus_by_format:
             continue
 
-        _, avg_rank, median_ratio, best_ratio, worst_ratio, rank_spread, coverage, total = consensus_by_format[format_name]
+        _, avg_rank, median_ratio, best_ratio, worst_ratio, rank_spread, coverage, total = (
+            consensus_by_format[format_name]
+        )
         data["directComparison"].append(
             {
                 "format": format_name,
@@ -1664,9 +1695,13 @@ def structured_report_data(evidence: BenchmarkEvidence) -> dict[str, Any]:
 
             for tokenizer_name in available_names:
                 baseline = tokenizer_baseline(rows, tokenizer_name)
-                format_data["ratios"][tokenizer_name] = ratio(row.tokens.get(tokenizer_name), baseline)
+                format_data["ratios"][tokenizer_name] = ratio(
+                    row.tokens.get(tokenizer_name), baseline
+                )
 
-                for rank_index, ranked_row in enumerate(ranked_rows_for_tokenizer(rows, tokenizer_name), start=1):
+                for rank_index, ranked_row in enumerate(
+                    ranked_rows_for_tokenizer(rows, tokenizer_name), start=1
+                ):
                     if ranked_row.name == row.name:
                         format_data["ranks"][tokenizer_name] = rank_index
                         break
@@ -1936,13 +1971,13 @@ def render_document_analysis(evidence: BenchmarkEvidence) -> list[str]:
                 "| Format | "
                 + " | ".join(f"`{markdown_escape(name)}`" for name in available_names)
                 + " |",
-                "|---|"
-                + "|".join("---:" for _ in available_names)
-                + "|",
+                "|---|" + "|".join("---:" for _ in available_names) + "|",
             ]
         )
 
-        for row in sorted(rows, key=lambda item: document_format_sort_key(item, rows, available_names)):
+        for row in sorted(
+            rows, key=lambda item: document_format_sort_key(item, rows, available_names)
+        ):
             ratio_columns: list[str] = []
 
             for tokenizer_name in available_names:
@@ -1950,10 +1985,7 @@ def render_document_analysis(evidence: BenchmarkEvidence) -> list[str]:
                 value = ratio(row.tokens.get(tokenizer_name), baseline)
                 ratio_columns.append(format_ratio(value).strip())
 
-            lines.append(
-                f"| {markdown_escape(row.name)} "
-                f"| {' | '.join(ratio_columns)} |"
-            )
+            lines.append(f"| {markdown_escape(row.name)} | {' | '.join(ratio_columns)} |")
 
         lines.append("")
 
@@ -2008,9 +2040,7 @@ def render_raw_count_matrix(evidence: BenchmarkEvidence) -> list[str]:
                 "| Format | Bytes | "
                 + " | ".join(f"`{markdown_escape(name)}`" for name in token_headers)
                 + " |",
-                "| --- | ---: |"
-                + "|".join("---:" for _ in token_headers)
-                + "|",
+                "| --- | ---: |" + "|".join("---:" for _ in token_headers) + "|",
             ]
         )
 
@@ -2019,11 +2049,7 @@ def render_raw_count_matrix(evidence: BenchmarkEvidence) -> list[str]:
                 format_count(row.tokens.get(tokenizer.name)) for tokenizer in evidence.tokenizers
             )
 
-            lines.append(
-                f"| {markdown_escape(row.name)} "
-                f"| {row.bytes_size} "
-                f"| {token_columns} |"
-            )
+            lines.append(f"| {markdown_escape(row.name)} | {row.bytes_size} | {token_columns} |")
 
         lines.append("")
 
@@ -2228,6 +2254,7 @@ def main() -> None:
                 sdif_ai_path,
                 latest,
             )
+
 
 if __name__ == "__main__":
     main()

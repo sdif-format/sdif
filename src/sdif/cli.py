@@ -20,7 +20,9 @@ def main(argv: list[str] | None = None) -> int:
         prog="sdif",
         description="SDIF (Semantic Data Interchange Format) tools for parsing, formatting, canonicalizing, validating, and projecting structured documents.",
     )
-    sub = parser.add_subparsers(dest="command", required=True, title="subcommands", description="valid subcommands")
+    sub = parser.add_subparsers(
+        dest="command", required=True, title="subcommands", description="valid subcommands"
+    )
 
     parse = sub.add_parser(
         "parse",
@@ -81,7 +83,7 @@ def main(argv: list[str] | None = None) -> int:
         action="append",
         default=[],
         metavar="FIELD=ALIAS",
-        help="Optional alias to map a field/column name for the AI view (can be specified multiple times)"
+        help="Optional alias to map a field/column name for the AI view (can be specified multiple times)",
     )
 
     from_ai = sub.add_parser(
@@ -97,12 +99,14 @@ def main(argv: list[str] | None = None) -> int:
         description="Validate an SDIF document against a given schema.",
     )
     validate.add_argument("path", type=Path, help="Path to the SDIF file to validate")
-    validate.add_argument("--schema", type=Path, required=True, help="Required schema file to validate against")
+    validate.add_argument(
+        "--schema", type=Path, required=True, help="Required schema file to validate against"
+    )
     validate.add_argument(
         "--json",
         action="store_true",
         dest="json_output",
-        help="Output validation results as structured JSON instead of plain text"
+        help="Output validation results as structured JSON instead of plain text",
     )
 
     inspect_cmd = sub.add_parser(
@@ -115,12 +119,12 @@ def main(argv: list[str] | None = None) -> int:
         "--json",
         action="store_true",
         dest="json_output",
-        help="Output the parsed AST structure as JSON"
+        help="Output the parsed AST structure as JSON",
     )
     inspect_cmd.add_argument(
         "--schema",
         type=Path,
-        help="Optional schema file to include validation diagnostics in the JSON output"
+        help="Optional schema file to include validation diagnostics in the JSON output",
     )
 
     fmt = sub.add_parser(
@@ -132,12 +136,10 @@ def main(argv: list[str] | None = None) -> int:
     fmt.add_argument(
         "--check",
         action="store_true",
-        help="Check formatting compliance and exit with non-zero code on discrepancies instead of writing in-place"
+        help="Check formatting compliance and exit with non-zero code on discrepancies instead of writing in-place",
     )
     fmt.add_argument(
-        "--schema",
-        type=Path,
-        help="Optional schema file to apply schema-aware canonical policies"
+        "--schema", type=Path, help="Optional schema file to apply schema-aware canonical policies"
     )
 
     args = parser.parse_args(argv)
@@ -241,7 +243,9 @@ def main(argv: list[str] | None = None) -> int:
         try:
             doc = parse_text(text)
             is_ai_projection = any(directive.name == "sdif.ai" for directive in doc.directives)
-            canonical_text = sdif_from_ai(doc) if is_ai_projection else canonicalize(doc, schema=schema)
+            canonical_text = (
+                sdif_from_ai(doc) if is_ai_projection else canonicalize(doc, schema=schema)
+            )
         except ParseError as exc:
             sys.stderr.write(f"Format error: parse failed: {exc}\n")
             return 1

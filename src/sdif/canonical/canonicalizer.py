@@ -96,9 +96,7 @@ def _emit_statement(
         lines.append(f"{prefix}{statement.name}[{','.join(statement.columns)}]:")
         for row in statement.rows:
             cells = [
-                _quote_if_needed(cell, force=True)
-                if index in statement.quoted_columns
-                else cell
+                _quote_if_needed(cell, force=True) if index in statement.quoted_columns else cell
                 for index, cell in enumerate(row)
             ]
             lines.append(f"{' ' * (indent + 2)}" + "\t".join(cells))

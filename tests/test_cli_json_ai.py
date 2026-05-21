@@ -67,12 +67,7 @@ def test_ai_projection_marks_string_columns_to_remove_repeated_scalar_quotes(tmp
 def test_cli_from_ai_expands_aliases_to_canonical_sdif(tmp_path):
     ai = tmp_path / "doc.sdif.ai"
     ai.write_text(
-        "@sdif.ai 0.1\n"
-        "alias[k=kind,st=status]\n"
-        "k Plan\n"
-        "id demo\n"
-        "items[id,st]:\n"
-        "I1\topen\n",
+        "@sdif.ai 0.1\nalias[k=kind,st=status]\nk Plan\nid demo\nitems[id,st]:\nI1\topen\n",
         encoding="utf-8",
     )
 
@@ -106,13 +101,7 @@ def test_fmt_on_sdif_ai_writes_canonical_source_sdif(tmp_path):
 
 
 def test_ai_projection_round_trips_to_canonical_source_sdif():
-    source = (
-        "@sdif 0.1\n"
-        "kind Plan\n"
-        "id demo\n"
-        "items[id,status,value]:\n"
-        '  I1\topen\t"null"\n'
-    )
+    source = '@sdif 0.1\nkind Plan\nid demo\nitems[id,status,value]:\n  I1\topen\t"null"\n'
 
     ai = ai_view(source, {"kind": "k", "status": "st"})
 

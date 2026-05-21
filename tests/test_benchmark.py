@@ -63,6 +63,55 @@ def test_benchmark_has_estimated_token_counter_when_optional_tokenizers_unavaila
     assert token_comparison.select_primary_tokenizer(tokenizers, "abcd").name == "Estimate"
 
 
+def test_benchmark_ratios_rankings_and_savings_use_json_compact_as_baseline():
+    rows = [
+        token_comparison.FormatResult(
+            name="JSON Compact",
+            text="{}",
+            bytes_size=100,
+            tokens={"Estimate": 100},
+            primary_ratio=100.0,
+        ),
+        token_comparison.FormatResult(
+            name="Compact Format",
+            text="x",
+            bytes_size=60,
+            tokens={"Estimate": 60},
+            primary_ratio=60.0,
+        ),
+        token_comparison.FormatResult(
+            name="Expanded Format",
+            text="x",
+            bytes_size=140,
+            tokens={"Estimate": 140},
+            primary_ratio=140.0,
+        ),
+    ]
+    evidence = token_comparison.BenchmarkEvidence(
+        generated_at="2026-05-21T00:00:00Z",
+        run_dir=token_comparison.REPO_ROOT / "benchmarks" / "test",
+        golden_dir=token_comparison.REPO_ROOT / "examples" / "golden",
+        primary_name="Estimate",
+        tokenizers=[token_comparison.TokenizerSpec("Estimate", lambda text: len(text))],
+        results_by_document={"demo": rows},
+        env_file_loaded=False,
+    )
+
+    observations = {
+        observation.format_name: observation
+        for observation in token_comparison.iter_ranked_observations(evidence, "Estimate")
+    }
+
+    assert observations["Compact Format"].rank == 1
+    assert observations["Compact Format"].ratio_value == 60.0
+    assert observations["Compact Format"].saved_tokens == 40
+    assert observations["JSON Compact"].ratio_value == 100.0
+    assert observations["JSON Compact"].saved_tokens == 0
+    assert observations["Expanded Format"].ratio_value == 140.0
+    assert observations["Expanded Format"].saved_tokens == -40
+    assert token_comparison.wins_by_tokenizer(evidence, "Estimate") == {"Compact Format": 1}
+
+
 def test_benchmark_script_runs_directly_from_checkout():
     env = os.environ.copy()
     env["SDIF_ENV_OVERRIDE"] = "0"
