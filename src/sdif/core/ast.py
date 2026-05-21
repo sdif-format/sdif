@@ -28,6 +28,26 @@ class ObjectBlock:
     def fields(self) -> dict[str, Field]:
         return {s.key: s for s in self.statements if isinstance(s, Field)}
 
+    @property
+    def objects(self) -> dict[str, ObjectBlock]:
+        return {s.key: s for s in self.statements if isinstance(s, ObjectBlock)}
+
+    @property
+    def tables(self) -> dict[str, Table]:
+        return {s.name: s for s in self.statements if isinstance(s, Table)}
+
+    @property
+    def relations(self) -> list[Relation]:
+        return [s for s in self.statements if isinstance(s, Relation)]
+
+    @property
+    def rules(self) -> list[Rule]:
+        return [s for s in self.statements if isinstance(s, Rule)]
+
+    @property
+    def narratives(self) -> dict[str, Narrative]:
+        return {s.key: s for s in self.statements if isinstance(s, Narrative)}
+
 
 @dataclass(frozen=True)
 class Table:

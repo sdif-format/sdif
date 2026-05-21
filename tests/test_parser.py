@@ -86,7 +86,8 @@ items[id,status]:
 """)
 
     assert excinfo.value.code == "SDIF_TABLE_ARITY"
-    assert "literal HTAB" in excinfo.value.message
+    assert "header declares" in excinfo.value.message
+    assert "HTAB" in (excinfo.value.hint or "")
 
 
 def test_relation_rows_have_exactly_three_parts():
@@ -210,3 +211,41 @@ def test_relation_and_rule_rows_require_exact_child_indentation(block):
 def test_repository_examples_parse_successfully():
     for path in sorted(Path("examples").glob("*.sdif")):
         parse_text(path.read_text(encoding="utf-8"))
+
+
+def test_valid_nested_narrative():
+    doc = parse_text('''
+@sdif 0.1
+owner:
+  bio """
+  Hello
+    indented line
+  world
+  """
+''')
+    assert doc.objects["owner"].narratives["bio"].text == "Hello\n  indented line\nworld"
+
+
+def test_mismatched_nested_narrative_close():
+    with pytest.raises(ParseError) as excinfo:
+        parse_text('''
+@sdif 0.1
+owner:
+  bio """
+    Hello
+"""
+''')
+    assert excinfo.value.code == "SDIF_NARRATIVE_CLOSE_ALIGN"
+    assert "closing triple quotes must match" in excinfo.value.hint
+
+
+def test_unclosed_nested_narrative():
+    with pytest.raises(ParseError) as excinfo:
+        parse_text('''
+@sdif 0.1
+owner:
+  bio """
+    Hello
+''')
+    assert excinfo.value.code == "SDIF_NARRATIVE_UNCLOSED"
+    assert "make sure to close" in excinfo.value.hint

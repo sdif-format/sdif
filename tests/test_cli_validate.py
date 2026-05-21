@@ -118,10 +118,11 @@ def test_cli_validate_json_reports_parse_errors_as_structured_diagnostics(tmp_pa
             {
                 "code": "SDIF_TABLE_ARITY",
                 "severity": "error",
-                "message": "row has 1 cells but table declares 2 columns; use literal HTAB as the column separator",
+                "message": "table row has 1 cells but header declares 2 columns",
                 "path": "$parse",
                 "line": 3,
                 "column": 3,
+                "hint": "check HTAB separators and missing cells",
             }
         ],
     }
@@ -145,7 +146,7 @@ def test_cli_validate_text_reports_parse_errors_without_traceback(tmp_path):
     assert run.stderr == ""
     assert run.stdout == (
         "error: SDIF_TABLE_ARITY $parse: "
-        "row has 1 cells but table declares 2 columns; use literal HTAB as the column separator\n"
+        "table row has 1 cells but header declares 2 columns\n"
     )
 
 

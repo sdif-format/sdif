@@ -31,6 +31,7 @@ class ParseError(Exception):
     message: str
     line: int
     column: int = 1
+    hint: str | None = None
 
     def __str__(self) -> str:
         return f"{self.code} at {self.line}:{self.column}: {self.message}"
@@ -87,7 +88,7 @@ class _Parser:
 
         narrative = _NARRATIVE_RE.match(body)
         if narrative:
-            return self._parse_narrative(narrative.group("key"), line_no)
+            return self._parse_narrative(narrative.group("key"), actual_indent, line_no)
 
         table = _TABLE_HEADER_RE.match(_strip_inline_comment(body))
         if table:
@@ -169,11 +170,14 @@ class _Parser:
                 raise ParseError("SDIF_INDENT", "invalid table row indentation", row_no, actual + 1)
             cells = row_text.split("\t")
             if len(cells) != len(columns):
-                msg = (
-                    f"row has {len(cells)} cells but table declares {len(columns)} columns; "
-                    "use literal HTAB as the column separator"
+                msg = f"table row has {len(cells)} cells but header declares {len(columns)} columns"
+                raise ParseError(
+                    "SDIF_TABLE_ARITY",
+                    msg,
+                    row_no,
+                    column=child_indent + 1,
+                    hint="check HTAB separators and missing cells"
                 )
-                raise ParseError("SDIF_TABLE_ARITY", msg, row_no, child_indent + 1)
             rows.append(cells)
             self.index += 1
         return Table(name, columns, rows)
@@ -232,17 +236,34 @@ class _Parser:
             self.index += 1
         return rules
 
-    def _parse_narrative(self, key: str, line_no: int) -> Narrative:
+    def _parse_narrative(self, key: str, indent: int, line_no: int) -> Narrative:
         self.index += 1
         content: list[str] = []
+        prefix = " " * indent
         while self.index < len(self.lines):
             raw = self.lines[self.index]
-            if raw == '"""':
+            if raw.strip() == '"""':
+                if raw != prefix + '"""':
+                    raise ParseError(
+                        "SDIF_NARRATIVE_CLOSE_ALIGN",
+                        "unterminated narrative block or mismatched alignment at close",
+                        self.index + 1,
+                        column=len(raw) - len(raw.lstrip()) + 1,
+                        hint="closing triple quotes must match the indentation of the opening block"
+                    )
                 self.index += 1
                 return Narrative(key, "\n".join(content))
-            content.append(raw)
+            if raw.startswith(prefix):
+                content.append(raw[len(prefix):])
+            else:
+                content.append(raw)
             self.index += 1
-        raise ParseError("SDIF_NARRATIVE", "unterminated narrative block", line_no)
+        raise ParseError(
+            "SDIF_NARRATIVE_UNCLOSED",
+            "unterminated narrative block",
+            line_no,
+            hint="make sure to close the narrative block with triple quotes aligned to the opening indentation"
+        )
 
 
 def _indent(raw: str, line_no: int) -> int:
