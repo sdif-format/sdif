@@ -35,7 +35,7 @@ def test_json_data_to_sdif_emits_scalars_and_uniform_tables():
         }
     )
 
-    assert text == "kind Plan\nid demo\nmilestones[id,status]:\n  R1\tdone\n  R2\tpending\n"
+    assert text == "@sdif 1.0\nkind Plan\nid demo\nmilestones[id,status]:\n  R1\tdone\n  R2\tpending\n"
     assert parse_text(text).tables["milestones"].rows[1] == ["R2", "pending"]
 
 

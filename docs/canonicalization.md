@@ -2,7 +2,7 @@
 
 SDIF canonicalization turns source text into deterministic UTF-8 bytes suitable for hashing, fixture comparison, and future signing workflows.
 
-The current implementation is an MVP canonical serializer, not a full semantic normalizer. It intentionally makes stable syntax-level choices while leaving deeper semantic equivalence rules for a later versioned contract.
+The current implementation is the v1 canonical serializer, not a full semantic normalizer. It intentionally makes stable syntax-level choices while leaving deeper semantic equivalence rules for later versioned contracts.
 
 ## Pipeline
 
@@ -16,7 +16,7 @@ Comments, blank lines, and source-only trivia are not part of the canonical AST.
 
 The `canonical-syntax-v1` contract is the syntax-level canonical byte contract for the v1 stabilization track. It does not claim semantic equivalence beyond the rules listed here.
 
-The MVP canonicalizer currently:
+The v1 canonicalizer currently:
 
 1. Normalizes input line endings to LF through the parser.
 2. Emits UTF-8 text with LF line endings.
@@ -82,9 +82,9 @@ equivalent.toon     comparison projection, not a canonical source
 
 Tests assert that each `source.sdif` canonicalizes to `canonical.sdif`, and that `canonical.sha256` matches SHA-256 over those exact bytes.
 
-## Explicit non-goals for v0.1 MVP
+## Explicit non-goals for v1
 
-The MVP canonicalizer does not yet perform full semantic normalization. In particular, it does not yet normalize:
+The v1 canonicalizer does not perform full semantic normalization. In particular, it does not yet normalize:
 
 - numeric representations such as `1.0` versus `1.00`;
 - date-time zones such as `Z` versus `+00:00`;

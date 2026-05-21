@@ -77,6 +77,32 @@ def test_sdif_ai_alias_header_is_parseable_and_canonicalized():
     assert canonicalize(doc) == source
 
 
+@pytest.mark.parametrize(
+    ("source", "code"),
+    [
+        ("@sdif banana\nkind Plan\n", "SDIF_VERSION_UNSUPPORTED"),
+        ("@sdif 2.0\nkind Plan\n", "SDIF_VERSION_UNSUPPORTED"),
+        ("@sdif\nkind Plan\n", "SDIF_VERSION_SYNTAX"),
+        ("@sdif 1.0 extra\nkind Plan\n", "SDIF_VERSION_SYNTAX"),
+        ("@sdif.ai banana\nkind Plan\n", "SDIF_VERSION_UNSUPPORTED"),
+        ("@whatever x\nkind Plan\n", "SDIF_DIRECTIVE_UNKNOWN"),
+        ("kind Plan\n", "SDIF_VERSION_MISSING"),
+    ],
+)
+def test_format_version_directive_is_strict_for_v1(source, code):
+    with pytest.raises(ParseError) as excinfo:
+        parse_text(source)
+
+    assert excinfo.value.code == code
+
+
+def test_source_and_ai_version_directives_are_mutually_exclusive():
+    with pytest.raises(ParseError) as excinfo:
+        parse_text("@sdif 1.0\n@sdif.ai 1.0\nkind Plan\n")
+
+    assert excinfo.value.code == "SDIF_VERSION_CONFLICT"
+
+
 def test_table_rows_must_use_htab_and_match_header_arity():
     with pytest.raises(ParseError) as excinfo:
         parse_text("""
@@ -140,6 +166,7 @@ def test_cli_parse_canon_hash_and_tokens(tmp_path):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=True,
+        timeout=30,
     )
     assert "directives=1" in parse_run.stdout
     assert "statements=2" in parse_run.stdout
@@ -149,6 +176,7 @@ def test_cli_parse_canon_hash_and_tokens(tmp_path):
         text=True,
         stdout=subprocess.PIPE,
         check=True,
+        timeout=30,
     )
     assert canon_run.stdout == "@sdif 1.0\nkind Plan\nid demo\n"
 
@@ -157,6 +185,7 @@ def test_cli_parse_canon_hash_and_tokens(tmp_path):
         text=True,
         stdout=subprocess.PIPE,
         check=True,
+        timeout=30,
     )
     assert len(hash_run.stdout.strip()) == 64
 
@@ -165,6 +194,7 @@ def test_cli_parse_canon_hash_and_tokens(tmp_path):
         text=True,
         stdout=subprocess.PIPE,
         check=True,
+        timeout=30,
     )
     assert "bytes=" in token_run.stdout
     assert "tokenizer=" in token_run.stdout
@@ -224,6 +254,15 @@ owner:
   """
 ''')
     assert doc.objects["owner"].narratives["bio"].text == "Hello\n  indented line\nworld"
+
+
+def test_nested_narrative_canonicalization_remains_parseable_and_idempotent():
+    source = '@sdif 1.0\nobj:\n  notes """\n  hello\n  """\n'
+
+    canonical = canonicalize(source)
+
+    parse_text(canonical)
+    assert canonical == canonicalize(canonical)
 
 
 def test_mismatched_nested_narrative_close():

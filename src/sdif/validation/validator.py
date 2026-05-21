@@ -1,4 +1,4 @@
-"""Minimal schema and validation layer for SDIF MVP fixtures."""
+"""Schema and validation layer for SDIF v1 fixtures."""
 
 from __future__ import annotations
 

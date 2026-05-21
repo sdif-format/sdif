@@ -22,6 +22,7 @@ def test_conformance_checker_passes_for_python_and_tree_sitter_shared_fixtures()
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=False,
+        timeout=30,
     )
 
     assert run.returncode == 0, run.stderr
@@ -59,6 +60,17 @@ def test_conformance_valid_invalid_fixtures():
     with pytest.raises(ParseError) as excinfo:
         parse_text(row_comment.read_text(encoding="utf-8"))
     assert excinfo.value.code == "SDIF_TABLE_ROW_COMMENT"
+
+    for fixture_name, code in (
+        ("version_missing.sdif", "SDIF_VERSION_MISSING"),
+        ("version_unsupported.sdif", "SDIF_VERSION_UNSUPPORTED"),
+        ("version_bad_token.sdif", "SDIF_VERSION_UNSUPPORTED"),
+        ("directive_unknown.sdif", "SDIF_DIRECTIVE_UNKNOWN"),
+        ("source_grouped_relation.sdif", "SDIF_AI_REL_SUBJECT"),
+    ):
+        with pytest.raises(ParseError) as excinfo:
+            parse_text((invalid_dir / fixture_name).read_text(encoding="utf-8"))
+        assert excinfo.value.code == code
 
     # Policy fixtures:
     from sdif import Policy, PolicyError, parse_file

@@ -5,7 +5,7 @@ Authoritative runnable examples live in the repository-level [`examples/`](../..
 - [`plan.sdif`](../../examples/plan.sdif): planning document with fields, table rows, relations, and rules.
 - [`validation-report.sdif`](../../examples/validation-report.sdif): validation output with diagnostics as compact rows.
 - [`registry.sdif`](../../examples/registry.sdif): semantic registry of modules and capabilities.
-- [`schema.sdif`](../../examples/schema.sdif): MVP schema used by validation and schema-aware canonicalization tests.
+- [`schema.sdif`](../../examples/schema.sdif): v1 schema used by validation and schema-aware canonicalization tests.
 
 ## Golden fixtures
 

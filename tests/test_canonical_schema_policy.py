@@ -64,3 +64,38 @@ milestones[id,status]:
 
     with pytest.raises(ValueError, match="unordered table `milestones` requires primary_key"):
         canonicalize(source, schema=schema)
+
+
+def test_cli_reports_canonicalization_error_without_traceback(tmp_path):
+    import subprocess
+    import sys
+
+    schema_path = tmp_path / "schema.sdif"
+    source_path = tmp_path / "source.sdif"
+    schema_path.write_text(
+        "@sdif 1.0\n"
+        "kind Schema\n"
+        "tables[name,ordered]:\n"
+        "  milestones\tfalse\n",
+        encoding="utf-8",
+    )
+    source_path.write_text(
+        "@sdif 1.0\n"
+        "milestones[id,status]:\n"
+        "  R2\tpending\n"
+        "  R1\tdone\n",
+        encoding="utf-8",
+    )
+
+    run = subprocess.run(
+        [sys.executable, "-m", "sdif.cli", "canon", str(source_path), "--schema", str(schema_path)],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        timeout=30,
+    )
+
+    assert run.returncode == 1
+    assert run.stdout == ""
+    assert "Canonicalization error: unordered table `milestones` requires primary_key" in run.stderr
+    assert "Traceback" not in run.stderr

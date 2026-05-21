@@ -3,6 +3,10 @@ kind ConformanceManifest
 version 1.0.0
 description "Portable SDIF fixtures for parser and tooling conformance."
 cases[id,profile,source,canonical,tree,sha256]:
-  core-agent	mvp	conformance/cases/core-agent/source.sdif	conformance/cases/core-agent/canonical.sdif	conformance/cases/core-agent/expected.tree	cab7a52688dbf2531a4ba185598a07d76d8964eb7ee377479c4b46fef2b8ad7b
+  core-agent	v1	conformance/cases/core-agent/source.sdif	conformance/cases/core-agent/canonical.sdif	conformance/cases/core-agent/expected.tree	cab7a52688dbf2531a4ba185598a07d76d8964eb7ee377479c4b46fef2b8ad7b
   ai-compact-table	ai	conformance/cases/ai-compact-table/source.sdif	conformance/cases/ai-compact-table/canonical.sdif	conformance/cases/ai-compact-table/expected.tree	e41288c6521823ca4d73da75ae82280b52ab4ba988e536d0ba5a30d94a3aa85e
   ai-alias-header	ai	conformance/cases/ai-alias-header/source.sdif	conformance/cases/ai-alias-header/canonical.sdif	conformance/cases/ai-alias-header/expected.tree	a1e28f45d34330dc9c31014a3b0fa0e7a2ff7a32330fe0b56a8e116f11757959
+  version-valid	v1	conformance/cases/version-valid/source.sdif	conformance/cases/version-valid/canonical.sdif	conformance/cases/version-valid/expected.tree	f94d93c872afef22cb4f2ac3801238831c10d144087c52a7fffa0e627b7eb93d
+  nested-narrative-canonical	v1	conformance/cases/nested-narrative-canonical/source.sdif	conformance/cases/nested-narrative-canonical/canonical.sdif	conformance/cases/nested-narrative-canonical/expected.tree	6de74fd0ec4b8e7a5ba5a62b9f4ddb82288e2552b9836d23123eb0008cbd743f
+  ai-roundtrip-safe	ai	conformance/cases/ai-roundtrip-safe/source.sdif	conformance/cases/ai-roundtrip-safe/canonical.sdif	conformance/cases/ai-roundtrip-safe/expected.tree	288061f5e9507d441d6215ddf0c71e8cc54f5c4526944fad7ac0add258f2f691
+  ai-relation-quoted-object	ai	conformance/cases/ai-relation-quoted-object/source.sdif	conformance/cases/ai-relation-quoted-object/canonical.sdif	conformance/cases/ai-relation-quoted-object/expected.tree	2b92097479242925af63d1c9e02eb00854e757faadc8025671dd1f030a18baef

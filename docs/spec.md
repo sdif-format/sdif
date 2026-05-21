@@ -12,9 +12,9 @@
 **Encoding:** UTF-8
 **Design mode:** schema-first, semantic-first, token-aware, canonicalization-ready
 
-### Draft-to-v1 stabilization track
+### v1 stable contract
 
-The `1.0.0` document records the stable core specification. `@sdif 1.0` will identify the first stable core syntax and semantic contract. The package version may advance independently from the document format version.
+The `1.0.0` document records the stable core specification. `@sdif 1.0` identifies the stable core syntax and semantic contract. The package version may advance independently from the document format version.
 
 Core v1 behavior includes parsing, the normative AST, schema-driven validation, canonical-syntax-v1, safe default policies, and `.sdif.ai` reversibility. Versioned extensions include remote includes, remote schemas, complex namespaces, deep graph validation, digital signatures, advanced type unions, and non-declarative rule execution.
 
@@ -723,13 +723,13 @@ Reserved words may be used as values when unambiguous, but their use as keys may
 
 ---
 
-## 10. Normative MVP decisions
+## 10. Normative v1 decisions
 
-This section closes several design questions for the v1.0 MVP.
+This section closes several design questions for v1.0.
 
 ### 10.1 Table separator
 
-The MVP uses the horizontal tab character (`HTAB`, U+0009) as the table column separator. This is a deliberate tradeoff, not a universal human-ergonomics claim: SDIF-aware tooling must preserve literal tabs, and environments that silently rewrite tabs to spaces can corrupt table rows.
+The v1 core uses the horizontal tab character (`HTAB`, U+0009) as the table column separator. This is a deliberate tradeoff, not a universal human-ergonomics claim: SDIF-aware tooling must preserve literal tabs, and environments that silently rewrite tabs to spaces can corrupt table rows.
 
 ```sdif
 items[id,status,owner]:
@@ -761,7 +761,7 @@ Tabs are reserved for table separation only. They must not be used for indentati
 
 ### 10.2 Rule syntax
 
-The MVP uses parenthesized expressions.
+The v1 core uses parenthesized expressions.
 
 ```sdif
 rules:
@@ -779,7 +779,7 @@ Reasons:
 
 ### 10.3 Unquoted strings
 
-The MVP follows two related policies.
+The v1 core follows two related policies.
 
 Outside tables:
 
@@ -822,9 +822,9 @@ A table cell must only escape a literal tab, a line break, or a reserved control
 
 A Tree-sitter grammar is valuable for editor support, syntax highlighting, and incremental parsing. It should not be a detached convenience grammar, and the Python package should not remain the only practical authority for other language implementations.
 
-The portable authority for this draft is the written specification plus the shared `conformance/manifest.sdif` fixture suite. The Python parser under `src/sdif/` is the current reference implementation used to verify those fixtures until independent parser backends are wired into CI.
+The portable authority for this specification is the written specification plus the shared `conformance/manifest.sdif` fixture suite. The Python parser under `src/sdif/` is the current reference implementation used to verify those fixtures until independent parser backends are wired into CI.
 
-The repository now keeps `tree-sitter-sdif/` as an MVP tooling package with:
+The repository now keeps `tree-sitter-sdif/` as a v1 tooling package with:
 
 1. `grammar.js` for core SDIF syntax nodes.
 2. `tree-sitter.json` for CLI/editor language metadata.
@@ -848,9 +848,9 @@ The first milestone is not full semantic validation. The first milestone is stab
 
 ---
 
-## 11. Core grammar — EBNF draft
+## 11. Core grammar — EBNF
 
-This section defines a practical draft grammar for the SDIF core. It is intended to support the MVP parser, AST, canonicalizer, and basic validator.
+This section defines a practical grammar for the SDIF core. It is intended to support the v1 parser, AST, canonicalizer, and basic validator.
 
 ### 11.1 Notation
 
@@ -992,7 +992,7 @@ Required semantic rules:
 8. A `.sdif.ai` alias header uses `compact=semantic` entries and is preserved by canonicalization before data statements.
 9. A literal tab inside a cell must be escaped as `\t` in strict mode.
 10. Empty cells must be rejected in strict mode unless the schema explicitly allows them.
-11. Multiline blocks are not valid inside tables in the MVP.
+11. Multiline blocks are not valid inside tables in v1.
 12. Inline comments inside tables are prohibited in strict mode.
 
 Example:
@@ -1023,7 +1023,7 @@ rel:
   release.v2 validated_by validation.report.v2
 ```
 
-In the MVP, a relation has exactly three parts: subject, predicate, and object.
+In v1, a relation has exactly three parts: subject, predicate, and object.
 
 ### 11.10 Rules
 
@@ -1180,7 +1180,7 @@ This is a string.
 
 ## 12. Minimum normative AST
 
-The MVP implementation should produce an AST independent from the original text.
+The v1 implementation should produce an AST independent from the original text.
 
 ### 12.1 Document
 
@@ -1336,7 +1336,7 @@ rule_functions[name,min_args,max_args]:
   eq	2	2
 ```
 
-### 13.3 MVP schema types
+### 13.3 v1 schema types
 
 Minimum recommended schema types:
 
@@ -1355,7 +1355,7 @@ Enum(...)
 List<T>
 ```
 
-Types outside the MVP:
+Types outside v1:
 
 ```text
 Union
@@ -1368,7 +1368,7 @@ RemoteSchema
 
 ### 13.4 Duplicate handling
 
-Recommended MVP rules:
+Recommended v1 rules:
 
 1. A root-level scalar field must not repeat unless the schema declares it as accumulative.
 2. A table must not repeat unless explicitly allowed by schema.
@@ -1487,7 +1487,7 @@ The canonicalizer should:
 10. Sort table rows when order is not significant.
 11. Preserve order when the schema declares order significant.
 
-The v1.0 MVP intentionally does not yet normalize aliases, booleans beyond parser-preserved literals, null spellings, dates, date-times, or numeric representation as semantic equivalence classes. Those policies require explicit versioning and golden fixtures.
+The v1.0 core intentionally does not yet normalize aliases, booleans beyond parser-preserved literals, null spellings, dates, date-times, or numeric representation as semantic equivalence classes. Those policies require explicit versioning and golden fixtures.
 
 ### 15.3 Hashing
 
@@ -1826,7 +1826,7 @@ Risks include:
 3. Avoid very wide tables.
 4. Put `kind`, `id`, and `schema` near the top.
 5. Prefer simple relation predicates.
-6. Use a small set of rule functions in the MVP.
+6. Use a small set of rule functions in v1.
 7. Treat `.sdif.ai` as a generated view.
 
 ---
@@ -1989,7 +1989,7 @@ Value
 
 ---
 
-## 26. MVP scope
+## 26. v1 scope
 
 The first useful SDIF implementation should support:
 
@@ -2007,7 +2007,7 @@ The first useful SDIF implementation should support:
 12. JSON conversion.
 13. Basic canonicalization.
 
-Out of scope for the MVP:
+Out of scope for v1:
 
 1. Remote includes.
 2. Complex namespaces.
@@ -2018,9 +2018,9 @@ Out of scope for the MVP:
 7. Rule execution beyond declarative validation.
 8. Formal `.sdif.ai` profile beyond simple generation.
 
-### 26.1 MVP acceptance criteria
+### 26.1 v1 acceptance criteria
 
-The MVP should prove this pipeline:
+The v1 contract proves this pipeline:
 
 ```text
 source.sdif -> AST -> canonical bytes -> stable hash
@@ -2054,7 +2054,7 @@ Deliverables:
 Closure criterion:
 
 ```text
-All MVP syntax fixtures parse deterministically or fail with stable diagnostics.
+All v1 syntax fixtures parse deterministically or fail with stable diagnostics.
 ```
 
 ### 27.2 Phase B — Minimal canonicalization
@@ -2074,7 +2074,7 @@ Closure criterion:
 Equivalent source fixtures produce identical canonical bytes and identical SHA-256 hashes.
 ```
 
-### 27.3 Phase C — MVP schema validation
+### 27.3 Phase C — v1 schema validation
 
 Deliverables:
 
@@ -2104,7 +2104,7 @@ Deliverables:
 Closure criterion:
 
 ```text
-Editor parse trees align with shared SDIF conformance fixtures for the MVP grammar.
+Editor parse trees align with shared SDIF conformance fixtures for the v1 grammar.
 ```
 
 ---
@@ -2212,9 +2212,9 @@ Compact aliases may be appropriate in `.sdif.ai`, but source documents should fa
 
 ---
 
-## 30. Open questions
+## 30. Deferred extension decisions
 
-The 1.0 draft intentionally leaves several topics open.
+The stable 1.0 core fixes the normative behavior above; the topics below are deferred extensions, not part of the v1 contract.
 
 ### 30.1 Inline comments in tables
 
@@ -2252,7 +2252,7 @@ For v1, `@include` is disabled by default and may be enabled only through explic
 
 ### 30.5 Rule expression syntax
 
-The MVP uses compact parenthesized expressions, but the exact internal normalization should be specified more formally.
+The v1 core uses compact parenthesized expressions, but the exact internal normalization should be specified more formally.
 
 For example:
 
@@ -2271,7 +2271,7 @@ RuleExpression("deny", "missing", [Identifier("evidence")])
 
 Schemas should explicitly declare whether table row order is significant.
 
-Open decision: should order be significant by default, or should primary-key sorting be the default when a primary key exists?
+Deferred extension decision: future profiles may define additional default ordering policies beyond the v1 schema-driven rule.
 
 ---
 
@@ -2302,7 +2302,7 @@ Once that pipeline is stable, schema validation, semantic validation, editor too
 
 ---
 
-## Appendix A. MVP Python implementation notes
+## Appendix A. Python reference implementation notes
 
 The repository implementation follows the portable conformance spine defined above:
 
@@ -2325,7 +2325,7 @@ sdif from-json document.json
 sdif ai examples/plan.sdif --alias kind=k --alias status=st
 ```
 
-`sdif tokens` emits `bytes=<n> tokenizer=<name> tokens=<n>`. The MVP CLI uses
+`sdif tokens` emits `bytes=<n> tokenizer=<name> tokens=<n>`. The v1 CLI uses
 `tiktoken/cl100k_base` when the optional `tiktoken` dependency is available and
 falls back to `estimate/4bytes` otherwise. The benchmark script remains the
 authoritative multi-format comparison surface.
@@ -2347,7 +2347,7 @@ values, relations, and rules that cannot fit in a single honest flat CSV table.
 
 ### AST model
 
-The MVP AST is intentionally small and source-independent:
+The v1 AST is intentionally small and source-independent:
 
 - `Document(directives, statements)`
 - `Directive(name, args)`
@@ -2360,7 +2360,7 @@ The MVP AST is intentionally small and source-independent:
 
 Comments are accepted in source but excluded from the canonical AST and canonical output.
 
-### Canonicalization rules implemented in the MVP
+### Canonicalization rules implemented in v1
 
 The current canonical serializer:
 
@@ -2376,7 +2376,7 @@ Schema-aware canonicalization now supports table row ordering through `tables[na
 
 ### Validation CLI and diagnostics
 
-The MVP validator can load an SDIF schema document and emit either text output or structured JSON diagnostics.
+The v1 validator can load an SDIF schema document and emit either text output or structured JSON diagnostics.
 
 ```bash
 sdif validate examples/plan.sdif --schema examples/schema.sdif
@@ -2406,4 +2406,4 @@ Structured diagnostics use this shape:
 
 ### JSON conversion scope
 
-The MVP JSON converter supports scalar fields, nested objects, uniform arrays as SDIF tables, `rel` arrays as relation blocks, `rules` arrays as rule blocks, and scalar lists as inline SDIF lists.
+The v1 JSON converter supports scalar fields, nested objects, uniform arrays as SDIF tables, `rel` arrays as relation blocks, `rules` arrays as rule blocks, and scalar lists as inline SDIF lists.

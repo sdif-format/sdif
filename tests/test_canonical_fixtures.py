@@ -65,6 +65,7 @@ milestones[id,status]:
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=True,
+        timeout=30,
     )
 
     assert (
@@ -85,6 +86,7 @@ milestones[id,status]:
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=True,
+        timeout=30,
     )
 
     assert hash_run.stdout.strip() == hashlib.sha256(canon_run.stdout.encode("utf-8")).hexdigest()
@@ -103,6 +105,7 @@ def test_cli_schema_option_rejects_non_schema_document(tmp_path):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=False,
+        timeout=30,
     )
 
     assert run.returncode != 0
@@ -122,6 +125,7 @@ def test_cli_validate_rejects_non_schema_document(tmp_path):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=False,
+        timeout=30,
     )
 
     assert run.returncode != 0

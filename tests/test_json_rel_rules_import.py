@@ -17,6 +17,7 @@ def test_json_data_to_sdif_imports_relations_rules_lists_and_nested_objects():
     assert (
         text
         == """
+@sdif 1.0
 kind Plan
 id demo
 tags [release,validation]

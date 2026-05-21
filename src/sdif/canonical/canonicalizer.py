@@ -1,4 +1,4 @@
-"""Canonical SDIF serializer for the MVP AST."""
+"""Canonical SDIF serializer for the v1 AST."""
 
 from __future__ import annotations
 
@@ -127,8 +127,8 @@ def _emit_statement(
         lines.append(f"{' ' * (indent + 2)}{statement.source}")
     elif isinstance(statement, Narrative):
         lines.append(f'{prefix}{statement.key} """')
-        lines.extend(statement.text.split("\n"))
-        lines.append('"""')
+        lines.extend(f"{prefix}{line}" for line in statement.text.split("\n"))
+        lines.append(f'{prefix}"""')
     else:  # pragma: no cover - defensive for future AST nodes
         raise TypeError(f"unsupported statement: {statement!r}")
 

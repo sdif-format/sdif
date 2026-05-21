@@ -36,4 +36,5 @@ clean:
 	rm -rf build/ dist/ *.egg-info src/*.egg-info .mypy_cache .pytest_cache .ruff_cache
 
 archive:
+	mkdir -p dist
 	git archive --format=tar.gz --output=dist/sdif.tar.gz HEAD

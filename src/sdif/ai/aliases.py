@@ -6,6 +6,7 @@ from sdif import parse_text
 from sdif.canonical import canonicalize
 from typing import Sequence
 from sdif.core.policy import Policy
+from sdif.core.policy import PolicyError
 
 from sdif.core.ast import (
     Directive,
@@ -28,6 +29,7 @@ def ai_view(
     policy: Policy | None = None,
 ) -> str:
     doc = parse_text(source, policy=policy) if isinstance(source, str) else source
+    _ensure_safe_projection(doc.statements)
     inverse = {canonical: alias for canonical, alias in aliases.items()}
     lines = ["@sdif.ai 1.0"] if include_header else []
     if include_header and aliases:
@@ -203,7 +205,9 @@ def _ai_columns_and_rows(
     table: Table, inverse: dict[str, str]
 ) -> tuple[list[str], list[list[str]]]:
     string_columns = {
-        index for row in table.rows for index, cell in enumerate(row) if _is_quoted(cell)
+        index
+        for index in range(len(table.columns))
+        if table.rows and all(_is_quoted(row[index]) for row in table.rows)
     }
     columns = [
         f"{_name(column, inverse)}$" if index in string_columns else _name(column, inverse)
@@ -219,10 +223,32 @@ def _ai_columns_and_rows(
     return columns, rows
 
 
+def _ensure_safe_projection(statements: Sequence[object]) -> None:
+    for statement in statements:
+        if isinstance(statement, ObjectBlock):
+            _ensure_safe_projection(statement.statements)
+        elif isinstance(statement, Table):
+            _ensure_safe_table_projection(statement)
+
+
+def _ensure_safe_table_projection(table: Table) -> None:
+    for column_index, column in enumerate(table.columns):
+        quoted = [_is_quoted(row[column_index]) for row in table.rows]
+        if all(quoted):
+            for row in table.rows:
+                unquoted = _unquote(row[column_index])
+                if "\t" in unquoted or "\n" in unquoted:
+                    raise PolicyError(
+                        "SDIF_AI_UNSAFE_PROJECTION",
+                        f"table `{table.name}` column `{column}` contains a value unsafe for compact rows",
+                    )
+
+
 def _emit(statement: object, lines: list[str], inverse: dict[str, str], indent: int) -> None:
     prefix = " " * indent
     if isinstance(statement, Field):
-        lines.append(f"{prefix}{_name(statement.key, inverse)} {statement.value}")
+        value = _quote(statement.value) if statement.quoted else statement.value
+        lines.append(f"{prefix}{_name(statement.key, inverse)} {value}")
     elif isinstance(statement, ObjectBlock):
         lines.append(f"{prefix}{_name(statement.key, inverse)}:")
         for child in statement.statements:
@@ -236,8 +262,9 @@ def _emit(statement: object, lines: list[str], inverse: dict[str, str], indent: 
     elif isinstance(statement, Relation):
         if not lines or lines[-1] != f"{prefix}rel:":
             lines.append(f"{prefix}rel:")
+        relation_object = _quote(statement.object) if statement.object_quoted else statement.object
         lines.append(
-            f"{' ' * (indent + 2)}{statement.subject} {statement.predicate} {statement.object}"
+            f"{' ' * (indent + 2)}{statement.subject} {statement.predicate} {relation_object}"
         )
     elif isinstance(statement, Rule):
         if not lines or lines[-1] != f"{prefix}rules:":
@@ -245,8 +272,8 @@ def _emit(statement: object, lines: list[str], inverse: dict[str, str], indent: 
         lines.append(f"{' ' * (indent + 2)}{statement.source}")
     elif isinstance(statement, Narrative):
         lines.append(f'{prefix}{_name(statement.key, inverse)} """')
-        lines.extend(statement.text.split("\n"))
-        lines.append('"""')
+        lines.extend(f"{prefix}{line}" for line in statement.text.split("\n"))
+        lines.append(f'{prefix}"""')
 
 
 def _emit_statements(
@@ -279,4 +306,10 @@ def _emit_relation_group(
     row_prefix = " " * (indent + 2)
     for relation in relations:
         predicate = _name(relation.predicate, inverse)
-        lines.append(f"{row_prefix}{predicate} {relation.object}")
+        relation_object = _quote(relation.object) if relation.object_quoted else relation.object
+        lines.append(f"{row_prefix}{predicate} {relation_object}")
+
+
+def _quote(value: str) -> str:
+    escaped = value.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
+    return f'"{escaped}"'

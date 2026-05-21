@@ -1,4 +1,4 @@
-"""Line-oriented lexer for the SDIF MVP parser."""
+"""Line-oriented lexer for the SDIF v1 parser."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""A deliberately small normative parser slice for SDIF 0.1 MVP syntax."""
+"""Normative parser for SDIF v1 source and AI projection syntax."""
 
 from __future__ import annotations
 
@@ -28,6 +28,15 @@ _ALIAS_HEADER_RE = re.compile(
 )
 _BLOCK_RE = re.compile(r"^(?P<key>[A-Za-z_][A-Za-z0-9_-]*):$")
 _NARRATIVE_RE = re.compile(r'^(?P<key>[A-Za-z_][A-Za-z0-9_-]*)\s+"""$')
+_KNOWN_DIRECTIVES = {
+    "sdif",
+    "sdif.ai",
+    "profile",
+    "vocab",
+    "base",
+    "namespace",
+    "include",
+}
 
 
 @dataclass
@@ -60,6 +69,7 @@ class _Parser:
             self.lines.pop()
         self.index = 0
         self.is_ai_profile = False
+        self.format_directive_name: str | None = None
         self.alias_to_canonical: dict[str, str] = {}
         self.current_nesting_depth = 0
 
@@ -83,6 +93,12 @@ class _Parser:
                 statements.extend(parsed)  # type: ignore[arg-type]
             else:
                 statements.append(parsed)  # type: ignore[arg-type]
+        if self.format_directive_name is None:
+            raise ParseError(
+                "SDIF_VERSION_MISSING",
+                "document must declare @sdif 1.0 or @sdif.ai 1.0",
+                1,
+            )
         return Document(directives=directives, statements=statements)
 
     def _parse_next(self, indent: int) -> object | list[object] | None:
@@ -164,9 +180,39 @@ class _Parser:
         parts = body[1:].split()
         if not parts:
             raise ParseError("SDIF_DIRECTIVE", "empty directive", line_no)
-        if parts[0] == "sdif.ai":
+        name = parts[0]
+        args = parts[1:]
+        if name not in _KNOWN_DIRECTIVES:
+            raise ParseError(
+                "SDIF_DIRECTIVE_UNKNOWN",
+                f"unknown directive @{name}",
+                line_no,
+                hint="v1 documents only allow known core directives",
+            )
+        if name in {"sdif", "sdif.ai"}:
+            if len(args) != 1:
+                raise ParseError(
+                    "SDIF_VERSION_SYNTAX",
+                    f"@{name} requires exactly one version argument",
+                    line_no,
+                )
+            if args[0] != "1.0":
+                raise ParseError(
+                    "SDIF_VERSION_UNSUPPORTED",
+                    f"unsupported @{name} version `{args[0]}`",
+                    line_no,
+                    hint="this implementation supports format version 1.0",
+                )
+            if self.format_directive_name is not None:
+                raise ParseError(
+                    "SDIF_VERSION_CONFLICT",
+                    "document must declare exactly one format version directive",
+                    line_no,
+                )
+            self.format_directive_name = name
+        if name == "sdif.ai":
             self.is_ai_profile = True
-        return Directive(parts[0], parts[1:])
+        return Directive(name, args)
 
     def _is_relation_subject_header(self, name: str) -> bool:
         return name == "rel" or self.alias_to_canonical.get(name) == "rel"

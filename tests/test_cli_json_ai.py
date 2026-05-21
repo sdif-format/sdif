@@ -13,6 +13,7 @@ def run_cli(*args: str) -> subprocess.CompletedProcess[str]:
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=True,
+        timeout=30,
     )
 
 
@@ -62,6 +63,33 @@ def test_ai_projection_marks_string_columns_to_remove_repeated_scalar_quotes(tmp
     run = run_cli("ai", str(source))
 
     assert run.stdout == "@sdif.ai 1.0\nitems[id,value$]:\nI1\tnull\nI2\t42\n"
+
+
+def test_ai_projection_preserves_quoted_scalar_string_roundtrip():
+    source = '@sdif 1.0\nvalue "null"\n'
+
+    ai = ai_view(source, {})
+
+    assert ai == '@sdif.ai 1.0\nvalue "null"\n'
+    assert canonicalize(sdif_from_ai(ai)) == canonicalize(source)
+
+
+def test_ai_projection_preserves_mixed_table_column_cell_types():
+    source = '@sdif 1.0\nitems[id,value]:\n  A\t42\n  B\t"null"\n'
+
+    ai = ai_view(source, {})
+
+    assert ai == '@sdif.ai 1.0\nitems[id,value]:\nA\t42\nB\t"null"\n'
+    assert canonicalize(sdif_from_ai(ai)) == canonicalize(source)
+
+
+def test_ai_projection_preserves_subject_group_relation_quoted_object_spaces():
+    source = '@sdif 1.0\nrel:\n  doc describes "hello world"\n'
+
+    ai = ai_view(source, {})
+
+    assert ai == '@sdif.ai 1.0\nrel[doc]:\n  describes "hello world"\n'
+    assert canonicalize(sdif_from_ai(ai)) == canonicalize(source)
 
 
 def test_cli_from_ai_expands_aliases_to_canonical_sdif(tmp_path):

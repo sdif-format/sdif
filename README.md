@@ -111,7 +111,7 @@ The current Python package includes:
 * golden fixtures
 * shared conformance fixtures
 
-Tree-sitter now has an MVP grammar package, corpus fixture, highlight query, and shared conformance fixtures for editor/agent tooling.
+Tree-sitter now has a v1 grammar package, corpus fixture, highlight query, and shared conformance fixtures for editor/agent tooling.
 
 The specification plus conformance fixtures are the portable authority, with the Python parser acting as the current reference implementation.
 
@@ -178,7 +178,7 @@ The `benchmarks/latest` directory contains the most recent run.
 
 ## Tree-sitter tooling
 
-`tree-sitter-sdif/` contains the MVP grammar package for editor and incremental parse tooling.
+`tree-sitter-sdif/` contains the v1 grammar package for editor and incremental parse tooling.
 
 It includes:
 
@@ -200,7 +200,7 @@ npm test
 
 ## Documentation
 
-* [Specification draft](docs/spec.md)
+* [Specification](docs/spec.md)
 * [Canonicalization contract](docs/canonicalization.md)
 * [Format comparison](docs/comparison.md)
 * [Semantic quality comparison](docs/semantic-quality.md)
@@ -208,9 +208,7 @@ npm test
 
 ## Limitations
 
-SDIF is still a draft format.
-
-Current benchmark results are promising, but they should be read with these boundaries:
+SDIF `1.0` is the stable core contract. Current benchmark results are promising, but they should be read with these boundaries:
 
 * results are corpus-dependent;
 * not every data shape benefits equally from tabular projection;

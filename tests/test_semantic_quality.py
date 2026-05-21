@@ -9,6 +9,7 @@ def test_semantic_quality_checker_passes_for_plan_example():
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=False,
+        timeout=30,
     )
 
     assert run.returncode == 0, run.stderr

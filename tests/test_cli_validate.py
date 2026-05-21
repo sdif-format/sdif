@@ -47,6 +47,7 @@ rules:
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=False,
+        timeout=30,
     )
 
     assert run.returncode == 1
@@ -81,6 +82,7 @@ fields[name,type,required,default]:
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=False,
+        timeout=30,
     )
 
     assert run.returncode == 0
@@ -107,6 +109,7 @@ def test_cli_validate_json_reports_parse_errors_as_structured_diagnostics(tmp_pa
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=False,
+        timeout=30,
     )
 
     assert run.returncode == 1
@@ -140,6 +143,7 @@ def test_cli_validate_text_reports_parse_errors_without_traceback(tmp_path):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=False,
+        timeout=30,
     )
 
     assert run.returncode == 1
@@ -164,6 +168,7 @@ def test_cli_validate_reports_malformed_schema_without_traceback(tmp_path):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=False,
+        timeout=30,
     )
 
     assert run.returncode != 0

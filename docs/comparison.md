@@ -9,7 +9,7 @@
 | TOON | Token-efficient object/table notation for LLM contexts | Primarily optimized for compact transfer, not semantic validation or canonical hashes | SDIF adopts table compactness but adds relations, rules, profiles, schemas, canonical bytes |
 | XML | Mature document markup, namespaces, schemas, mixed content | Very tag-heavy for repeated machine data; noisy for LLM context windows | SDIF keeps explicit structure while avoiding repeated open/close tags for table-like data |
 | CSV/TSV | Extremely compact for a single flat table | Cannot represent nested objects, metadata, relations, or rule blocks without an external bundle convention | SDIF preserves CSV-like row density but embeds table meaning, fields, relations, and rules in one document |
-| SDIF | Semantic density, tabular compaction, relationships, declarative rules, canonicalization | New ecosystem; narrower MVP; requires SDIF-aware tooling | Best fit for auditable semantic documents and AI-agent exchange |
+| SDIF | Semantic density, tabular compaction, relationships, declarative rules, canonicalization | New ecosystem; narrower v1 core; requires SDIF-aware tooling | Best fit for auditable semantic documents and AI-agent exchange |
 
 ## Repeated records
 

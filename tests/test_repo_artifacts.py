@@ -77,6 +77,7 @@ def test_tree_sitter_scaffold_checker_passes():
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=False,
+        timeout=30,
     )
 
     assert run.returncode == 0, run.stderr
@@ -195,7 +196,7 @@ def test_spec_records_v1_m1_normative_decisions():
     spec = Path("docs/spec.md").read_text(encoding="utf-8")
 
     for term in (
-        "`@sdif 1.0` will identify the first stable core syntax and semantic contract.",
+        "`@sdif 1.0` identifies the stable core syntax and semantic contract.",
         "The package version may advance independently from the document format version.",
         "Core v1 behavior includes parsing, the normative AST, schema-driven validation, canonical-syntax-v1, safe default policies, and `.sdif.ai` reversibility.",
         "Versioned extensions include remote includes, remote schemas, complex namespaces, deep graph validation, digital signatures, advanced type unions, and non-declarative rule execution.",
@@ -210,6 +211,47 @@ def test_spec_records_v1_m1_normative_decisions():
         "Remote includes and remote schemas remain disabled unless an explicit policy enables them.",
     ):
         assert term in spec
+
+
+def test_public_release_metadata_has_no_draft_or_alpha_contradictions():
+    pyproject = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
+    public_docs = "\n".join(
+        Path(path).read_text(encoding="utf-8")
+        for path in ("README.md", "docs/spec.md", "docs/canonicalization.md")
+    ).lower()
+
+    assert "Development Status :: 5 - Production/Stable" in pyproject["project"]["classifiers"]
+    for forbidden in (
+        "still a draft",
+        "specification draft",
+        "open question",
+        "open decision",
+        "mvp",
+        "alpha",
+    ):
+        assert forbidden not in public_docs
+
+
+def test_release_process_uses_git_archive_and_documents_required_gates():
+    makefile = Path("Makefile").read_text(encoding="utf-8")
+    release_docs = Path("docs/release-process.md").read_text(encoding="utf-8")
+    changelog = Path("CHANGELOG.md").read_text(encoding="utf-8")
+
+    assert "git archive --format=tar.gz --output=dist/sdif.tar.gz HEAD" in makefile
+    assert "mkdir -p dist" in makefile
+    for forbidden in ("__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".venv"):
+        assert forbidden in release_docs
+    for gate in (
+        "scripts/check_conformance_fixtures.py",
+        "scripts/check_semantic_quality.py",
+        "scripts/check_tree_sitter_scaffold.py",
+        "python3 -m compileall -q src scripts tests tools",
+        "python3 -m pytest -q",
+        "scripts/token_comparison.py",
+    ):
+        assert gate in release_docs
+    assert "## 1.0.0 - 2026-05-21" in changelog
+    assert "@sdif 1.0" in changelog
 
 
 def test_canonicalization_doc_records_m2_table_order_contract():

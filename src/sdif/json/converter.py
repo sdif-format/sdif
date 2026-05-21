@@ -41,11 +41,11 @@ def document_to_json_data(doc: Document) -> dict[str, JsonValue]:
     return value
 
 
-def json_data_to_sdif(data: Mapping[str, object], *, include_header: bool = False) -> str:
+def json_data_to_sdif(data: Mapping[str, object], *, include_header: bool = True) -> str:
     """Encode a JSON mapping as SDIF.
 
-    ``include_header`` is opt-in to preserve the existing CLI/test output.
-    Benchmarks can enable it when they want to include the SDIF marker overhead.
+    ``include_header`` defaults to true because v1 documents require an
+    explicit ``@sdif 1.0`` format contract.
     """
 
     _assert_mapping_has_no_reserved_keys(data, path="$")
@@ -309,7 +309,7 @@ def _format_table_cell(value: object) -> str:
     text = str(value)
     if "\t" in text or "\n" in text:
         raise ValueError(
-            "the MVP SDIF table encoder cannot represent tabs or newlines in table cells"
+            "the SDIF v1 table encoder cannot represent tabs or newlines in table cells"
         )
     if _must_quote_table_cell(text):
         return _quote(text)

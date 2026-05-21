@@ -1,4 +1,4 @@
-"""Command-line interface for the SDIF MVP tools."""
+"""Command-line interface for the SDIF v1 tools."""
 
 from __future__ import annotations
 
@@ -335,6 +335,40 @@ def main(argv: list[str] | None = None) -> int:
         else:
             sys.stderr.write(f"Policy denial: {exc.code}: {exc.message}\n")
         return 2
+    except ParseError as exc:
+        if getattr(args, "json_output", False):
+            json.dump(
+                {
+                    "error": {
+                        "code": exc.code,
+                        "message": exc.message,
+                        "line": exc.line,
+                        "column": exc.column,
+                    }
+                },
+                sys.stdout,
+                indent=2,
+            )
+            sys.stdout.write("\n")
+        else:
+            sys.stderr.write(f"Parse error: {exc}\n")
+        return 1
+    except ValueError as exc:
+        if getattr(args, "json_output", False):
+            json.dump(
+                {
+                    "error": {
+                        "code": "SDIF_CANONICALIZATION_ERROR",
+                        "message": str(exc),
+                    }
+                },
+                sys.stdout,
+                indent=2,
+            )
+            sys.stdout.write("\n")
+        else:
+            sys.stderr.write(f"Canonicalization error: {exc}\n")
+        return 1
 
 
 def _diagnostic_from_parse_error(exc: ParseError) -> Diagnostic:

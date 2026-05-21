@@ -1,4 +1,4 @@
-"""Core AST nodes for the SDIF MVP parser."""
+"""Core AST nodes for the SDIF v1 parser."""
 
 from __future__ import annotations
 

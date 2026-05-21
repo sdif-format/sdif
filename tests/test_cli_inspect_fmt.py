@@ -10,6 +10,7 @@ def run_cli(*args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=check,
+        timeout=30,
     )
 
 
