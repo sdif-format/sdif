@@ -5,6 +5,16 @@ import sys
 from scripts import token_comparison
 
 
+def path_snapshot(path):
+    try:
+        stat = path.lstat()
+    except FileNotFoundError:
+        return None
+
+    target = os.readlink(path) if path.is_symlink() else None
+    return (stat.st_mode, stat.st_size, stat.st_mtime_ns, target)
+
+
 def test_benchmark_main_discovers_golden_fixtures_from_script_location(
     monkeypatch,
     tmp_path,
@@ -13,6 +23,7 @@ def test_benchmark_main_discovers_golden_fixtures_from_script_location(
     monkeypatch.chdir(tmp_path)
     monkeypatch.setenv("SDIF_ENV_OVERRIDE", "0")
     monkeypatch.setenv("SDIF_BENCHMARK_TOON", "0")
+    monkeypatch.setenv("SDIF_BENCHMARK_OUTPUT_DIR", str(tmp_path / "benchmarks"))
     monkeypatch.setattr(
         token_comparison,
         "available_tokenizers",
@@ -112,14 +123,18 @@ def test_benchmark_ratios_rankings_and_savings_use_json_compact_as_baseline():
     assert token_comparison.wins_by_tokenizer(evidence, "Estimate") == {"Compact Format": 1}
 
 
-def test_benchmark_script_runs_directly_from_checkout():
+def test_benchmark_script_runs_directly_from_checkout(tmp_path):
     env = os.environ.copy()
     env["SDIF_ENV_OVERRIDE"] = "0"
     env["SDIF_BENCHMARK_TOON"] = "0"
     env["SDIF_BENCHMARK_TOKENX"] = "0"
     env["SDIF_BENCHMARK_LLAMA"] = "0"
     env["SDIF_BENCHMARK_CLAUDE"] = "0"
+    env["SDIF_BENCHMARK_OUTPUT_DIR"] = str(tmp_path / "benchmarks")
     env.pop("PYTHONPATH", None)
+
+    repo_latest = token_comparison.REPO_ROOT / "benchmarks" / "latest"
+    before = path_snapshot(repo_latest)
 
     run = subprocess.run(
         [sys.executable, "scripts/token_comparison.py"],
@@ -128,11 +143,14 @@ def test_benchmark_script_runs_directly_from_checkout():
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=False,
+        timeout=60,
     )
 
     assert run.returncode == 0
     assert "XML" in run.stdout
     assert "CSV Bundle" in run.stdout
+    assert path_snapshot(repo_latest) == before
+    assert (tmp_path / "benchmarks" / "latest").exists()
 
 
 def test_benchmark_main_emits_formal_summary_artifacts(monkeypatch, tmp_path):

@@ -33,7 +33,15 @@ Each benchmark execution writes persistent evidence to:
 - benchmarks/<timestamp>/comparison.sdif.ai
 - benchmarks/latest -> <timestamp>
 
+By default, benchmark evidence is written under the repository `benchmarks/` directory.
+Set `SDIF_BENCHMARK_OUTPUT_DIR` to redirect generated evidence to an external directory.
+This is useful for tests, CI probes, and dry runs that must not mutate repository artifacts.
+
 Environment variables:
+
+- SDIF_BENCHMARK_OUTPUT_DIR=<path>
+    Optional benchmark output directory.
+    Default: benchmarks/ under the repository root.
 
 - SDIF_BENCHMARK_TOON=0
     Disable TOON comparison.
@@ -223,12 +231,28 @@ def benchmark_timestamp() -> str:
     return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 
-def create_benchmark_run_dir() -> Path:
-    base_dir = REPO_ROOT / "benchmarks"
-    base_dir.mkdir(parents=True, exist_ok=True)
+def benchmark_output_dir() -> Path:
+    configured = os.environ.get("SDIF_BENCHMARK_OUTPUT_DIR")
+
+    if configured:
+        return Path(configured).expanduser().resolve()
+
+    return REPO_ROOT / "benchmarks"
+
+
+def display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path.absolute())
+
+
+def create_benchmark_run_dir(base_dir: Path | None = None) -> Path:
+    target_dir = base_dir or benchmark_output_dir()
+    target_dir.mkdir(parents=True, exist_ok=True)
 
     timestamp = benchmark_timestamp()
-    run_dir = base_dir / timestamp
+    run_dir = target_dir / timestamp
     counter = 1
 
     while run_dir.exists():
@@ -1258,16 +1282,16 @@ def print_evidence_footer(
 ) -> None:
     print()
     print("🧾 Benchmark evidence written")
-    print(f"  log:      {log_path.relative_to(REPO_ROOT)}")
-    print(f"  markdown: {markdown_path.relative_to(REPO_ROOT)}")
-    print(f"  summary:  {summary_path.relative_to(REPO_ROOT)}")
-    print(f"  summary json:    {summary_json_path.relative_to(REPO_ROOT)}")
-    print(f"  summary sdif:    {summary_sdif_path.relative_to(REPO_ROOT)}")
-    print(f"  summary sdif.ai: {summary_sdif_ai_path.relative_to(REPO_ROOT)}")
-    print(f"  json:     {json_path.relative_to(REPO_ROOT)}")
-    print(f"  sdif:     {sdif_path.relative_to(REPO_ROOT)}")
-    print(f"  sdif.ai:  {sdif_ai_path.relative_to(REPO_ROOT)}")
-    print(f"  latest:   {latest.relative_to(REPO_ROOT)} -> {run_dir.name}")
+    print(f"  log:      {display_path(log_path)}")
+    print(f"  markdown: {display_path(markdown_path)}")
+    print(f"  summary:  {display_path(summary_path)}")
+    print(f"  summary json:    {display_path(summary_json_path)}")
+    print(f"  summary sdif:    {display_path(summary_sdif_path)}")
+    print(f"  summary sdif.ai: {display_path(summary_sdif_ai_path)}")
+    print(f"  json:     {display_path(json_path)}")
+    print(f"  sdif:     {display_path(sdif_path)}")
+    print(f"  sdif.ai:  {display_path(sdif_ai_path)}")
+    print(f"  latest:   {display_path(latest)} -> {run_dir.name}")
 
 
 # ====================
@@ -1280,8 +1304,8 @@ def render_markdown_report(evidence: BenchmarkEvidence) -> str:
         "# SDIF Benchmark Evidence Report",
         "",
         f"- Generated at: `{evidence.generated_at}`",
-        f"- Run directory: `{evidence.run_dir.relative_to(REPO_ROOT)}`",
-        f"- Semantic source: `{evidence.golden_dir.relative_to(REPO_ROOT)}/<document>/equivalent.json`",
+        f"- Run directory: `{display_path(evidence.run_dir)}`",
+        f"- Semantic source: `{display_path(evidence.golden_dir)}/<document>/equivalent.json`",
         "- Ratios are computed independently per tokenizer against `JSON Compact`.",
         "- All formats are derived from the same canonical JSON semantic source.",
         f"- Console ordering tokenizer: `{evidence.primary_name}`",
@@ -1381,12 +1405,12 @@ def render_summary_report(evidence: BenchmarkEvidence) -> str:
         "# SDIF Benchmark Summary",
         "",
         f"- Generated at: `{evidence.generated_at}`",
-        f"- Run directory: `{evidence.run_dir.relative_to(REPO_ROOT)}`",
-        f"- Full report: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.md'}`",
-        f"- Structured JSON: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.json'}`",
-        f"- Structured SDIF: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.sdif'}`",
-        f"- SDIF AI projection: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.sdif.ai'}`",
-        f"- Raw log: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.log'}`",
+        f"- Run directory: `{display_path(evidence.run_dir)}`",
+        f"- Full report: `{display_path(evidence.run_dir / 'comparison.md')}`",
+        f"- Structured JSON: `{display_path(evidence.run_dir / 'comparison.json')}`",
+        f"- Structured SDIF: `{display_path(evidence.run_dir / 'comparison.sdif')}`",
+        f"- SDIF AI projection: `{display_path(evidence.run_dir / 'comparison.sdif.ai')}`",
+        f"- Raw log: `{display_path(evidence.run_dir / 'comparison.log')}`",
         f"- Documents compared: `{documents_count}`",
         f"- Available tokenizers: `{', '.join(available_names) if available_names else 'none'}`",
         "",
@@ -1521,12 +1545,12 @@ def render_summary_report(evidence: BenchmarkEvidence) -> str:
             "",
             "## Artifacts",
             "",
-            f"- Full benchmark report: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.md'}`",
-            f"- Structured JSON report: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.json'}`",
-            f"- Structured SDIF report: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.sdif'}`",
-            f"- SDIF AI projection: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.sdif.ai'}`",
-            f"- Raw benchmark log: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.log'}`",
-            f"- Latest symlink: `{evidence.run_dir.parent.relative_to(REPO_ROOT) / 'latest'}`",
+            f"- Full benchmark report: `{display_path(evidence.run_dir / 'comparison.md')}`",
+            f"- Structured JSON report: `{display_path(evidence.run_dir / 'comparison.json')}`",
+            f"- Structured SDIF report: `{display_path(evidence.run_dir / 'comparison.sdif')}`",
+            f"- SDIF AI projection: `{display_path(evidence.run_dir / 'comparison.sdif.ai')}`",
+            f"- Raw benchmark log: `{display_path(evidence.run_dir / 'comparison.log')}`",
+            f"- Latest symlink: `{display_path(evidence.run_dir.parent / 'latest')}`",
             "",
         ]
     )
@@ -1542,8 +1566,8 @@ def structured_report_data(evidence: BenchmarkEvidence) -> dict[str, Any]:
         "kind": "BenchmarkReport",
         "version": "1.0",
         "generatedAt": evidence.generated_at,
-        "runDirectory": str(evidence.run_dir.relative_to(REPO_ROOT)),
-        "semanticSource": f"{evidence.golden_dir.relative_to(REPO_ROOT)}/<document>/equivalent.json",
+        "runDirectory": display_path(evidence.run_dir),
+        "semanticSource": f"{display_path(evidence.golden_dir)}/<document>/equivalent.json",
         "ratiosBaseline": "JSON Compact",
         "consoleOrderingTokenizer": evidence.primary_name,
         "envFileLoaded": evidence.env_file_loaded,
@@ -1571,16 +1595,16 @@ def structured_report_data(evidence: BenchmarkEvidence) -> dict[str, Any]:
             "ANTHROPIC_API_KEY": "set" if os.environ.get("ANTHROPIC_API_KEY") else "unset",
         },
         "artifacts": {
-            "log": str(evidence.run_dir.relative_to(REPO_ROOT) / "comparison.log"),
-            "markdown": str(evidence.run_dir.relative_to(REPO_ROOT) / "comparison.md"),
-            "summary": str(evidence.run_dir.relative_to(REPO_ROOT) / "summary.md"),
-            "summaryJson": str(evidence.run_dir.relative_to(REPO_ROOT) / "summary.json"),
-            "summarySdif": str(evidence.run_dir.relative_to(REPO_ROOT) / "summary.sdif"),
-            "summarySdifAi": str(evidence.run_dir.relative_to(REPO_ROOT) / "summary.sdif.ai"),
-            "json": str(evidence.run_dir.relative_to(REPO_ROOT) / "comparison.json"),
-            "sdif": str(evidence.run_dir.relative_to(REPO_ROOT) / "comparison.sdif"),
-            "sdifAi": str(evidence.run_dir.relative_to(REPO_ROOT) / "comparison.sdif.ai"),
-            "latest": str(evidence.run_dir.parent.relative_to(REPO_ROOT) / "latest"),
+            "log": display_path(evidence.run_dir / "comparison.log"),
+            "markdown": display_path(evidence.run_dir / "comparison.md"),
+            "summary": display_path(evidence.run_dir / "summary.md"),
+            "summaryJson": display_path(evidence.run_dir / "summary.json"),
+            "summarySdif": display_path(evidence.run_dir / "summary.sdif"),
+            "summarySdifAi": display_path(evidence.run_dir / "summary.sdif.ai"),
+            "json": display_path(evidence.run_dir / "comparison.json"),
+            "sdif": display_path(evidence.run_dir / "comparison.sdif"),
+            "sdifAi": display_path(evidence.run_dir / "comparison.sdif.ai"),
+            "latest": display_path(evidence.run_dir.parent / "latest"),
         },
     }
 
@@ -2113,13 +2137,13 @@ def render_artifacts(evidence: BenchmarkEvidence) -> list[str]:
     return [
         "## Artifacts",
         "",
-        f"- Raw log: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.log'}`",
-        f"- Markdown report: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.md'}`",
-        f"- Summary report: `{evidence.run_dir.relative_to(REPO_ROOT) / 'summary.md'}`",
-        f"- Structured JSON report: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.json'}`",
-        f"- Structured SDIF report: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.sdif'}`",
-        f"- SDIF AI projection: `{evidence.run_dir.relative_to(REPO_ROOT) / 'comparison.sdif.ai'}`",
-        f"- Latest symlink: `{evidence.run_dir.parent.relative_to(REPO_ROOT) / 'latest'}`",
+        f"- Raw log: `{display_path(evidence.run_dir / 'comparison.log')}`",
+        f"- Markdown report: `{display_path(evidence.run_dir / 'comparison.md')}`",
+        f"- Summary report: `{display_path(evidence.run_dir / 'summary.md')}`",
+        f"- Structured JSON report: `{display_path(evidence.run_dir / 'comparison.json')}`",
+        f"- Structured SDIF report: `{display_path(evidence.run_dir / 'comparison.sdif')}`",
+        f"- SDIF AI projection: `{display_path(evidence.run_dir / 'comparison.sdif.ai')}`",
+        f"- Latest symlink: `{display_path(evidence.run_dir.parent / 'latest')}`",
         "",
     ]
 
