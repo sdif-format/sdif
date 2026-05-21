@@ -17,51 +17,120 @@ from sdif.validation import Diagnostic, Schema, SchemaError, diagnostics_to_json
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="sdif", description="SDIF parser and canonicalization tools"
+        prog="sdif",
+        description="SDIF (Semantic Data Interchange Format) tools for parsing, formatting, canonicalizing, validating, and projecting structured documents.",
     )
-    sub = parser.add_subparsers(dest="command", required=True)
+    sub = parser.add_subparsers(dest="command", required=True, title="subcommands", description="valid subcommands")
 
-    parse = sub.add_parser("parse")
-    parse.add_argument("path", type=Path)
+    parse = sub.add_parser(
+        "parse",
+        help="Parse an SDIF document and display counts of directives and statements",
+        description="Parse an SDIF document and display counts of directives and statements.",
+    )
+    parse.add_argument("path", type=Path, help="Path to the SDIF file to parse")
 
-    canon = sub.add_parser("canon")
-    canon.add_argument("path", type=Path)
+    canon = sub.add_parser(
+        "canon",
+        help="Format an SDIF document to its canonical form and write to stdout",
+        description="Format an SDIF document to its canonical form and write to stdout.",
+    )
+    canon.add_argument("path", type=Path, help="Path to the SDIF file to canonicalize")
     canon.add_argument(
-        "--schema", type=Path, help="optional schema for schema-aware canonical policies"
+        "--schema", type=Path, help="Optional schema file to apply schema-aware canonical policies"
     )
 
-    hash_cmd = sub.add_parser("hash")
-    hash_cmd.add_argument("path", type=Path)
+    hash_cmd = sub.add_parser(
+        "hash",
+        help="Generate a stable SHA-256 hash of the canonicalized SDIF document",
+        description="Generate a stable SHA-256 hash of the canonicalized SDIF document.",
+    )
+    hash_cmd.add_argument("path", type=Path, help="Path to the SDIF file")
     hash_cmd.add_argument(
-        "--schema", type=Path, help="optional schema for schema-aware canonical policies"
+        "--schema", type=Path, help="Optional schema file to apply schema-aware canonical policies"
     )
 
-    for name in ("tokens", "to-json", "from-json"):
-        cmd = sub.add_parser(name)
-        cmd.add_argument("path", type=Path)
+    tokens = sub.add_parser(
+        "tokens",
+        help="Analyze and count tokens and bytes in an SDIF document",
+        description="Analyze and count tokens and bytes in an SDIF document.",
+    )
+    tokens.add_argument("path", type=Path, help="Path to the SDIF file")
 
-    ai = sub.add_parser("ai")
-    ai.add_argument("path", type=Path)
-    ai.add_argument("--alias", action="append", default=[], metavar="FIELD=ALIAS")
-    validate = sub.add_parser("validate")
-    validate.add_argument("path", type=Path)
-    validate.add_argument("--schema", type=Path, required=True)
-    validate.add_argument("--json", action="store_true", dest="json_output")
+    to_json = sub.add_parser(
+        "to-json",
+        help="Convert an SDIF document into its corresponding JSON data representation",
+        description="Convert an SDIF document into its corresponding JSON data representation.",
+    )
+    to_json.add_argument("path", type=Path, help="Path to the SDIF file")
 
-    inspect_cmd = sub.add_parser("inspect")
-    inspect_cmd.add_argument("path", type=Path)
-    inspect_cmd.add_argument("--json", action="store_true", dest="json_output")
+    from_json = sub.add_parser(
+        "from-json",
+        help="Convert a JSON data representation back into an SDIF document",
+        description="Convert a JSON data representation back into an SDIF document.",
+    )
+    from_json.add_argument("path", type=Path, help="Path to the JSON file")
+
+    ai = sub.add_parser(
+        "ai",
+        help="Project an SDIF document into the token-dense .sdif.ai AI-friendly format",
+        description="Project an SDIF document into the token-dense .sdif.ai AI-friendly format.",
+    )
+    ai.add_argument("path", type=Path, help="Path to the SDIF file")
+    ai.add_argument(
+        "--alias",
+        action="append",
+        default=[],
+        metavar="FIELD=ALIAS",
+        help="Optional alias to map a field/column name for the AI view (can be specified multiple times)"
+    )
+
+    validate = sub.add_parser(
+        "validate",
+        help="Validate an SDIF document against a given schema",
+        description="Validate an SDIF document against a given schema.",
+    )
+    validate.add_argument("path", type=Path, help="Path to the SDIF file to validate")
+    validate.add_argument("--schema", type=Path, required=True, help="Required schema file to validate against")
+    validate.add_argument(
+        "--json",
+        action="store_true",
+        dest="json_output",
+        help="Output validation results as structured JSON instead of plain text"
+    )
+
+    inspect_cmd = sub.add_parser(
+        "inspect",
+        help="Inspect the internal AST of an SDIF document",
+        description="Inspect the internal AST of an SDIF document.",
+    )
+    inspect_cmd.add_argument("path", type=Path, help="Path to the SDIF file")
     inspect_cmd.add_argument(
-        "--schema", type=Path, help="optional schema for validation diagnostics"
+        "--json",
+        action="store_true",
+        dest="json_output",
+        help="Output the parsed AST structure as JSON"
+    )
+    inspect_cmd.add_argument(
+        "--schema",
+        type=Path,
+        help="Optional schema file to include validation diagnostics in the JSON output"
     )
 
-    fmt = sub.add_parser("fmt")
-    fmt.add_argument("path", type=Path)
+    fmt = sub.add_parser(
+        "fmt",
+        help="Format an SDIF document in-place or check formatting compliance",
+        description="Format an SDIF document in-place or check formatting compliance.",
+    )
+    fmt.add_argument("path", type=Path, help="Path to the SDIF file")
     fmt.add_argument(
-        "--check", action="store_true", help="check formatting instead of writing in-place"
+        "--check",
+        action="store_true",
+        help="Check formatting compliance and exit with non-zero code on discrepancies instead of writing in-place"
     )
     fmt.add_argument(
-        "--schema", type=Path, help="optional schema for schema-aware canonical policies"
+        "--schema",
+        type=Path,
+        help="Optional schema file to apply schema-aware canonical policies"
     )
 
     args = parser.parse_args(argv)
