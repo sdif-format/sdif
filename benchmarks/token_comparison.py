@@ -9,6 +9,7 @@ The benchmark derives all compared formats from the same canonical JSON source:
 - XML
 - CSV Bundle
 - SDIF
+- SDIF AI projection
 - TOON, when the official CLI is available
 
 It can count tokens with multiple tokenizers:
@@ -66,6 +67,7 @@ import yaml
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
+from sdif.ai import ai_view  # noqa: E402
 from sdif.json import json_data_to_sdif  # noqa: E402
 
 
@@ -96,6 +98,17 @@ except ImportError:
 # ====================
 
 TokenCounter = Callable[[str], int | None]
+
+AI_ALIASES = {
+    "authority": "auth",
+    "description": "desc",
+    "evidence": "ev",
+    "lifecycle": "life",
+    "priority": "pri",
+    "schema": "sch",
+    "status": "st",
+    "version": "v",
+}
 
 
 @dataclass(frozen=True)
@@ -377,13 +390,15 @@ def average(values: list[float]) -> float:
 
 
 def build_formats(data: dict[str, Any]) -> list[tuple[str, str]]:
+    sdif_text = json_data_to_sdif(data, include_header=True)
     formats: list[tuple[str, str]] = [
         ("JSON Compact", json_compact(data)),
         ("JSON Pretty", json_pretty(data)),
         ("YAML", yaml_generated(data)),
         ("XML", xml_generated(data)),
         ("CSV Bundle", csv_bundle_generated(data)),
-        ("SDIF", json_data_to_sdif(data, include_header=True)),
+        ("SDIF", sdif_text),
+        ("SDIF AI", ai_view(sdif_text, AI_ALIASES)),
     ]
 
     toon_text = toon_from_cli(data)

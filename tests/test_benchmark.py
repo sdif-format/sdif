@@ -27,6 +27,7 @@ def test_benchmark_main_discovers_golden_fixtures_from_script_location(
     assert "XML" in output
     assert "CSV Bundle" in output
     assert "SDIF" in output
+    assert "SDIF AI" in output
     assert "TOON skipped" in output
 
 

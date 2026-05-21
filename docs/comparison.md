@@ -103,8 +103,11 @@ Use JSON for public APIs that already require JSON. Use YAML/TOML for simple loc
 
 `benchmarks/token_comparison.py` derives every compared representation from the
 same canonical JSON fixture and currently includes JSON compact, JSON pretty,
-YAML, XML, a practical CSV bundle, SDIF, and TOON when the official TOON CLI is
-available. It always includes an `Estimate` token column using a deterministic
-4-UTF-8-bytes-per-token fallback, while `tiktoken` remains the preferred primary
-metric when installed. The CSV output is named `CSV Bundle` because nested SDIF
-documents cannot be represented honestly as a single flat CSV table.
+YAML, XML, a practical CSV bundle, SDIF, SDIF AI, and TOON when the official
+TOON CLI is available. `SDIF AI` applies the `.sdif.ai` alias projection to the
+generated SDIF document so token comparisons include the AI-context
+surface separately from canonical SDIF. The benchmark always includes an
+`Estimate` token column using a deterministic 4-UTF-8-bytes-per-token fallback,
+while `tiktoken` remains the preferred primary metric when installed. The CSV
+output is named `CSV Bundle` because nested SDIF documents cannot be represented
+honestly as a single flat CSV table.
