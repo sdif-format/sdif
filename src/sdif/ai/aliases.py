@@ -20,8 +20,14 @@ from sdif.core.ast import (
 )
 
 
-def ai_view(source: str | Document, aliases: dict[str, str], *, include_header: bool = True) -> str:
-    doc = parse_text(source) if isinstance(source, str) else source
+def ai_view(
+    source: str | Document,
+    aliases: dict[str, str],
+    *,
+    include_header: bool = True,
+    policy: Policy | None = None,
+) -> str:
+    doc = parse_text(source, policy=policy) if isinstance(source, str) else source
     inverse = {canonical: alias for canonical, alias in aliases.items()}
     lines = ["@sdif.ai 1.0"] if include_header else []
     if include_header and aliases:

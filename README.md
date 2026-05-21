@@ -174,7 +174,7 @@ summary.sdif
 summary.sdif.ai
 ```
 
-The `benchmarks/latest` symlink points to the most recent run.
+The `benchmarks/latest` directory contains the most recent run.
 
 ## Tree-sitter tooling
 

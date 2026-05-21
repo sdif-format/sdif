@@ -263,17 +263,15 @@ def create_benchmark_run_dir(base_dir: Path | None = None) -> Path:
     return run_dir
 
 
-def update_latest_symlink(run_dir: Path) -> Path:
+def update_latest_directory(run_dir: Path) -> Path:
     latest = run_dir.parent / "latest"
 
     if latest.is_symlink() or latest.is_file():
         latest.unlink()
-    elif latest.exists():
-        raise RuntimeError(
-            f"Cannot update latest symlink because {latest} exists and is not a symlink."
-        )
+    elif latest.is_dir():
+        shutil.rmtree(latest)
 
-    latest.symlink_to(run_dir.name, target_is_directory=True)
+    shutil.copytree(run_dir, latest)
     return latest
 
 
@@ -409,9 +407,16 @@ def csv_bundle_generated(data: dict[str, Any]) -> str:
 
 
 def compact_ai_projection(sdif_text: str) -> str:
+    from sdif.core.policy import Policy
+
+    policy = Policy(
+        max_document_size=10_000_000,
+        max_table_row_count=100_000,
+        max_string_length=1_000_000,
+    )
     candidates = [
-        ai_view(sdif_text, {}, include_header=False),
-        ai_view(sdif_text, AI_ALIASES, include_header=True),
+        ai_view(sdif_text, {}, include_header=False, policy=policy),
+        ai_view(sdif_text, AI_ALIASES, include_header=True, policy=policy),
     ]
     return min(candidates, key=lambda candidate: len(candidate.encode("utf-8")))
 
@@ -1291,7 +1296,7 @@ def print_evidence_footer(
     print(f"  json:     {display_path(json_path)}")
     print(f"  sdif:     {display_path(sdif_path)}")
     print(f"  sdif.ai:  {display_path(sdif_ai_path)}")
-    print(f"  latest:   {display_path(latest)} -> {run_dir.name}")
+    print(f"  latest:   {display_path(latest)} (copied from {run_dir.name})")
 
 
 # ====================
@@ -1550,7 +1555,7 @@ def render_summary_report(evidence: BenchmarkEvidence) -> str:
             f"- Structured SDIF report: `{display_path(evidence.run_dir / 'comparison.sdif')}`",
             f"- SDIF AI projection: `{display_path(evidence.run_dir / 'comparison.sdif.ai')}`",
             f"- Raw benchmark log: `{display_path(evidence.run_dir / 'comparison.log')}`",
-            f"- Latest symlink: `{display_path(evidence.run_dir.parent / 'latest')}`",
+            f"- Latest directory: `{display_path(evidence.run_dir.parent / 'latest')}`",
             "",
         ]
     )
@@ -2143,7 +2148,7 @@ def render_artifacts(evidence: BenchmarkEvidence) -> list[str]:
         f"- Structured JSON report: `{display_path(evidence.run_dir / 'comparison.json')}`",
         f"- Structured SDIF report: `{display_path(evidence.run_dir / 'comparison.sdif')}`",
         f"- SDIF AI projection: `{display_path(evidence.run_dir / 'comparison.sdif.ai')}`",
-        f"- Latest symlink: `{display_path(evidence.run_dir.parent / 'latest')}`",
+        f"- Latest directory: `{display_path(evidence.run_dir.parent / 'latest')}`",
         "",
     ]
 
@@ -2264,7 +2269,7 @@ def main() -> None:
                 encoding="utf-8",
             )
 
-            latest = update_latest_symlink(run_dir)
+            latest = update_latest_directory(run_dir)
             print_evidence_footer(
                 run_dir,
                 log_path,
