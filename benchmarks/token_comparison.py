@@ -179,6 +179,15 @@ def csv_bundle_generated(data: dict[str, Any]) -> str:
     return "\n\n".join(sections).rstrip() + "\n"
 
 
+
+def compact_ai_projection(sdif_text: str) -> str:
+    candidates = [
+        ai_view(sdif_text, {}, include_header=False),
+        ai_view(sdif_text, AI_ALIASES, include_header=True),
+    ]
+    return min(candidates, key=lambda candidate: len(candidate.encode("utf-8")))
+
+
 def run_command(command: list[str], output: Path, timeout_seconds: int = 30) -> str | None:
     try:
         completed = subprocess.run(
@@ -398,7 +407,7 @@ def build_formats(data: dict[str, Any]) -> list[tuple[str, str]]:
         ("XML", xml_generated(data)),
         ("CSV Bundle", csv_bundle_generated(data)),
         ("SDIF", sdif_text),
-        ("SDIF AI", ai_view(sdif_text, AI_ALIASES)),
+        ("SDIF AI", compact_ai_projection(sdif_text)),
     ]
 
     toon_text = toon_from_cli(data)

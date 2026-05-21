@@ -31,6 +31,22 @@ def test_benchmark_main_discovers_golden_fixtures_from_script_location(
     assert "TOON skipped" in output
 
 
+def test_benchmark_sdif_ai_projection_is_not_larger_than_canonical_sdif(monkeypatch):
+    monkeypatch.setenv("SDIF_BENCHMARK_TOON", "0")
+    data = {
+        "kind": "Plan",
+        "id": "demo",
+        "items": [
+            {"id": "I1", "status": "open"},
+            {"id": "I2", "status": "done"},
+        ],
+    }
+
+    formats = dict(token_comparison.build_formats(data))
+
+    assert len(formats["SDIF AI"].encode("utf-8")) <= len(formats["SDIF"].encode("utf-8"))
+
+
 def test_benchmark_has_estimated_token_counter_when_optional_tokenizers_unavailable(monkeypatch):
     monkeypatch.setattr(token_comparison, "tiktoken", None)
     monkeypatch.setattr(token_comparison, "AutoTokenizer", None)

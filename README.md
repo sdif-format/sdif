@@ -1,6 +1,6 @@
 # SDIF — Semantic Data Interchange Format
 
-[![Status](https://img.shields.io/badge/status-0.2.2--draft-orange)](docs/spec.md)
+[![Status](https://img.shields.io/badge/status-0.2.3--draft-orange)](docs/spec.md)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
@@ -68,8 +68,8 @@ sdif ai examples/plan.sdif --alias kind=k --alias status=st
 `sdif tokens` reports byte size, tokenizer identity, and token count. It uses
 `tiktoken/cl100k_base` when `tiktoken` is installed and otherwise falls back to
 a deterministic 4-bytes-per-token estimate. `benchmarks/token_comparison.py`
-compares JSON, YAML, XML, CSV Bundle, canonical SDIF, and the SDIF AI
-alias-projection surface from the same golden JSON fixtures.
+compares JSON, YAML, XML, CSV Bundle, canonical SDIF, and the compact SDIF AI
+projection surface from the same golden JSON fixtures.
 
 You can also run the development CLI script:
 

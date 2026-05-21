@@ -2,7 +2,7 @@
 
 ## Document status
 
-**Version:** 0.2.2-draft
+**Version:** 0.2.3-draft
 **Name:** Semantic Data Interchange Format
 **Short name:** SDIF
 **Recommended source extension:** `.sdif`
@@ -2221,13 +2221,15 @@ authoritative multi-format comparison surface.
 The repository benchmark derives JSON compact, JSON pretty, YAML, XML, CSV
 Bundle, SDIF, SDIF AI, and optionally TOON from the same canonical JSON fixture
 source. `SDIF AI` is produced from the generated SDIF document with the
-`.sdif.ai` alias projection so the benchmark tracks the AI-context
-surface separately from canonical SDIF. It always reports an `Estimate` column
-using the same deterministic 4-UTF-8-bytes-per-token fallback as `sdif tokens`,
-and uses `tiktoken` as the primary ordering and ratio metric when that optional
-dependency is installed. `CSV Bundle` is intentionally named as a bundle because
-a full semantic SDIF document may contain metadata, nested values, relations,
-and rules that cannot fit in a single honest flat CSV table.
+`.sdif.ai` projection so the benchmark tracks the AI-context surface separately
+from canonical SDIF. For benchmark fairness, that projection chooses the smaller
+of a headerless context-window view and an explicit alias-header view; aliases
+are only useful when their decoding header pays for itself. It always reports an
+`Estimate` column using the same deterministic 4-UTF-8-bytes-per-token fallback
+as `sdif tokens`, and uses `tiktoken` as the primary ordering and ratio metric
+when that optional dependency is installed. `CSV Bundle` is intentionally named
+as a bundle because a full semantic SDIF document may contain metadata, nested
+values, relations, and rules that cannot fit in a single honest flat CSV table.
 
 ### AST model
 

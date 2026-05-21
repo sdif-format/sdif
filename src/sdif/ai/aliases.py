@@ -5,11 +5,11 @@ from sdif import parse_text
 from sdif.core.ast import Document, Field, Narrative, ObjectBlock, Relation, Rule, Table
 
 
-def ai_view(source: str | Document, aliases: dict[str, str]) -> str:
+def ai_view(source: str | Document, aliases: dict[str, str], *, include_header: bool = True) -> str:
     doc = parse_text(source) if isinstance(source, str) else source
     inverse = {canonical: alias for canonical, alias in aliases.items()}
-    lines = ["@sdif.ai 0.1"]
-    if aliases:
+    lines = ["@sdif.ai 0.1"] if include_header else []
+    if include_header and aliases:
         entries = ",".join(f"{alias}={canonical}" for canonical, alias in sorted(aliases.items(), key=lambda item: item[1]))
         lines.append(f"alias[{entries}]")
     for statement in doc.statements:
