@@ -14,6 +14,8 @@ Comments, blank lines, and source-only trivia are not part of the canonical AST.
 
 ## Implemented rules
 
+The `canonical-syntax-v1` contract is the syntax-level canonical byte contract for the v1 stabilization track. It does not claim semantic equivalence beyond the rules listed here.
+
 The MVP canonicalizer currently:
 
 1. Normalizes input line endings to LF through the parser.
@@ -38,6 +40,10 @@ The `@sdif 0.1` format version header represents the syntax and semantic contrac
 
 Canonicalization can run without a schema. In that mode, table row order is preserved because the tool cannot know whether order is semantically meaningful.
 
+Without a schema, table row order is preserved.
+
+With a schema and `ordered=true`, table row order is preserved.
+
 When a schema is provided, table policies from `tables[name,ordered,primary_key]` are used:
 
 ```sdif
@@ -47,7 +53,9 @@ tables[name,ordered,primary_key]:
   milestones	false	id
 ```
 
-For tables where `ordered` is `false` and `primary_key` names an existing column, rows are sorted by the primary-key column.
+With a schema, `ordered=false`, and a declared `primary_key`, rows are sorted by primary-key value.
+
+With a schema and `ordered=false` but no declared `primary_key`, strict canonicalization reports a canonicalization error rather than guessing semantic order.
 
 CLI usage:
 

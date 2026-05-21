@@ -1,6 +1,7 @@
-from sdif import canonicalize
+import pytest
+
+from sdif import canonicalize, parse_text
 from sdif.validation import Schema
-from sdif import parse_text
 
 
 def test_schema_policy_orders_table_rows_relations_and_rules_when_unordered():
@@ -43,3 +44,23 @@ rules:
   (warn missing(x))
 """.lstrip()
     )
+
+
+def test_unordered_table_without_primary_key_is_not_strictly_canonicalizable():
+    schema_doc = parse_text("""
+@sdif 0.1
+kind Schema
+tables[name,ordered,primary_key]:
+  milestones\tfalse\tnull
+""")
+    schema = Schema.from_document(schema_doc)
+    source = """
+@sdif 0.1
+kind Plan
+milestones[id,status]:
+  R2\tpending
+  R1\tdone
+"""
+
+    with pytest.raises(ValueError, match="unordered table `milestones` requires primary_key"):
+        canonicalize(source, schema=schema)

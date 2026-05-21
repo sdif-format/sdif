@@ -199,6 +199,57 @@ def test_semantic_quality_methodology_is_documented_separately_from_token_benchm
     assert "sdif validate examples/plan.sdif --schema examples/schema.sdif" in docs
 
 
+def test_v1_roadmap_is_documented_and_linked_from_readme():
+    readme = Path("README.md").read_text(encoding="utf-8")
+    roadmap = Path("docs/roadmap-v1.md").read_text(encoding="utf-8")
+
+    assert "[v1.0 roadmap](docs/roadmap-v1.md)" in readme
+    for term in (
+        "v1.0.0 must stabilize",
+        "canonical-syntax-v1",
+        "Disabled by default",
+        "remote includes",
+        "Remote schemas",
+        ".sdif.ai",
+        "Conformance",
+    ):
+        assert term in roadmap
+
+
+def test_spec_records_v1_m1_normative_decisions_from_roadmap():
+    spec = Path("docs/spec.md").read_text(encoding="utf-8")
+
+    for term in (
+        "`@sdif 1.0` will identify the first stable core syntax and semantic contract.",
+        "The package version may advance independently from the document format version.",
+        "Core v1 behavior includes parsing, the normative AST, schema-driven validation, canonical-syntax-v1, safe default policies, and `.sdif.ai` reversibility.",
+        "Versioned extensions include remote includes, remote schemas, complex namespaces, deep graph validation, digital signatures, advanced type unions, and non-declarative rule execution.",
+        "For the v1.0 stabilization track, strict mode prohibits inline comments inside table rows.",
+        "Table cells are captured as raw strings in the initial AST.",
+        "Schema-driven typing is applied during validation or normalization, not during raw parsing.",
+        "The `$` suffix is a decoding hint only and is not part of the semantic column name.",
+        "The v1 namespace form is `@namespace prefix iri`.",
+        "Complex namespace behavior is a versioned extension.",
+        "RuleExpression(action, function, args)",
+        "`@include` is disabled by default",
+        "Remote includes and remote schemas remain disabled unless an explicit policy enables them.",
+    ):
+        assert term in spec
+
+
+def test_canonicalization_doc_records_m2_table_order_contract():
+    docs = Path("docs/canonicalization.md").read_text(encoding="utf-8")
+
+    for term in (
+        "canonical-syntax-v1",
+        "Without a schema, table row order is preserved.",
+        "With a schema and `ordered=true`, table row order is preserved.",
+        "With a schema, `ordered=false`, and a declared `primary_key`, rows are sorted by primary-key value.",
+        "With a schema and `ordered=false` but no declared `primary_key`, strict canonicalization reports a canonicalization error rather than guessing semantic order.",
+    ):
+        assert term in docs
+
+
 def test_comparison_doc_includes_examples_for_all_compared_formats():
     docs = Path("docs/comparison.md").read_text(encoding="utf-8")
 

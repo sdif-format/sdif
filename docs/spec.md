@@ -12,6 +12,12 @@
 **Encoding:** UTF-8
 **Design mode:** schema-first, semantic-first, token-aware, canonicalization-ready
 
+### Draft-to-v1 stabilization track
+
+The `0.2.9-draft` document records the current draft state. `@sdif 1.0` will identify the first stable core syntax and semantic contract. The package version may advance independently from the document format version.
+
+Core v1 behavior includes parsing, the normative AST, schema-driven validation, canonical-syntax-v1, safe default policies, and `.sdif.ai` reversibility. Versioned extensions include remote includes, remote schemas, complex namespaces, deep graph validation, digital signatures, advanced type unions, and non-declarative rule execution.
+
 This document defines an initial public technical specification for SDIF, a compact semantic data interchange format designed for AI agents and deterministic machine workflows, with human-auditable source files.
 
 SDIF is not intended to universally replace JSON, YAML, TOML, CSV, Markdown, RDF, or other data formats. Its purpose is narrower: to represent structured, semantic, verifiable, and token-efficient documents in a way that agents and tools can process directly while humans can audit the source when needed.
@@ -695,7 +701,7 @@ A comment begins with `#` outside strings and multiline blocks.
 status open # inline comment
 ```
 
-Inline comments are allowed in source, but they may be prohibited inside tables for parser simplicity and canonical stability.
+Inline comments are allowed in source, but they may be prohibited inside tables for parser simplicity and canonical stability. For the v1.0 stabilization track, strict mode prohibits inline comments inside table rows.
 
 ### 9.5 Reserved literals
 
@@ -986,7 +992,7 @@ Required semantic rules:
 9. A literal tab inside a cell must be escaped as `\t` in strict mode.
 10. Empty cells must be rejected in strict mode unless the schema explicitly allows them.
 11. Multiline blocks are not valid inside tables in the MVP.
-12. Inline comments inside tables may be prohibited in strict mode.
+12. Inline comments inside tables are prohibited in strict mode.
 
 Example:
 
@@ -1682,12 +1688,13 @@ A safe SDIF parser should:
 
 `@include` is a sensitive operation.
 
-Recommended policy:
+Normative v1 policy:
 
-* Disabled by default.
+* `@include` is disabled by default.
 * Enabled only through explicit allowlists.
 * Reject absolute paths unless explicitly permitted.
 * Reject parent traversal in restricted contexts.
+* Remote includes and remote schemas remain disabled unless an explicit policy enables them.
 * Reject remote URLs in secure mode.
 * Detect include cycles.
 
@@ -2212,26 +2219,25 @@ The 0.1 draft intentionally leaves several topics open.
 
 Allowing inline comments inside table rows improves human authoring but complicates parsing and canonicalization, especially when table cells may contain ordinary spaces and punctuation.
 
-Recommendation: disallow inline comments inside table rows in strict MVP mode.
+For the v1.0 stabilization track, strict mode prohibits inline comments inside table rows. Implementations may accept them only in tolerant source-preserving modes, and they must never become part of the canonical AST.
 
 ### 30.2 Table cell typing
 
 Because table cells are separated by `HTAB`, a raw cell may contain spaces, commas, quotes, and localized decimal notation.
 
-Recommendation: keep table cells as raw strings in the initial table AST, then
-apply schema-driven typing during normalization. This avoids premature
+Table cells are captured as raw strings in the initial AST.
+Schema-driven typing is applied during validation or normalization, not during raw parsing. This avoids premature
 misclassification of localized numbers such as `450,25`.
 
 For `.sdif.ai`, a generated table header may suffix a column with `$` to make
-that preservation explicit in the compact surface. The suffix is not part of the
-semantic JSON field name; it is a decoding hint that lets agents and parsers read
+that preservation explicit in the compact surface. The `$` suffix is a decoding hint only and is not part of the semantic column name. It lets agents and parsers read
 scalar-like cells as strings without repeated per-cell quote characters.
 
 ### 30.3 Namespace design
 
-A future version should define namespace syntax precisely.
+The v1 namespace form is `@namespace prefix iri`. Complex namespace behavior is a versioned extension.
 
-Possible form:
+Normative form:
 
 ```sdif
 @namespace ex https://example.org/ns#
@@ -2241,7 +2247,7 @@ Possible form:
 
 Includes are useful but security-sensitive.
 
-Recommendation: exclude them from the MVP or allow only local, allowlisted includes.
+For v1, `@include` is disabled by default and may be enabled only through explicit policy. Local includes require allowlists. Remote includes and remote schemas remain disabled unless an explicit policy enables them. Include resolution must detect cycles.
 
 ### 30.5 Rule expression syntax
 
@@ -2256,7 +2262,8 @@ For example:
 could normalize to:
 
 ```text
-Call("deny", [Call("missing", [Identifier("evidence")])])
+RuleExpression(action, function, args)
+RuleExpression("deny", "missing", [Identifier("evidence")])
 ```
 
 ### 30.6 Canonical table ordering

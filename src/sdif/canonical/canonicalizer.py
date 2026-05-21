@@ -61,11 +61,17 @@ def _canonical_others(statements: Sequence[object], schema: Schema | None) -> li
     for statement in statements:
         if isinstance(statement, Table) and schema is not None:
             policy = schema.table_policies.get(statement.name)
-            if (
-                policy is not None
-                and not policy.ordered
-                and policy.primary_key in statement.columns
-            ):
+            if policy is not None and not policy.ordered:
+                if policy.primary_key is None:
+                    raise ValueError(
+                        f"unordered table `{statement.name}` requires primary_key "
+                        "for strict canonicalization"
+                    )
+                if policy.primary_key not in statement.columns:
+                    raise ValueError(
+                        f"unordered table `{statement.name}` primary_key "
+                        f"`{policy.primary_key}` is not present in table columns"
+                    )
                 idx = statement.columns.index(policy.primary_key)  # type: ignore[arg-type]
                 result.append(
                     Table(
