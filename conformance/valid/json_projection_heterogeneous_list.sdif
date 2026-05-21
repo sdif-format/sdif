@@ -1,0 +1,6 @@
+@sdif 0.1
+list:
+  __item:
+    __value item1
+  __item:
+    key value
