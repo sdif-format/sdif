@@ -2,7 +2,7 @@
 
 ## Document status
 
-**Version:** 0.2.7-draft
+**Version:** 0.2.8-draft
 **Name:** Semantic Data Interchange Format
 **Short name:** SDIF
 **Recommended source extension:** `.sdif`
@@ -101,6 +101,23 @@ milestones[id,status,gate]:
 The table header defines the shape once. Each row then carries only values. Table columns are separated by the horizontal tab character (`HTAB`, U+0009), not by comma or ordinary space.
 
 This avoids conflicts with natural-language text, localized decimal notation, quoted phrases, and comma-rich content.
+
+For the token-optimized `.sdif.ai` projection, table rows may omit the canonical
+two-space indentation when the row contains at least one `HTAB`. Canonical SDIF
+source still emits indented rows for review stability.
+
+`.sdif.ai` may also suffix a table column name with `$` to mark the column as
+string-preserved. In such a column, cells are decoded as strings even when the
+cell text looks like `null`, `true`, `false`, or a number. This avoids repeating
+quotes on scalar-like string-heavy columns while preserving JSON-equivalent
+semantics.
+
+```sdif
+@sdif.ai 0.1
+checks[id,value$]:
+C1	null
+C2	42
+```
 
 ### 4.2 Schema-first
 
@@ -274,6 +291,16 @@ m[id,st,g,e]:
 ```
 
 The AI view should normally be generated from source or canonical SDIF, not manually treated as the authoritative source.
+
+Generated `.sdif.ai` may use compact table rows without indentation:
+
+```sdif
+@sdif.ai 0.1
+k Plan
+m[id,st,g,e]:
+R1	done	validate-schema	reports/schema.md
+R2	pending	validate-semantics	reports/semantics.md
+```
 
 ---
 
@@ -901,9 +928,11 @@ tags [registry,validation,release]
 table_block     = table_header, table_row+ ;
 
 table_header    = key, "[", column_list, "]", ":", inline_comment?, newline ;
-column_list     = IDENT, (",", IDENT)* ;
+column_list     = column, (",", column)* ;
+column          = IDENT, ["$"] ;
 
 table_row       = INDENT, table_cell, (HTAB, table_cell)*, inline_comment?, newline ;
+ai_table_row    = table_cell, HTAB, table_cell, (HTAB, table_cell)*, inline_comment?, newline ;
 table_cell      = table_cell_char* ;
 table_cell_char = any_char_except_htab_or_newline ;
 HTAB            = ? U+0009 horizontal tab ? ;
@@ -916,10 +945,12 @@ Required semantic rules:
 3. Ordinary spaces inside cells are preserved as data.
 4. Commas inside cells are preserved as data.
 5. Quote marks inside cells are preserved as data unless an implementation chooses to support optional quoted-cell decoding.
-6. A literal tab inside a cell must be escaped as `\t` in strict mode.
-7. Empty cells must be rejected in strict mode unless the schema explicitly allows them.
-8. Multiline blocks are not valid inside tables in the MVP.
-9. Inline comments inside tables may be prohibited in strict mode.
+6. A column name ending in `$` is a `.sdif.ai` string-preserved column marker; consumers must strip the suffix from the semantic column name and parse all cells in that column as strings.
+7. Canonical SDIF rows use `INDENT`; `.sdif.ai` rows may use `ai_table_row` only when the row contains `HTAB`.
+8. A literal tab inside a cell must be escaped as `\t` in strict mode.
+9. Empty cells must be rejected in strict mode unless the schema explicitly allows them.
+10. Multiline blocks are not valid inside tables in the MVP.
+11. Inline comments inside tables may be prohibited in strict mode.
 
 Example:
 
@@ -2122,9 +2153,14 @@ Recommendation: disallow inline comments inside table rows in strict MVP mode.
 
 Because table cells are separated by `HTAB`, a raw cell may contain spaces, commas, quotes, and localized decimal notation.
 
-Open decision: should the parser infer scalar types inside table cells before schema validation, or should table cells remain raw strings until the schema assigns column types?
+Recommendation: keep table cells as raw strings in the initial table AST, then
+apply schema-driven typing during normalization. This avoids premature
+misclassification of localized numbers such as `450,25`.
 
-Recommendation: keep table cells as raw strings in the initial table AST, then apply schema-driven typing during normalization. This avoids premature misclassification of localized numbers such as `450,25`.
+For `.sdif.ai`, a generated table header may suffix a column with `$` to make
+that preservation explicit in the compact surface. The suffix is not part of the
+semantic JSON field name; it is a decoding hint that lets agents and parsers read
+scalar-like cells as strings without repeated per-cell quote characters.
 
 ### 30.3 Namespace design
 
@@ -2227,7 +2263,9 @@ source. `SDIF AI` is produced from the generated SDIF document with the
 `.sdif.ai` projection so the benchmark tracks the AI-context surface separately
 from canonical SDIF. For benchmark fairness, that projection chooses the smaller
 of a headerless context-window view and an explicit alias-header view; aliases
-are only useful when their decoding header pays for itself. It always reports an
+are only useful when their decoding header pays for itself. The projection also
+uses compact table rows and `$` string-preserved columns when those choices
+reduce repeated syntax without changing semantics. It always reports an
 `Estimate` column using the same deterministic 4-UTF-8-bytes-per-token fallback
 as `sdif tokens`, and uses `tiktoken` as the primary ordering and ratio metric
 when that optional dependency is installed. `CSV Bundle` is intentionally named

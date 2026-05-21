@@ -70,7 +70,10 @@ def _statements_to_json_value(statements: Sequence[object]) -> JsonValue:
             data[statement.key] = _statements_to_json_value(statement.statements)
         elif isinstance(statement, Table):
             data[statement.name] = [
-                {column: _parse_value(cell) for column, cell in zip(statement.columns, row, strict=True)}
+                {
+                    _json_column_name(column): _parse_table_cell(column, cell)
+                    for column, cell in zip(statement.columns, row, strict=True)
+                }
                 for row in statement.rows
             ]
         elif isinstance(statement, Relation):
@@ -91,6 +94,20 @@ def _statements_to_json_value(statements: Sequence[object]) -> JsonValue:
     if rules:
         data["rules"] = rules
     return data
+
+
+def _json_column_name(column: str) -> str:
+    if column.endswith("$"):
+        return column[:-1]
+    return column
+
+
+def _parse_table_cell(column: str, cell: str) -> JsonValue:
+    if column.endswith("$"):
+        if _is_quoted(cell):
+            return _unquote(cell)
+        return cell
+    return _parse_value(cell)
 
 
 def _is_array_item_statement(statement: object) -> bool:

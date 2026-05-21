@@ -37,3 +37,19 @@ def test_json_data_to_sdif_emits_scalars_and_uniform_tables():
 
     assert text == "kind Plan\nid demo\nmilestones[id,status]:\n  R1\tdone\n  R2\tpending\n"
     assert parse_text(text).tables["milestones"].rows[1] == ["R2", "pending"]
+
+
+def test_ai_string_column_marker_preserves_scalar_like_strings_without_repeated_quotes():
+    doc = parse_text('''
+@sdif.ai 0.1
+items[id,value$]:
+I1	null
+I2	42
+I3	true
+''')
+
+    assert document_to_json_data(doc)["items"] == [
+        {"id": "I1", "value": "null"},
+        {"id": "I2", "value": "42"},
+        {"id": "I3", "value": "true"},
+    ]

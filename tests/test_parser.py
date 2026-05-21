@@ -52,6 +52,22 @@ And multiline.
     assert doc.narratives["intent"].text == "Keep this bounded.\nAnd multiline."
 
 
+def test_compact_ai_table_rows_may_omit_indentation_and_canonicalize_back():
+    source = '\n@sdif.ai 0.1\nitems[id,status]:\nR1\tdone\nR2\tpending\nkind Plan\n'
+
+    doc = parse_text(source)
+
+    assert doc.tables["items"].rows == [["R1", "done"], ["R2", "pending"]]
+    assert doc.fields["kind"].value == "Plan"
+    assert canonicalize(doc) == (
+        "@sdif.ai 0.1\n"
+        "kind Plan\n"
+        "items[id,status]:\n"
+        "  R1\tdone\n"
+        "  R2\tpending\n"
+    )
+
+
 def test_table_rows_must_use_htab_and_match_header_arity():
     with pytest.raises(ParseError) as excinfo:
         parse_text('''

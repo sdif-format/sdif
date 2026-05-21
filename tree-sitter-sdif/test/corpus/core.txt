@@ -17,7 +17,7 @@ Use SDIF AI directly for agent context.
   (directive (identifier) (atom))
   (field (identifier) (string))
   (table
-    (table_header (identifier) (identifier) (identifier) (identifier))
+    (table_header (identifier) (column (identifier)) (column (identifier)) (column (identifier)))
     (table_row))
   (relation_block (relation_row))
   (rules_block (rule_row))

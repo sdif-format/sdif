@@ -1,0 +1,5 @@
+@sdif.ai 0.1
+kind Check
+checks[id,value$]:
+C1	null
+C2	42

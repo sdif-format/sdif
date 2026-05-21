@@ -21,6 +21,35 @@ def _name(name: str, inverse: dict[str, str]) -> str:
     return inverse.get(name, name)
 
 
+def _is_quoted(value: str) -> bool:
+    return len(value) >= 2 and value[0] == value[-1] == '"'
+
+
+def _unquote(value: str) -> str:
+    return bytes(value[1:-1], "utf-8").decode("unicode_escape")
+
+
+def _ai_columns_and_rows(table: Table, inverse: dict[str, str]) -> tuple[list[str], list[list[str]]]:
+    string_columns = {
+        index
+        for row in table.rows
+        for index, cell in enumerate(row)
+        if _is_quoted(cell)
+    }
+    columns = [
+        f"{_name(column, inverse)}$" if index in string_columns else _name(column, inverse)
+        for index, column in enumerate(table.columns)
+    ]
+    rows = [
+        [
+            _unquote(cell) if index in string_columns and _is_quoted(cell) else cell
+            for index, cell in enumerate(row)
+        ]
+        for row in table.rows
+    ]
+    return columns, rows
+
+
 def _emit(statement: object, lines: list[str], inverse: dict[str, str], indent: int) -> None:
     prefix = " " * indent
     if isinstance(statement, Field):
@@ -30,10 +59,11 @@ def _emit(statement: object, lines: list[str], inverse: dict[str, str], indent: 
         for child in statement.statements:
             _emit(child, lines, inverse, indent + 2)
     elif isinstance(statement, Table):
-        columns = [_name(column, inverse) for column in statement.columns]
+        columns, rows = _ai_columns_and_rows(statement, inverse)
         lines.append(f"{prefix}{_name(statement.name, inverse)}[{','.join(columns)}]:")
-        for row in statement.rows:
-            lines.append(" " * (indent + 2) + "\t".join(row))
+        row_prefix = "" if indent == 0 else " " * indent
+        for row in rows:
+            lines.append(row_prefix + "\t".join(row))
     elif isinstance(statement, Relation):
         if not lines or lines[-1] != f"{prefix}rel:":
             lines.append(f"{prefix}rel:")

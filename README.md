@@ -1,6 +1,6 @@
 # SDIF — Semantic Data Interchange Format
 
-[![Status](https://img.shields.io/badge/status-0.2.7--draft-orange)](docs/spec.md)
+[![Status](https://img.shields.io/badge/status-0.2.8--draft-orange)](docs/spec.md)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
@@ -48,6 +48,11 @@ source.sdif -> AST -> canonical bytes -> sha256 hash
 ```
 
 The initial Python package includes a parser, schema validation, schema-aware canonicalization, JSON conversion, `.sdif.ai` projection helpers, CLI tooling, and golden fixtures. Tree-sitter now has an MVP grammar package, corpus fixture, highlight query, and shared conformance fixtures for editor/agent tooling; the specification plus conformance fixtures are the portable authority, with the Python parser acting as the current reference implementation.
+
+The `.sdif.ai` projection is the token-dense agent surface. It may omit the
+canonical two-space indentation on table rows and mark string-preserved table
+columns with a `$` suffix, such as `value$`, so scalar-like strings (`null`,
+`42`, `true`) do not need repeated quotes in every row.
 
 ## Quick start
 

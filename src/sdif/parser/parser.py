@@ -138,11 +138,14 @@ class _Parser:
                 self.index += 1
                 continue
             actual = _indent(raw, row_no)
-            if actual < child_indent:
+            if actual == child_indent:
+                row_text = raw[child_indent:]
+            elif actual == indent and "\t" in raw[indent:]:
+                row_text = raw[indent:]
+            elif actual < child_indent:
                 break
-            if actual != child_indent:
+            else:
                 raise ParseError("SDIF_INDENT", "invalid table row indentation", row_no, actual + 1)
-            row_text = raw[child_indent:]
             cells = row_text.split("\t")
             if len(cells) != len(columns):
                 msg = (

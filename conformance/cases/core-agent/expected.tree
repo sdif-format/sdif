@@ -4,7 +4,7 @@
   (field (identifier) (atom))
   (field (identifier) (string))
   (table
-    (table_header (identifier) (identifier) (identifier) (identifier))
+    (table_header (identifier) (column (identifier)) (column (identifier)) (column (identifier)))
     (table_row)
     (table_row))
   (relation_block (relation_row))
