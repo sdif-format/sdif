@@ -34,7 +34,7 @@ The MVP canonicalizer currently:
 
 ## Format Version Contract
 
-The `@sdif 0.1` format version header represents the syntax and semantic contract of the format. This contract is independent of the library implementation version (e.g. Python package version `0.2.9`).
+The `@sdif 0.1` format version header represents the syntax and semantic contract of the format. This contract is independent of the library implementation version (e.g. Python package version `1.0.0`).
 
 ## Schema-aware policies
 

@@ -20,7 +20,9 @@ def test_ci_tree_sitter_and_docs_artifacts_exist():
 def test_spec_version_matches_package_version():
     pyproject = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
     spec = Path("docs/spec.md").read_text(encoding="utf-8")
-    match = re.search(r"^\*\*Version:\*\*\s+([0-9]+\.[0-9]+\.[0-9]+)-draft$", spec, re.MULTILINE)
+    match = re.search(
+        r"^\*\*Version:\*\*\s+([0-9]+\.[0-9]+\.[0-9]+)(?:-draft)?$", spec, re.MULTILINE
+    )
 
     assert match is not None
     assert match.group(1) == pyproject["project"]["version"]

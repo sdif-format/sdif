@@ -1396,7 +1396,7 @@ wheels = [
 
 [[package]]
 name = "sdif"
-version = "0.2.9"
+version = "1.0.0"
 source = { editable = "." }
 
 [package.optional-dependencies]

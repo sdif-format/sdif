@@ -1,6 +1,6 @@
 # SDIF — Semantic Data Interchange Format
 
-[![Status](https://img.shields.io/badge/status-0.2.9--draft-orange)](docs/spec.md)
+[![Status](https://img.shields.io/badge/status-1.0.0--stable-green)](docs/spec.md)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
@@ -96,7 +96,7 @@ benchmarks/latest
 
 ## Current repository status
 
-This repository is implementing the SDIF `0.2.9` draft.
+This repository implements the stable SDIF `1.0.0` specification.
 
 The current Python package includes:
 

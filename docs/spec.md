@@ -2,7 +2,7 @@
 
 ## Document status
 
-**Version:** 0.2.9-draft
+**Version:** 1.0.0
 **Name:** Semantic Data Interchange Format
 **Short name:** SDIF
 **Recommended source extension:** `.sdif`
@@ -14,7 +14,7 @@
 
 ### Draft-to-v1 stabilization track
 
-The `0.2.9-draft` document records the current draft state. `@sdif 1.0` will identify the first stable core syntax and semantic contract. The package version may advance independently from the document format version.
+The `1.0.0` document records the stable core specification. `@sdif 1.0` will identify the first stable core syntax and semantic contract. The package version may advance independently from the document format version.
 
 Core v1 behavior includes parsing, the normative AST, schema-driven validation, canonical-syntax-v1, safe default policies, and `.sdif.ai` reversibility. Versioned extensions include remote includes, remote schemas, complex namespaces, deep graph validation, digital signatures, advanced type unions, and non-declarative rule execution.
 
@@ -2112,7 +2112,7 @@ Editor parse trees align with shared SDIF conformance fixtures for the MVP gramm
 
 ### 28.1 Format version
 
-The `@sdif` directive declares the format version. This format version (e.g. `@sdif 0.1`) represents the syntax and semantic contract of the format, and is versioned independently of any specific parser, tool, or library package implementation version (e.g., Python package version `0.2.9`).
+The `@sdif` directive declares the format version. This format version (e.g. `@sdif 0.1`) represents the syntax and semantic contract of the format, and is versioned independently of any specific parser, tool, or library package implementation version (e.g., Python package version `1.0.0`).
 
 ```sdif
 @sdif 0.1
