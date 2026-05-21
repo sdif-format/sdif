@@ -1,6 +1,9 @@
 import json
 import re
-import tomllib
+try:
+    import tomllib
+except ImportError:
+    import tomli as tomllib  # type: ignore[import-not-found,no-redef]
 from pathlib import Path
 
 
@@ -21,7 +24,9 @@ def test_spec_version_matches_package_version():
     assert match is not None
     assert match.group(1) == pyproject["project"]["version"]
 
-    tree_sitter_package = json.loads(Path("tree-sitter-sdif/package.json").read_text(encoding="utf-8"))
+    tree_sitter_package = json.loads(
+        Path("tree-sitter-sdif/package.json").read_text(encoding="utf-8")
+    )
     assert tree_sitter_package["version"] == pyproject["project"]["version"]
 
 
@@ -37,6 +42,7 @@ def test_tree_sitter_metadata_recognizes_sdif_ai_files():
     assert "sdif" in config_file_types
     assert "sdif.ai" in config_file_types
     assert config["grammars"][0]["injection-regex"] == "^sdif(\\.ai)?$"
+
 
 def test_tree_sitter_tooling_has_package_corpus_and_highlight_queries():
     package = Path("tree-sitter-sdif/package.json").read_text(encoding="utf-8")
@@ -165,6 +171,7 @@ def test_semantic_quality_methodology_is_documented_separately_from_token_benchm
     assert "benchmarks/token_comparison.py" in docs
     assert "token" in docs.lower()
     assert "sdif validate examples/plan.sdif --schema examples/schema.sdif" in docs
+
 
 def test_comparison_doc_includes_examples_for_all_compared_formats():
     docs = Path("docs/comparison.md").read_text(encoding="utf-8")

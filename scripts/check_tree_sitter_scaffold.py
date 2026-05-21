@@ -11,7 +11,10 @@ from __future__ import annotations
 import json
 import re
 import sys
-import tomllib
+try:
+    import tomllib
+except ImportError:
+    import tomli as tomllib  # type: ignore[import-not-found,no-redef]
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -32,31 +35,55 @@ def main() -> int:
         return _fail(errors)
 
     project_version = pyproject["project"]["version"]
-    _expect(package.get("version") == project_version, errors, "package.json version must match pyproject")
+    _expect(
+        package.get("version") == project_version,
+        errors,
+        "package.json version must match pyproject",
+    )
     _expect(
         config.get("metadata", {}).get("version") == project_version,
         errors,
         "tree-sitter.json metadata version must match pyproject",
     )
     grammar_entry = config.get("grammars", [{}])[0]
-    _expect(grammar_entry.get("scope") == "source.sdif", errors, "tree-sitter scope must be source.sdif")
-    _expect("sdif" in grammar_entry.get("file-types", []), errors, "tree-sitter file type must include sdif")
-    _expect("sdif.ai" in grammar_entry.get("file-types", []), errors, "tree-sitter file type must include sdif.ai")
+    _expect(
+        grammar_entry.get("scope") == "source.sdif", errors, "tree-sitter scope must be source.sdif"
+    )
+    _expect(
+        "sdif" in grammar_entry.get("file-types", []),
+        errors,
+        "tree-sitter file type must include sdif",
+    )
+    _expect(
+        "sdif.ai" in grammar_entry.get("file-types", []),
+        errors,
+        "tree-sitter file type must include sdif.ai",
+    )
     _expect(
         grammar_entry.get("injection-regex") == r"^sdif(\.ai)?$",
         errors,
         "tree-sitter injection-regex must include sdif and sdif.ai",
     )
     package_entry = package.get("tree-sitter", [{}])[0]
-    _expect("sdif" in package_entry.get("file-types", []), errors, "package file types must include sdif")
-    _expect("sdif.ai" in package_entry.get("file-types", []), errors, "package file types must include sdif.ai")
+    _expect(
+        "sdif" in package_entry.get("file-types", []),
+        errors,
+        "package file types must include sdif",
+    )
+    _expect(
+        "sdif.ai" in package_entry.get("file-types", []),
+        errors,
+        "package file types must include sdif.ai",
+    )
 
     grammar_nodes = _grammar_rule_names(grammar)
     _expect("source_file" in grammar_nodes, errors, "grammar must declare source_file")
     _expect("JSON" not in corpus, errors, "agent-facing corpus should avoid JSON as working format")
     _expect("@sdif.ai 0.1" in corpus, errors, "corpus must cover the sdif.ai directive")
     _expect("alias[k=kind,st=status]" in corpus, errors, "corpus must cover sdif.ai alias headers")
-    _expect("checks[id,value$]:" in corpus, errors, "corpus must cover sdif.ai string-preserved columns")
+    _expect(
+        "checks[id,value$]:" in corpus, errors, "corpus must cover sdif.ai string-preserved columns"
+    )
     _expect("C1\tnull" in corpus, errors, "corpus must cover compact sdif.ai table rows with HTAB")
     _expect("alias_header" in grammar_nodes, errors, "grammar must declare alias_header")
     _expect("alias_entry" in grammar_nodes, errors, "grammar must declare alias_entry")
