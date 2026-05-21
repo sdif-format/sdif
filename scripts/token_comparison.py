@@ -256,7 +256,7 @@ def create_benchmark_run_dir(base_dir: Path | None = None) -> Path:
     counter = 1
 
     while run_dir.exists():
-        run_dir = base_dir / f"{timestamp}-{counter:02d}"
+        run_dir = target_dir / f"{timestamp}-{counter:02d}"
         counter += 1
 
     run_dir.mkdir(parents=True)
