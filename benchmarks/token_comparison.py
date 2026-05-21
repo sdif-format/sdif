@@ -57,6 +57,8 @@ import yaml
 
 from sdif.json import json_data_to_sdif
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
 
 # ====================
 # Optional dependencies
@@ -498,7 +500,7 @@ def print_footer(results_by_document: dict[str, list[FormatResult]]) -> None:
 # ====================
 
 def main() -> None:
-    golden_dir = Path("examples/golden")
+    golden_dir = REPO_ROOT / "examples/golden"
     documents = discover_documents(golden_dir)
 
     if not documents:
