@@ -145,8 +145,7 @@ def test_cli_validate_text_reports_parse_errors_without_traceback(tmp_path):
     assert run.returncode == 1
     assert run.stderr == ""
     assert run.stdout == (
-        "error: SDIF_TABLE_ARITY $parse: "
-        "table row has 1 cells but header declares 2 columns\n"
+        "error: SDIF_TABLE_ARITY $parse: table row has 1 cells but header declares 2 columns\n"
     )
 
 

@@ -11,6 +11,7 @@ from sdif import canonicalize, parse_text, sdif_hash
 from sdif.ai import ai_view
 from sdif.json import document_to_json_data, json_data_to_sdif
 from sdif.parser import ParseError
+from sdif.core.ast import Directive, Document, Field, Narrative, ObjectBlock, Relation, Rule, Table
 from sdif.validation import Diagnostic, Schema, SchemaError, diagnostics_to_json, validate_document
 
 
@@ -46,6 +47,23 @@ def main(argv: list[str] | None = None) -> int:
     validate.add_argument("path", type=Path)
     validate.add_argument("--schema", type=Path, required=True)
     validate.add_argument("--json", action="store_true", dest="json_output")
+
+    inspect_cmd = sub.add_parser("inspect")
+    inspect_cmd.add_argument("path", type=Path)
+    inspect_cmd.add_argument("--json", action="store_true", dest="json_output")
+    inspect_cmd.add_argument(
+        "--schema", type=Path, help="optional schema for validation diagnostics"
+    )
+
+    fmt = sub.add_parser("fmt")
+    fmt.add_argument("path", type=Path)
+    fmt.add_argument(
+        "--check", action="store_true", help="check formatting instead of writing in-place"
+    )
+    fmt.add_argument(
+        "--schema", type=Path, help="optional schema for schema-aware canonical policies"
+    )
+
     args = parser.parse_args(argv)
     text = args.path.read_text(encoding="utf-8")
 
@@ -100,6 +118,63 @@ def main(argv: list[str] | None = None) -> int:
         else:
             print("valid")
         return 0 if not diagnostics else 1
+
+    if args.command == "inspect":
+        try:
+            doc = parse_text(text)
+            diagnostics = []
+            if args.schema:
+                schema = _load_schema(args.schema)
+                if schema:
+                    diagnostics = validate_document(doc, schema)
+        except ParseError as exc:
+            if args.json_output:
+                err_result = {
+                    "ast": None,
+                    "diagnostics": diagnostics_to_json([_diagnostic_from_parse_error(exc)]),
+                }
+                json.dump(err_result, sys.stdout, indent=2)
+                sys.stdout.write("\n")
+                return 1
+            else:
+                sys.stderr.write(f"Parse error: {exc}\n")
+                return 1
+
+        if args.json_output:
+            ast_result = {"ast": _ast_to_json(doc)}
+            if args.schema:
+                ast_result["diagnostics"] = diagnostics_to_json(diagnostics)
+            json.dump(ast_result, sys.stdout, indent=2)
+            sys.stdout.write("\n")
+            return 0 if not diagnostics else 1
+        else:
+            print(f"directives={len(doc.directives)} statements={len(doc.statements)}")
+            if diagnostics:
+                for diagnostic in diagnostics:
+                    print(
+                        f"{diagnostic.severity}: {diagnostic.code} {diagnostic.path}: {diagnostic.message}"
+                    )
+                return 1
+            return 0
+
+    if args.command == "fmt":
+        schema = _load_schema(args.schema)
+        try:
+            canonical_text = canonicalize(text, schema=schema)
+        except ParseError as exc:
+            sys.stderr.write(f"Format error: parse failed: {exc}\n")
+            return 1
+
+        if args.check:
+            if text != canonical_text:
+                sys.stderr.write(f"Format check failed: {args.path} is not canonicalized\n")
+                return 1
+            return 0
+        else:
+            if text != canonical_text:
+                args.path.write_text(canonical_text, encoding="utf-8")
+                print(f"Reformatted {args.path}")
+            return 0
     return 2
 
 
@@ -111,6 +186,7 @@ def _diagnostic_from_parse_error(exc: ParseError) -> Diagnostic:
         path="$parse",
         line=exc.line,
         column=exc.column,
+        hint=exc.hint,
     )
 
 
@@ -142,6 +218,64 @@ def _parse_aliases(raw_aliases: list[str]) -> dict[str, str]:
         field, alias = raw.split("=", 1)
         aliases[field] = alias
     return aliases
+
+
+def _ast_to_json(node: object) -> object:
+    if isinstance(node, list):
+        return [_ast_to_json(item) for item in node]
+    elif isinstance(node, dict):
+        return {k: _ast_to_json(v) for k, v in node.items()}
+    elif isinstance(node, Directive):
+        return {
+            "type": "directive",
+            "name": node.name,
+            "args": node.args,
+        }
+    elif isinstance(node, Field):
+        return {
+            "type": "field",
+            "key": node.key,
+            "value": node.value,
+            "quoted": node.quoted,
+        }
+    elif isinstance(node, ObjectBlock):
+        return {
+            "type": "object",
+            "key": node.key,
+            "statements": [_ast_to_json(s) for s in node.statements],
+        }
+    elif isinstance(node, Table):
+        return {
+            "type": "table",
+            "name": node.name,
+            "columns": node.columns,
+            "rows": node.rows,
+        }
+    elif isinstance(node, Relation):
+        return {
+            "type": "relation",
+            "subject": node.subject,
+            "predicate": node.predicate,
+            "object": node.object,
+            "object_quoted": node.object_quoted,
+        }
+    elif isinstance(node, Rule):
+        return {
+            "type": "rule",
+            "source": node.source,
+        }
+    elif isinstance(node, Narrative):
+        return {
+            "type": "narrative",
+            "key": node.key,
+            "text": node.text,
+        }
+    elif isinstance(node, Document):
+        return {
+            "directives": [_ast_to_json(d) for d in node.directives],
+            "statements": [_ast_to_json(s) for s in node.statements],
+        }
+    return node
 
 
 if __name__ == "__main__":  # pragma: no cover

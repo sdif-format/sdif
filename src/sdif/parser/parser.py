@@ -176,7 +176,7 @@ class _Parser:
                     msg,
                     row_no,
                     column=child_indent + 1,
-                    hint="check HTAB separators and missing cells"
+                    hint="check HTAB separators and missing cells",
                 )
             rows.append(cells)
             self.index += 1
@@ -249,12 +249,12 @@ class _Parser:
                         "unterminated narrative block or mismatched alignment at close",
                         self.index + 1,
                         column=len(raw) - len(raw.lstrip()) + 1,
-                        hint="closing triple quotes must match the indentation of the opening block"
+                        hint="closing triple quotes must match the indentation of the opening block",
                     )
                 self.index += 1
                 return Narrative(key, "\n".join(content))
             if raw.startswith(prefix):
-                content.append(raw[len(prefix):])
+                content.append(raw[len(prefix) :])
             else:
                 content.append(raw)
             self.index += 1
@@ -262,7 +262,7 @@ class _Parser:
             "SDIF_NARRATIVE_UNCLOSED",
             "unterminated narrative block",
             line_no,
-            hint="make sure to close the narrative block with triple quotes aligned to the opening indentation"
+            hint="make sure to close the narrative block with triple quotes aligned to the opening indentation",
         )
 
 
