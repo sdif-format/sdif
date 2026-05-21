@@ -64,7 +64,11 @@ def test_benchmark_has_estimated_token_counter_when_optional_tokenizers_unavaila
 
 def test_benchmark_script_runs_directly_from_checkout():
     env = os.environ.copy()
+    env["SDIF_ENV_OVERRIDE"] = "0"
     env["SDIF_BENCHMARK_TOON"] = "0"
+    env["SDIF_BENCHMARK_TOKENX"] = "0"
+    env["SDIF_BENCHMARK_LLAMA"] = "0"
+    env["SDIF_BENCHMARK_CLAUDE"] = "0"
     env.pop("PYTHONPATH", None)
 
     run = subprocess.run(
@@ -79,3 +83,30 @@ def test_benchmark_script_runs_directly_from_checkout():
     assert run.returncode == 0
     assert "XML" in run.stdout
     assert "CSV Bundle" in run.stdout
+
+
+def test_benchmark_main_emits_formal_summary_artifacts(monkeypatch, tmp_path):
+    golden = tmp_path / "examples" / "golden" / "plan"
+    golden.mkdir(parents=True)
+    (golden / "equivalent.json").write_text(
+        '{"kind":"Plan","id":"demo","items":[{"id":"I1","status":"open"}]}',
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(token_comparison, "REPO_ROOT", tmp_path)
+    monkeypatch.setenv("SDIF_BENCHMARK_TOON", "0")
+    monkeypatch.setattr(
+        token_comparison,
+        "available_tokenizers",
+        lambda: [token_comparison.TokenizerSpec("Estimate", token_comparison.count_estimate)],
+    )
+
+    token_comparison.main()
+
+    latest = tmp_path / "benchmarks" / "latest"
+    run_dir = latest.resolve()
+
+    assert (run_dir / "summary.md").is_file()
+    assert (run_dir / "summary.json").is_file()
+    assert (run_dir / "summary.sdif").is_file()
+    assert (run_dir / "summary.sdif.ai").is_file()
