@@ -201,7 +201,6 @@ npm test
 ## Documentation
 
 * [Specification draft](docs/spec.md)
-* [v1.0 roadmap](docs/roadmap-v1.md)
 * [Canonicalization contract](docs/canonicalization.md)
 * [Format comparison](docs/comparison.md)
 * [Semantic quality comparison](docs/semantic-quality.md)

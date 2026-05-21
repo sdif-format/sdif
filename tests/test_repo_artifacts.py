@@ -199,24 +199,7 @@ def test_semantic_quality_methodology_is_documented_separately_from_token_benchm
     assert "sdif validate examples/plan.sdif --schema examples/schema.sdif" in docs
 
 
-def test_v1_roadmap_is_documented_and_linked_from_readme():
-    readme = Path("README.md").read_text(encoding="utf-8")
-    roadmap = Path("docs/roadmap-v1.md").read_text(encoding="utf-8")
-
-    assert "[v1.0 roadmap](docs/roadmap-v1.md)" in readme
-    for term in (
-        "v1.0.0 must stabilize",
-        "canonical-syntax-v1",
-        "Disabled by default",
-        "remote includes",
-        "Remote schemas",
-        ".sdif.ai",
-        "Conformance",
-    ):
-        assert term in roadmap
-
-
-def test_spec_records_v1_m1_normative_decisions_from_roadmap():
+def test_spec_records_v1_m1_normative_decisions():
     spec = Path("docs/spec.md").read_text(encoding="utf-8")
 
     for term in (

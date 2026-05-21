@@ -36,3 +36,5 @@ htmlcov/
 # Benchmark outputs
 benchmarks/latest/
 benchmarks/20*/
+
+codereview/
