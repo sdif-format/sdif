@@ -64,3 +64,12 @@ def test_versioned_spec_is_pointer_to_authoritative_spec():
     assert "docs/spec.md" in legacy
     assert "authoritative" in legacy.lower()
     assert len(legacy) < len(spec) // 10
+
+
+def test_comparison_doc_includes_examples_for_all_compared_formats():
+    docs = Path("docs/comparison.md").read_text(encoding="utf-8")
+
+    for fence in ("```json", "```yaml", "```toon", "```sdif"):
+        assert fence in docs
+    assert "TOON" in docs
+    assert "milestones[" in docs

@@ -31,7 +31,15 @@ YAML is easier to read but still repeats keys:
   gate: schema
 ```
 
-SDIF uses a table shape once, then literal `HTAB` separated cells:
+TOON compacts repeated object keys by declaring a tabular shape for LLM transfer:
+
+```toon
+[2]{id,status,gate}:
+  R1,done,syntax
+  R2,pending,schema
+```
+
+SDIF uses a table shape once, then literal `HTAB` separated cells, and the same document can also include relations, rules, schemas, and canonical hashes:
 
 ```sdif
 milestones[id,status,gate]:
