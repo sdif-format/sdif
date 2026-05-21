@@ -60,3 +60,19 @@ def test_conformance_valid_invalid_fixtures():
         parse_text(row_comment.read_text(encoding="utf-8"))
     assert excinfo.value.code == "SDIF_TABLE_ROW_COMMENT"
 
+    # Policy fixtures:
+    from sdif import Policy, PolicyError, parse_file
+    allowed_policy = Policy(allow_includes=True, allowed_include_paths=frozenset([Path("conformance")]))
+    doc = parse_file(valid_dir / "policy_allowed_include.sdif", policy=allowed_policy)
+    assert doc.fields["included_field"].value == "included_value"
+
+    cycle_policy = Policy(allow_includes=True, allowed_include_paths=frozenset([Path("conformance")]))
+    with pytest.raises(PolicyError) as excinfo:
+        parse_file(invalid_dir / "include_cycle.sdif", policy=cycle_policy)
+    assert excinfo.value.code == "SDIF_POLICY_INCLUDE_CYCLE"
+
+    with pytest.raises(PolicyError) as excinfo:
+        parse_file(invalid_dir / "policy_nesting_depth.sdif")
+    assert excinfo.value.code == "SDIF_POLICY_NESTING_DEPTH"
+
+
