@@ -1,4 +1,4 @@
-@sdif 0.1
+@sdif 1.0
 api_name compact-service-api
 base_url https://api.example.test
 benchmark_profile api-endpoints

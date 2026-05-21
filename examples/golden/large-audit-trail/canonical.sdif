@@ -1,4 +1,4 @@
-@sdif 0.1
+@sdif 1.0
 benchmark_profile security-audit
 benchmark_size_class large
 document_type large-audit-trail

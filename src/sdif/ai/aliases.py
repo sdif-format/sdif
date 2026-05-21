@@ -22,7 +22,7 @@ from sdif.core.ast import (
 def ai_view(source: str | Document, aliases: dict[str, str], *, include_header: bool = True) -> str:
     doc = parse_text(source) if isinstance(source, str) else source
     inverse = {canonical: alias for canonical, alias in aliases.items()}
-    lines = ["@sdif.ai 0.1"] if include_header else []
+    lines = ["@sdif.ai 1.0"] if include_header else []
     if include_header and aliases:
         entries = ",".join(
             f"{alias}={canonical}"
@@ -85,7 +85,7 @@ def _source_directives(doc: Document) -> list[Directive]:
         if directive.name == "sdif":
             saw_version = True
     if not saw_version:
-        directives.insert(0, Directive("sdif", ["0.1"]))
+        directives.insert(0, Directive("sdif", ["1.0"]))
     return directives
 
 

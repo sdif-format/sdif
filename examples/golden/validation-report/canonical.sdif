@@ -1,4 +1,4 @@
-@sdif 0.1
+@sdif 1.0
 kind EvidenceReport
 id validation.report.v2
 schema example.evidence_report.v1

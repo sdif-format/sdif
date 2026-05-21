@@ -51,7 +51,7 @@ def json_data_to_sdif(data: Mapping[str, object], *, include_header: bool = Fals
     _assert_mapping_has_no_reserved_keys(data, path="$")
     lines: list[str] = []
     if include_header:
-        lines.append("@sdif 0.1")
+        lines.append("@sdif 1.0")
     _emit_mapping(data, lines, indent=0)
     return "\n".join(lines).rstrip() + "\n"
 

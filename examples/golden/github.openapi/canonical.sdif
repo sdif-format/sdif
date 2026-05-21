@@ -1,4 +1,4 @@
-@sdif 0.1
+@sdif 1.0
 benchmark_profile real-world-openapi-sampled
 benchmark_size_class large
 document_type github.openapi

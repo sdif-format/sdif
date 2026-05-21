@@ -2,13 +2,13 @@ import json
 import subprocess
 import sys
 
-from sdif import canonicalize, sdif_hash
+from sdif import canonicalize, parse_text, sdif_hash
 from sdif.ai import ai_view, sdif_from_ai
 
 
 def run_cli(*args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        [sys.executable, "tools/sdif-cli.py", *args],
+        [sys.executable, "-m", "sdif.cli", *args],
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -19,7 +19,7 @@ def run_cli(*args: str) -> subprocess.CompletedProcess[str]:
 def test_cli_to_json_from_json_and_ai_alias_projection(tmp_path):
     sdif = tmp_path / "doc.sdif"
     sdif.write_text(
-        "@sdif 0.1\nkind Plan\nid demo\nmilestones[id,status]:\n  R1\tdone\n",
+        "@sdif 1.0\nkind Plan\nid demo\nmilestones[id,status]:\n  R1\tdone\n",
         encoding="utf-8",
     )
 
@@ -35,7 +35,7 @@ def test_cli_to_json_from_json_and_ai_alias_projection(tmp_path):
     assert "items[id,status]:\n  I1\topen\n" in from_json_run.stdout
 
     ai_run = run_cli("ai", str(sdif), "--alias", "kind=k", "--alias", "status=st")
-    assert ai_run.stdout.startswith("@sdif.ai 0.1\nalias[k=kind,st=status]\n")
+    assert ai_run.stdout.startswith("@sdif.ai 1.0\nalias[k=kind,st=status]\n")
     assert "k Plan\n" in ai_run.stdout
     assert "milestones[id,st]:\nR1\tdone\n" in ai_run.stdout
 
@@ -43,52 +43,52 @@ def test_cli_to_json_from_json_and_ai_alias_projection(tmp_path):
 def test_ai_projection_omits_table_row_indent_for_token_density(tmp_path):
     source = tmp_path / "doc.sdif"
     source.write_text(
-        "@sdif 0.1\nkind Plan\nitems[id,status]:\n  R1\tdone\n  R2\tpending\n",
+        "@sdif 1.0\nkind Plan\nitems[id,status]:\n  R1\tdone\n  R2\tpending\n",
         encoding="utf-8",
     )
 
     run = run_cli("ai", str(source))
 
-    assert run.stdout == "@sdif.ai 0.1\nkind Plan\nitems[id,status]:\nR1\tdone\nR2\tpending\n"
+    assert run.stdout == "@sdif.ai 1.0\nkind Plan\nitems[id,status]:\nR1\tdone\nR2\tpending\n"
 
 
 def test_ai_projection_marks_string_columns_to_remove_repeated_scalar_quotes(tmp_path):
     source = tmp_path / "doc.sdif"
     source.write_text(
-        '@sdif 0.1\nitems[id,value]:\n  I1\t"null"\n  I2\t"42"\n',
+        '@sdif 1.0\nitems[id,value]:\n  I1\t"null"\n  I2\t"42"\n',
         encoding="utf-8",
     )
 
     run = run_cli("ai", str(source))
 
-    assert run.stdout == "@sdif.ai 0.1\nitems[id,value$]:\nI1\tnull\nI2\t42\n"
+    assert run.stdout == "@sdif.ai 1.0\nitems[id,value$]:\nI1\tnull\nI2\t42\n"
 
 
 def test_cli_from_ai_expands_aliases_to_canonical_sdif(tmp_path):
     ai = tmp_path / "doc.sdif.ai"
     ai.write_text(
-        "@sdif.ai 0.1\nalias[k=kind,st=status]\nk Plan\nid demo\nitems[id,st]:\nI1\topen\n",
+        "@sdif.ai 1.0\nalias[k=kind,st=status]\nk Plan\nid demo\nitems[id,st]:\nI1\topen\n",
         encoding="utf-8",
     )
 
     run = run_cli("from-ai", str(ai))
 
-    assert run.stdout == "@sdif 0.1\nkind Plan\nid demo\nitems[id,status]:\n  I1\topen\n"
+    assert run.stdout == "@sdif 1.0\nkind Plan\nid demo\nitems[id,status]:\n  I1\topen\n"
 
 
 def test_cli_from_ai_restores_string_columns_marked_with_dollar(tmp_path):
     ai = tmp_path / "doc.sdif.ai"
-    ai.write_text("@sdif.ai 0.1\nitems[id,value$]:\nI1\tnull\nI2\t42\n", encoding="utf-8")
+    ai.write_text("@sdif.ai 1.0\nitems[id,value$]:\nI1\tnull\nI2\t42\n", encoding="utf-8")
 
     run = run_cli("from-ai", str(ai))
 
-    assert run.stdout == '@sdif 0.1\nitems[id,value]:\n  I1\t"null"\n  I2\t"42"\n'
+    assert run.stdout == '@sdif 1.0\nitems[id,value]:\n  I1\t"null"\n  I2\t"42"\n'
 
 
 def test_fmt_on_sdif_ai_writes_canonical_source_sdif(tmp_path):
     ai = tmp_path / "doc.sdif.ai"
     ai.write_text(
-        "@sdif.ai 0.1\nalias[k=kind,st=status]\nk Plan\nitems[id,st]:\nI1\tdone\n",
+        "@sdif.ai 1.0\nalias[k=kind,st=status]\nk Plan\nitems[id,st]:\nI1\tdone\n",
         encoding="utf-8",
     )
 
@@ -96,12 +96,12 @@ def test_fmt_on_sdif_ai_writes_canonical_source_sdif(tmp_path):
 
     assert run.stdout == f"Reformatted {ai}\n"
     assert ai.read_text(encoding="utf-8") == (
-        "@sdif 0.1\nkind Plan\nitems[id,status]:\n  I1\tdone\n"
+        "@sdif 1.0\nkind Plan\nitems[id,status]:\n  I1\tdone\n"
     )
 
 
 def test_ai_projection_round_trips_to_canonical_source_sdif():
-    source = '@sdif 0.1\nkind Plan\nid demo\nitems[id,status,value]:\n  I1\topen\t"null"\n'
+    source = '@sdif 1.0\nkind Plan\nid demo\nitems[id,status,value]:\n  I1\topen\t"null"\n'
 
     ai = ai_view(source, {"kind": "k", "status": "st"})
 
@@ -110,7 +110,7 @@ def test_ai_projection_round_trips_to_canonical_source_sdif():
 
 def test_ai_projection_preserves_canonical_hash_after_roundtrip():
     source = (
-        "@sdif 0.1\n"
+        "@sdif 1.0\n"
         "kind Plan\n"
         "id release.v2\n"
         "items[id,status,value]:\n"
@@ -135,7 +135,7 @@ def test_ai_projection_preserves_canonical_hash_after_roundtrip():
 def test_ai_projection_groups_relations_by_subject_with_aliases(tmp_path):
     source = tmp_path / "doc.sdif"
     source.write_text(
-        "@sdif 0.1\n"
+        "@sdif 1.0\n"
         "id release.v2\n"
         "rel:\n"
         "  release.v2 depends_on release.v1\n"
@@ -158,7 +158,7 @@ def test_ai_projection_groups_relations_by_subject_with_aliases(tmp_path):
     )
 
     assert run.stdout == (
-        "@sdif.ai 0.1\n"
+        "@sdif.ai 1.0\n"
         "alias[dep=depends_on,gov=governed_by,r=rel,vby=validated_by]\n"
         "id release.v2\n"
         "r[release.v2]:\n"
@@ -171,7 +171,7 @@ def test_ai_projection_groups_relations_by_subject_with_aliases(tmp_path):
 def test_cli_from_ai_expands_subject_grouped_relations(tmp_path):
     ai = tmp_path / "doc.sdif.ai"
     ai.write_text(
-        "@sdif.ai 0.1\n"
+        "@sdif.ai 1.0\n"
         "alias[dep=depends_on,gov=governed_by,r=rel,vby=validated_by]\n"
         "id release.v2\n"
         "r[release.v2]:\n"
@@ -184,7 +184,7 @@ def test_cli_from_ai_expands_subject_grouped_relations(tmp_path):
     run = run_cli("from-ai", str(ai))
 
     assert run.stdout == (
-        "@sdif 0.1\n"
+        "@sdif 1.0\n"
         "id release.v2\n"
         "rel:\n"
         "  release.v2 depends_on release.v1\n"
@@ -197,7 +197,7 @@ def test_source_sdif_rejects_subject_grouped_relations():
     from sdif.parser import ParseError, parse_text
 
     try:
-        parse_text("@sdif 0.1\nrel[release.v2]:\n  depends_on release.v1\n")
+        parse_text("@sdif 1.0\nrel[release.v2]:\n  depends_on release.v1\n")
     except ParseError as exc:
         assert exc.code == "SDIF_AI_REL_SUBJECT"
     else:  # pragma: no cover - defensive assertion message

@@ -1,4 +1,4 @@
-@sdif 0.1
+@sdif 1.0
 kind Plan
 id release.v2.validation_plan
 schema example.plan.v1

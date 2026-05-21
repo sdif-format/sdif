@@ -125,7 +125,7 @@ def _check_sdif_ai_semantic_retention(plan_text: str, errors: list[str]) -> None
     ai = ai_view(plan_text, {"kind": "k", "status": "st"})
     ai_doc = parse_text(ai)
     _expect(
-        ai.startswith("@sdif.ai 0.1"),
+        ai.startswith("@sdif.ai 1.0"),
         errors,
         "SDIF AI semantic retention: projection must use sdif.ai directive",
     )
