@@ -54,3 +54,9 @@ def test_conformance_valid_invalid_fixtures():
     with pytest.raises(ParseError) as excinfo:
         parse_text(too_many.read_text(encoding="utf-8"))
     assert excinfo.value.code == "SDIF_TABLE_ARITY"
+
+    row_comment = invalid_dir / "table_row_comment.sdif"
+    with pytest.raises(ParseError) as excinfo:
+        parse_text(row_comment.read_text(encoding="utf-8"))
+    assert excinfo.value.code == "SDIF_TABLE_ROW_COMMENT"
+

@@ -1,0 +1,3 @@
+@sdif 1.0
+items[id,status]:
+  one	pending # inline comment not allowed in strict mode

@@ -190,6 +190,12 @@ class _Parser:
                 break
             else:
                 raise ParseError("SDIF_INDENT", "invalid table row indentation", row_no, actual + 1)
+            if _strip_inline_comment(row_text) != row_text.rstrip():
+                raise ParseError(
+                    "SDIF_TABLE_ROW_COMMENT",
+                    "inline comments inside table rows are prohibited in strict mode",
+                    row_no,
+                )
             cells = row_text.split("\t")
             if len(cells) != len(columns):
                 msg = f"table row has {len(cells)} cells but header declares {len(columns)} columns"
