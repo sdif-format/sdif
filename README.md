@@ -91,7 +91,7 @@ This is not a universal claim that SDIF is always smaller than every alternative
 Benchmark artifacts are written under:
 
 ```text
-benchmarks/latest
+benchmarks/results/token_efficiency
 ```
 
 For the full benchmark methodology, tracks, corpus model, and environment switches, see [`benchmarks/README.md`](benchmarks/README.md).
@@ -148,7 +148,7 @@ python tools/sdif-cli.py canon examples/registry.sdif
 Run the benchmark script to compare JSON, YAML, XML, CSV Bundle, canonical SDIF, and the compact SDIF AI projection surface from the same golden JSON fixtures:
 
 ```bash
-python scripts/token_comparison.py
+python benchmarks/scripts/token_efficiency.py
 ```
 
 The benchmark loads `.env` when present and can optionally enable additional tokenizers.
@@ -176,7 +176,7 @@ summary.sdif
 summary.sdif.ai
 ```
 
-The `benchmarks/latest` directory contains the most recent run.
+The `benchmarks/results/token_efficiency` directory contains the most recent successful token-efficiency run.
 
 ## Tree-sitter tooling
 

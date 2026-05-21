@@ -22,16 +22,8 @@ It can count tokens with multiple tokenizers:
 
 Each benchmark execution writes persistent evidence to:
 
-- benchmarks/<timestamp>/comparison.log
-- benchmarks/<timestamp>/comparison.md
-- benchmarks/<timestamp>/summary.md
-- benchmarks/<timestamp>/summary.json
-- benchmarks/<timestamp>/summary.sdif
-- benchmarks/<timestamp>/summary.sdif.ai
-- benchmarks/<timestamp>/comparison.json
-- benchmarks/<timestamp>/comparison.sdif
-- benchmarks/<timestamp>/comparison.sdif.ai
-- benchmarks/latest -> <timestamp>
+- benchmarks/tmp/token_efficiency while the run is in progress
+- benchmarks/results/token_efficiency after the run completes successfully
 
 By default, benchmark evidence is written under the repository `benchmarks/` directory.
 Set `SDIF_BENCHMARK_OUTPUT_DIR` to redirect generated evidence to an external directory.
@@ -42,6 +34,10 @@ Environment variables:
 - SDIF_BENCHMARK_OUTPUT_DIR=<path>
     Optional benchmark output directory.
     Default: benchmarks/ under the repository root.
+
+- SDIF_BENCHMARK_GOLDEN_DIR=<path>
+    Optional corpus directory containing */equivalent.json fixtures.
+    Default: examples/golden under the repository root.
 
 - SDIF_BENCHMARK_TOON=0
     Disable TOON comparison.
@@ -109,7 +105,7 @@ from xml.sax.saxutils import escape as xml_escape
 
 import yaml  # type: ignore[import-untyped]
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from sdif.ai import ai_view  # noqa: E402
@@ -143,6 +139,9 @@ except ImportError:
 # ====================
 
 TokenCounter = Callable[[str], int | None]
+
+BENCHMARK_TRACK_NAME = "token_efficiency"
+
 
 AI_ALIASES = {
     "authority": "auth",
@@ -227,8 +226,15 @@ def utc_now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
-def benchmark_timestamp() -> str:
-    return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+def replace_directory(source: Path, destination: Path) -> None:
+    if destination.is_symlink() or destination.is_file():
+        destination.unlink()
+    elif destination.is_dir():
+        shutil.rmtree(destination)
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    shutil.move(str(source), str(destination))
 
 
 def benchmark_output_dir() -> Path:
@@ -240,6 +246,15 @@ def benchmark_output_dir() -> Path:
     return REPO_ROOT / "benchmarks"
 
 
+def benchmark_golden_dir() -> Path:
+    configured = os.environ.get("SDIF_BENCHMARK_GOLDEN_DIR")
+
+    if configured:
+        return Path(configured).expanduser().resolve()
+
+    return REPO_ROOT / "examples" / "golden"
+
+
 def display_path(path: Path) -> str:
     try:
         return str(path.relative_to(REPO_ROOT))
@@ -247,32 +262,28 @@ def display_path(path: Path) -> str:
         return str(path.absolute())
 
 
+def benchmark_result_dir(base_dir: Path | None = None) -> Path:
+    target_dir = base_dir or benchmark_output_dir()
+    return target_dir / "results" / BENCHMARK_TRACK_NAME
+
+
 def create_benchmark_run_dir(base_dir: Path | None = None) -> Path:
     target_dir = base_dir or benchmark_output_dir()
-    target_dir.mkdir(parents=True, exist_ok=True)
+    run_dir = target_dir / "tmp" / BENCHMARK_TRACK_NAME
 
-    timestamp = benchmark_timestamp()
-    run_dir = target_dir / timestamp
-    counter = 1
-
-    while run_dir.exists():
-        run_dir = target_dir / f"{timestamp}-{counter:02d}"
-        counter += 1
+    if run_dir.is_symlink() or run_dir.is_file():
+        run_dir.unlink()
+    elif run_dir.is_dir():
+        shutil.rmtree(run_dir)
 
     run_dir.mkdir(parents=True)
     return run_dir
 
 
-def update_latest_directory(run_dir: Path) -> Path:
-    latest = run_dir.parent / "latest"
-
-    if latest.is_symlink() or latest.is_file():
-        latest.unlink()
-    elif latest.is_dir():
-        shutil.rmtree(latest)
-
-    shutil.copytree(run_dir, latest)
-    return latest
+def publish_benchmark_result(run_dir: Path, base_dir: Path | None = None) -> Path:
+    final_dir = benchmark_result_dir(base_dir)
+    replace_directory(run_dir, final_dir)
+    return final_dir
 
 
 def markdown_escape(value: object) -> str:
@@ -1283,7 +1294,7 @@ def print_evidence_footer(
     json_path: Path,
     sdif_path: Path,
     sdif_ai_path: Path,
-    latest: Path,
+    final_dir: Path,
 ) -> None:
     print()
     print("🧾 Benchmark evidence written")
@@ -1296,7 +1307,7 @@ def print_evidence_footer(
     print(f"  json:     {display_path(json_path)}")
     print(f"  sdif:     {display_path(sdif_path)}")
     print(f"  sdif.ai:  {display_path(sdif_ai_path)}")
-    print(f"  latest:   {display_path(latest)} (copied from {run_dir.name})")
+    print(f"  result:   {display_path(final_dir)} (moved from {display_path(run_dir)})")
 
 
 # ====================
@@ -1555,7 +1566,7 @@ def render_summary_report(evidence: BenchmarkEvidence) -> str:
             f"- Structured SDIF report: `{display_path(evidence.run_dir / 'comparison.sdif')}`",
             f"- SDIF AI projection: `{display_path(evidence.run_dir / 'comparison.sdif.ai')}`",
             f"- Raw benchmark log: `{display_path(evidence.run_dir / 'comparison.log')}`",
-            f"- Latest directory: `{display_path(evidence.run_dir.parent / 'latest')}`",
+            f"- Result directory: `{display_path(evidence.run_dir)}`",
             "",
         ]
     )
@@ -1585,6 +1596,7 @@ def structured_report_data(evidence: BenchmarkEvidence) -> dict[str, Any]:
         "documents": [],
         "environment": {
             "SDIF_BENCHMARK_TOON": os.environ.get("SDIF_BENCHMARK_TOON"),
+            "SDIF_BENCHMARK_GOLDEN_DIR": os.environ.get("SDIF_BENCHMARK_GOLDEN_DIR"),
             "SDIF_BENCHMARK_TOKENX": os.environ.get("SDIF_BENCHMARK_TOKENX"),
             "SDIF_TOKENX_DEFAULT_CHARS_PER_TOKEN": os.environ.get(
                 "SDIF_TOKENX_DEFAULT_CHARS_PER_TOKEN"
@@ -1609,7 +1621,7 @@ def structured_report_data(evidence: BenchmarkEvidence) -> dict[str, Any]:
             "json": display_path(evidence.run_dir / "comparison.json"),
             "sdif": display_path(evidence.run_dir / "comparison.sdif"),
             "sdifAi": display_path(evidence.run_dir / "comparison.sdif.ai"),
-            "latest": display_path(evidence.run_dir.parent / "latest"),
+            "result": display_path(evidence.run_dir),
         },
     }
 
@@ -2093,6 +2105,7 @@ def render_environment(evidence: BenchmarkEvidence) -> list[str]:
         "| --- | --- |",
         f"| `.env loaded` | `{'yes' if evidence.env_file_loaded else 'no'}` |",
         f"| `SDIF_BENCHMARK_TOON` | {env_value('SDIF_BENCHMARK_TOON')} |",
+        f"| `SDIF_BENCHMARK_GOLDEN_DIR` | {env_value('SDIF_BENCHMARK_GOLDEN_DIR')} |",
         f"| `SDIF_BENCHMARK_TOKENX` | {env_value('SDIF_BENCHMARK_TOKENX')} |",
         f"| `SDIF_TOKENX_DEFAULT_CHARS_PER_TOKEN` | {env_value('SDIF_TOKENX_DEFAULT_CHARS_PER_TOKEN')} |",
         f"| `SDIF_TOKENX_RESOLVE_DIRS` | {env_value('SDIF_TOKENX_RESOLVE_DIRS')} |",
@@ -2148,7 +2161,7 @@ def render_artifacts(evidence: BenchmarkEvidence) -> list[str]:
         f"- Structured JSON report: `{display_path(evidence.run_dir / 'comparison.json')}`",
         f"- Structured SDIF report: `{display_path(evidence.run_dir / 'comparison.sdif')}`",
         f"- SDIF AI projection: `{display_path(evidence.run_dir / 'comparison.sdif.ai')}`",
-        f"- Latest directory: `{display_path(evidence.run_dir.parent / 'latest')}`",
+        f"- Result directory: `{display_path(evidence.run_dir)}`",
         "",
     ]
 
@@ -2159,7 +2172,7 @@ def render_artifacts(evidence: BenchmarkEvidence) -> list[str]:
 
 
 def run_benchmark(run_dir: Path, *, env_file_loaded: bool) -> BenchmarkEvidence:
-    golden_dir = REPO_ROOT / "examples/golden"
+    golden_dir = benchmark_golden_dir()
     documents = discover_documents(golden_dir)
 
     if not documents:
@@ -2220,6 +2233,7 @@ def main() -> None:
     env_file_loaded = load_env_file(REPO_ROOT / ".env")
 
     run_dir = create_benchmark_run_dir()
+    final_dir = benchmark_result_dir()
     log_path = run_dir / "comparison.log"
     markdown_path = run_dir / "comparison.md"
     summary_path = run_dir / "summary.md"
@@ -2232,7 +2246,7 @@ def main() -> None:
 
     with log_path.open("w", encoding="utf-8") as log_file:
         with contextlib.redirect_stdout(Tee(sys.stdout, log_file)):
-            evidence = run_benchmark(run_dir, env_file_loaded=env_file_loaded)
+            evidence = run_benchmark(final_dir, env_file_loaded=env_file_loaded)
             structured_data = structured_report_data(evidence)
             sdif_text = render_sdif_report(structured_data)
 
@@ -2269,19 +2283,19 @@ def main() -> None:
                 encoding="utf-8",
             )
 
-            latest = update_latest_directory(run_dir)
+            published_dir = publish_benchmark_result(run_dir)
             print_evidence_footer(
                 run_dir,
-                log_path,
-                markdown_path,
-                summary_path,
-                summary_json_path,
-                summary_sdif_path,
-                summary_sdif_ai_path,
-                json_path,
-                sdif_path,
-                sdif_ai_path,
-                latest,
+                published_dir / "comparison.log",
+                published_dir / "comparison.md",
+                published_dir / "summary.md",
+                published_dir / "summary.json",
+                published_dir / "summary.sdif",
+                published_dir / "summary.sdif.ai",
+                published_dir / "comparison.json",
+                published_dir / "comparison.sdif",
+                published_dir / "comparison.sdif.ai",
+                published_dir,
             )
 
 

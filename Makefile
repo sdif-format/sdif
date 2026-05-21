@@ -32,7 +32,7 @@ typecheck:
 benchmark: benchmark-token
 
 benchmark-token:
-	$(RUN_PREFIX) python scripts/token_comparison.py
+	$(RUN_PREFIX) python benchmarks/scripts/token_efficiency.py
 
 benchmark-quality:
 	$(RUN_PREFIX) python scripts/check_semantic_quality.py

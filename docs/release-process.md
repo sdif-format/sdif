@@ -7,7 +7,7 @@ This document records the minimal release process for SDIF `1.0.x` packages.
 - The working tree is clean except for intentional release changes.
 - `pyproject.toml`, `docs/spec.md`, `tree-sitter-sdif/package.json`, and `tree-sitter-sdif/tree-sitter.json` agree on the package version where applicable.
 - Public docs describe the stable v1 contract without contradicting package metadata.
-- `benchmarks/latest/` contains real benchmark artifacts, not a broken symlink.
+- `benchmarks/results/token_efficiency/` contains real benchmark artifacts from a completed run.
 
 ## Required gates
 
@@ -22,7 +22,7 @@ uv run ruff check .
 uv run mypy
 uv run python -c "import sdif; print('sdif import OK')"
 SDIF_ENV_OVERRIDE=0 SDIF_BENCHMARK_TOON=0 SDIF_BENCHMARK_TOKENX=0 SDIF_BENCHMARK_LLAMA=0 SDIF_BENCHMARK_CLAUDE=0 PYTHONPATH=src python3 -m pytest -q
-SDIF_ENV_OVERRIDE=0 SDIF_BENCHMARK_TOON=0 SDIF_BENCHMARK_TOKENX=0 SDIF_BENCHMARK_LLAMA=0 SDIF_BENCHMARK_CLAUDE=0 PYTHONPATH=src python3 scripts/token_comparison.py
+SDIF_ENV_OVERRIDE=0 SDIF_BENCHMARK_TOON=0 SDIF_BENCHMARK_TOKENX=0 SDIF_BENCHMARK_LLAMA=0 SDIF_BENCHMARK_CLAUDE=0 PYTHONPATH=src python3 benchmarks/scripts/token_efficiency.py
 ```
 
 ## Artifact hygiene

@@ -34,9 +34,11 @@ htmlcov/
 .codex
 
 # Benchmark outputs
-benchmarks/*
-!benchmarks/.gitkeep
-!benchmarks/latest/
-!benchmarks/latest/**
+benchmarks/tmp/
+benchmarks/results/*
+!benchmarks/results/README.md
+
+# Local tmp directories
+**/tmp/
 
 codereview/

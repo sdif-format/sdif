@@ -1,6 +1,6 @@
 # Semantic quality comparison
 
-`scripts/token_comparison.py` measures transport density: bytes, estimated
+`benchmarks/scripts/token_efficiency.py` measures transport density: bytes, estimated
 tokens, and tokenizer-specific token counts. Semantic quality is a separate
 question: how much intent, relationship structure, typing, validation policy,
 and auditability survive when the same document is represented in another

@@ -2,7 +2,7 @@
 
 Benchmarks measuring SDIF's token efficiency, semantic fidelity, and model-facing readability compared to JSON, JSON Compact, YAML, XML, CSV Bundle, `.sdif.ai`, and TOON when the official TOON CLI is available.
 
-The benchmark suite is intentionally evidence-first: every compared representation is derived from the same canonical JSON semantic source under `examples/golden/`, and every run writes machine-readable and human-readable evidence under `benchmarks/<timestamp>/` plus a refreshed `benchmarks/latest/` copy.
+The benchmark suite is intentionally evidence-first: every compared representation is derived from the same canonical JSON semantic source under `examples/golden/`, and each run writes machine-readable and human-readable evidence under `benchmarks/tmp/token_efficiency/` while running, then moves the completed result to `benchmarks/results/token_efficiency/`.
 
 ## Quick Start
 
@@ -40,10 +40,10 @@ Run it with:
 make benchmark-token
 ```
 
-The latest successful run is available in:
+The latest successful token-efficiency result is available in:
 
 ```text
-benchmarks/latest/
+benchmarks/results/token_efficiency/
 ```
 
 ### Semantic Quality Track
@@ -91,24 +91,32 @@ scripts/generate_benchmark_golden.py
 scripts/generate_large_golden.py
 ```
 
+Executable benchmark runners live in:
+
+```text
+benchmarks/scripts/
+```
+
+
 ## Result Model
 
 A normal token benchmark run writes:
 
 ```text
-benchmarks/<timestamp>/
-├── comparison.log
-├── comparison.md
-├── comparison.json
-├── comparison.sdif
-├── comparison.sdif.ai
-├── summary.md
-├── summary.json
-├── summary.sdif
-└── summary.sdif.ai
+benchmarks/tmp/token_efficiency/       # while running
+└── moved on success to benchmarks/results/token_efficiency/
+    ├── comparison.log
+    ├── comparison.md
+    ├── comparison.json
+    ├── comparison.sdif
+    ├── comparison.sdif.ai
+    ├── summary.md
+    ├── summary.json
+    ├── summary.sdif
+    └── summary.sdif.ai
 ```
 
-`benchmarks/latest/` is a copied snapshot of the latest run, not a symlink. That makes release archives and external review bundles easier to inspect.
+`benchmarks/results/token_efficiency/` is replaced only after a successful run. Failed runs can leave `benchmarks/tmp/token_efficiency/` for diagnosis without mutating the last completed result.
 
 ## Environment
 
@@ -116,6 +124,7 @@ Useful switches:
 
 ```bash
 SDIF_BENCHMARK_OUTPUT_DIR=/tmp/sdif-benchmarks  # redirect output
+SDIF_BENCHMARK_GOLDEN_DIR=/tmp/golden-fixtures   # use a custom corpus
 SDIF_BENCHMARK_TOON=0                           # disable TOON comparison
 SDIF_BENCHMARK_TOKENX=0                         # disable TokenX estimation
 SDIF_BENCHMARK_LLAMA=0                          # disable Llama tokenizer
@@ -125,12 +134,26 @@ SDIF_BENCHMARK_VERBOSE=1                        # print optional-tool diagnostic
 
 The benchmark script also loads `.env` when present unless `SDIF_ENV_OVERRIDE=0` is set.
 
+## Project Structure
+
+```text
+benchmarks/
+├── README.md              # methodology and operating contract
+├── manifest.sdif          # machine-readable suite manifest
+├── scripts/               # executable benchmark runners
+├── src/                   # reusable benchmark helpers, introduced only when needed
+├── tmp/                   # in-progress benchmark output
+└── results/               # completed benchmark results
+```
+
 ## Organization Contract
 
 The benchmark suite follows these rules:
 
-- Token-efficiency evidence belongs in `benchmarks/`.
-- Canonical semantic sources belong in `examples/golden/`.
+- Executable benchmark runners belong in `benchmarks/scripts/`.
+- Reusable benchmark helpers belong in `benchmarks/src/` only after a second track needs them.
+- Token-efficiency scratch output belongs in `benchmarks/tmp/token_efficiency/`; completed evidence belongs in `benchmarks/results/token_efficiency/`.
+- Canonical semantic sources belong in `examples/golden/`, unless `SDIF_BENCHMARK_GOLDEN_DIR` points to an explicit test corpus.
 - Release-facing summaries may be mirrored into the root README, but the detailed methodology lives here.
 - Optional external tools must degrade gracefully.
 - Claims must name the tokenizer/model coverage that produced them.

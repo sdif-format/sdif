@@ -187,7 +187,7 @@ def test_semantic_quality_methodology_is_documented_separately_from_token_benchm
     ):
         assert term in docs
 
-    assert "scripts/token_comparison.py" in docs
+    assert "benchmarks/scripts/token_efficiency.py" in docs
     assert "token" in docs.lower()
     assert "sdif validate examples/plan.sdif --schema examples/schema.sdif" in docs
 
@@ -247,7 +247,7 @@ def test_release_process_uses_git_archive_and_documents_required_gates():
         "scripts/check_tree_sitter_scaffold.py",
         "python3 -m compileall -q src scripts tests tools",
         "python3 -m pytest -q",
-        "scripts/token_comparison.py",
+        "benchmarks/scripts/token_efficiency.py",
     ):
         assert gate in release_docs
     assert "## 1.0.0 - 2026-05-21" in changelog
@@ -328,3 +328,14 @@ def test_benchmark_suite_documents_tracks_manifest_and_make_targets():
         assert row in manifest
 
     assert "benchmarks/README.md" in readme
+
+
+
+def test_benchmark_runner_lives_under_benchmark_suite() -> None:
+    benchmark_runner = Path("benchmarks") / "scripts" / "token_efficiency.py"
+    benchmark_readme = (Path("benchmarks") / "README.md").read_text(encoding="utf-8")
+    makefile = Path("Makefile").read_text(encoding="utf-8")
+
+    assert benchmark_runner.exists()
+    assert "benchmarks/scripts/" in benchmark_readme
+    assert "python benchmarks/scripts/token_efficiency.py" in makefile

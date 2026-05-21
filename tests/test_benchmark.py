@@ -1,8 +1,22 @@
+import importlib.util
 import os
 import subprocess
 import sys
+from pathlib import Path
 
-from scripts import token_comparison
+
+def load_token_efficiency_module():
+    module_path = Path("benchmarks/scripts/token_efficiency.py")
+    spec = importlib.util.spec_from_file_location("token_efficiency", module_path)
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["token_efficiency"] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+token_efficiency = load_token_efficiency_module()
 
 
 def path_snapshot(path):
@@ -20,19 +34,28 @@ def test_benchmark_main_discovers_golden_fixtures_from_script_location(
     tmp_path,
     capsys,
 ):
+    golden = tmp_path / "golden" / "plan"
+    golden.mkdir(parents=True)
+    (golden / "equivalent.json").write_text(
+        '{"kind":"Plan","id":"demo","items":[{"id":"I1","status":"open"}]}',
+        encoding="utf-8",
+    )
+
     monkeypatch.chdir(tmp_path)
     monkeypatch.setenv("SDIF_ENV_OVERRIDE", "0")
     monkeypatch.setenv("SDIF_BENCHMARK_TOON", "0")
+    monkeypatch.setenv("SDIF_BENCHMARK_GOLDEN_DIR", str(tmp_path / "golden"))
     monkeypatch.setenv("SDIF_BENCHMARK_OUTPUT_DIR", str(tmp_path / "benchmarks"))
     monkeypatch.setattr(
-        token_comparison,
+        token_efficiency,
         "available_tokenizers",
-        lambda: [token_comparison.TokenizerSpec("tiktoken", lambda text: len(text.split()))],
+        lambda: [token_efficiency.TokenizerSpec("tiktoken", lambda text: len(text.split()))],
     )
 
-    token_comparison.main()
+    token_efficiency.main()
 
     output = capsys.readouterr().out
+    assert "Semantic source:" in output
     assert "JSON Compact" in output
     assert "JSON Pretty" in output
     assert "YAML" in output
@@ -54,43 +77,43 @@ def test_benchmark_sdif_ai_projection_is_not_larger_than_canonical_sdif(monkeypa
         ],
     }
 
-    formats = dict(token_comparison.build_formats(data))
+    formats = dict(token_efficiency.build_formats(data))
 
     assert len(formats["SDIF AI"].encode("utf-8")) <= len(formats["SDIF"].encode("utf-8"))
 
 
 def test_benchmark_has_estimated_token_counter_when_optional_tokenizers_unavailable(monkeypatch):
-    monkeypatch.setattr(token_comparison, "tiktoken", None)
-    monkeypatch.setattr(token_comparison, "AutoTokenizer", None)
-    monkeypatch.setattr(token_comparison, "Anthropic", None)
+    monkeypatch.setattr(token_efficiency, "tiktoken", None)
+    monkeypatch.setattr(token_efficiency, "AutoTokenizer", None)
+    monkeypatch.setattr(token_efficiency, "Anthropic", None)
 
-    tokenizers = token_comparison.available_tokenizers()
+    tokenizers = token_efficiency.available_tokenizers()
     names = [tokenizer.name for tokenizer in tokenizers]
 
     assert "Estimate" in names
     estimate = next(tokenizer for tokenizer in tokenizers if tokenizer.name == "Estimate")
     assert estimate.counter("abcd") == 1
     assert estimate.counter("abcde") == 2
-    assert token_comparison.select_primary_tokenizer(tokenizers, "abcd").name == "Estimate"
+    assert token_efficiency.select_primary_tokenizer(tokenizers, "abcd").name == "Estimate"
 
 
 def test_benchmark_ratios_rankings_and_savings_use_json_compact_as_baseline():
     rows = [
-        token_comparison.FormatResult(
+        token_efficiency.FormatResult(
             name="JSON Compact",
             text="{}",
             bytes_size=100,
             tokens={"Estimate": 100},
             primary_ratio=100.0,
         ),
-        token_comparison.FormatResult(
+        token_efficiency.FormatResult(
             name="Compact Format",
             text="x",
             bytes_size=60,
             tokens={"Estimate": 60},
             primary_ratio=60.0,
         ),
-        token_comparison.FormatResult(
+        token_efficiency.FormatResult(
             name="Expanded Format",
             text="x",
             bytes_size=140,
@@ -98,19 +121,19 @@ def test_benchmark_ratios_rankings_and_savings_use_json_compact_as_baseline():
             primary_ratio=140.0,
         ),
     ]
-    evidence = token_comparison.BenchmarkEvidence(
+    evidence = token_efficiency.BenchmarkEvidence(
         generated_at="2026-05-21T00:00:00Z",
-        run_dir=token_comparison.REPO_ROOT / "benchmarks" / "test",
-        golden_dir=token_comparison.REPO_ROOT / "examples" / "golden",
+        run_dir=token_efficiency.REPO_ROOT / "benchmarks" / "test",
+        golden_dir=token_efficiency.REPO_ROOT / "examples" / "golden",
         primary_name="Estimate",
-        tokenizers=[token_comparison.TokenizerSpec("Estimate", lambda text: len(text))],
+        tokenizers=[token_efficiency.TokenizerSpec("Estimate", lambda text: len(text))],
         results_by_document={"demo": rows},
         env_file_loaded=False,
     )
 
     observations = {
         observation.format_name: observation
-        for observation in token_comparison.iter_ranked_observations(evidence, "Estimate")
+        for observation in token_efficiency.iter_ranked_observations(evidence, "Estimate")
     }
 
     assert observations["Compact Format"].rank == 1
@@ -120,37 +143,57 @@ def test_benchmark_ratios_rankings_and_savings_use_json_compact_as_baseline():
     assert observations["JSON Compact"].saved_tokens == 0
     assert observations["Expanded Format"].ratio_value == 140.0
     assert observations["Expanded Format"].saved_tokens == -40
-    assert token_comparison.wins_by_tokenizer(evidence, "Estimate") == {"Compact Format": 1}
+    assert token_efficiency.wins_by_tokenizer(evidence, "Estimate") == {"Compact Format": 1}
+
+
+
+def test_benchmark_golden_dir_can_be_overridden(monkeypatch, tmp_path):
+    monkeypatch.delenv("SDIF_BENCHMARK_GOLDEN_DIR", raising=False)
+    assert token_efficiency.benchmark_golden_dir() == token_efficiency.REPO_ROOT / "examples" / "golden"
+
+    custom = tmp_path / "golden"
+    monkeypatch.setenv("SDIF_BENCHMARK_GOLDEN_DIR", str(custom))
+
+    assert token_efficiency.benchmark_golden_dir() == custom.resolve()
 
 
 def test_benchmark_script_runs_directly_from_checkout(tmp_path):
+    golden = tmp_path / "golden" / "plan"
+    golden.mkdir(parents=True)
+    (golden / "equivalent.json").write_text(
+        '{"kind":"Plan","id":"demo","items":[{"id":"I1","status":"open"}]}',
+        encoding="utf-8",
+    )
+
     env = os.environ.copy()
     env["SDIF_ENV_OVERRIDE"] = "0"
     env["SDIF_BENCHMARK_TOON"] = "0"
     env["SDIF_BENCHMARK_TOKENX"] = "0"
     env["SDIF_BENCHMARK_LLAMA"] = "0"
     env["SDIF_BENCHMARK_CLAUDE"] = "0"
+    env["SDIF_BENCHMARK_GOLDEN_DIR"] = str(tmp_path / "golden")
     env["SDIF_BENCHMARK_OUTPUT_DIR"] = str(tmp_path / "benchmarks")
     env.pop("PYTHONPATH", None)
 
-    repo_latest = token_comparison.REPO_ROOT / "benchmarks" / "latest"
-    before = path_snapshot(repo_latest)
+    repo_result = token_efficiency.REPO_ROOT / "benchmarks" / "results" / "token_efficiency"
+    before = path_snapshot(repo_result)
 
     run = subprocess.run(
-        [sys.executable, "scripts/token_comparison.py"],
+        [sys.executable, "benchmarks/scripts/token_efficiency.py"],
         env=env,
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=False,
-        timeout=60,
+        timeout=30,
     )
 
     assert run.returncode == 0
     assert "XML" in run.stdout
     assert "CSV Bundle" in run.stdout
-    assert path_snapshot(repo_latest) == before
-    assert (tmp_path / "benchmarks" / "latest").exists()
+    assert path_snapshot(repo_result) == before
+    assert (tmp_path / "benchmarks" / "results" / "token_efficiency").exists()
+    assert not (tmp_path / "benchmarks" / "tmp" / "token_efficiency").exists()
 
 
 def test_benchmark_main_emits_formal_summary_artifacts(monkeypatch, tmp_path):
@@ -161,18 +204,17 @@ def test_benchmark_main_emits_formal_summary_artifacts(monkeypatch, tmp_path):
         encoding="utf-8",
     )
 
-    monkeypatch.setattr(token_comparison, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(token_efficiency, "REPO_ROOT", tmp_path)
     monkeypatch.setenv("SDIF_BENCHMARK_TOON", "0")
     monkeypatch.setattr(
-        token_comparison,
+        token_efficiency,
         "available_tokenizers",
-        lambda: [token_comparison.TokenizerSpec("Estimate", token_comparison.count_estimate)],
+        lambda: [token_efficiency.TokenizerSpec("Estimate", token_efficiency.count_estimate)],
     )
 
-    token_comparison.main()
+    token_efficiency.main()
 
-    latest = tmp_path / "benchmarks" / "latest"
-    run_dir = latest.resolve()
+    run_dir = tmp_path / "benchmarks" / "results" / "token_efficiency"
 
     assert (run_dir / "summary.md").is_file()
     assert (run_dir / "summary.json").is_file()
