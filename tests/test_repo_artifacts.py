@@ -59,6 +59,8 @@ def test_tree_sitter_scaffold_checker_passes():
     script = Path("scripts/check_tree_sitter_scaffold.py").read_text(encoding="utf-8")
     assert "sdif.ai" in script
     assert "injection-regex" in script
+    assert "checks[id,value$]:" in script
+    assert "(column) @property" in script
 
     run = subprocess.run(
         [sys.executable, "scripts/check_tree_sitter_scaffold.py"],
@@ -71,16 +73,6 @@ def test_tree_sitter_scaffold_checker_passes():
     assert run.returncode == 0, run.stderr
     assert "tree-sitter-sdif scaffold OK" in run.stdout
 
-
-def test_tree_sitter_corpus_covers_compact_sdif_ai_tables():
-    corpus = Path("tree-sitter-sdif/test/corpus/core.txt").read_text(encoding="utf-8")
-    highlights = Path("tree-sitter-sdif/queries/highlights.scm").read_text(encoding="utf-8")
-
-    assert "@sdif.ai 0.1" in corpus
-    assert "checks[id,value$]:" in corpus
-    assert "C1\tnull" in corpus
-    assert "(column" in corpus
-    assert "(column) @property" in highlights
 
 def test_tree_sitter_grammar_names_core_syntax_nodes_for_highlighting():
     grammar = Path("tree-sitter-sdif/grammar.js").read_text(encoding="utf-8")

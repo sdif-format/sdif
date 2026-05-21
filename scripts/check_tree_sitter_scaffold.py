@@ -54,6 +54,10 @@ def main() -> int:
     grammar_nodes = _grammar_rule_names(grammar)
     _expect("source_file" in grammar_nodes, errors, "grammar must declare source_file")
     _expect("JSON" not in corpus, errors, "agent-facing corpus should avoid JSON as working format")
+    _expect("@sdif.ai 0.1" in corpus, errors, "corpus must cover the sdif.ai directive")
+    _expect("checks[id,value$]:" in corpus, errors, "corpus must cover sdif.ai string-preserved columns")
+    _expect("C1\tnull" in corpus, errors, "corpus must cover compact sdif.ai table rows with HTAB")
+    _expect("(column) @property" in highlights, errors, "highlights must tag table columns")
 
     corpus_nodes = _corpus_expected_nodes(corpus)
     missing_corpus_nodes = sorted(corpus_nodes - grammar_nodes)
