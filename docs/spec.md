@@ -2,7 +2,7 @@
 
 ## Document status
 
-**Version:** 0.2.8-draft
+**Version:** 0.2.9-draft
 **Name:** Semantic Data Interchange Format
 **Short name:** SDIF
 **Recommended source extension:** `.sdif`
@@ -105,6 +105,16 @@ This avoids conflicts with natural-language text, localized decimal notation, qu
 For the token-optimized `.sdif.ai` projection, table rows may omit the canonical
 two-space indentation when the row contains at least one `HTAB`. Canonical SDIF
 source still emits indented rows for review stability.
+
+`.sdif.ai` may include an alias header immediately after the `@sdif.ai`
+directive. The header maps compact names back to semantic names without using a
+JSON sidecar:
+
+```sdif
+@sdif.ai 0.1
+alias[k=kind,st=status]
+k Plan
+```
 
 `.sdif.ai` may also suffix a table column name with `$` to mark the column as
 string-preserved. In such a column, cells are decoded as strings even when the
@@ -348,6 +358,7 @@ Initial reserved directives:
 | Directive    | Meaning                                                     |
 | ------------ | ----------------------------------------------------------- |
 | `@sdif`      | Declares the SDIF format version.                           |
+| `@sdif.ai`   | Declares the token-optimized SDIF AI projection.            |
 | `@profile`   | Declares the document profile.                              |
 | `@vocab`     | Declares a vocabulary.                                      |
 | `@base`      | Declares a base URI or semantic namespace.                  |
@@ -930,6 +941,8 @@ table_block     = table_header, table_row+ ;
 table_header    = key, "[", column_list, "]", ":", inline_comment?, newline ;
 column_list     = column, (",", column)* ;
 column          = IDENT, ["$"] ;
+alias_header    = "alias", "[", alias_entry, (",", alias_entry)*, "]", inline_comment?, newline ;
+alias_entry     = IDENT, "=", IDENT ;
 
 table_row       = INDENT, table_cell, (HTAB, table_cell)*, inline_comment?, newline ;
 ai_table_row    = table_cell, HTAB, table_cell, (HTAB, table_cell)*, inline_comment?, newline ;
@@ -947,10 +960,11 @@ Required semantic rules:
 5. Quote marks inside cells are preserved as data unless an implementation chooses to support optional quoted-cell decoding.
 6. A column name ending in `$` is a `.sdif.ai` string-preserved column marker; consumers must strip the suffix from the semantic column name and parse all cells in that column as strings.
 7. Canonical SDIF rows use `INDENT`; `.sdif.ai` rows may use `ai_table_row` only when the row contains `HTAB`.
-8. A literal tab inside a cell must be escaped as `\t` in strict mode.
-9. Empty cells must be rejected in strict mode unless the schema explicitly allows them.
-10. Multiline blocks are not valid inside tables in the MVP.
-11. Inline comments inside tables may be prohibited in strict mode.
+8. A `.sdif.ai` alias header uses `compact=semantic` entries and is preserved by canonicalization before data statements.
+9. A literal tab inside a cell must be escaped as `\t` in strict mode.
+10. Empty cells must be rejected in strict mode unless the schema explicitly allows them.
+11. Multiline blocks are not valid inside tables in the MVP.
+12. Inline comments inside tables may be prohibited in strict mode.
 
 Example:
 

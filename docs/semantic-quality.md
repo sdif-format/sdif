@@ -9,6 +9,15 @@ format.
 This page defines the repo-local methodology for comparing SDIF and SDIF AI
 against JSON, YAML, and CSV without changing the token benchmark.
 
+Executable guard:
+
+```bash
+python3 scripts/check_semantic_quality.py
+```
+
+The guard checks the SDIF example set against the axes below using parser,
+conversion, validation, SDIF AI projection, and canonicalization behavior.
+
 ## Evaluation axes
 
 | Axis | What it measures | SDIF signal | JSON/YAML/CSV comparison |

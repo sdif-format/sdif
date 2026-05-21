@@ -4,6 +4,11 @@
   "@" @punctuation.special
   (identifier) @keyword)
 
+(alias_header
+  "alias" @keyword
+  "[" @punctuation.bracket
+  "]" @punctuation.bracket)
+
 (block_header
   (identifier) @type)
 
@@ -28,3 +33,4 @@
 (rule_row) @string
 
 (column) @property
+(alias_entry) @property

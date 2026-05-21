@@ -68,6 +68,19 @@ def test_compact_ai_table_rows_may_omit_indentation_and_canonicalize_back():
     )
 
 
+def test_sdif_ai_alias_header_is_parseable_and_canonicalized():
+    source = "@sdif.ai 0.1\nalias[k=kind,st=status]\nk Plan\n"
+
+    doc = parse_text(source)
+
+    assert [(d.name, d.args) for d in doc.directives] == [
+        ("sdif.ai", ["0.1"]),
+        ("alias", ["k=kind", "st=status"]),
+    ]
+    assert doc.fields["k"].value == "Plan"
+    assert canonicalize(doc) == source
+
+
 def test_table_rows_must_use_htab_and_match_header_arity():
     with pytest.raises(ParseError) as excinfo:
         parse_text('''

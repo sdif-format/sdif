@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from sdif.core.ast import Directive, Document, Field, Narrative, ObjectBlock, Relation, Rule, Table
 
 _TABLE_HEADER_RE = re.compile(r"^(?P<name>[A-Za-z_][A-Za-z0-9_-]*)\[(?P<cols>[^\]]+)\]:$")
+_ALIAS_HEADER_RE = re.compile(r"^alias\[(?P<entries>[A-Za-z_][A-Za-z0-9_-]*=[A-Za-z_][A-Za-z0-9_-]*(?:,[A-Za-z_][A-Za-z0-9_-]*=[A-Za-z_][A-Za-z0-9_-]*)*)\]$")
 _BLOCK_RE = re.compile(r"^(?P<key>[A-Za-z_][A-Za-z0-9_-]*):$")
 _NARRATIVE_RE = re.compile(r'^(?P<key>[A-Za-z_][A-Za-z0-9_-]*)\s+"""$')
 
@@ -65,6 +66,11 @@ class _Parser:
         if body.startswith("@"):
             self.index += 1
             return self._parse_directive(body, line_no)
+
+        alias = _ALIAS_HEADER_RE.match(_strip_inline_comment(body))
+        if alias:
+            self.index += 1
+            return Directive("alias", alias.group("entries").split(","))
 
         narrative = _NARRATIVE_RE.match(body)
         if narrative:

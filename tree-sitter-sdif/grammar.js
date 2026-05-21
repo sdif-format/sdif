@@ -10,6 +10,7 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $.directive,
+      $.alias_header,
       $.table,
       $.relation_block,
       $.rules_block,
@@ -20,6 +21,8 @@ module.exports = grammar({
     ),
 
     directive: $ => seq('@', $.identifier, repeat1($._value)),
+    alias_header: $ => seq('alias', '[', commaSep1($.alias_entry), ']'),
+    alias_entry: $ => seq($.identifier, '=', $.identifier),
     field: $ => seq($.identifier, repeat1($._value)),
     block_header: $ => seq($.identifier, ':'),
     table: $ => seq($.table_header, repeat($.table_row)),

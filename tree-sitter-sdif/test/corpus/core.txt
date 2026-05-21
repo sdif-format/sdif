@@ -27,12 +27,14 @@ Use SDIF AI directly for agent context.
 Compact SDIF AI table
 ==================
 @sdif.ai 0.1
+alias[k=kind,st=status]
 checks[id,value$]:
 C1	null
 C2	42
 ---
 (source_file
   (directive (identifier) (atom))
+  (alias_header (alias_entry (identifier) (identifier)) (alias_entry (identifier) (identifier)))
   (table
     (table_header (identifier) (column (identifier)) (column (identifier)))
     (table_row)

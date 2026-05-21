@@ -14,7 +14,7 @@
     }
   ],
   "metadata": {
-    "version": "0.2.8",
+    "version": "0.2.9",
     "license": "MIT",
     "description": "Tree-sitter grammar for SDIF editor tooling and incremental syntax support."
   }

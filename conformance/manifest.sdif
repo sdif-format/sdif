@@ -1,7 +1,8 @@
 @sdif 0.1
 kind ConformanceManifest
-version 0.2.8
+version 0.2.9
 description "Portable SDIF fixtures for parser and tooling conformance."
 cases[id,profile,source,canonical,tree,sha256]:
   core-agent	mvp	conformance/cases/core-agent/source.sdif	conformance/cases/core-agent/canonical.sdif	conformance/cases/core-agent/expected.tree	ebebc7bf5cbfc46f118b4996efa24da18f7437ee266e26f9a25bb65a93f18ace
   ai-compact-table	ai	conformance/cases/ai-compact-table/source.sdif	conformance/cases/ai-compact-table/canonical.sdif	conformance/cases/ai-compact-table/expected.tree	287322dd8ed03733e54e6190afdc0ddb561a31b3c9f1255004bfc93c51fe99cf
+  ai-alias-header	ai	conformance/cases/ai-alias-header/source.sdif	conformance/cases/ai-alias-header/canonical.sdif	conformance/cases/ai-alias-header/expected.tree	15888ad1fd639383cd548c1663aa926f58baeab4770a1d014635176e7cb5cb20

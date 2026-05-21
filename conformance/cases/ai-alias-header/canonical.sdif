@@ -1,0 +1,5 @@
+@sdif.ai 0.1
+alias[k=kind,st=status]
+k Check
+checks[id,st]:
+  C1	done

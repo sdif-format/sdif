@@ -2,22 +2,28 @@
 from __future__ import annotations
 
 import hashlib
-from sdif.core.ast import Document, Field, Narrative, ObjectBlock, Relation, Rule, Table
+from sdif.core.ast import Directive, Document, Field, Narrative, ObjectBlock, Relation, Rule, Table
 from sdif.parser import parse_text
 from sdif.validation import Schema
 
-_DIRECTIVE_ORDER = {"sdif": 0, "profile": 1, "vocab": 2, "base": 3, "namespace": 4, "include": 5}
+_DIRECTIVE_ORDER = {"sdif": 0, "sdif.ai": 0, "alias": 1, "profile": 2, "vocab": 3, "base": 4, "namespace": 5, "include": 6}
 
 
 def canonicalize(source: str | Document, schema: Schema | None = None) -> str:
     doc = parse_text(source) if isinstance(source, str) else source
     lines: list[str] = []
     for directive in sorted(doc.directives, key=lambda d: (_DIRECTIVE_ORDER.get(d.name, 100), d.name, d.args)):
-        args = " ".join(directive.args)
-        lines.append(f"@{directive.name}" + (f" {args}" if args else ""))
+        lines.append(_emit_directive(directive))
     for statement in _canonical_statement_order(doc.statements, schema):
         _emit_statement(statement, lines, indent=0, schema=schema)
     return "\n".join(lines).rstrip() + "\n"
+
+
+def _emit_directive(directive: Directive) -> str:
+    if directive.name == "alias":
+        return f"alias[{','.join(directive.args)}]"
+    args = " ".join(directive.args)
+    return f"@{directive.name}" + (f" {args}" if args else "")
 
 
 def sdif_hash(source: str | Document, schema: Schema | None = None) -> str:
