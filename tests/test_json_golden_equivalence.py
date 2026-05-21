@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from sdif import parse_text
+from sdif import Policy, parse_text
 from sdif.json import document_to_json_data, json_data_to_sdif
 
 
@@ -10,12 +10,14 @@ ALLOWED_GOLDEN_FILES = {"equivalent.json", "source.sdif", "canonical.sdif", "can
 
 
 def test_golden_json_is_the_semantic_source_for_checked_in_sdif():
+    policy = Policy(max_document_size=10_000_000)
     for golden_json in sorted(GOLDEN_ROOT.glob("*/equivalent.json")):
         data = json.loads(golden_json.read_text(encoding="utf-8"))
 
         generated_sdif = json_data_to_sdif(data, include_header=True)
         source_sdif = golden_json.parent / "source.sdif"
-        round_trip = document_to_json_data(parse_text(generated_sdif))
+        round_trip = document_to_json_data(parse_text(generated_sdif, policy=policy))
+
 
         if source_sdif.exists():
             checked_in_sdif = source_sdif.read_text(encoding="utf-8")

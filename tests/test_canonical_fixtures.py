@@ -3,7 +3,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from sdif import canonicalize, parse_text, sdif_hash
+from sdif import Policy, canonicalize, parse_text, sdif_hash
 from sdif.validation import Schema
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,17 +18,19 @@ def _schema_for_fixture(name: str) -> Schema | None:
 
 
 def test_golden_sources_match_canonical_fixtures_and_hashes():
+    policy = Policy(max_document_size=10_000_000)
     for source in sorted(GOLDEN_ROOT.glob("*/source.sdif")):
         fixture_dir = source.parent
         schema = _schema_for_fixture(fixture_dir.name)
         expected_canonical = (fixture_dir / "canonical.sdif").read_text(encoding="utf-8")
         expected_hash = (fixture_dir / "canonical.sha256").read_text(encoding="utf-8").strip()
 
-        canonical = canonicalize(source.read_text(encoding="utf-8"), schema=schema)
+        canonical = canonicalize(source.read_text(encoding="utf-8"), schema=schema, policy=policy)
 
         assert canonical == expected_canonical, fixture_dir.name
-        assert sdif_hash(source.read_text(encoding="utf-8"), schema=schema) == expected_hash
+        assert sdif_hash(source.read_text(encoding="utf-8"), schema=schema, policy=policy) == expected_hash
         assert hashlib.sha256(canonical.encode("utf-8")).hexdigest() == expected_hash
+
 
 
 def test_cli_canon_and_hash_accept_schema_policy(tmp_path):

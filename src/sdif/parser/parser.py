@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 import re
 from dataclasses import dataclass
 
+from sdif.core.policy import Policy, PolicyError
 from sdif.core.ast import (
     Directive,
     Document,
@@ -40,19 +42,34 @@ class ParseError(Exception):
         return f"{self.code} at {self.line}:{self.column}: {self.message}"
 
 
-def parse_text(text: str) -> Document:
-    parser = _Parser(text)
+def parse_text(text: str, *, policy: Policy | None = None) -> Document:
+    parser = _Parser(text, policy=policy)
     return parser.parse_document()
 
 
 class _Parser:
-    def __init__(self, text: str) -> None:
+    def __init__(self, text: str, *, policy: Policy | None = None) -> None:
+        self.policy = policy or Policy()
+        if len(text.encode("utf-8")) > self.policy.max_document_size:
+            raise PolicyError(
+                "SDIF_POLICY_DOCUMENT_SIZE",
+                f"Document size exceeds maximum limit of {self.policy.max_document_size} bytes",
+            )
         self.lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
         if self.lines and self.lines[-1] == "":
             self.lines.pop()
         self.index = 0
         self.is_ai_profile = False
         self.alias_to_canonical: dict[str, str] = {}
+        self.current_nesting_depth = 0
+
+    def _check_string_length(self, value: str, field_desc: str) -> None:
+        if len(value) > self.policy.max_string_length:
+            raise PolicyError(
+                "SDIF_POLICY_STRING_LENGTH",
+                f"{field_desc} length {len(value)} exceeds maximum limit of {self.policy.max_string_length}",
+            )
+
 
     def parse_document(self) -> Document:
         directives: list[Directive] = []
@@ -141,31 +158,43 @@ class _Parser:
             raise ParseError("SDIF_FIELD", "field requires a key and value", line_no)
         key, value = clean.split(None, 1)
         raw_value = value.strip()
-        return Field(key, _unquote(raw_value), quoted=_is_quoted(raw_value))
+        unquoted = _unquote(raw_value)
+        self._check_string_length(unquoted, "Field value")
+        return Field(key, unquoted, quoted=_is_quoted(raw_value))
 
     def _parse_object(self, key: str, indent: int, line_no: int) -> ObjectBlock:
-        self.index += 1
-        child_indent = indent + 2
-        statements: list[object] = []
-        while self.index < len(self.lines):
-            raw = self.lines[self.index]
-            if raw.strip() == "":
-                self.index += 1
-                continue
-            if _indent(raw, self.index + 1) < child_indent:
-                break
-            parsed = self._parse_next(child_indent)
-            if parsed is None:
-                continue
-            if isinstance(parsed, Directive):
-                raise ParseError(
-                    "SDIF_OBJECT_DIRECTIVE", "directive not allowed inside object", line_no
-                )
-            if isinstance(parsed, list):
-                statements.extend(parsed)
-            else:
-                statements.append(parsed)
-        return ObjectBlock(key, statements)
+        self.current_nesting_depth += 1
+        if self.current_nesting_depth > self.policy.max_nesting_depth:
+            raise PolicyError(
+                "SDIF_POLICY_NESTING_DEPTH",
+                f"Nesting depth {self.current_nesting_depth} exceeds maximum limit of {self.policy.max_nesting_depth}",
+            )
+        try:
+            self.index += 1
+            child_indent = indent + 2
+            statements: list[object] = []
+            while self.index < len(self.lines):
+                raw = self.lines[self.index]
+                if raw.strip() == "":
+                    self.index += 1
+                    continue
+                if _indent(raw, self.index + 1) < child_indent:
+                    break
+                parsed = self._parse_next(child_indent)
+                if parsed is None:
+                    continue
+                if isinstance(parsed, Directive):
+                    raise ParseError(
+                        "SDIF_OBJECT_DIRECTIVE", "directive not allowed inside object", line_no
+                    )
+                if isinstance(parsed, list):
+                    statements.extend(parsed)
+                else:
+                    statements.append(parsed)
+            return ObjectBlock(key, statements)
+        finally:
+            self.current_nesting_depth -= 1
+
 
     def _parse_table(self, match: re.Match[str], indent: int, line_no: int) -> Table:
         self.index += 1
@@ -206,7 +235,14 @@ class _Parser:
                     column=child_indent + 1,
                     hint="check HTAB separators and missing cells",
                 )
+            for cell in cells:
+                self._check_string_length(cell, "Table cell")
             rows.append(cells)
+            if len(rows) > self.policy.max_table_row_count:
+                raise PolicyError(
+                    "SDIF_POLICY_TABLE_ROW_COUNT",
+                    f"Table row count {len(rows)} exceeds maximum limit of {self.policy.max_table_row_count}",
+                )
             self.index += 1
         return Table(name, columns, rows)
 
@@ -234,8 +270,10 @@ class _Parser:
                 raise ParseError(
                     "SDIF_REL_ARITY", "relation row must have exactly three parts", row_no
                 )
+            unquoted_obj = _unquote(parts[2])
+            self._check_string_length(unquoted_obj, "Relation object")
             relations.append(
-                Relation(parts[0], parts[1], _unquote(parts[2]), object_quoted=_is_quoted(parts[2]))
+                Relation(parts[0], parts[1], unquoted_obj, object_quoted=_is_quoted(parts[2]))
             )
             self.index += 1
         return relations
@@ -268,8 +306,10 @@ class _Parser:
                     "subject-grouped relation row must have exactly two parts",
                     row_no,
                 )
+            unquoted_obj = _unquote(parts[1])
+            self._check_string_length(unquoted_obj, "Relation object")
             relations.append(
-                Relation(subject, parts[0], _unquote(parts[1]), object_quoted=_is_quoted(parts[1]))
+                Relation(subject, parts[0], unquoted_obj, object_quoted=_is_quoted(parts[1]))
             )
             self.index += 1
         return relations
@@ -306,7 +346,6 @@ class _Parser:
             self.index += 1
         return rules
 
-
     def _parse_narrative(self, key: str, indent: int, line_no: int) -> Narrative:
         self.index += 1
         content: list[str] = []
@@ -323,7 +362,9 @@ class _Parser:
                         hint="closing triple quotes must match the indentation of the opening block",
                     )
                 self.index += 1
-                return Narrative(key, "\n".join(content))
+                content_str = "\n".join(content)
+                self._check_string_length(content_str, "Narrative content")
+                return Narrative(key, content_str)
             if raw.startswith(prefix):
                 content.append(raw[len(prefix) :])
             else:
@@ -525,4 +566,97 @@ def _to_rule_expression(call: Call) -> RuleExpression:
         )
     else:
         raise ValueError(f"Invalid rule function or first argument: `{first}`")
+
+
+def parse_file(filepath: Path | str, *, policy: Policy | None = None) -> Document:
+    policy = policy or Policy()
+    seen_paths: list[Path] = []
+    expanded_bytes = [0]
+
+    def _resolve_include_directive(dir_args: list[str], parent_path: Path) -> Document:
+        if not policy.allow_includes:
+            raise PolicyError("SDIF_POLICY_INCLUDE", "Includes are disabled by policy")
+        if not dir_args:
+            raise PolicyError("SDIF_POLICY_INCLUDE", "Empty include directive")
+        
+        target_path_str = dir_args[0].strip('"')
+        
+        is_remote = target_path_str.startswith(("http://", "https://", "ftp://"))
+        if is_remote:
+            if not policy.allow_remote_includes:
+                raise PolicyError("SDIF_POLICY_REMOTE_INCLUDE", f"Remote include of {target_path_str} is disabled by policy")
+            raise PolicyError("SDIF_POLICY_REMOTE_INCLUDE", f"Remote includes not supported: {target_path_str}")
+        
+        target_path = Path(target_path_str)
+        if target_path.is_absolute():
+            resolved_target = target_path.resolve()
+        else:
+            resolved_target = (parent_path.parent / target_path).resolve()
+            
+        is_allowed = False
+        for allowed in policy.allowed_include_paths:
+            try:
+                abs_allowed = allowed.resolve()
+                if resolved_target == abs_allowed or abs_allowed in resolved_target.parents:
+                    is_allowed = True
+                    break
+            except Exception:
+                pass
+        
+        if not is_allowed:
+            raise PolicyError(
+                "SDIF_POLICY_INCLUDE_PATH",
+                f"Include path {target_path_str} (resolved to {resolved_target}) is not permitted by policy allowlist"
+            )
+            
+        return _parse_file_inner(resolved_target)
+
+    def _parse_file_inner(current_path: Path) -> Document:
+        abs_path = current_path.resolve()
+        if abs_path in seen_paths:
+            cycle_str = " -> ".join(str(p) for p in seen_paths) + f" -> {abs_path}"
+            raise PolicyError("SDIF_POLICY_INCLUDE_CYCLE", f"Include cycle detected: {cycle_str}")
+            
+        if len(seen_paths) > policy.max_include_depth:
+            raise PolicyError(
+                "SDIF_POLICY_INCLUDE_DEPTH",
+                f"Include depth {len(seen_paths)} exceeds maximum limit of {policy.max_include_depth}"
+            )
+            
+        try:
+            content = abs_path.read_text(encoding="utf-8")
+        except Exception as e:
+            raise IOError(f"Failed to read file {abs_path}: {e}")
+            
+        file_bytes = len(content.encode("utf-8"))
+        expanded_bytes[0] += file_bytes
+        if expanded_bytes[0] > policy.max_expanded_bytes:
+            raise PolicyError(
+                "SDIF_POLICY_EXPANDED_BYTES",
+                f"Total expanded bytes {expanded_bytes[0]} exceeds limit of {policy.max_expanded_bytes}"
+            )
+            
+        seen_paths.append(abs_path)
+        try:
+            doc = parse_text(content, policy=policy)
+            
+            resolved_directives: list[Directive] = []
+            resolved_statements: list[Statement] = []
+            
+            for directive in doc.directives:
+                if directive.name == "include":
+                    included_doc = _resolve_include_directive(directive.args, abs_path)
+                    resolved_statements.extend(included_doc.statements)
+                    for d in included_doc.directives:
+                        if d.name != "include":
+                            resolved_directives.append(d)
+                else:
+                    resolved_directives.append(directive)
+                    
+            return Document(directives=resolved_directives, statements=resolved_statements + doc.statements)
+        finally:
+            seen_paths.pop()
+
+    return _parse_file_inner(Path(filepath))
+
 

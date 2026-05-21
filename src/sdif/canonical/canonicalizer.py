@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 import hashlib
 from sdif.core.ast import Directive, Document, Field, Narrative, ObjectBlock, Relation, Rule, Table
-from sdif.parser import parse_text
+from sdif.parser import parse_text, Policy
 from sdif.validation import Schema
 
 _DIRECTIVE_ORDER = {
@@ -20,8 +20,10 @@ _DIRECTIVE_ORDER = {
 }
 
 
-def canonicalize(source: str | Document, schema: Schema | None = None) -> str:
-    doc = parse_text(source) if isinstance(source, str) else source
+def canonicalize(
+    source: str | Document, schema: Schema | None = None, *, policy: Policy | None = None
+) -> str:
+    doc = parse_text(source, policy=policy) if isinstance(source, str) else source
     lines: list[str] = []
     for directive in sorted(
         doc.directives, key=lambda d: (_DIRECTIVE_ORDER.get(d.name, 100), d.name, d.args)
@@ -39,8 +41,14 @@ def _emit_directive(directive: Directive) -> str:
     return f"@{directive.name}" + (f" {args}" if args else "")
 
 
-def sdif_hash(source: str | Document, schema: Schema | None = None) -> str:
-    return hashlib.sha256(canonicalize(source, schema=schema).encode("utf-8")).hexdigest()
+def sdif_hash(
+    source: str | Document, schema: Schema | None = None, *, policy: Policy | None = None
+) -> str:
+    return hashlib.sha256(
+        canonicalize(source, schema=schema, policy=policy).encode("utf-8")
+    ).hexdigest()
+
+
 
 
 def _canonical_statement_order(statements: Sequence[object], schema: Schema | None) -> list[object]:
