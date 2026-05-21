@@ -148,6 +148,31 @@ def test_docs_examples_describe_current_golden_fixture_policy():
     assert "JSON is the semantic source" in docs
 
 
+def test_benchmark_golden_corpus_has_representative_size_and_complexity_mix():
+    golden_root = Path("examples/golden")
+    fixture_paths = sorted(golden_root.glob("*/equivalent.json"))
+    fixture_names = {path.parent.name for path in fixture_paths}
+    sizes = {path.parent.name: path.stat().st_size for path in fixture_paths}
+
+    small = [name for name, size in sizes.items() if size < 20 * 1024]
+    medium = [name for name, size in sizes.items() if 20 * 1024 <= size <= 200 * 1024]
+    large = [name for name, size in sizes.items() if size > 200 * 1024]
+
+    assert len(fixture_paths) >= 18
+    assert len(small) >= 4
+    assert len(medium) >= 4
+    assert len(large) >= 4
+    assert "github.openapi" in fixture_names
+
+    for required in (
+        "wide-table-survey",
+        "deep-hierarchy-project",
+        "medium-observability-run",
+        "large-audit-trail",
+    ):
+        assert required in fixture_names
+
+
 def test_versioned_spec_is_pointer_to_authoritative_spec():
     legacy = Path("docs/sdif_v0.1.md").read_text(encoding="utf-8")
     spec = Path("docs/spec.md").read_text(encoding="utf-8")
