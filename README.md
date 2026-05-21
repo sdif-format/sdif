@@ -94,7 +94,7 @@ Benchmark artifacts are written under:
 benchmarks/results/token_efficiency
 ```
 
-For the full benchmark methodology, tracks, corpus model, and environment switches, see [`benchmarks/README.md`](benchmarks/README.md).
+For the full benchmark methodology, tracks, corpus model, and environment switches, see [`benchmarks/README.md`](benchmarks/README.md). For the LLM-latency profile behind `summary.sdif.ai`, locality, chunk manifests, canonical hash caching, deltas, and output contracts, see [`docs/ai-speed-profile.md`](docs/ai-speed-profile.md).
 
 ## Current repository status
 

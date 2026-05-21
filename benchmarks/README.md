@@ -70,6 +70,10 @@ Not implemented yet. The intended shape is deliberately close to the token track
 
 This track should not block `v1.0.0`; it is a post-core-release evidence layer.
 
+### SDIF AI Speed Profile
+
+The benchmark suite also documents how `.sdif.ai` should be used for lower-latency LLM workflows: summary-first input, locality, semantic aliases, chunk manifests, canonical hash caching, deltas, and parseable output contracts. See [`docs/ai-speed-profile.md`](../docs/ai-speed-profile.md).
+
 ## Corpus Model
 
 SDIF keeps the canonical semantic corpus in `examples/golden/` instead of duplicating it under `benchmarks/data/`. This avoids drift between parser/conformance fixtures and benchmark fixtures.

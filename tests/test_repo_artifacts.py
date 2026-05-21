@@ -339,3 +339,27 @@ def test_benchmark_runner_lives_under_benchmark_suite() -> None:
     assert benchmark_runner.exists()
     assert "benchmarks/scripts/" in benchmark_readme
     assert "python benchmarks/scripts/token_efficiency.py" in makefile
+
+
+def test_ai_speed_profile_documents_llm_latency_contract() -> None:
+    docs = Path("docs/ai-speed-profile.md").read_text(encoding="utf-8")
+    benchmark_docs = Path("benchmarks/README.md").read_text(encoding="utf-8")
+    manifest = Path("benchmarks/manifest.sdif").read_text(encoding="utf-8")
+    readme = Path("README.md").read_text(encoding="utf-8")
+
+    for term in (
+        "SDIF AI speed profile",
+        "prefill",
+        "locality",
+        "summary.sdif.ai",
+        "chunk manifest",
+        "canonical hash",
+        "delta",
+        "useful_answer_ms",
+        "aliases must remain semantic",
+    ):
+        assert term in docs
+
+    assert "docs/ai-speed-profile.md" in benchmark_docs
+    assert "docs/ai-speed-profile.md" in readme
+    assert "ai-speed-profile\tactive\tdocs/ai-speed-profile.md" in manifest

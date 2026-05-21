@@ -7,6 +7,7 @@ summary "Benchmark registry for token efficiency, semantic quality, and future r
 tracks[id,status,command,output,description]:
   token-efficiency	active	"make benchmark-token"	benchmarks/results/token_efficiency/summary.md	"Measures bytes and tokens across canonical JSON-derived representations."
   semantic-quality	active	"make benchmark-quality"	docs/semantic-quality.md	"Documents and checks semantic axes beyond token count."
+  ai-speed-profile	active	docs/ai-speed-profile.md	docs/ai-speed-profile.md	"Documents LLM latency rules for SDIF AI locality, summary-first prompts, caching, deltas, and output contracts."
   retrieval-accuracy	planned	"make benchmark-accuracy"	benchmarks/results/retrieval_accuracy/summary.md	"Future model comprehension benchmark with deterministic answer validation."
 
 formats[id,status,role,notes]:
@@ -37,4 +38,6 @@ rel:
   token-efficiency compares sdif-ai
   token-efficiency optionally_compares toon
   semantic-quality complements token-efficiency
+  ai-speed-profile guides sdif-ai
+  ai-speed-profile complements token-efficiency
   retrieval-accuracy extends token-efficiency
