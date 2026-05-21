@@ -75,4 +75,14 @@ def test_conformance_valid_invalid_fixtures():
         parse_file(invalid_dir / "policy_nesting_depth.sdif")
     assert excinfo.value.code == "SDIF_POLICY_NESTING_DEPTH"
 
+    # Alias policy checks:
+    with pytest.raises(PolicyError) as excinfo:
+        parse_text((invalid_dir / "alias_collision.sdif").read_text(encoding="utf-8"))
+    assert excinfo.value.code == "SDIF_POLICY_ALIAS_COLLISION"
+
+    with pytest.raises(PolicyError) as excinfo:
+        parse_text((invalid_dir / "alias_reserved.sdif").read_text(encoding="utf-8"))
+    assert excinfo.value.code == "SDIF_POLICY_ALIAS_RESERVED"
+
+
 
