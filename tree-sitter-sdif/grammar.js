@@ -1,5 +1,5 @@
 // MVP Tree-sitter grammar for SDIF editor tooling and incremental parsing.
-// The normative parser is the Python package under src/sdif/.
+// Keep this tooling grammar aligned with conformance/manifest.sdif.
 module.exports = grammar({
   name: 'sdif',
 

@@ -2,7 +2,7 @@
 
 ## Document status
 
-**Version:** 0.2.6-draft
+**Version:** 0.2.7-draft
 **Name:** Semantic Data Interchange Format
 **Short name:** SDIF
 **Recommended source extension:** `.sdif`
@@ -752,9 +752,11 @@ items[id,label,amount]:
 
 A table cell must only escape a literal tab, a line break, or a reserved control character.
 
-### 10.4 Normative parser before editor tooling
+### 10.4 Portable conformance before implementation authority
 
-A Tree-sitter grammar is valuable for editor support, syntax highlighting, and incremental parsing, but it is not the normative parser for the initial specification. The normative parser remains the Python package under `src/sdif/`.
+A Tree-sitter grammar is valuable for editor support, syntax highlighting, and incremental parsing. It should not be a detached convenience grammar, and the Python package should not remain the only practical authority for other language implementations.
+
+The portable authority for this draft is the written specification plus the shared `conformance/manifest.sdif` fixture suite. The Python parser under `src/sdif/` is the current reference implementation used to verify those fixtures until independent parser backends are wired into CI.
 
 The repository now keeps `tree-sitter-sdif/` as an MVP tooling package with:
 
@@ -764,7 +766,7 @@ The repository now keeps `tree-sitter-sdif/` as an MVP tooling package with:
 4. `queries/highlights.scm` for editor syntax highlighting.
 5. `package.json` scripts for `tree-sitter generate` and `tree-sitter test` when the Tree-sitter CLI is installed.
 
-Tree-sitter support must stay aligned with the official fixtures and must not require agents to use JSON as their working interchange surface.
+Tree-sitter support must stay aligned with the official conformance fixtures and must not require agents to use JSON as their working interchange surface. The fixture manifest is SDIF, not JSON, so agents and parser authors can consume the conformance surface directly in the target format.
 
 ### 10.5 Canonicalizer from the first implementation slice
 
@@ -1993,12 +1995,12 @@ Deliverables:
 2. Syntax highlighting queries.
 3. Corpus fixtures aligned with representative SDIF documents.
 4. Optional minimal language server.
-5. Fixture alignment with the normative parser.
+5. Fixture alignment with the shared SDIF conformance suite.
 
 Closure criterion:
 
 ```text
-Editor parse trees align with normative parser fixtures for the MVP grammar.
+Editor parse trees align with shared SDIF conformance fixtures for the MVP grammar.
 ```
 
 ---
@@ -2193,7 +2195,7 @@ Once that pipeline is stable, schema validation, semantic validation, editor too
 
 ## Appendix A. MVP Python implementation notes
 
-The repository implementation follows the normative spine defined above:
+The repository implementation follows the portable conformance spine defined above:
 
 ```text
 source.sdif -> AST -> canonical bytes -> sha256 hash

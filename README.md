@@ -1,6 +1,6 @@
 # SDIF — Semantic Data Interchange Format
 
-[![Status](https://img.shields.io/badge/status-0.2.6--draft-orange)](docs/spec.md)
+[![Status](https://img.shields.io/badge/status-0.2.7--draft-orange)](docs/spec.md)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
@@ -47,7 +47,7 @@ This repository is implementing the 0.1 MVP:
 source.sdif -> AST -> canonical bytes -> sha256 hash
 ```
 
-The initial Python package includes a parser, schema validation, schema-aware canonicalization, JSON conversion, `.sdif.ai` projection helpers, CLI tooling, and golden fixtures. Tree-sitter now has an MVP grammar package, corpus fixture, and highlight query for editor/agent tooling; the Python parser remains normative.
+The initial Python package includes a parser, schema validation, schema-aware canonicalization, JSON conversion, `.sdif.ai` projection helpers, CLI tooling, and golden fixtures. Tree-sitter now has an MVP grammar package, corpus fixture, highlight query, and shared conformance fixtures for editor/agent tooling; the specification plus conformance fixtures are the portable authority, with the Python parser acting as the current reference implementation.
 
 ## Quick start
 
@@ -81,9 +81,9 @@ python tools/sdif-cli.py canon examples/registry.sdif
 
 `tree-sitter-sdif/` contains the MVP grammar package for editor and incremental
 parse tooling. It includes `grammar.js`, `tree-sitter.json`, `test/corpus/core.txt`, and
-`queries/highlights.scm`. This layer is intentionally non-normative: SDIF and
-`.sdif.ai` remain the agent-facing formats, and the Python parser remains the
-source of truth for canonical parsing.
+`queries/highlights.scm`. This layer is tooling-focused, but it must stay aligned with the shared
+`conformance/manifest.sdif` fixture suite. SDIF and `.sdif.ai` remain the
+agent-facing formats; JSON is not required as an agent working surface.
 
 ```bash
 cd tree-sitter-sdif
