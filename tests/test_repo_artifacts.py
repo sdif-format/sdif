@@ -56,6 +56,10 @@ def test_tree_sitter_scaffold_checker_passes():
     import subprocess
     import sys
 
+    script = Path("scripts/check_tree_sitter_scaffold.py").read_text(encoding="utf-8")
+    assert "sdif.ai" in script
+    assert "injection-regex" in script
+
     run = subprocess.run(
         [sys.executable, "scripts/check_tree_sitter_scaffold.py"],
         text=True,

@@ -41,6 +41,15 @@ def main() -> int:
     grammar_entry = config.get("grammars", [{}])[0]
     _expect(grammar_entry.get("scope") == "source.sdif", errors, "tree-sitter scope must be source.sdif")
     _expect("sdif" in grammar_entry.get("file-types", []), errors, "tree-sitter file type must include sdif")
+    _expect("sdif.ai" in grammar_entry.get("file-types", []), errors, "tree-sitter file type must include sdif.ai")
+    _expect(
+        grammar_entry.get("injection-regex") == r"^sdif(\.ai)?$",
+        errors,
+        "tree-sitter injection-regex must include sdif and sdif.ai",
+    )
+    package_entry = package.get("tree-sitter", [{}])[0]
+    _expect("sdif" in package_entry.get("file-types", []), errors, "package file types must include sdif")
+    _expect("sdif.ai" in package_entry.get("file-types", []), errors, "package file types must include sdif.ai")
 
     grammar_nodes = _grammar_rule_names(grammar)
     _expect("source_file" in grammar_nodes, errors, "grammar must declare source_file")
