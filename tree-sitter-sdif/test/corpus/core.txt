@@ -22,3 +22,18 @@ Use SDIF AI directly for agent context.
   (relation_block (relation_row))
   (rules_block (rule_row))
   (narrative_block (identifier) (narrative_text)))
+
+==================
+Compact SDIF AI table
+==================
+@sdif.ai 0.1
+checks[id,value$]:
+C1	null
+C2	42
+---
+(source_file
+  (directive (identifier) (atom))
+  (table
+    (table_header (identifier) (column (identifier)) (column (identifier)))
+    (table_row)
+    (table_row)))

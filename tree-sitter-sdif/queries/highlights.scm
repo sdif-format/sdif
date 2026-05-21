@@ -26,3 +26,5 @@
 (table_row) @string
 (relation_row) @string
 (rule_row) @string
+
+(column) @property

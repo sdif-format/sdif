@@ -18,5 +18,6 @@ npm run generate
 npm test
 ```
 
-The checked-in corpus starts with `test/corpus/core.txt` and should stay aligned with
-representative SDIF documents and the Python parser behavior.
+The checked-in corpus starts with `test/corpus/core.txt` and should stay aligned
+with representative SDIF documents, `.sdif.ai` compact table syntax, and the
+Python parser behavior.
