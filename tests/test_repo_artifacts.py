@@ -43,3 +43,24 @@ def _assert_sdif_table_rows_use_htab(path: Path) -> None:
             continue
         if active_table_columns is not None and active_table_columns > 1:
             assert "\t" in line, f"{path}:{line_no} table row must use literal HTAB separators"
+
+
+def test_docs_examples_describe_current_golden_fixture_policy():
+    docs = Path("docs/examples/README.md").read_text(encoding="utf-8")
+
+    assert "equivalent.json" in docs
+    assert "source.sdif" in docs
+    assert "canonical.sdif" in docs
+    assert "canonical.sha256" in docs
+    assert "equivalent.yaml" not in docs
+    assert "equivalent.toon" not in docs
+    assert "JSON is the semantic source" in docs
+
+
+def test_versioned_spec_is_pointer_to_authoritative_spec():
+    legacy = Path("docs/sdif_v0.1.md").read_text(encoding="utf-8")
+    spec = Path("docs/spec.md").read_text(encoding="utf-8")
+
+    assert "docs/spec.md" in legacy
+    assert "authoritative" in legacy.lower()
+    assert len(legacy) < len(spec) // 10
