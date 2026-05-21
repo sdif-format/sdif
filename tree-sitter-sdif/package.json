@@ -21,7 +21,8 @@
     {
       "scope": "source.sdif",
       "file-types": [
-        "sdif"
+        "sdif",
+        "sdif.ai"
       ],
       "highlights": "queries/highlights.scm"
     }

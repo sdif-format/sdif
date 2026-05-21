@@ -25,6 +25,19 @@ def test_spec_version_matches_package_version():
     assert tree_sitter_package["version"] == pyproject["project"]["version"]
 
 
+def test_tree_sitter_metadata_recognizes_sdif_ai_files():
+    package = json.loads(Path("tree-sitter-sdif/package.json").read_text(encoding="utf-8"))
+    config = json.loads(Path("tree-sitter-sdif/tree-sitter.json").read_text(encoding="utf-8"))
+
+    package_file_types = package["tree-sitter"][0]["file-types"]
+    config_file_types = config["grammars"][0]["file-types"]
+
+    assert "sdif" in package_file_types
+    assert "sdif.ai" in package_file_types
+    assert "sdif" in config_file_types
+    assert "sdif.ai" in config_file_types
+    assert config["grammars"][0]["injection-regex"] == "^sdif(\\.ai)?$"
+
 def test_tree_sitter_tooling_has_package_corpus_and_highlight_queries():
     package = Path("tree-sitter-sdif/package.json").read_text(encoding="utf-8")
     config = Path("tree-sitter-sdif/tree-sitter.json").read_text(encoding="utf-8")

@@ -4,9 +4,11 @@ MVP Tree-sitter package for SDIF editor tooling, syntax highlighting, and
 incremental parse experiments. This package is intentionally tooling-only: the
 normative parser and canonical AST remain in the Python package under `src/sdif/`.
 
-SDIF and `.sdif.ai` are the agent-facing interchange surfaces. JSON fixtures may
-exist for equivalence checks, but agents should not need to use JSON to work with
-SDIF documents.
+SDIF and `.sdif.ai` are the agent-facing interchange surfaces. The package
+metadata registers both `sdif` and `sdif.ai` file types so editor integrations
+can attach the same grammar to canonical source files and compact AI
+projections. JSON fixtures may exist for equivalence checks, but agents should
+not need to use JSON to work with SDIF documents.
 
 ## Local commands
 

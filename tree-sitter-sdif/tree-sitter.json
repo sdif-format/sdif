@@ -7,9 +7,10 @@
       "scope": "source.sdif",
       "path": ".",
       "file-types": [
-        "sdif"
+        "sdif",
+        "sdif.ai"
       ],
-      "injection-regex": "^sdif$"
+      "injection-regex": "^sdif(\\.ai)?$"
     }
   ],
   "metadata": {
