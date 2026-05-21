@@ -49,8 +49,6 @@ def sdif_hash(
     ).hexdigest()
 
 
-
-
 def _canonical_statement_order(statements: Sequence[object], schema: Schema | None) -> list[object]:
     order = {"kind": 0, "id": 1, "schema": 2, "authority": 3, "lifecycle": 4}
     fields = [s for s in statements if isinstance(s, Field)]

@@ -270,7 +270,6 @@ def test_spec_records_v1_m3_validation_contract():
         assert term in spec
 
 
-
 def test_comparison_doc_includes_examples_for_all_compared_formats():
     docs = Path("docs/comparison.md").read_text(encoding="utf-8")
 

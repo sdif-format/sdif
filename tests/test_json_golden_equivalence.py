@@ -18,7 +18,6 @@ def test_golden_json_is_the_semantic_source_for_checked_in_sdif():
         source_sdif = golden_json.parent / "source.sdif"
         round_trip = document_to_json_data(parse_text(generated_sdif, policy=policy))
 
-
         if source_sdif.exists():
             checked_in_sdif = source_sdif.read_text(encoding="utf-8")
             assert generated_sdif == checked_in_sdif, golden_json

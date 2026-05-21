@@ -89,7 +89,6 @@ class Rule:
     expression: RuleExpression | None = None
 
 
-
 @dataclass(frozen=True)
 class Narrative:
     key: str

@@ -5,6 +5,7 @@ from __future__ import annotations
 from sdif import parse_text
 from sdif.canonical import canonicalize
 from typing import Sequence
+from sdif.core.policy import Policy
 
 from sdif.core.ast import (
     Directive,
@@ -43,6 +44,7 @@ def sdif_from_ai(source: str | Document, *, policy: Policy | None = None) -> str
     this restored source.
     """
     from sdif.core.policy import Policy
+
     pol = policy or Policy()
 
     doc = parse_text(source, policy=pol) if isinstance(source, str) else source
@@ -53,7 +55,8 @@ def sdif_from_ai(source: str | Document, *, policy: Policy | None = None) -> str
     limit = pol.max_alias_expansion
 
     statements: list[Statement] = [
-        _expand_statement(statement, aliases, expansion_count, limit) for statement in doc.statements
+        _expand_statement(statement, aliases, expansion_count, limit)
+        for statement in doc.statements
     ]
     return canonicalize(Document(directives=directives, statements=statements))
 
@@ -73,6 +76,7 @@ def _expanded_name(
             expansion_count[0] += 1
             if expansion_count[0] > limit:
                 from sdif.core.policy import PolicyError
+
                 raise PolicyError(
                     "SDIF_POLICY_ALIAS_EXPANSION",
                     f"Alias expansion limit of {limit} exceeded",
@@ -83,6 +87,7 @@ def _expanded_name(
 
 def _alias_to_canonical(doc: Document) -> dict[str, str]:
     from sdif.core.policy import RESERVED_TERMS, PolicyError
+
     aliases: dict[str, str] = {}
     for directive in doc.directives:
         if directive.name != "alias":
@@ -144,7 +149,10 @@ def _expand_statement(
     if isinstance(statement, ObjectBlock):
         return ObjectBlock(
             _expanded_name(statement.key, aliases, expansion_count, limit),
-            [_expand_statement(child, aliases, expansion_count, limit) for child in statement.statements],
+            [
+                _expand_statement(child, aliases, expansion_count, limit)
+                for child in statement.statements
+            ],
         )
     if isinstance(statement, Table):
         columns: list[str] = []

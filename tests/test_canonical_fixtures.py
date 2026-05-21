@@ -28,9 +28,11 @@ def test_golden_sources_match_canonical_fixtures_and_hashes():
         canonical = canonicalize(source.read_text(encoding="utf-8"), schema=schema, policy=policy)
 
         assert canonical == expected_canonical, fixture_dir.name
-        assert sdif_hash(source.read_text(encoding="utf-8"), schema=schema, policy=policy) == expected_hash
+        assert (
+            sdif_hash(source.read_text(encoding="utf-8"), schema=schema, policy=policy)
+            == expected_hash
+        )
         assert hashlib.sha256(canonical.encode("utf-8")).hexdigest() == expected_hash
-
 
 
 def test_cli_canon_and_hash_accept_schema_policy(tmp_path):

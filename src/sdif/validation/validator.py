@@ -185,7 +185,9 @@ def validate_document(doc: Document, schema: Schema) -> list[Diagnostic]:
                 if list_type is not None:
                     for idx, stmt in enumerate(obj.statements):
                         if isinstance(stmt, Field) and stmt.key == "-":
-                            diagnostics.extend(_validate_value(stmt.value, list_type, f"{field_name}[{idx}]"))
+                            diagnostics.extend(
+                                _validate_value(stmt.value, list_type, f"{field_name}[{idx}]")
+                            )
                         else:
                             diagnostics.append(
                                 Diagnostic(
@@ -349,7 +351,9 @@ def _validate_value(value: str, type_name: str, path: str) -> list[Diagnostic]:
             return []
         elements = []
         for el in [x.strip() for x in inner.split(",")]:
-            if (el.startswith('"') and el.endswith('"')) or (el.startswith("'") and el.endswith("'")):
+            if (el.startswith('"') and el.endswith('"')) or (
+                el.startswith("'") and el.endswith("'")
+            ):
                 el = el[1:-1]
             elements.append(el)
         diags = []
@@ -379,7 +383,9 @@ def _validate_value(value: str, type_name: str, path: str) -> list[Diagnostic]:
     )
 
 
-def _validate_rule(expression: RuleExpression | None, schema: Schema, path: str) -> list[Diagnostic]:
+def _validate_rule(
+    expression: RuleExpression | None, schema: Schema, path: str
+) -> list[Diagnostic]:
     if expression is None:
         return []
     diagnostics: list[Diagnostic] = []

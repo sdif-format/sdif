@@ -7,7 +7,7 @@ import json
 import sys
 from pathlib import Path
 
-from sdif import Policy, PolicyError, canonicalize, parse_text, parse_file, sdif_hash
+from sdif import Policy, PolicyError, canonicalize, parse_file, sdif_hash
 from sdif.ai import ai_view, sdif_from_ai
 from sdif.json import document_to_json_data, json_data_to_sdif
 from sdif.parser import ParseError
@@ -297,7 +297,9 @@ def main(argv: list[str] | None = None) -> int:
                 doc = parse_file(args.path, policy=policy)
                 is_ai_projection = any(directive.name == "sdif.ai" for directive in doc.directives)
                 canonical_text = (
-                    sdif_from_ai(doc, policy=policy) if is_ai_projection else canonicalize(doc, schema=schema)
+                    sdif_from_ai(doc, policy=policy)
+                    if is_ai_projection
+                    else canonicalize(doc, schema=schema)
                 )
             except ParseError as exc:
                 sys.stderr.write(f"Format error: parse failed: {exc}\n")

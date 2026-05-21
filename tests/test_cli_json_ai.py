@@ -2,7 +2,7 @@ import json
 import subprocess
 import sys
 
-from sdif import canonicalize, parse_text, sdif_hash
+from sdif import canonicalize, sdif_hash
 from sdif.ai import ai_view, sdif_from_ai
 
 

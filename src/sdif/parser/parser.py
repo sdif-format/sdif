@@ -70,7 +70,6 @@ class _Parser:
                 f"{field_desc} length {len(value)} exceeds maximum limit of {self.policy.max_string_length}",
             )
 
-
     def parse_document(self) -> Document:
         directives: list[Directive] = []
         statements: list[Statement] = []
@@ -121,7 +120,10 @@ class _Parser:
                         f"Alias entry '{entry}' uses or targets a reserved term",
                     )
                 # Check duplicate collision
-                if alias_name in self.alias_to_canonical and self.alias_to_canonical[alias_name] != canonical_name:
+                if (
+                    alias_name in self.alias_to_canonical
+                    and self.alias_to_canonical[alias_name] != canonical_name
+                ):
                     raise PolicyError(
                         "SDIF_POLICY_ALIAS_COLLISION",
                         f"Alias collision: '{alias_name}' is mapped to both '{self.alias_to_canonical[alias_name]}' and '{canonical_name}'",
@@ -211,7 +213,6 @@ class _Parser:
             return ObjectBlock(key, statements)
         finally:
             self.current_nesting_depth -= 1
-
 
     def _parse_table(self, match: re.Match[str], indent: int, line_no: int) -> Table:
         self.index += 1
@@ -356,9 +357,7 @@ class _Parser:
                     raise ValueError("Rule expression must start with a parenthesized action call")
                 rule_expr = _to_rule_expression(expr_ast)
             except Exception as exc:
-                raise ParseError(
-                    "SDIF_RULE_EXPR", f"invalid rule expression: {exc}", row_no
-                )
+                raise ParseError("SDIF_RULE_EXPR", f"invalid rule expression: {exc}", row_no)
             rules.append(Rule(source, rule_expr))
             self.index += 1
         return rules
@@ -512,7 +511,7 @@ def _tokenize_rule(source: str) -> list[str]:
 def _parse_rule_expression_node(tokens: list[str], pos: int) -> tuple[object, int]:
     if pos >= len(tokens):
         raise ValueError("Unexpected end of expression")
-    
+
     token = tokens[pos]
     if token == "(":
         pos += 1
@@ -530,7 +529,7 @@ def _parse_rule_expression_node(tokens: list[str], pos: int) -> tuple[object, in
             raise ValueError("Expected `)` to close call")
         pos += 1
         return Call(name, args), pos
-    
+
     if pos + 1 < len(tokens) and tokens[pos + 1] == "(":
         name = token
         pos += 2
@@ -545,7 +544,7 @@ def _parse_rule_expression_node(tokens: list[str], pos: int) -> tuple[object, in
             raise ValueError("Expected `)` to close compact call")
         pos += 1
         return Call(name, args), pos
-    
+
     pos += 1
     if token.startswith('"') and token.endswith('"'):
         return _unquote(token), pos
@@ -567,20 +566,12 @@ def _to_rule_expression(call: Call) -> RuleExpression:
         raise ValueError(f"Invalid rule action: `{call.name}`. Must be `deny` or `warn`.")
     if not call.args:
         raise ValueError("Rule expression must have at least one function or argument")
-    
+
     first = call.args[0]
     if isinstance(first, Call):
-        return RuleExpression(
-            action=call.name,
-            function=first.name,
-            args=first.args
-        )
+        return RuleExpression(action=call.name, function=first.name, args=first.args)
     elif isinstance(first, Identifier):
-        return RuleExpression(
-            action=call.name,
-            function=first.name,
-            args=call.args[1:]
-        )
+        return RuleExpression(action=call.name, function=first.name, args=call.args[1:])
     else:
         raise ValueError(f"Invalid rule function or first argument: `{first}`")
 
@@ -595,21 +586,26 @@ def parse_file(filepath: Path | str, *, policy: Policy | None = None) -> Documen
             raise PolicyError("SDIF_POLICY_INCLUDE", "Includes are disabled by policy")
         if not dir_args:
             raise PolicyError("SDIF_POLICY_INCLUDE", "Empty include directive")
-        
+
         target_path_str = dir_args[0].strip('"')
-        
+
         is_remote = target_path_str.startswith(("http://", "https://", "ftp://"))
         if is_remote:
             if not policy.allow_remote_includes:
-                raise PolicyError("SDIF_POLICY_REMOTE_INCLUDE", f"Remote include of {target_path_str} is disabled by policy")
-            raise PolicyError("SDIF_POLICY_REMOTE_INCLUDE", f"Remote includes not supported: {target_path_str}")
-        
+                raise PolicyError(
+                    "SDIF_POLICY_REMOTE_INCLUDE",
+                    f"Remote include of {target_path_str} is disabled by policy",
+                )
+            raise PolicyError(
+                "SDIF_POLICY_REMOTE_INCLUDE", f"Remote includes not supported: {target_path_str}"
+            )
+
         target_path = Path(target_path_str)
         if target_path.is_absolute():
             resolved_target = target_path.resolve()
         else:
             resolved_target = (parent_path.parent / target_path).resolve()
-            
+
         is_allowed = False
         for allowed in policy.allowed_include_paths:
             try:
@@ -619,13 +615,13 @@ def parse_file(filepath: Path | str, *, policy: Policy | None = None) -> Documen
                     break
             except Exception:
                 pass
-        
+
         if not is_allowed:
             raise PolicyError(
                 "SDIF_POLICY_INCLUDE_PATH",
-                f"Include path {target_path_str} (resolved to {resolved_target}) is not permitted by policy allowlist"
+                f"Include path {target_path_str} (resolved to {resolved_target}) is not permitted by policy allowlist",
             )
-            
+
         return _parse_file_inner(resolved_target)
 
     def _parse_file_inner(current_path: Path) -> Document:
@@ -633,33 +629,33 @@ def parse_file(filepath: Path | str, *, policy: Policy | None = None) -> Documen
         if abs_path in seen_paths:
             cycle_str = " -> ".join(str(p) for p in seen_paths) + f" -> {abs_path}"
             raise PolicyError("SDIF_POLICY_INCLUDE_CYCLE", f"Include cycle detected: {cycle_str}")
-            
+
         if len(seen_paths) > policy.max_include_depth:
             raise PolicyError(
                 "SDIF_POLICY_INCLUDE_DEPTH",
-                f"Include depth {len(seen_paths)} exceeds maximum limit of {policy.max_include_depth}"
+                f"Include depth {len(seen_paths)} exceeds maximum limit of {policy.max_include_depth}",
             )
-            
+
         try:
             content = abs_path.read_text(encoding="utf-8")
         except Exception as e:
             raise IOError(f"Failed to read file {abs_path}: {e}")
-            
+
         file_bytes = len(content.encode("utf-8"))
         expanded_bytes[0] += file_bytes
         if expanded_bytes[0] > policy.max_expanded_bytes:
             raise PolicyError(
                 "SDIF_POLICY_EXPANDED_BYTES",
-                f"Total expanded bytes {expanded_bytes[0]} exceeds limit of {policy.max_expanded_bytes}"
+                f"Total expanded bytes {expanded_bytes[0]} exceeds limit of {policy.max_expanded_bytes}",
             )
-            
+
         seen_paths.append(abs_path)
         try:
             doc = parse_text(content, policy=policy)
-            
+
             resolved_directives: list[Directive] = []
             resolved_statements: list[Statement] = []
-            
+
             for directive in doc.directives:
                 if directive.name == "include":
                     included_doc = _resolve_include_directive(directive.args, abs_path)
@@ -669,11 +665,11 @@ def parse_file(filepath: Path | str, *, policy: Policy | None = None) -> Documen
                             resolved_directives.append(d)
                 else:
                     resolved_directives.append(directive)
-                    
-            return Document(directives=resolved_directives, statements=resolved_statements + doc.statements)
+
+            return Document(
+                directives=resolved_directives, statements=resolved_statements + doc.statements
+            )
         finally:
             seen_paths.pop()
 
     return _parse_file_inner(Path(filepath))
-
-

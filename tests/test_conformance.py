@@ -62,11 +62,16 @@ def test_conformance_valid_invalid_fixtures():
 
     # Policy fixtures:
     from sdif import Policy, PolicyError, parse_file
-    allowed_policy = Policy(allow_includes=True, allowed_include_paths=frozenset([Path("conformance")]))
+
+    allowed_policy = Policy(
+        allow_includes=True, allowed_include_paths=frozenset([Path("conformance")])
+    )
     doc = parse_file(valid_dir / "policy_allowed_include.sdif", policy=allowed_policy)
     assert doc.fields["included_field"].value == "included_value"
 
-    cycle_policy = Policy(allow_includes=True, allowed_include_paths=frozenset([Path("conformance")]))
+    cycle_policy = Policy(
+        allow_includes=True, allowed_include_paths=frozenset([Path("conformance")])
+    )
     with pytest.raises(PolicyError) as excinfo:
         parse_file(invalid_dir / "include_cycle.sdif", policy=cycle_policy)
     assert excinfo.value.code == "SDIF_POLICY_INCLUDE_CYCLE"
@@ -83,6 +88,3 @@ def test_conformance_valid_invalid_fixtures():
     with pytest.raises(PolicyError) as excinfo:
         parse_text((invalid_dir / "alias_reserved.sdif").read_text(encoding="utf-8"))
     assert excinfo.value.code == "SDIF_POLICY_ALIAS_RESERVED"
-
-
-
