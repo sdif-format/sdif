@@ -1,4 +1,4 @@
-.PHONY: install test test-cov lint format typecheck benchmark clean
+.PHONY: install test test-cov lint format typecheck benchmark benchmark-token benchmark-quality benchmark-corpus benchmark-large-corpus clean
 
 # Detect if uv is installed
 UV := $(shell command -v uv 2> /dev/null)
@@ -29,8 +29,19 @@ format:
 typecheck:
 	$(RUN_PREFIX) mypy
 
-benchmark:
+benchmark: benchmark-token
+
+benchmark-token:
 	$(RUN_PREFIX) python scripts/token_comparison.py
+
+benchmark-quality:
+	$(RUN_PREFIX) python scripts/check_semantic_quality.py
+
+benchmark-corpus:
+	$(RUN_PREFIX) python scripts/generate_benchmark_golden.py
+
+benchmark-large-corpus:
+	$(RUN_PREFIX) python scripts/generate_large_golden.py
 
 clean:
 	rm -rf build/ dist/ *.egg-info src/*.egg-info .mypy_cache .pytest_cache .ruff_cache

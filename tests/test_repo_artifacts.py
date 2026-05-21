@@ -294,3 +294,37 @@ def test_comparison_doc_includes_examples_for_all_compared_formats():
         assert fence in docs
     assert "TOON" in docs
     assert "milestones[" in docs
+
+
+def test_benchmark_suite_documents_tracks_manifest_and_make_targets():
+    docs = Path("benchmarks/README.md").read_text(encoding="utf-8")
+    manifest = Path("benchmarks/manifest.sdif").read_text(encoding="utf-8")
+    makefile = Path("Makefile").read_text(encoding="utf-8")
+    readme = Path("README.md").read_text(encoding="utf-8")
+
+    for term in (
+        "Token Efficiency Track",
+        "Semantic Quality Track",
+        "Retrieval Accuracy Track",
+        "examples/golden/",
+        "deterministic validators",
+    ):
+        assert term in docs
+
+    for target in (
+        "benchmark-token:",
+        "benchmark-quality:",
+        "benchmark-corpus:",
+        "benchmark-large-corpus:",
+    ):
+        assert target in makefile
+
+    for row in (
+        "token-efficiency\tactive\t\"make benchmark-token\"",
+        "semantic-quality\tactive\t\"make benchmark-quality\"",
+        "retrieval-accuracy\tplanned\t\"make benchmark-accuracy\"",
+        "toon\toptional\texternal",
+    ):
+        assert row in manifest
+
+    assert "benchmarks/README.md" in readme

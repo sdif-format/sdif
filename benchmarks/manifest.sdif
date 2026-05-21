@@ -1,0 +1,40 @@
+@sdif 1.0
+kind BenchmarkSuite
+id sdif.benchmarks
+version 1.0.0
+summary "Benchmark registry for token efficiency, semantic quality, and future retrieval accuracy evidence."
+
+tracks[id,status,command,output,description]:
+  token-efficiency	active	"make benchmark-token"	benchmarks/latest/summary.md	"Measures bytes and tokens across canonical JSON-derived representations."
+  semantic-quality	active	"make benchmark-quality"	docs/semantic-quality.md	"Documents and checks semantic axes beyond token count."
+  retrieval-accuracy	planned	"make benchmark-accuracy"	benchmarks/latest/retrieval-accuracy.md	"Future model comprehension benchmark with deterministic answer validation."
+
+formats[id,status,role,notes]:
+  json-compact	active	baseline	"Stable baseline for primary ratios."
+  json-pretty	active	comparison	"Human-readable JSON comparison."
+  yaml	active	comparison	"Indentation-oriented comparison format."
+  xml	active	comparison	"Verbose structured comparison format."
+  csv-bundle	active	comparison	"Best-effort flat extraction for tabular subsets."
+  sdif	active	candidate	"Canonical SDIF source representation."
+  sdif-ai	active	candidate	"Compact AI projection surface."
+  toon	optional	external	"Enabled only when the official TOON CLI is available."
+
+corpus_profiles[id,status,source,description]:
+  canonical-golden	active	examples/golden/	"Shared semantic corpus derived from equivalent.json fixtures."
+  generated-benchmark	active	scripts/generate_benchmark_golden.py	"Deterministic small and medium benchmark corpus generator."
+  generated-large	active	scripts/generate_large_golden.py	"Deterministic large fixture generator for scale and repetition analysis."
+
+outputs[id,status,path,description]:
+  latest-summary	active	benchmarks/latest/summary.md	"Human-readable latest run summary."
+  latest-json	active	benchmarks/latest/comparison.json	"Machine-readable full comparison evidence."
+  latest-sdif	active	benchmarks/latest/comparison.sdif	"SDIF-encoded benchmark evidence."
+  latest-ai	active	benchmarks/latest/comparison.sdif.ai	"Compact AI-facing benchmark evidence."
+
+rel:
+  token-efficiency derives_from canonical-golden
+  token-efficiency compares json-compact
+  token-efficiency compares sdif
+  token-efficiency compares sdif-ai
+  token-efficiency optionally_compares toon
+  semantic-quality complements token-efficiency
+  retrieval-accuracy extends token-efficiency

@@ -94,6 +94,8 @@ Benchmark artifacts are written under:
 benchmarks/latest
 ```
 
+For the full benchmark methodology, tracks, corpus model, and environment switches, see [`benchmarks/README.md`](benchmarks/README.md).
+
 ## Current repository status
 
 This repository implements the stable SDIF `1.0.0` specification.
