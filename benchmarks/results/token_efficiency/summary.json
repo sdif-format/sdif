@@ -1,7 +1,7 @@
 {
   "kind": "BenchmarkReport",
   "version": "1.0",
-  "generatedAt": "2026-05-21T18:05:12Z",
+  "generatedAt": "2026-05-21T18:50:53Z",
   "runDirectory": "benchmarks/results/token_efficiency",
   "semanticSource": "examples/golden/<document>/equivalent.json",
   "ratiosBaseline": "JSON Compact",
@@ -3513,6 +3513,8 @@
     "json": "benchmarks/results/token_efficiency/comparison.json",
     "sdif": "benchmarks/results/token_efficiency/comparison.sdif",
     "sdifAi": "benchmarks/results/token_efficiency/comparison.sdif.ai",
+    "dashboard": "benchmarks/results/token_efficiency/dashboard.html",
+    "corpus": "benchmarks/results/token_efficiency/corpus",
     "result": "benchmarks/results/token_efficiency"
   }
 }

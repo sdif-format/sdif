@@ -1,6 +1,6 @@
 # SDIF Benchmark Summary
 
-- Generated at: `2026-05-21T18:05:12Z`
+- Generated at: `2026-05-21T18:50:53Z`
 - Run directory: `benchmarks/results/token_efficiency`
 - Full report: `benchmarks/results/token_efficiency/comparison.md`
 - Structured JSON: `benchmarks/results/token_efficiency/comparison.json`
@@ -57,4 +57,5 @@ Focused comparison of the main formats a reader is most likely to care about.
 - Structured SDIF report: `benchmarks/results/token_efficiency/comparison.sdif`
 - SDIF AI projection: `benchmarks/results/token_efficiency/comparison.sdif.ai`
 - Raw benchmark log: `benchmarks/results/token_efficiency/comparison.log`
+- Compared corpus files: `benchmarks/results/token_efficiency/corpus`
 - Result directory: `benchmarks/results/token_efficiency`

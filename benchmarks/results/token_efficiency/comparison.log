@@ -219,4 +219,6 @@ CSV Bundle      wins: 3/21 documents
   json:     benchmarks/results/token_efficiency/comparison.json
   sdif:     benchmarks/results/token_efficiency/comparison.sdif
   sdif.ai:  benchmarks/results/token_efficiency/comparison.sdif.ai
+  dashboard: benchmarks/results/token_efficiency/dashboard.html
+  corpus:   benchmarks/results/token_efficiency/corpus
   result:   benchmarks/results/token_efficiency (moved from benchmarks/tmp/token_efficiency)

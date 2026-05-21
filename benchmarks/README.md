@@ -117,10 +117,25 @@ benchmarks/tmp/token_efficiency/       # while running
     ├── summary.md
     ├── summary.json
     ├── summary.sdif
-    └── summary.sdif.ai
+    ├── summary.sdif.ai
+    ├── dashboard.html
+    └── corpus/
+        └── <document>/
+            ├── csv_bundle.csv
+            ├── json_compact.json
+            ├── json_pretty.json
+            ├── sdif.sdif
+            ├── sdif_ai.sdif.ai
+            ├── toon.toon        # when TOON is enabled and available
+            ├── xml.xml
+            └── yaml.yaml
 ```
 
-`benchmarks/results/token_efficiency/` is replaced only after a successful run. Failed runs can leave `benchmarks/tmp/token_efficiency/` for diagnosis without mutating the last completed result.
+`dashboard.html` is a self-contained HTML evidence dashboard generated from the same
+run data as `summary.json` and `comparison.json`. `corpus/` contains the exact
+per-document representation files that were measured in the run. `benchmarks/results/token_efficiency/`
+is replaced only after a successful run. Failed runs can leave
+`benchmarks/tmp/token_efficiency/` for diagnosis without mutating the last completed result.
 
 ## Environment
 

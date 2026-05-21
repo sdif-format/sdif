@@ -107,6 +107,8 @@ import yaml  # type: ignore[import-untyped]
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT / "src"))
+BENCHMARK_DIR = Path(__file__).resolve().parents[1]
+DASHBOARD_TEMPLATE_PATH = BENCHMARK_DIR / "src" / "dashboard_template.html"
 
 from sdif.ai import ai_view  # noqa: E402
 from sdif.json import json_data_to_sdif  # noqa: E402
@@ -141,6 +143,20 @@ except ImportError:
 TokenCounter = Callable[[str], int | None]
 
 BENCHMARK_TRACK_NAME = "token_efficiency"
+DASHBOARD_FILE_NAME = "dashboard.html"
+CORPUS_DIR_NAME = "corpus"
+
+
+FORMAT_FILE_NAMES = {
+    "CSV Bundle": "csv_bundle.csv",
+    "JSON Compact": "json_compact.json",
+    "JSON Pretty": "json_pretty.json",
+    "SDIF": "sdif.sdif",
+    "SDIF AI": "sdif_ai.sdif.ai",
+    "TOON": "toon.toon",
+    "XML": "xml.xml",
+    "YAML": "yaml.yaml",
+}
 
 
 AI_ALIASES = {
@@ -926,6 +942,25 @@ def count_format(
     )
 
 
+def corpus_file_name(format_name: str) -> str:
+    try:
+        return FORMAT_FILE_NAMES[format_name]
+    except KeyError as exc:
+        raise ValueError(f"Unsupported benchmark format for corpus output: {format_name}") from exc
+
+
+def write_document_corpus(
+    run_dir: Path,
+    document_name: str,
+    rows: list[FormatResult],
+) -> None:
+    document_dir = run_dir / CORPUS_DIR_NAME / document_name
+    document_dir.mkdir(parents=True, exist_ok=True)
+
+    for row in rows:
+        (document_dir / corpus_file_name(row.name)).write_text(row.text, encoding="utf-8")
+
+
 def sort_key(row: FormatResult, primary_name: str) -> tuple[int, int, int, str]:
     primary = row.tokens.get(primary_name)
 
@@ -1294,6 +1329,8 @@ def print_evidence_footer(
     json_path: Path,
     sdif_path: Path,
     sdif_ai_path: Path,
+    dashboard_path: Path,
+    corpus_dir: Path,
     final_dir: Path,
 ) -> None:
     print()
@@ -1307,6 +1344,8 @@ def print_evidence_footer(
     print(f"  json:     {display_path(json_path)}")
     print(f"  sdif:     {display_path(sdif_path)}")
     print(f"  sdif.ai:  {display_path(sdif_ai_path)}")
+    print(f"  dashboard: {display_path(dashboard_path)}")
+    print(f"  corpus:   {display_path(corpus_dir)}")
     print(f"  result:   {display_path(final_dir)} (moved from {display_path(run_dir)})")
 
 
@@ -1566,6 +1605,7 @@ def render_summary_report(evidence: BenchmarkEvidence) -> str:
             f"- Structured SDIF report: `{display_path(evidence.run_dir / 'comparison.sdif')}`",
             f"- SDIF AI projection: `{display_path(evidence.run_dir / 'comparison.sdif.ai')}`",
             f"- Raw benchmark log: `{display_path(evidence.run_dir / 'comparison.log')}`",
+            f"- Compared corpus files: `{display_path(evidence.run_dir / CORPUS_DIR_NAME)}`",
             f"- Result directory: `{display_path(evidence.run_dir)}`",
             "",
         ]
@@ -1621,6 +1661,8 @@ def structured_report_data(evidence: BenchmarkEvidence) -> dict[str, Any]:
             "json": display_path(evidence.run_dir / "comparison.json"),
             "sdif": display_path(evidence.run_dir / "comparison.sdif"),
             "sdifAi": display_path(evidence.run_dir / "comparison.sdif.ai"),
+            "dashboard": display_path(evidence.run_dir / DASHBOARD_FILE_NAME),
+            "corpus": display_path(evidence.run_dir / CORPUS_DIR_NAME),
             "result": display_path(evidence.run_dir),
         },
     }
@@ -1764,6 +1806,32 @@ def render_sdif_report(data: dict[str, Any]) -> str:
 
 def render_sdif_ai_report(sdif_text: str) -> str:
     return compact_ai_projection(sdif_text)
+
+
+def json_script_payload(value: Any) -> str:
+    """Serialize data for safe embedding in an inert application/json script tag."""
+
+    return json.dumps(value, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+
+
+def render_dashboard_report(
+    structured_data: dict[str, Any],
+    summary_markdown: str,
+    comparison_markdown: str,
+) -> str:
+    template = DASHBOARD_TEMPLATE_PATH.read_text(encoding="utf-8")
+    replacements = {
+        "__SDIF_REPORT_DATA_JSON__": json_script_payload(structured_data),
+        "__SDIF_SUMMARY_MD_JSON__": json_script_payload(summary_markdown),
+        "__SDIF_COMPARISON_MD_JSON__": json_script_payload(comparison_markdown),
+    }
+
+    for marker, payload in replacements.items():
+        if marker not in template:
+            raise RuntimeError(f"Dashboard template missing marker: {marker}")
+        template = template.replace(marker, payload, 1)
+
+    return template
 
 
 def render_executive_summary(evidence: BenchmarkEvidence) -> list[str]:
@@ -2161,6 +2229,7 @@ def render_artifacts(evidence: BenchmarkEvidence) -> list[str]:
         f"- Structured JSON report: `{display_path(evidence.run_dir / 'comparison.json')}`",
         f"- Structured SDIF report: `{display_path(evidence.run_dir / 'comparison.sdif')}`",
         f"- SDIF AI projection: `{display_path(evidence.run_dir / 'comparison.sdif.ai')}`",
+        f"- Compared corpus files: `{display_path(evidence.run_dir / CORPUS_DIR_NAME)}`",
         f"- Result directory: `{display_path(evidence.run_dir)}`",
         "",
     ]
@@ -2171,7 +2240,12 @@ def render_artifacts(evidence: BenchmarkEvidence) -> list[str]:
 # ====================
 
 
-def run_benchmark(run_dir: Path, *, env_file_loaded: bool) -> BenchmarkEvidence:
+def run_benchmark(
+    run_dir: Path,
+    *,
+    env_file_loaded: bool,
+    evidence_run_dir: Path | None = None,
+) -> BenchmarkEvidence:
     golden_dir = benchmark_golden_dir()
     documents = discover_documents(golden_dir)
 
@@ -2206,6 +2280,7 @@ def run_benchmark(run_dir: Path, *, env_file_loaded: bool) -> BenchmarkEvidence:
         ]
 
         rows.sort(key=lambda row: sort_key(row, primary_tokenizer.name))
+        write_document_corpus(run_dir, document_name, rows)
         results_by_document[document_name] = rows
 
         print_document_rows(document_name, rows, tokenizers)
@@ -2220,7 +2295,7 @@ def run_benchmark(run_dir: Path, *, env_file_loaded: bool) -> BenchmarkEvidence:
 
     return BenchmarkEvidence(
         generated_at=utc_now_iso(),
-        run_dir=run_dir,
+        run_dir=evidence_run_dir or run_dir,
         golden_dir=golden_dir,
         primary_name=primary_tokenizer.name,
         tokenizers=tokenizers,
@@ -2243,19 +2318,26 @@ def main() -> None:
     json_path = run_dir / "comparison.json"
     sdif_path = run_dir / "comparison.sdif"
     sdif_ai_path = run_dir / "comparison.sdif.ai"
+    dashboard_path = run_dir / DASHBOARD_FILE_NAME
 
     with log_path.open("w", encoding="utf-8") as log_file:
         with contextlib.redirect_stdout(Tee(sys.stdout, log_file)):
-            evidence = run_benchmark(final_dir, env_file_loaded=env_file_loaded)
+            evidence = run_benchmark(
+                run_dir,
+                env_file_loaded=env_file_loaded,
+                evidence_run_dir=final_dir,
+            )
             structured_data = structured_report_data(evidence)
             sdif_text = render_sdif_report(structured_data)
+            markdown_text = render_markdown_report(evidence)
+            summary_text = render_summary_report(evidence)
 
             markdown_path.write_text(
-                render_markdown_report(evidence),
+                markdown_text,
                 encoding="utf-8",
             )
             summary_path.write_text(
-                render_summary_report(evidence),
+                summary_text,
                 encoding="utf-8",
             )
             json_path.write_text(
@@ -2282,6 +2364,14 @@ def main() -> None:
                 render_sdif_ai_report(sdif_text),
                 encoding="utf-8",
             )
+            dashboard_path.write_text(
+                render_dashboard_report(
+                    structured_data,
+                    summary_text,
+                    markdown_text,
+                ),
+                encoding="utf-8",
+            )
 
             published_dir = publish_benchmark_result(run_dir)
             print_evidence_footer(
@@ -2295,6 +2385,8 @@ def main() -> None:
                 published_dir / "comparison.json",
                 published_dir / "comparison.sdif",
                 published_dir / "comparison.sdif.ai",
+                published_dir / DASHBOARD_FILE_NAME,
+                published_dir / CORPUS_DIR_NAME,
                 published_dir,
             )
 

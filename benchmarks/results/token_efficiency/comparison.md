@@ -1,6 +1,6 @@
 # SDIF Benchmark Evidence Report
 
-- Generated at: `2026-05-21T18:05:12Z`
+- Generated at: `2026-05-21T18:50:53Z`
 - Run directory: `benchmarks/results/token_efficiency`
 - Semantic source: `examples/golden/<document>/equivalent.json`
 - Ratios are computed independently per tokenizer against `JSON Compact`.
@@ -1121,4 +1121,5 @@ This section contains raw counts only. Ratios are intentionally excluded here be
 - Structured JSON report: `benchmarks/results/token_efficiency/comparison.json`
 - Structured SDIF report: `benchmarks/results/token_efficiency/comparison.sdif`
 - SDIF AI projection: `benchmarks/results/token_efficiency/comparison.sdif.ai`
+- Compared corpus files: `benchmarks/results/token_efficiency/corpus`
 - Result directory: `benchmarks/results/token_efficiency`

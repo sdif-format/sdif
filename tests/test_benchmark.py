@@ -1,4 +1,5 @@
 import importlib.util
+import json
 import os
 import subprocess
 import sys
@@ -220,3 +221,70 @@ def test_benchmark_main_emits_formal_summary_artifacts(monkeypatch, tmp_path):
     assert (run_dir / "summary.json").is_file()
     assert (run_dir / "summary.sdif").is_file()
     assert (run_dir / "summary.sdif.ai").is_file()
+
+
+def test_benchmark_main_emits_self_contained_html_dashboard(monkeypatch, tmp_path):
+    golden = tmp_path / "examples" / "golden" / "plan"
+    golden.mkdir(parents=True)
+    (golden / "equivalent.json").write_text(
+        '{"kind":"Plan","id":"demo","items":[{"id":"I1","status":"open"}]}',
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(token_efficiency, "REPO_ROOT", tmp_path)
+    monkeypatch.setenv("SDIF_BENCHMARK_TOON", "0")
+    monkeypatch.setattr(
+        token_efficiency,
+        "available_tokenizers",
+        lambda: [token_efficiency.TokenizerSpec("Estimate", token_efficiency.count_estimate)],
+    )
+
+    token_efficiency.main()
+
+    run_dir = tmp_path / "benchmarks" / "results" / "token_efficiency"
+    dashboard = run_dir / "dashboard.html"
+    report = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
+    html = dashboard.read_text(encoding="utf-8")
+
+    assert dashboard.is_file()
+    assert 'id="report-data" type="application/json"' in html
+    assert 'id="summary-md" type="application/json"' in html
+    assert 'id="comparison-md-preview" type="application/json"' in html
+    assert report["generatedAt"] in html
+    assert "/home/alessbarb/Descargas" not in html
+    assert report["artifacts"]["dashboard"] == "benchmarks/results/token_efficiency/dashboard.html"
+
+
+def test_benchmark_main_publishes_compared_corpus_files(monkeypatch, tmp_path):
+    golden = tmp_path / "examples" / "golden" / "plan"
+    golden.mkdir(parents=True)
+    (golden / "equivalent.json").write_text(
+        '{"kind":"Plan","id":"demo","items":[{"id":"I1","status":"open"}]}',
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(token_efficiency, "REPO_ROOT", tmp_path)
+    monkeypatch.setenv("SDIF_BENCHMARK_TOON", "0")
+    monkeypatch.setattr(
+        token_efficiency,
+        "available_tokenizers",
+        lambda: [token_efficiency.TokenizerSpec("Estimate", token_efficiency.count_estimate)],
+    )
+
+    token_efficiency.main()
+
+    run_dir = tmp_path / "benchmarks" / "results" / "token_efficiency"
+    corpus_dir = run_dir / "corpus" / "plan"
+    report = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
+
+    assert (corpus_dir / "json_compact.json").read_text(encoding="utf-8").startswith(
+        '{"kind":"Plan"'
+    )
+    assert (corpus_dir / "json_pretty.json").read_text(encoding="utf-8").startswith("{\n")
+    assert (corpus_dir / "yaml.yaml").is_file()
+    assert (corpus_dir / "xml.xml").is_file()
+    assert (corpus_dir / "csv_bundle.csv").is_file()
+    assert (corpus_dir / "sdif.sdif").is_file()
+    assert (corpus_dir / "sdif_ai.sdif.ai").is_file()
+    assert not (corpus_dir / "toon.toon").exists()
+    assert report["artifacts"]["corpus"] == "benchmarks/results/token_efficiency/corpus"
