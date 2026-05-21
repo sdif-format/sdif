@@ -3,7 +3,7 @@ from sdif.validation import Schema, validate_document
 
 
 SCHEMA = """
-@sdif 0.1
+@sdif 1.0
 kind Schema
 id example.plan.v1
 fields[name,type,required,default]:
@@ -28,7 +28,7 @@ rule_functions[name,min_args,max_args]:
 def test_validator_checks_field_types_table_types_and_rule_functions():
     schema = Schema.from_document(parse_text(SCHEMA))
     doc = parse_text("""
-@sdif 0.1
+@sdif 1.0
 kind Plan
 id demo
 active yes

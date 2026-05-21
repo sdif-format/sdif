@@ -1,7 +1,7 @@
 ==================
 Core agent-facing document
 ==================
-@sdif 0.1
+@sdif 1.0
 title "Agent friendly plan"
 milestones[id,status,gate]:
   R1	done	validate-syntax
@@ -26,7 +26,7 @@ Use SDIF AI directly for agent context.
 ==================
 Compact SDIF AI table
 ==================
-@sdif.ai 0.1
+@sdif.ai 1.0
 alias[k=kind,st=status]
 checks[id,value$]:
 C1	null

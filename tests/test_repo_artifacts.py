@@ -55,7 +55,7 @@ def test_tree_sitter_tooling_has_package_corpus_and_highlight_queries():
 
     assert '"name": "tree-sitter-sdif"' in package
     assert '"scope": "source.sdif"' in config
-    assert "@sdif 0.1" in corpus
+    assert "@sdif 1.0" in corpus
     assert "milestones[id,status,gate]:" in corpus
     assert "(directive" in highlights
     assert "(table_header" in highlights

@@ -4,7 +4,7 @@ from sdif.json import document_to_json_data, json_data_to_sdif
 
 def test_document_to_json_maps_fields_tables_relations_and_rules():
     doc = parse_text("""
-@sdif 0.1
+@sdif 1.0
 kind Plan
 id demo
 milestones[id,status]:
@@ -41,7 +41,7 @@ def test_json_data_to_sdif_emits_scalars_and_uniform_tables():
 
 def test_ai_string_column_marker_preserves_scalar_like_strings_without_repeated_quotes():
     doc = parse_text("""
-@sdif.ai 0.1
+@sdif.ai 1.0
 items[id,value$]:
 I1	null
 I2	42

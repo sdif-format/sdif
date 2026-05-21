@@ -7,7 +7,7 @@ def test_cli_validate_outputs_structured_diagnostics_json(tmp_path):
     schema = tmp_path / "schema.sdif"
     schema.write_text(
         """
-@sdif 0.1
+@sdif 1.0
 kind Schema
 fields[name,type,required,default]:
   kind\tIdentifier\ttrue\tnull
@@ -23,7 +23,7 @@ rule_functions[name,min_args,max_args]:
     doc = tmp_path / "doc.sdif"
     doc.write_text(
         """
-@sdif 0.1
+@sdif 1.0
 kind Plan
 status blocked
 rules:
@@ -63,7 +63,7 @@ def test_cli_validate_returns_zero_for_valid_document(tmp_path):
     schema = tmp_path / "schema.sdif"
     schema.write_text(
         """
-@sdif 0.1
+@sdif 1.0
 kind Schema
 fields[name,type,required,default]:
   kind\tIdentifier\ttrue\tnull
@@ -73,7 +73,7 @@ fields[name,type,required,default]:
         encoding="utf-8",
     )
     doc = tmp_path / "doc.sdif"
-    doc.write_text("@sdif 0.1\nkind Plan\nid demo\n", encoding="utf-8")
+    doc.write_text("@sdif 1.0\nkind Plan\nid demo\n", encoding="utf-8")
 
     run = subprocess.run(
         [sys.executable, "tools/sdif-cli.py", "validate", str(doc), "--schema", str(schema)],
@@ -89,9 +89,9 @@ fields[name,type,required,default]:
 
 def test_cli_validate_json_reports_parse_errors_as_structured_diagnostics(tmp_path):
     schema = tmp_path / "schema.sdif"
-    schema.write_text("@sdif 0.1\nkind Schema\n", encoding="utf-8")
+    schema.write_text("@sdif 1.0\nkind Schema\n", encoding="utf-8")
     doc = tmp_path / "doc.sdif"
-    doc.write_text("@sdif 0.1\nitems[id,status]:\n  one open\n", encoding="utf-8")
+    doc.write_text("@sdif 1.0\nitems[id,status]:\n  one open\n", encoding="utf-8")
 
     run = subprocess.run(
         [
@@ -130,9 +130,9 @@ def test_cli_validate_json_reports_parse_errors_as_structured_diagnostics(tmp_pa
 
 def test_cli_validate_text_reports_parse_errors_without_traceback(tmp_path):
     schema = tmp_path / "schema.sdif"
-    schema.write_text("@sdif 0.1\nkind Schema\n", encoding="utf-8")
+    schema.write_text("@sdif 1.0\nkind Schema\n", encoding="utf-8")
     doc = tmp_path / "doc.sdif"
-    doc.write_text("@sdif 0.1\nitems[id,status]:\n  one open\n", encoding="utf-8")
+    doc.write_text("@sdif 1.0\nitems[id,status]:\n  one open\n", encoding="utf-8")
 
     run = subprocess.run(
         [sys.executable, "tools/sdif-cli.py", "validate", str(doc), "--schema", str(schema)],
@@ -152,11 +152,11 @@ def test_cli_validate_text_reports_parse_errors_without_traceback(tmp_path):
 def test_cli_validate_reports_malformed_schema_without_traceback(tmp_path):
     schema = tmp_path / "schema.sdif"
     schema.write_text(
-        "@sdif 0.1\nkind Schema\nfields[name,type]:\n  kind\tIdentifier\n",
+        "@sdif 1.0\nkind Schema\nfields[name,type]:\n  kind\tIdentifier\n",
         encoding="utf-8",
     )
     doc = tmp_path / "doc.sdif"
-    doc.write_text("@sdif 0.1\nkind Plan\n", encoding="utf-8")
+    doc.write_text("@sdif 1.0\nkind Plan\n", encoding="utf-8")
 
     run = subprocess.run(
         [sys.executable, "tools/sdif-cli.py", "validate", str(doc), "--schema", str(schema)],

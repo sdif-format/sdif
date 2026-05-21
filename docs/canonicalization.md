@@ -34,7 +34,7 @@ The MVP canonicalizer currently:
 
 ## Format Version Contract
 
-The `@sdif 0.1` format version header represents the syntax and semantic contract of the format. This contract is independent of the library implementation version (e.g. Python package version `1.0.0`).
+The `@sdif 1.0` format version header represents the syntax and semantic contract of the format. This contract is independent of the library implementation version (e.g. Python package version `1.0.0`).
 
 ## Schema-aware policies
 
@@ -47,7 +47,7 @@ With a schema and `ordered=true`, table row order is preserved.
 When a schema is provided, table policies from `tables[name,ordered,primary_key]` are used:
 
 ```sdif
-@sdif 0.1
+@sdif 1.0
 kind Schema
 tables[name,ordered,primary_key]:
   milestones	false	id

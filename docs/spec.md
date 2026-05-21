@@ -117,7 +117,7 @@ directive. The header maps compact names back to semantic names without using a
 JSON sidecar:
 
 ```sdif
-@sdif.ai 0.1
+@sdif.ai 1.0
 alias[k=kind,st=status]
 k Plan
 ```
@@ -129,7 +129,7 @@ quotes on scalar-like string-heavy columns while preserving JSON-equivalent
 semantics.
 
 ```sdif
-@sdif.ai 0.1
+@sdif.ai 1.0
 checks[id,value$]:
 C1	null
 C2	42
@@ -240,7 +240,7 @@ It may include:
 Example:
 
 ```sdif
-@sdif 0.1
+@sdif 1.0
 kind Plan
 id release.v2.plan
 schema example.plan.v1
@@ -292,7 +292,7 @@ It may include:
 Example:
 
 ```sdif
-@sdif.ai 0.1
+@sdif.ai 1.0
 alias[k=kind,a=authority,l=lifecycle,st=status,vby=validated_by]
 
 k Plan
@@ -311,7 +311,7 @@ The AI view should normally be generated from source or canonical SDIF, not manu
 Generated `.sdif.ai` may use compact table rows without indentation:
 
 ```sdif
-@sdif.ai 0.1
+@sdif.ai 1.0
 k Plan
 m[id,st,g,e]:
 R1	done	validate-schema	reports/schema.md
@@ -354,7 +354,7 @@ A statement may be:
 Directives begin with `@`.
 
 ```sdif
-@sdif 0.1
+@sdif 1.0
 @profile source
 @vocab example.core.v1
 ```
@@ -906,7 +906,7 @@ directive_args  = horizontal_space+, value, (horizontal_space+, value)* ;
 Examples:
 
 ```sdif
-@sdif 0.1
+@sdif 1.0
 @profile source
 @vocab example.core.v1
 ```
@@ -1288,7 +1288,7 @@ A schema should define:
 A schema may itself be written in SDIF.
 
 ```sdif
-@sdif 0.1
+@sdif 1.0
 kind Schema
 id example.plan.v1
 schema sdif.schema.v1
@@ -1754,7 +1754,7 @@ hint
 Example:
 
 ```sdif
-@sdif 0.1
+@sdif 1.0
 kind DiagnosticReport
 id validation.output
 schema sdif.diagnostics.v1
@@ -1833,7 +1833,7 @@ Risks include:
 ## 22. Complete example: technical plan
 
 ```sdif
-@sdif 0.1
+@sdif 1.0
 kind Plan
 id release.v2.validation_plan
 schema example.plan.v1
@@ -1881,7 +1881,7 @@ rules:
 ## 23. Complete example: validation report
 
 ```sdif
-@sdif 0.1
+@sdif 1.0
 kind EvidenceReport
 id validation.report.v2
 schema example.evidence_report.v1
@@ -1914,7 +1914,7 @@ rel:
 ## 24. Complete example: semantic registry
 
 ```sdif
-@sdif 0.1
+@sdif 1.0
 kind Registry
 id example.registry
 schema example.semantic_registry.v1
@@ -2112,10 +2112,10 @@ Editor parse trees align with shared SDIF conformance fixtures for the MVP gramm
 
 ### 28.1 Format version
 
-The `@sdif` directive declares the format version. This format version (e.g. `@sdif 0.1`) represents the syntax and semantic contract of the format, and is versioned independently of any specific parser, tool, or library package implementation version (e.g., Python package version `1.0.0`).
+The `@sdif` directive declares the format version. This format version (e.g. `@sdif 1.0`) represents the syntax and semantic contract of the format, and is versioned independently of any specific parser, tool, or library package implementation version (e.g., Python package version `1.0.0`).
 
 ```sdif
-@sdif 0.1
+@sdif 1.0
 ```
 
 Compatible changes may include:

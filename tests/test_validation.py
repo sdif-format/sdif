@@ -5,7 +5,7 @@ from sdif.validation import Schema, SchemaError, validate_document
 
 
 SCHEMA = """
-@sdif 0.1
+@sdif 1.0
 kind Schema
 id example.plan.v1
 for_kind Plan
@@ -30,7 +30,7 @@ def test_schema_parser_extracts_required_fields_and_table_columns():
 def test_validator_reports_missing_required_fields_and_table_columns():
     schema = Schema.from_document(parse_text(SCHEMA))
     doc = parse_text("""
-@sdif 0.1
+@sdif 1.0
 kind Plan
 id demo
 milestones[id]:
@@ -49,7 +49,7 @@ milestones[id]:
 def test_schema_parser_extracts_relation_policies():
     schema = Schema.from_document(
         parse_text("""
-@sdif 0.1
+@sdif 1.0
 kind Schema
 relations[predicate,subject_type,object_type,required]:
   depends_on	Identifier	Identifier	true
@@ -65,7 +65,7 @@ relations[predicate,subject_type,object_type,required]:
 def test_validator_reports_unknown_relation_predicate_and_missing_required_relation():
     schema = Schema.from_document(
         parse_text("""
-@sdif 0.1
+@sdif 1.0
 kind Schema
 relations[predicate,subject_type,object_type,required]:
   depends_on	Identifier	Identifier	true
@@ -73,7 +73,7 @@ relations[predicate,subject_type,object_type,required]:
 """)
     )
     doc = parse_text("""
-@sdif 0.1
+@sdif 1.0
 kind Plan
 rel:
   release.v2 unknown_predicate target
@@ -92,14 +92,14 @@ rel:
 def test_validator_reports_duplicate_fields_duplicate_tables_and_unknown_tables():
     schema = Schema.from_document(
         parse_text("""
-@sdif 0.1
+@sdif 1.0
 kind Schema
 tables[name,ordered,primary_key]:
   milestones	true	id
 """)
     )
     doc = parse_text("""
-@sdif 0.1
+@sdif 1.0
 kind Plan
 kind Plan
 milestones[id]:
@@ -123,7 +123,7 @@ def test_schema_parser_rejects_non_schema_documents():
     with pytest.raises(SchemaError, match="expected schema document"):
         Schema.from_document(
             parse_text("""
-@sdif 0.1
+@sdif 1.0
 kind Plan
 id not.a.schema
 """)

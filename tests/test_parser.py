@@ -12,7 +12,7 @@ from sdif.parser import ParseError
 def test_parse_core_document_constructs_ast():
     text = '''
 # comments are source-only
-@sdif 0.1
+@sdif 1.0
 @profile source
 kind Plan
 id release.v2.validation_plan
@@ -35,7 +35,7 @@ And multiline.
     doc = parse_text(text)
 
     assert [(d.name, d.args) for d in doc.directives] == [
-        ("sdif", ["0.1"]),
+        ("sdif", ["1.0"]),
         ("profile", ["source"]),
     ]
     assert doc.fields["kind"].value == "Plan"
@@ -53,24 +53,24 @@ And multiline.
 
 
 def test_compact_ai_table_rows_may_omit_indentation_and_canonicalize_back():
-    source = "\n@sdif.ai 0.1\nitems[id,status]:\nR1\tdone\nR2\tpending\nkind Plan\n"
+    source = "\n@sdif.ai 1.0\nitems[id,status]:\nR1\tdone\nR2\tpending\nkind Plan\n"
 
     doc = parse_text(source)
 
     assert doc.tables["items"].rows == [["R1", "done"], ["R2", "pending"]]
     assert doc.fields["kind"].value == "Plan"
     assert canonicalize(doc) == (
-        "@sdif.ai 0.1\nkind Plan\nitems[id,status]:\n  R1\tdone\n  R2\tpending\n"
+        "@sdif.ai 1.0\nkind Plan\nitems[id,status]:\n  R1\tdone\n  R2\tpending\n"
     )
 
 
 def test_sdif_ai_alias_header_is_parseable_and_canonicalized():
-    source = "@sdif.ai 0.1\nalias[k=kind,st=status]\nk Plan\n"
+    source = "@sdif.ai 1.0\nalias[k=kind,st=status]\nk Plan\n"
 
     doc = parse_text(source)
 
     assert [(d.name, d.args) for d in doc.directives] == [
-        ("sdif.ai", ["0.1"]),
+        ("sdif.ai", ["1.0"]),
         ("alias", ["k=kind", "st=status"]),
     ]
     assert doc.fields["k"].value == "Plan"
@@ -80,7 +80,7 @@ def test_sdif_ai_alias_header_is_parseable_and_canonicalized():
 def test_table_rows_must_use_htab_and_match_header_arity():
     with pytest.raises(ParseError) as excinfo:
         parse_text("""
-@sdif 0.1
+@sdif 1.0
 items[id,status]:
   item.1 open
 """)
@@ -93,7 +93,7 @@ items[id,status]:
 def test_relation_rows_have_exactly_three_parts():
     with pytest.raises(ParseError) as excinfo:
         parse_text("""
-@sdif 0.1
+@sdif 1.0
 rel:
   a depends_on b extra
 """)
@@ -105,14 +105,14 @@ def test_canonicalization_removes_comments_and_hashes_stable_bytes():
     left = """
 # source comment
 @profile source
-@sdif 0.1
+@sdif 1.0
 id release.v2
 kind Plan
 milestones[id,status]:
   R1\tdone
 """
     right = """
-@sdif 0.1
+@sdif 1.0
 @profile source
 kind Plan
 id release.v2 # inline comment
@@ -125,14 +125,14 @@ milestones[id,status]:
 
     assert canon == canonicalize(right)
     assert "#" not in canon
-    assert canon.startswith("@sdif 0.1\n@profile source\n")
+    assert canon.startswith("@sdif 1.0\n@profile source\n")
     assert canon.endswith("\n")
     assert sdif_hash(left) == hashlib.sha256(canon.encode("utf-8")).hexdigest()
 
 
 def test_cli_parse_canon_hash_and_tokens(tmp_path):
     fixture = tmp_path / "doc.sdif"
-    fixture.write_text("@sdif 0.1\nkind Plan\nid demo\n", encoding="utf-8")
+    fixture.write_text("@sdif 1.0\nkind Plan\nid demo\n", encoding="utf-8")
 
     parse_run = subprocess.run(
         [sys.executable, "tools/sdif-cli.py", "parse", str(fixture)],
@@ -150,7 +150,7 @@ def test_cli_parse_canon_hash_and_tokens(tmp_path):
         stdout=subprocess.PIPE,
         check=True,
     )
-    assert canon_run.stdout == "@sdif 0.1\nkind Plan\nid demo\n"
+    assert canon_run.stdout == "@sdif 1.0\nkind Plan\nid demo\n"
 
     hash_run = subprocess.run(
         [sys.executable, "tools/sdif-cli.py", "hash", str(fixture)],
@@ -175,7 +175,7 @@ def test_table_cells_preserve_spaces_as_data():
     padded = "  padded label  "
 
     doc = parse_text(f"""
-@sdif 0.1
+@sdif 1.0
 items[id,label]:
   item.1	{padded}
 """)
@@ -185,13 +185,13 @@ items[id,label]:
 
 def test_relation_object_supports_quoted_strings_with_spaces():
     doc = parse_text("""
-@sdif 0.1
+@sdif 1.0
 rel:
   doc.1 describes "hello world"
 """)
 
     assert doc.relations[0].object == "hello world"
-    assert canonicalize(doc) == '@sdif 0.1\nrel:\n  doc.1 describes "hello world"\n'
+    assert canonicalize(doc) == '@sdif 1.0\nrel:\n  doc.1 describes "hello world"\n'
 
 
 @pytest.mark.parametrize("block", ["rel", "rules"])
@@ -200,7 +200,7 @@ def test_relation_and_rule_rows_require_exact_child_indentation(block):
 
     with pytest.raises(ParseError) as excinfo:
         parse_text(f"""
-@sdif 0.1
+@sdif 1.0
 {block}:
     {body}
 """)
@@ -215,7 +215,7 @@ def test_repository_examples_parse_successfully():
 
 def test_valid_nested_narrative():
     doc = parse_text('''
-@sdif 0.1
+@sdif 1.0
 owner:
   bio """
   Hello
@@ -229,7 +229,7 @@ owner:
 def test_mismatched_nested_narrative_close():
     with pytest.raises(ParseError) as excinfo:
         parse_text('''
-@sdif 0.1
+@sdif 1.0
 owner:
   bio """
     Hello
@@ -242,7 +242,7 @@ owner:
 def test_unclosed_nested_narrative():
     with pytest.raises(ParseError) as excinfo:
         parse_text('''
-@sdif 0.1
+@sdif 1.0
 owner:
   bio """
     Hello

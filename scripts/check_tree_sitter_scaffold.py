@@ -80,7 +80,7 @@ def main() -> int:
     grammar_nodes = _grammar_rule_names(grammar)
     _expect("source_file" in grammar_nodes, errors, "grammar must declare source_file")
     _expect("JSON" not in corpus, errors, "agent-facing corpus should avoid JSON as working format")
-    _expect("@sdif.ai 0.1" in corpus, errors, "corpus must cover the sdif.ai directive")
+    _expect("@sdif.ai 1.0" in corpus, errors, "corpus must cover the sdif.ai directive")
     _expect("alias[k=kind,st=status]" in corpus, errors, "corpus must cover sdif.ai alias headers")
     _expect(
         "checks[id,value$]:" in corpus, errors, "corpus must cover sdif.ai string-preserved columns"

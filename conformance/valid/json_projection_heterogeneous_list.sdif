@@ -1,4 +1,4 @@
-@sdif 0.1
+@sdif 1.0
 list:
   __item:
     __value item1

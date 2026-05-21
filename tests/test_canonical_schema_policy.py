@@ -6,14 +6,14 @@ from sdif.validation import Schema
 
 def test_schema_policy_orders_table_rows_relations_and_rules_when_unordered():
     schema_doc = parse_text("""
-@sdif 0.1
+@sdif 1.0
 kind Schema
 tables[name,ordered,primary_key]:
   milestones\tfalse\tid
 """)
     schema = Schema.from_document(schema_doc)
     source = """
-@sdif 0.1
+@sdif 1.0
 kind Plan
 id demo
 milestones[id,status]:
@@ -30,7 +30,7 @@ rules:
     assert (
         canonicalize(source, schema=schema)
         == """
-@sdif 0.1
+@sdif 1.0
 kind Plan
 id demo
 milestones[id,status]:
@@ -48,14 +48,14 @@ rules:
 
 def test_unordered_table_without_primary_key_is_not_strictly_canonicalizable():
     schema_doc = parse_text("""
-@sdif 0.1
+@sdif 1.0
 kind Schema
 tables[name,ordered,primary_key]:
   milestones\tfalse\tnull
 """)
     schema = Schema.from_document(schema_doc)
     source = """
-@sdif 0.1
+@sdif 1.0
 kind Plan
 milestones[id,status]:
   R2\tpending

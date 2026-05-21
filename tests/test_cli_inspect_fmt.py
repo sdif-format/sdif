@@ -15,7 +15,7 @@ def run_cli(*args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
 
 def test_cli_inspect_basic(tmp_path):
     doc = tmp_path / "doc.sdif"
-    doc.write_text("@sdif 0.1\nkind Plan\nid demo\n", encoding="utf-8")
+    doc.write_text("@sdif 1.0\nkind Plan\nid demo\n", encoding="utf-8")
 
     # Test inspect without --json
     run = run_cli("inspect", str(doc))
@@ -41,7 +41,7 @@ def test_cli_inspect_with_schema_diagnostics(tmp_path):
     schema = tmp_path / "schema.sdif"
     schema.write_text(
         """
-@sdif 0.1
+@sdif 1.0
 kind Schema
 fields[name,type,required,default]:
   kind\tIdentifier\ttrue\tnull
@@ -51,7 +51,7 @@ fields[name,type,required,default]:
         encoding="utf-8",
     )
     doc = tmp_path / "doc.sdif"
-    doc.write_text("@sdif 0.1\nkind Plan\n", encoding="utf-8")  # missing "id"
+    doc.write_text("@sdif 1.0\nkind Plan\n", encoding="utf-8")  # missing "id"
 
     # Test inspect --json with --schema
     run = run_cli("inspect", str(doc), "--json", "--schema", str(schema), check=False)
@@ -73,7 +73,7 @@ fields[name,type,required,default]:
 def test_cli_inspect_parse_error(tmp_path):
     doc = tmp_path / "doc.sdif"
     doc.write_text(
-        "@sdif 0.1\nkind Plan\ntable[col1]:\n  one\ttwo\n", encoding="utf-8"
+        "@sdif 1.0\nkind Plan\ntable[col1]:\n  one\ttwo\n", encoding="utf-8"
     )  # Table row arity error
 
     # Test inspect --json on parse error
@@ -94,7 +94,7 @@ def test_cli_inspect_parse_error(tmp_path):
 def test_cli_fmt_check_and_inplace(tmp_path):
     doc = tmp_path / "doc.sdif"
     non_canonical = (
-        "@sdif 0.1\nid demo\nkind Plan\n"  # "kind" should come before "id" in canonical order
+        "@sdif 1.0\nid demo\nkind Plan\n"  # "kind" should come before "id" in canonical order
     )
     doc.write_text(non_canonical, encoding="utf-8")
 
@@ -111,14 +111,14 @@ def test_cli_fmt_check_and_inplace(tmp_path):
     # Now fmt --check should succeed
     run_check_2 = run_cli("fmt", "--check", str(doc))
     assert run_check_2.returncode == 0
-    assert doc.read_text(encoding="utf-8") == "@sdif 0.1\nkind Plan\nid demo\n"
+    assert doc.read_text(encoding="utf-8") == "@sdif 1.0\nkind Plan\nid demo\n"
 
 
 def test_cli_fmt_check_with_schema(tmp_path):
     schema = tmp_path / "schema.sdif"
     schema.write_text(
         """
-@sdif 0.1
+@sdif 1.0
 kind Schema
 tables[name,primary_key,ordered]:
   mytable\tid\tfalse
@@ -128,7 +128,7 @@ tables[name,primary_key,ordered]:
     )
     doc = tmp_path / "doc.sdif"
     # rows are not ordered by primary key "id"
-    non_canonical = "@sdif 0.1\nmytable[id,value]:\n  B\t2\n  A\t1\n"
+    non_canonical = "@sdif 1.0\nmytable[id,value]:\n  B\t2\n  A\t1\n"
     doc.write_text(non_canonical, encoding="utf-8")
 
     # fmt --check without schema will not sort rows (it does not know it is unordered table)
@@ -146,12 +146,12 @@ tables[name,primary_key,ordered]:
     # now fmt --check with schema should pass
     run_check_schema_2 = run_cli("fmt", "--check", str(doc), "--schema", str(schema))
     assert run_check_schema_2.returncode == 0
-    assert doc.read_text(encoding="utf-8") == "@sdif 0.1\nmytable[id,value]:\n  A\t1\n  B\t2\n"
+    assert doc.read_text(encoding="utf-8") == "@sdif 1.0\nmytable[id,value]:\n  A\t1\n  B\t2\n"
 
 
 def test_cli_fmt_parse_error(tmp_path):
     doc = tmp_path / "doc.sdif"
-    doc.write_text("@sdif 0.1\ntable[col1]:\n  one\ttwo\n", encoding="utf-8")
+    doc.write_text("@sdif 1.0\ntable[col1]:\n  one\ttwo\n", encoding="utf-8")
 
     run = run_cli("fmt", "--check", str(doc), check=False)
     assert run.returncode == 1
