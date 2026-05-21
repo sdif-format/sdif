@@ -21,8 +21,8 @@ EXPECTED_GOLDEN_FILES = {"equivalent.json", "source.sdif", "canonical.sdif", "ca
 
 sys.path.insert(0, str(ROOT / "src"))
 
-from sdif import canonicalize, parse_text, sdif_hash
-from sdif.validation import Schema
+from sdif import canonicalize, parse_text, sdif_hash  # noqa: E402
+from sdif.validation import Schema  # noqa: E402
 
 
 def _fixture_dirs() -> list[Path]:
@@ -88,9 +88,7 @@ def generate(check: bool) -> int:
                 failures.append(f"missing {canonical_sha256.relative_to(ROOT)}")
             elif canonical_sha256.read_text(encoding="utf-8").strip() != expected_hash:
                 failures.append(f"outdated {canonical_sha256.relative_to(ROOT)}")
-            failures.extend(
-                f"stale {path.relative_to(ROOT)}" for path in stale_files
-            )
+            failures.extend(f"stale {path.relative_to(ROOT)}" for path in stale_files)
             continue
 
         source_sdif.write_text(expected_sdif, encoding="utf-8")

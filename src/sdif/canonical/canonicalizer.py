@@ -1,18 +1,31 @@
 """Canonical SDIF serializer for the MVP AST."""
+
 from __future__ import annotations
 
+from collections.abc import Sequence
 import hashlib
 from sdif.core.ast import Directive, Document, Field, Narrative, ObjectBlock, Relation, Rule, Table
 from sdif.parser import parse_text
 from sdif.validation import Schema
 
-_DIRECTIVE_ORDER = {"sdif": 0, "sdif.ai": 0, "alias": 1, "profile": 2, "vocab": 3, "base": 4, "namespace": 5, "include": 6}
+_DIRECTIVE_ORDER = {
+    "sdif": 0,
+    "sdif.ai": 0,
+    "alias": 1,
+    "profile": 2,
+    "vocab": 3,
+    "base": 4,
+    "namespace": 5,
+    "include": 6,
+}
 
 
 def canonicalize(source: str | Document, schema: Schema | None = None) -> str:
     doc = parse_text(source) if isinstance(source, str) else source
     lines: list[str] = []
-    for directive in sorted(doc.directives, key=lambda d: (_DIRECTIVE_ORDER.get(d.name, 100), d.name, d.args)):
+    for directive in sorted(
+        doc.directives, key=lambda d: (_DIRECTIVE_ORDER.get(d.name, 100), d.name, d.args)
+    ):
         lines.append(_emit_directive(directive))
     for statement in _canonical_statement_order(doc.statements, schema):
         _emit_statement(statement, lines, indent=0, schema=schema)
@@ -30,33 +43,50 @@ def sdif_hash(source: str | Document, schema: Schema | None = None) -> str:
     return hashlib.sha256(canonicalize(source, schema=schema).encode("utf-8")).hexdigest()
 
 
-def _canonical_statement_order(statements: list[object], schema: Schema | None) -> list[object]:
+def _canonical_statement_order(statements: Sequence[object], schema: Schema | None) -> list[object]:
     order = {"kind": 0, "id": 1, "schema": 2, "authority": 3, "lifecycle": 4}
     fields = [s for s in statements if isinstance(s, Field)]
-    relations = sorted([s for s in statements if isinstance(s, Relation)], key=lambda r: (r.subject, r.predicate, r.object))
+    relations = sorted(
+        [s for s in statements if isinstance(s, Relation)],
+        key=lambda r: (r.subject, r.predicate, r.object),
+    )
     rules = sorted([s for s in statements if isinstance(s, Rule)], key=lambda r: r.source)
     others = [s for s in statements if not isinstance(s, Field | Relation | Rule)]
     fields.sort(key=lambda f: (order.get(f.key, 100), f.key))
     return [*fields, *_canonical_others(others, schema), *relations, *rules]
 
 
-def _canonical_others(statements: list[object], schema: Schema | None) -> list[object]:
+def _canonical_others(statements: Sequence[object], schema: Schema | None) -> list[object]:
     result: list[object] = []
     for statement in statements:
         if isinstance(statement, Table) and schema is not None:
             policy = schema.table_policies.get(statement.name)
-            if policy is not None and not policy.ordered and policy.primary_key in statement.columns:
+            if (
+                policy is not None
+                and not policy.ordered
+                and policy.primary_key in statement.columns
+            ):
                 idx = statement.columns.index(policy.primary_key)  # type: ignore[arg-type]
-                result.append(Table(statement.name, statement.columns, sorted(statement.rows, key=lambda row: row[idx])))
+                result.append(
+                    Table(
+                        statement.name,
+                        statement.columns,
+                        sorted(statement.rows, key=lambda row: row[idx]),
+                    )
+                )
                 continue
         result.append(statement)
     return result
 
 
-def _emit_statement(statement: object, lines: list[str], indent: int, schema: Schema | None) -> None:
+def _emit_statement(
+    statement: object, lines: list[str], indent: int, schema: Schema | None
+) -> None:
     prefix = " " * indent
     if isinstance(statement, Field):
-        lines.append(f"{prefix}{statement.key} {_quote_if_needed(statement.value, force=getattr(statement, 'quoted', False))}")
+        lines.append(
+            f"{prefix}{statement.key} {_quote_if_needed(statement.value, force=getattr(statement, 'quoted', False))}"
+        )
     elif isinstance(statement, ObjectBlock):
         lines.append(f"{prefix}{statement.key}:")
         for child in _canonical_statement_order(statement.statements, schema):
@@ -68,8 +98,12 @@ def _emit_statement(statement: object, lines: list[str], indent: int, schema: Sc
     elif isinstance(statement, Relation):
         if not _inside_current_block(lines, f"{prefix}rel:"):
             lines.append(f"{prefix}rel:")
-        relation_object = _quote_if_needed(statement.object, force=getattr(statement, 'object_quoted', False))
-        lines.append(f"{' ' * (indent + 2)}{statement.subject} {statement.predicate} {relation_object}")
+        relation_object = _quote_if_needed(
+            statement.object, force=getattr(statement, "object_quoted", False)
+        )
+        lines.append(
+            f"{' ' * (indent + 2)}{statement.subject} {statement.predicate} {relation_object}"
+        )
     elif isinstance(statement, Rule):
         if not _inside_current_block(lines, f"{prefix}rules:"):
             lines.append(f"{prefix}rules:")

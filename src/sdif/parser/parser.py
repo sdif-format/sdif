@@ -1,13 +1,26 @@
 """A deliberately small normative parser slice for SDIF 0.1 MVP syntax."""
+
 from __future__ import annotations
 
 import re
 from dataclasses import dataclass
 
-from sdif.core.ast import Directive, Document, Field, Narrative, ObjectBlock, Relation, Rule, Table
+from sdif.core.ast import (
+    Directive,
+    Document,
+    Field,
+    Narrative,
+    ObjectBlock,
+    Relation,
+    Rule,
+    Table,
+    Statement,
+)
 
 _TABLE_HEADER_RE = re.compile(r"^(?P<name>[A-Za-z_][A-Za-z0-9_-]*)\[(?P<cols>[^\]]+)\]:$")
-_ALIAS_HEADER_RE = re.compile(r"^alias\[(?P<entries>[A-Za-z_][A-Za-z0-9_-]*=[A-Za-z_][A-Za-z0-9_-]*(?:,[A-Za-z_][A-Za-z0-9_-]*=[A-Za-z_][A-Za-z0-9_-]*)*)\]$")
+_ALIAS_HEADER_RE = re.compile(
+    r"^alias\[(?P<entries>[A-Za-z_][A-Za-z0-9_-]*=[A-Za-z_][A-Za-z0-9_-]*(?:,[A-Za-z_][A-Za-z0-9_-]*=[A-Za-z_][A-Za-z0-9_-]*)*)\]$"
+)
 _BLOCK_RE = re.compile(r"^(?P<key>[A-Za-z_][A-Za-z0-9_-]*):$")
 _NARRATIVE_RE = re.compile(r'^(?P<key>[A-Za-z_][A-Za-z0-9_-]*)\s+"""$')
 
@@ -37,7 +50,7 @@ class _Parser:
 
     def parse_document(self) -> Document:
         directives: list[Directive] = []
-        statements: list[object] = []
+        statements: list[Statement] = []
         while self.index < len(self.lines):
             parsed = self._parse_next(indent=0)
             if parsed is None:
@@ -45,9 +58,9 @@ class _Parser:
             if isinstance(parsed, Directive):
                 directives.append(parsed)
             elif isinstance(parsed, list):
-                statements.extend(parsed)
+                statements.extend(parsed)  # type: ignore[arg-type]
             else:
-                statements.append(parsed)
+                statements.append(parsed)  # type: ignore[arg-type]
         return Document(directives=directives, statements=statements)
 
     def _parse_next(self, indent: int) -> object | list[object] | None:
@@ -122,7 +135,9 @@ class _Parser:
             if parsed is None:
                 continue
             if isinstance(parsed, Directive):
-                raise ParseError("SDIF_OBJECT_DIRECTIVE", "directive not allowed inside object", line_no)
+                raise ParseError(
+                    "SDIF_OBJECT_DIRECTIVE", "directive not allowed inside object", line_no
+                )
             if isinstance(parsed, list):
                 statements.extend(parsed)
             else:
@@ -177,11 +192,19 @@ class _Parser:
             if actual < child_indent:
                 break
             if actual != child_indent:
-                raise ParseError("SDIF_INDENT", "invalid relation row indentation", row_no, actual + 1)
-            parts = _split_quoted_whitespace(_strip_inline_comment(raw[child_indent:]), row_no, "SDIF_REL_QUOTE")
+                raise ParseError(
+                    "SDIF_INDENT", "invalid relation row indentation", row_no, actual + 1
+                )
+            parts = _split_quoted_whitespace(
+                _strip_inline_comment(raw[child_indent:]), row_no, "SDIF_REL_QUOTE"
+            )
             if len(parts) != 3:
-                raise ParseError("SDIF_REL_ARITY", "relation row must have exactly three parts", row_no)
-            relations.append(Relation(parts[0], parts[1], _unquote(parts[2]), object_quoted=_is_quoted(parts[2])))
+                raise ParseError(
+                    "SDIF_REL_ARITY", "relation row must have exactly three parts", row_no
+                )
+            relations.append(
+                Relation(parts[0], parts[1], _unquote(parts[2]), object_quoted=_is_quoted(parts[2]))
+            )
             self.index += 1
         return relations
 
@@ -202,7 +225,9 @@ class _Parser:
                 raise ParseError("SDIF_INDENT", "invalid rule row indentation", row_no, actual + 1)
             source = _strip_inline_comment(raw[child_indent:]).strip()
             if not _balanced_parens(source):
-                raise ParseError("SDIF_RULE_EXPR", "rule expression must have balanced parentheses", row_no)
+                raise ParseError(
+                    "SDIF_RULE_EXPR", "rule expression must have balanced parentheses", row_no
+                )
             rules.append(Rule(source))
             self.index += 1
         return rules
@@ -226,7 +251,9 @@ def _indent(raw: str, line_no: int) -> int:
         if char == " ":
             count += 1
         elif char == "\t":
-            raise ParseError("SDIF_INDENT_TAB", "tabs must not be used for indentation", line_no, count + 1)
+            raise ParseError(
+                "SDIF_INDENT_TAB", "tabs must not be used for indentation", line_no, count + 1
+            )
         else:
             break
     return count
@@ -260,7 +287,6 @@ def _unquote(value: str) -> str:
     return value
 
 
-
 def _split_quoted_whitespace(source: str, line_no: int, error_code: str) -> list[str]:
     parts: list[str] = []
     current: list[str] = []
@@ -290,6 +316,7 @@ def _split_quoted_whitespace(source: str, line_no: int, error_code: str) -> list
     if current:
         parts.append("".join(current))
     return parts
+
 
 def _balanced_parens(source: str) -> bool:
     depth = 0

@@ -6,6 +6,7 @@ ambiguous. It preserves JSON semantics by using compact SDIF tables for scalar
 uniform arrays and a reserved repeated ``__item`` object convention for nested
 or heterogeneous arrays.
 """
+
 from __future__ import annotations
 
 import re
@@ -60,12 +61,14 @@ def _statements_to_json_value(statements: Sequence[object]) -> JsonValue:
         return [_array_item_to_json_value(statement) for statement in statements]
 
     data: dict[str, JsonValue] = {}
-    relations: list[dict[str, JsonValue]] = []
+    relations: list[JsonValue] = []
     rules: list[JsonValue] = []
 
     for statement in statements:
         if isinstance(statement, Field):
-            data[statement.key] = _parse_value(statement.value, quoted=getattr(statement, "quoted", False))
+            data[statement.key] = _parse_value(
+                statement.value, quoted=getattr(statement, "quoted", False)
+            )
         elif isinstance(statement, ObjectBlock):
             data[statement.key] = _statements_to_json_value(statement.statements)
         elif isinstance(statement, Table):
@@ -81,7 +84,9 @@ def _statements_to_json_value(statements: Sequence[object]) -> JsonValue:
                 {
                     "subject": statement.subject,
                     "predicate": statement.predicate,
-                    "object": _parse_value(statement.object, quoted=getattr(statement, "object_quoted", False)),
+                    "object": _parse_value(
+                        statement.object, quoted=getattr(statement, "object_quoted", False)
+                    ),
                 }
             )
         elif isinstance(statement, Rule):
@@ -155,7 +160,11 @@ def _emit_mapping(data: Mapping[str, object], lines: list[str], indent: int) -> 
                     f"{_format_scalar(relation['predicate'])} "
                     f"{_format_scalar(relation['object'])}"
                 )
-        elif key == "rules" and isinstance(value, list) and all(isinstance(item, str) for item in value):
+        elif (
+            key == "rules"
+            and isinstance(value, list)
+            and all(isinstance(item, str) for item in value)
+        ):
             lines.append(f"{prefix}rules:")
             for item in value:
                 lines.append(f"{' ' * (indent + 2)}{item}")
@@ -299,7 +308,9 @@ def _format_table_cell(value: object) -> str:
 
     text = str(value)
     if "\t" in text or "\n" in text:
-        raise ValueError("the MVP SDIF table encoder cannot represent tabs or newlines in table cells")
+        raise ValueError(
+            "the MVP SDIF table encoder cannot represent tabs or newlines in table cells"
+        )
     if _must_quote_table_cell(text):
         return _quote(text)
     return text
@@ -337,10 +348,7 @@ def _must_quote_string(value: str) -> bool:
 
 def _quote(value: str) -> str:
     escaped = (
-        value.replace("\\", "\\\\")
-        .replace('"', '\\"')
-        .replace("\n", "\\n")
-        .replace("\t", "\\t")
+        value.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n").replace("\t", "\\t")
     )
     return f'"{escaped}"'
 

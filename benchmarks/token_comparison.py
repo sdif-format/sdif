@@ -62,7 +62,7 @@ from pathlib import Path
 from typing import Any, Callable
 from xml.sax.saxutils import escape as xml_escape
 
-import yaml
+import yaml  # type: ignore[import-untyped]
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
@@ -76,21 +76,21 @@ from sdif.json import json_data_to_sdif  # noqa: E402
 # ====================
 
 try:
-    import tiktoken
+    import tiktoken  # type: ignore[import-not-found]
 except ImportError:
-    tiktoken = None
+    tiktoken = None  # type: ignore[assignment]
 
 
 try:
-    from transformers import AutoTokenizer
+    from transformers import AutoTokenizer  # type: ignore[import-not-found]
 except ImportError:
-    AutoTokenizer = None
+    AutoTokenizer = None  # type: ignore[assignment,misc]
 
 
 try:
-    from anthropic import Anthropic
+    from anthropic import Anthropic  # type: ignore[import-not-found]
 except ImportError:
-    Anthropic = None
+    Anthropic = None  # type: ignore[assignment,misc]
 
 
 # ====================
@@ -177,7 +177,6 @@ def csv_bundle_generated(data: dict[str, Any]) -> str:
         sections.insert(0, "# fields\n" + output.getvalue().rstrip("\n"))
 
     return "\n\n".join(sections).rstrip() + "\n"
-
 
 
 def compact_ai_projection(sdif_text: str) -> str:
@@ -640,7 +639,9 @@ def main() -> None:
         raise SystemExit("No golden files found under examples/golden/*/equivalent.json")
 
     tokenizers = available_tokenizers()
-    sample_data = json.loads((golden_dir / documents[0] / "equivalent.json").read_text(encoding="utf-8"))
+    sample_data = json.loads(
+        (golden_dir / documents[0] / "equivalent.json").read_text(encoding="utf-8")
+    )
     primary_tokenizer = select_primary_tokenizer(tokenizers, json_compact(sample_data))
     results_by_document: dict[str, list[FormatResult]] = {}
 

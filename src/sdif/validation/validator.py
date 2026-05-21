@@ -1,4 +1,5 @@
 """Minimal schema and validation layer for SDIF MVP fixtures."""
+
 from __future__ import annotations
 
 import re
@@ -83,7 +84,9 @@ class Schema:
                 name = row[name_idx]
                 ordered = True if ordered_idx is None else row[ordered_idx] == "true"
                 primary_key = None if pk_idx is None or row[pk_idx] == "null" else row[pk_idx]
-                table_policies[name] = TablePolicy(name=name, ordered=ordered, primary_key=primary_key)
+                table_policies[name] = TablePolicy(
+                    name=name, ordered=ordered, primary_key=primary_key
+                )
 
         fields_table = doc.tables.get("fields")
         if fields_table:
@@ -116,12 +119,12 @@ class Schema:
             predicate_idx = _required_column(relations_table.columns, "predicate", "relations")
             subject_type_idx = _optional_column(relations_table.columns, "subject_type")
             object_type_idx = _optional_column(relations_table.columns, "object_type")
-            required_idx = _optional_column(relations_table.columns, "required")
+            rel_required_idx = _optional_column(relations_table.columns, "required")
             for row in relations_table.rows:
                 predicate = row[predicate_idx]
                 subject_type = "Identifier" if subject_type_idx is None else row[subject_type_idx]
                 object_type = "Identifier" if object_type_idx is None else row[object_type_idx]
-                required = False if required_idx is None else row[required_idx] == "true"
+                required = False if rel_required_idx is None else row[rel_required_idx] == "true"
                 relation_policies[predicate] = RelationPolicy(
                     predicate=predicate,
                     subject_type=subject_type,
@@ -151,7 +154,10 @@ class Schema:
 
 
 def diagnostics_to_json(diagnostics: list[Diagnostic]) -> list[dict[str, object]]:
-    return [{key: value for key, value in asdict(diagnostic).items() if value is not None} for diagnostic in diagnostics]
+    return [
+        {key: value for key, value in asdict(diagnostic).items() if value is not None}
+        for diagnostic in diagnostics
+    ]
 
 
 def validate_document(doc: Document, schema: Schema) -> list[Diagnostic]:
@@ -225,8 +231,6 @@ def validate_document(doc: Document, schema: Schema) -> list[Diagnostic]:
     return diagnostics
 
 
-
-
 def _validate_unique_top_level(doc: Document) -> list[Diagnostic]:
     diagnostics: list[Diagnostic] = []
     seen_fields: set[str] = set()
@@ -234,11 +238,21 @@ def _validate_unique_top_level(doc: Document) -> list[Diagnostic]:
     for statement in doc.statements:
         if isinstance(statement, Field):
             if statement.key in seen_fields:
-                diagnostics.append(_diag("SDIF_DUPLICATE_FIELD", statement.key, f"duplicate field `{statement.key}`"))
+                diagnostics.append(
+                    _diag(
+                        "SDIF_DUPLICATE_FIELD", statement.key, f"duplicate field `{statement.key}`"
+                    )
+                )
             seen_fields.add(statement.key)
         elif isinstance(statement, Table):
             if statement.name in seen_tables:
-                diagnostics.append(_diag("SDIF_DUPLICATE_TABLE", statement.name, f"duplicate table `{statement.name}`"))
+                diagnostics.append(
+                    _diag(
+                        "SDIF_DUPLICATE_TABLE",
+                        statement.name,
+                        f"duplicate table `{statement.name}`",
+                    )
+                )
             seen_tables.add(statement.name)
     return diagnostics
 
@@ -275,8 +289,8 @@ def _validate_relations(doc: Document, schema: Schema) -> list[Diagnostic]:
 
     for relation_idx, relation in enumerate(doc.relations):
         path = f"rel[{relation_idx}]"
-        policy = schema.relation_policies.get(relation.predicate)
-        if policy is None:
+        rel_policy = schema.relation_policies.get(relation.predicate)
+        if rel_policy is None:
             diagnostics.append(
                 _diag(
                     "SDIF_REL_PREDICATE",
@@ -285,15 +299,22 @@ def _validate_relations(doc: Document, schema: Schema) -> list[Diagnostic]:
                 )
             )
             continue
-        diagnostics.extend(_validate_value(relation.subject, policy.subject_type, f"{path}.subject"))
-        diagnostics.extend(_validate_value(relation.object, policy.object_type, f"{path}.object"))
+        diagnostics.extend(
+            _validate_value(relation.subject, rel_policy.subject_type, f"{path}.subject")
+        )
+        diagnostics.extend(
+            _validate_value(relation.object, rel_policy.object_type, f"{path}.object")
+        )
     return diagnostics
+
 
 def _validate_value(value: str, type_name: str, path: str) -> list[Diagnostic]:
     enum_values = _enum_values(type_name)
     if enum_values is not None:
         if value not in enum_values:
-            return [_diag("SDIF_ENUM", path, f"value `{value}` is not in enum {sorted(enum_values)}")]
+            return [
+                _diag("SDIF_ENUM", path, f"value `{value}` is not in enum {sorted(enum_values)}")
+            ]
         return []
 
     ok = True
@@ -313,7 +334,9 @@ def _validate_value(value: str, type_name: str, path: str) -> list[Diagnostic]:
         ok = value == "null" if type_name == "Null" else value.startswith("P")
     else:
         ok = True
-    return [] if ok else [_diag("SDIF_TYPE", path, f"value `{value}` does not match type {type_name}")]
+    return (
+        [] if ok else [_diag("SDIF_TYPE", path, f"value `{value}` does not match type {type_name}")]
+    )
 
 
 def _validate_rule(source: str, schema: Schema, path: str) -> list[Diagnostic]:
