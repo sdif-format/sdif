@@ -99,6 +99,7 @@ body{margin:0;padding:32px;background:#0f172a;color:#e2e8f0;font-family:system-u
 pre.sdif{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:24px 28px;overflow-x:auto;line-height:1.6;font-size:.88em;white-space:pre}
 .d{color:#818cf8}
 .h{color:#f472b6;font-weight:700}
+.bh{color:#a78bfa}
 .k{color:#38bdf8}
 .v{color:#a3e635}
 .r{color:#fb923c}
@@ -106,7 +107,8 @@ pre.sdif{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:
 .row{color:#cbd5e1}
 """
 
-_SDIF_AI_TOKEN_RE = None
+# Identifier pattern that allows dots (matches sdif.ai, some.namespace)
+_IDENT = r"[A-Za-z_][A-Za-z0-9_.-]*"
 
 
 def _highlight_sdif_ai(text: str) -> str:
@@ -118,15 +120,26 @@ def _highlight_sdif_ai(text: str) -> str:
         stripped = line.lstrip()
         indent = len(line) - len(stripped)
         if stripped.startswith("#"):
+            # comment
             lines.append(f'<span class="c">{esc}</span>')
         elif stripped.startswith("@"):
+            # directive: @sdif.ai 1.0
             lines.append(f'<span class="d">{esc}</span>')
-        elif re.match(r"^[A-Za-z_][A-Za-z0-9_-]*\[", stripped) or re.match(r"^[A-Za-z_][A-Za-z0-9_-]*\]:$", stripped):
+        elif re.match(rf"^{_IDENT}\[", stripped) or re.match(rf"^{_IDENT}\]:$", stripped):
+            # table_header: name[col1,col2]: or grouped_relation closer name]:
             lines.append(f'<span class="h">{esc}</span>')
-        elif re.match(r"^rel(\[|:)", stripped):
+        elif re.match(r"^rel[\[:]", stripped):
+            # relation_block: rel: or grouped_relation_block: rel[subject]:
             lines.append(f'<span class="r">{esc}</span>')
-        elif indent == 0 and " " in stripped and not stripped.startswith(" "):
-            m = re.match(r"^([A-Za-z_][A-Za-z0-9_-]*)\s+(.*)", stripped)
+        elif re.match(r"^rules:", stripped):
+            # rules_block
+            lines.append(f'<span class="r">{esc}</span>')
+        elif indent == 0 and re.match(rf"^{_IDENT}:$", stripped):
+            # block_header: corpus: scorecard: notes:
+            lines.append(f'<span class="bh">{esc}</span>')
+        elif indent == 0 and re.match(rf"^{_IDENT}\s", stripped):
+            # zero-indent field or table row: key value
+            m = re.match(rf"^({_IDENT})\s+(.*)", stripped)
             if m:
                 k = html.escape(m.group(1))
                 v = html.escape(m.group(2))

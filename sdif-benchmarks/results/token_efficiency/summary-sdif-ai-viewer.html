@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Token Efficiency — SDIF AI</title>
+<title>Token Efficiency — Summary SDIF AI</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
 body{margin:0;padding:32px;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -14,6 +14,7 @@ body{margin:0;padding:32px;background:#0f172a;color:#e2e8f0;font-family:system-u
 pre.sdif{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:24px 28px;overflow-x:auto;line-height:1.6;font-size:.88em;white-space:pre}
 .d{color:#818cf8}
 .h{color:#f472b6;font-weight:700}
+.bh{color:#a78bfa}
 .k{color:#38bdf8}
 .v{color:#a3e635}
 .r{color:#fb923c}
@@ -25,7 +26,7 @@ pre.sdif{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:
 <main class="page">
 <div class="toolbar">
 <a href="dashboard.html">← Back</a>
-<span>Token Efficiency — SDIF AI</span>
+<span>Token Efficiency — Summary SDIF AI</span>
 </div>
 <div class="meta">3136 lines · 74.3 KB · SDIF AI projection</div>
 <pre class="sdif"><span class="k">kind</span> <span class="v">BenchmarkReport</span>
@@ -46,22 +47,22 @@ pre.sdif{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:
 <span class="k">Claude</span> <span class="v">disabled	API tokenizer	Disabled. Set SDIF_BENCHMARK_CLAUDE=1 to enable API token counting.</span>
 <span class="h">consensusRanking[format,avgRank,medianRatio,bestRatio,worstRatio,rankSpread,coverage,coverageTotal]:</span>
 <span class="k">SDIF</span> <span class="v">AI	1.0952380952380953	56.789800995024876	26.26175078338556	83.11258278145695	1.0	63	63</span>
-SDIF	2.6031746031746033	59.52372909981422	26.278418561237416	83.44370860927152	3.0	63	63
+<span class="k">SDIF</span> <span class="v">2.6031746031746033	59.52372909981422	26.278418561237416	83.44370860927152	3.0	63	63</span>
 <span class="k">CSV</span> <span class="v">Bundle	2.6984126984126986	61.192189923251284	28.69993838570548	95.36423841059603	3.0	63	63</span>
-TOON	3.6031746031746033	63.190184049079754	29.35304990757856	91.3907284768212	1.0	63	63
-YAML	5.349206349206349	95.33371565435931	75.6983798919928	137.77906081601233	1.0	63	63
+<span class="k">TOON</span> <span class="v">3.6031746031746033	63.190184049079754	29.35304990757856	91.3907284768212	1.0	63	63</span>
+<span class="k">YAML</span> <span class="v">5.349206349206349	95.33371565435931	75.6983798919928	137.77906081601233	1.0	63	63</span>
 <span class="k">JSON</span> <span class="v">Compact	5.650793650793651	100.0	100.0	100.0	1.0	63	63</span>
 <span class="k">JSON</span> <span class="v">Pretty	7.0	137.2828890799656	100.74004933662243	192.47073321010475	0.0	63	63</span>
-XML	8.0	171.6610641961138	131.43373996765803	229.77202711028957	0.0	63	63
+<span class="k">XML</span> <span class="v">8.0	171.6610641961138	131.43373996765803	229.77202711028957	0.0	63	63</span>
 <span class="h">winnersByTokenizer[tokenizer,format,wins,documents]:</span>
 <span class="k">Estimate</span> <span class="v">SDIF AI	19	21</span>
 <span class="k">Estimate</span> <span class="v">CSV Bundle	1	21</span>
-Estimate	SDIF	1	21
+<span class="k">Estimate</span> <span class="v">SDIF	1	21</span>
 <span class="k">TokenX</span> <span class="v">SDIF AI	20	21</span>
-TokenX	SDIF	1	21
+<span class="k">TokenX</span> <span class="v">SDIF	1	21</span>
 <span class="k">tiktoken</span> <span class="v">SDIF AI	18	21</span>
 <span class="k">tiktoken</span> <span class="v">CSV Bundle	3	21</span>
-directComparison:
+<span class="bh">directComparison:</span>
 <span class="row">  __item:</span>
 <span class="row">    format &quot;SDIF AI&quot;</span>
 <span class="row">    consensusAvgRank 1.0952380952380953</span>
@@ -132,7 +133,7 @@ directComparison:
 <span class="row">      Estimate 100.0</span>
 <span class="row">      TokenX 100.0</span>
 <span class="row">      tiktoken 100.0</span>
-documents:
+<span class="bh">documents:</span>
 <span class="row">  __item:</span>
 <span class="row">    name deep-hierarchy-project</span>
 <span class="h">    winnersByTokenizer[tokenizer,format,tokens,jsonCompactTokens,savedTokens,ratio]:</span>
@@ -3136,7 +3137,7 @@ documents:
 <span class="row">          Estimate 8</span>
 <span class="row">          TokenX 8</span>
 <span class="row">          tiktoken 8</span>
-environment:
+<span class="bh">environment:</span>
 <span class="row">  SDIF_BENCHMARK_TOON &quot;1&quot;</span>
 <span class="row">  SDIF_BENCHMARK_GOLDEN_DIR null</span>
 <span class="row">  SDIF_BENCHMARK_TOKENX &quot;1&quot;</span>
@@ -3150,7 +3151,7 @@ environment:
 <span class="row">  SDIF_TIKTOKEN_ENCODING cl100k_base</span>
 <span class="row">  HF_TOKEN unset</span>
 <span class="row">  ANTHROPIC_API_KEY unset</span>
-artifacts:
+<span class="bh">artifacts:</span>
 <span class="row">  log benchmarks/results/token_efficiency/comparison.log</span>
 <span class="row">  markdown benchmarks/results/token_efficiency/comparison.md</span>
 <span class="row">  summary benchmarks/results/token_efficiency/summary.md</span>
