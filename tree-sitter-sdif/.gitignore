@@ -1,0 +1,31 @@
+node_modules
+package-lock.json
+build
+dist
+coverage
+*.log
+.DS_Store
+.idea
+.vscode
+*.swp
+*.swo
+*.bak
+*.tmp
+*.tsbuildinfo
+*.eslintcache
+*.prettiercache
+*.env
+!*.env.local
+*.env.*
+
+# Native compiled modules
+*.node
+*.dylib
+*.so
+prebuilds/
+
+# Python build artifacts
+__pycache__/
+*.egg-info/
+*.egg
+dist/
