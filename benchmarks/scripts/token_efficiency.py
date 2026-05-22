@@ -113,7 +113,7 @@ DASHBOARD_TEMPLATE_PATH = BENCHMARK_DIR / "src" / "dashboard_template.html"
 
 from sdif.ai import ai_view  # noqa: E402
 from sdif.json import json_data_to_sdif  # noqa: E402
-from report import render_md_viewer  # noqa: E402
+from report import render_md_viewer, render_sdif_ai_viewer  # noqa: E402
 
 
 # ====================
@@ -2366,13 +2366,11 @@ def main() -> None:
                 sdif_text,
                 encoding="utf-8",
             )
-            sdif_ai_path.write_text(
-                render_sdif_ai_report(sdif_text),
-                encoding="utf-8",
-            )
-            summary_sdif_ai_path.write_text(
-                render_sdif_ai_report(sdif_text),
-                encoding="utf-8",
+            _sdif_ai = render_sdif_ai_report(sdif_text)
+            sdif_ai_path.write_text(_sdif_ai, encoding="utf-8")
+            summary_sdif_ai_path.write_text(_sdif_ai, encoding="utf-8")
+            (run_dir / "summary-sdif-ai-viewer.html").write_text(
+                render_sdif_ai_viewer(_sdif_ai, "Token Efficiency — SDIF AI"), encoding="utf-8"
             )
             dashboard_path.write_text(
                 render_dashboard_report(

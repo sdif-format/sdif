@@ -89,6 +89,87 @@ def render_md_viewer(md_text: str, title: str, *, back_href: str = "dashboard.ht
 """
 
 
+_SDIF_AI_VIEWER_CSS = """
+body{margin:0;padding:32px;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.page{max-width:1100px;margin:0 auto}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}
+.toolbar a{color:#60a5fa;text-decoration:none;font-weight:600}
+.toolbar a:hover{text-decoration:underline}
+.meta{font-size:.8em;color:#64748b;margin-bottom:8px}
+pre.sdif{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:24px 28px;overflow-x:auto;line-height:1.6;font-size:.88em;white-space:pre}
+.d{color:#818cf8}
+.h{color:#f472b6;font-weight:700}
+.k{color:#38bdf8}
+.v{color:#a3e635}
+.r{color:#fb923c}
+.c{color:#475569;font-style:italic}
+.row{color:#cbd5e1}
+"""
+
+_SDIF_AI_TOKEN_RE = None
+
+
+def _highlight_sdif_ai(text: str) -> str:
+    import re
+
+    lines = []
+    for line in text.splitlines():
+        esc = html.escape(line)
+        stripped = line.lstrip()
+        indent = len(line) - len(stripped)
+        if stripped.startswith("#"):
+            lines.append(f'<span class="c">{esc}</span>')
+        elif stripped.startswith("@"):
+            lines.append(f'<span class="d">{esc}</span>')
+        elif re.match(r"^[A-Za-z_][A-Za-z0-9_-]*\[", stripped) or re.match(r"^[A-Za-z_][A-Za-z0-9_-]*\]:$", stripped):
+            lines.append(f'<span class="h">{esc}</span>')
+        elif re.match(r"^rel(\[|:)", stripped):
+            lines.append(f'<span class="r">{esc}</span>')
+        elif indent == 0 and " " in stripped and not stripped.startswith(" "):
+            m = re.match(r"^([A-Za-z_][A-Za-z0-9_-]*)\s+(.*)", stripped)
+            if m:
+                k = html.escape(m.group(1))
+                v = html.escape(m.group(2))
+                lines.append(f'<span class="k">{k}</span> <span class="v">{v}</span>')
+            else:
+                lines.append(esc)
+        elif indent > 0:
+            lines.append(f'<span class="row">{esc}</span>')
+        else:
+            lines.append(esc)
+    return "\n".join(lines)
+
+
+def render_sdif_ai_viewer(sdif_ai_text: str, title: str, *, back_href: str = "dashboard.html") -> str:
+    """Render a .sdif.ai file as a self-contained syntax-highlighted HTML viewer."""
+    body = _highlight_sdif_ai(sdif_ai_text)
+    size_kb = len(sdif_ai_text.encode()) / 1024
+    lines = sdif_ai_text.count("\n") + 1
+    escaped_title = html.escape(title)
+    escaped_back = html.escape(back_href)
+
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>{escaped_title}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>{_SDIF_AI_VIEWER_CSS}</style>
+</head>
+<body>
+<main class="page">
+<div class="toolbar">
+<a href="{escaped_back}">← Back</a>
+<span>{escaped_title}</span>
+</div>
+<div class="meta">{lines} lines · {size_kb:.1f} KB · SDIF AI projection</div>
+<pre class="sdif">{body}</pre>
+</main>
+</body>
+</html>
+"""
+
+
 def json_script_payload(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 

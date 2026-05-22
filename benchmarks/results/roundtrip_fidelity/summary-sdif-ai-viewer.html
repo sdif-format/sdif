@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Round-Trip Fidelity — SDIF AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+body{margin:0;padding:32px;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.page{max-width:1100px;margin:0 auto}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}
+.toolbar a{color:#60a5fa;text-decoration:none;font-weight:600}
+.toolbar a:hover{text-decoration:underline}
+.meta{font-size:.8em;color:#64748b;margin-bottom:8px}
+pre.sdif{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:24px 28px;overflow-x:auto;line-height:1.6;font-size:.88em;white-space:pre}
+.d{color:#818cf8}
+.h{color:#f472b6;font-weight:700}
+.k{color:#38bdf8}
+.v{color:#a3e635}
+.r{color:#fb923c}
+.c{color:#475569;font-style:italic}
+.row{color:#cbd5e1}
+</style>
+</head>
+<body>
+<main class="page">
+<div class="toolbar">
+<a href="dashboard.html">← Back</a>
+<span>Round-Trip Fidelity — SDIF AI</span>
+</div>
+<div class="meta">220 lines · 10.8 KB · SDIF AI projection</div>
+<pre class="sdif"><span class="k">kind</span> <span class="v">RoundTripFidelityReport</span>
+<span class="k">version</span> <span class="v">&quot;1.0&quot;</span>
+<span class="k">generatedAt</span> <span class="v">2026-05-22T09:57:03Z</span>
+<span class="k">runDirectory</span> <span class="v">benchmarks/results/roundtrip_fidelity</span>
+<span class="k">semanticSource</span> <span class="v">examples/golden/&lt;document&gt;/equivalent.json</span>
+<span class="k">envFileLoaded</span> <span class="v">true</span>
+environment:
+<span class="row">  SDIF_BENCHMARK_GOLDEN_DIR null</span>
+documents:
+<span class="row">  __item:</span>
+<span class="row">    name deep-hierarchy-project</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	474294	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	648068	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	452163	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	292754	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	302202	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	768236	true	100.0	90.0	100.0	96.4	&quot;&quot;</span>
+<span class="row">    SDIF AI	292716	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name github.openapi</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	292422	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	386842	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	283256	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	173649	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	167539	true	100.0	89.3	100.0	96.2	&quot;&quot;</span>
+<span class="row">    XML	472655	true	87.4	87.4	100.0	91.3	&quot;&quot;</span>
+<span class="row">    SDIF AI	167369	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name large-audit-trail</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	1728738	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	2222275	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	1666793	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	2576525	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	1155527	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	1134036	true	100.0	89.3	100.0	96.1	&quot;&quot;</span>
+<span class="row">    SDIF AI	1133989	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name large-knowledge-graph</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	518882	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	733208	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	495208	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	279620	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	289242	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	884387	true	100.0	83.7	100.0	93.9	&quot;&quot;</span>
+<span class="row">    SDIF AI	279580	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name large-plan</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	804703	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	1048494	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	780329	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	492413	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	504796	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	1273626	true	100.0	83.1	100.0	93.6	&quot;&quot;</span>
+<span class="row">    SDIF AI	492354	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name large-registry</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	883824	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	1285316	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	839949	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	402772	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	426166	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	1652261	true	79.7	79.7	100.0	85.5	&quot;&quot;</span>
+<span class="row">    SDIF AI	402720	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name large-schema-catalog</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	447520	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	653078	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	435031	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	228953	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	215257	true	84.8	84.8	100.0	89.3	&quot;&quot;</span>
+<span class="row">    XML	790035	true	80.4	77.6	100.0	84.9	&quot;&quot;</span>
+<span class="row">    SDIF AI	221599	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name large-support-export</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	592098	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	810127	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	573388	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	342094	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	352437	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	986732	true	85.0	70.0	100.0	83.2	&quot;&quot;</span>
+<span class="row">    SDIF AI	342047	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name large-validation-report</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	559328	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	710381	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	549978	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	390534	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	383821	true	100.0	96.2	100.0	98.7	&quot;&quot;</span>
+<span class="row">    XML	818657	true	100.0	92.0	100.0	97.2	&quot;&quot;</span>
+<span class="row">    SDIF AI	383776	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name medium-invoice-batch</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	139558	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	191590	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	137030	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	73941	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	75859	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	238165	true	100.0	57.9	100.0	80.5	&quot;&quot;</span>
+<span class="row">    SDIF AI	73903	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name medium-observability-run</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	114756	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	167981	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	109099	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	55978	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	58377	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	205986	true	100.0	81.2	100.0	92.8	&quot;&quot;</span>
+<span class="row">    SDIF AI	55931	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name medium-policy-catalog</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	97573	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	139351	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	91628	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	167499	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	49822	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	51672	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF AI	49782	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name medium-product-catalog</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	111369	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	169056	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	104720	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	47599	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	50784	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	214848	true	100.0	82.8	100.0	93.5	&quot;&quot;</span>
+<span class="row">    SDIF AI	47552	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name plan</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	1268	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	1688	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	1197	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	2080	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	984	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	1039	true	97.2	100.0	80.0	91.5	&quot;&quot;</span>
+<span class="row">    SDIF AI	1000	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name registry</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	960	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	1293	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	896	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	1601	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	674	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	720	true	100.0	100.0	91.4	97.0	&quot;&quot;</span>
+<span class="row">    SDIF AI	662	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name schema</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	2113	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	3235	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	2004	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	1161	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	1161	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	4189	true	76.2	62.9	100.0	76.9	&quot;&quot;</span>
+<span class="row">    SDIF AI	1097	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name small-api-catalog</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	3163	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	4849	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	2909	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	1666	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	1716	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	5647	true	99.4	99.4	100.0	99.6	&quot;&quot;</span>
+<span class="row">    SDIF AI	1640	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name small-incident</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	4148	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	5727	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	3947	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	2594	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	2637	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	6808	true	99.4	85.0	100.0	94.3	&quot;&quot;</span>
+<span class="row">    SDIF AI	2563	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name small-invoice</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	2643	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	3764	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	2537	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	1439	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	1454	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	4738	true	99.2	68.9	100.0	86.7	&quot;&quot;</span>
+<span class="row">    SDIF AI	1406	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name validation-report</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	1014	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	1378	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	934	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	1685	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	773	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	735	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF AI	691	false	null	null	null	null	N/A (projection/no parser)</span>
+<span class="row">  __item:</span>
+<span class="row">    name wide-table-survey</span>
+<span class="h">    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:</span>
+<span class="row">    JSON Compact	64917	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    JSON Pretty	124951	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    YAML	70375	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    CSV Bundle	18632	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    SDIF	19054	true	100.0	100.0	100.0	100.0	&quot;&quot;</span>
+<span class="row">    XML	149167	true	100.0	9.1	100.0	23.2	&quot;&quot;</span>
+<span class="row">    SDIF AI	18606	false	null	null	null	null	N/A (projection/no parser)</span></pre>
+</main>
+</body>
+</html>

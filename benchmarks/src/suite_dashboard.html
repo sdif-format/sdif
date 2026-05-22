@@ -392,7 +392,7 @@ INDEX.scorecard.forEach(entry => {
     <div class="sc-track">${entry.label}</div>
     <div class="sc-value ${colorClass || (entry.value === null ? 'na' : '')}">${valStr}</div>
     <div class="sc-claim">${entry.claim}</div>
-    ${entry.evidence ? `<a class="sc-link" href="${entry.evidence}">View evidence →</a>` : ''}
+    ${entry.evidence ? `<a class="sc-link" href="${entry.evidence.replace('.md', '-viewer.html')}">View evidence →</a>` : ''}
   `;
   scorecardEl.appendChild(card);
 });
@@ -407,7 +407,7 @@ INDEX.artifacts.forEach(a => {
     <div class="links">
       <a class="lnk-primary" href="${a.dashboard}">Dashboard</a>
       <a class="lnk-secondary" href="${a.summaryMd.replace('.md', '-viewer.html')}">Summary</a>
-      <a class="lnk-secondary" href="${a.summarySdifAi}">SDIF AI</a>
+      <a class="lnk-secondary" href="${a.summarySdifAi.replace('.sdif.ai', '-sdif-ai-viewer.html')}">SDIF AI</a>
     </div>
   `;
   tracksEl.appendChild(card);
@@ -423,7 +423,9 @@ const tbody = document.getElementById('artifacts-body');
   ['dashboard.html','This page'],
 ].forEach(([name, desc]) => {
   const tr = document.createElement('tr');
-  const href = name.endsWith('.md') ? name.replace('.md', '-viewer.html') : name;
+  let href = name;
+  if (name.endsWith('.md')) href = name.replace('.md', '-viewer.html');
+  else if (name.endsWith('.sdif.ai')) href = name.replace('.sdif.ai', '-sdif-ai-viewer.html');
   tr.innerHTML = `<td><a href="${href}">${name}</a></td><td>${desc}</td>`;
   tbody.appendChild(tr);
 });

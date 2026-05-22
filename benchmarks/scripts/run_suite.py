@@ -483,9 +483,13 @@ def main() -> None:
     except Exception:
         index_sdif_ai = index_sdif
     (results_dir / "index.sdif.ai").write_text(index_sdif_ai, encoding="utf-8")
+    import report as _report
+    (results_dir / "index-sdif-ai-viewer.html").write_text(
+        _report.render_sdif_ai_viewer(index_sdif_ai, "SDIF Benchmark Suite — Index SDIF AI", back_href="dashboard.html"),
+        encoding="utf-8",
+    )
 
     (results_dir / "README.md").write_text(readme_md, encoding="utf-8")
-    import report as _report
     (results_dir / "README-viewer.html").write_text(
         _report.render_md_viewer(readme_md, "SDIF Benchmark Suite — README", back_href="dashboard.html"),
         encoding="utf-8",

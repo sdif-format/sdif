@@ -465,14 +465,22 @@ def main() -> None:
             )
             (run_dir / "summary.json").write_text(report.render_json_report(summary_data), encoding="utf-8")
             (run_dir / "summary.sdif").write_text(summary_sdif, encoding="utf-8")
-            (run_dir / "summary.sdif.ai").write_text(report.render_sdif_ai_report(summary_sdif), encoding="utf-8")
+            _sum_ai = report.render_sdif_ai_report(summary_sdif)
+            (run_dir / "summary.sdif.ai").write_text(_sum_ai, encoding="utf-8")
+            (run_dir / "summary-sdif-ai-viewer.html").write_text(
+                report.render_sdif_ai_viewer(_sum_ai, "Context Packing — SDIF AI"), encoding="utf-8"
+            )
             (run_dir / "comparison.md").write_text(detail_md, encoding="utf-8")
             (run_dir / "comparison-viewer.html").write_text(
                 report.render_md_viewer(detail_md, "Context Packing — Detail"), encoding="utf-8"
             )
             (run_dir / "comparison.json").write_text(report.render_json_report(detail_data), encoding="utf-8")
             (run_dir / "comparison.sdif").write_text(detail_sdif, encoding="utf-8")
-            (run_dir / "comparison.sdif.ai").write_text(report.render_sdif_ai_report(detail_sdif), encoding="utf-8")
+            _det_ai = report.render_sdif_ai_report(detail_sdif)
+            (run_dir / "comparison.sdif.ai").write_text(_det_ai, encoding="utf-8")
+            (run_dir / "comparison-sdif-ai-viewer.html").write_text(
+                report.render_sdif_ai_viewer(_det_ai, "Context Packing — Comparison SDIF AI"), encoding="utf-8"
+            )
             (run_dir / DASHBOARD_FILE_NAME).write_text(
                 report.render_dashboard_report(detail_data, summary_md, detail_md), encoding="utf-8"
             )

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>SDIF Benchmark Suite — Index SDIF AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+body{margin:0;padding:32px;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.page{max-width:1100px;margin:0 auto}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}
+.toolbar a{color:#60a5fa;text-decoration:none;font-weight:600}
+.toolbar a:hover{text-decoration:underline}
+.meta{font-size:.8em;color:#64748b;margin-bottom:8px}
+pre.sdif{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:24px 28px;overflow-x:auto;line-height:1.6;font-size:.88em;white-space:pre}
+.d{color:#818cf8}
+.h{color:#f472b6;font-weight:700}
+.k{color:#38bdf8}
+.v{color:#a3e635}
+.r{color:#fb923c}
+.c{color:#475569;font-style:italic}
+.row{color:#cbd5e1}
+</style>
+</head>
+<body>
+<main class="page">
+<div class="toolbar">
+<a href="dashboard.html">← Back</a>
+<span>SDIF Benchmark Suite — Index SDIF AI</span>
+</div>
+<div class="meta">57 lines · 2.4 KB · SDIF AI projection</div>
+<pre class="sdif"><span class="k">kind</span> <span class="v">BenchmarkSuiteReport</span>
+<span class="k">version</span> <span class="v">&quot;1.0&quot;</span>
+<span class="k">generatedAt</span> <span class="v">2026-05-22T08:09:40Z</span>
+corpus:
+<span class="row">  source examples/golden</span>
+<span class="row">  documents 21</span>
+<span class="k">tracks</span> <span class="v">[token_efficiency,context_packing,roundtrip_fidelity,delta_compactness]</span>
+scorecard:
+<span class="row">  __item:</span>
+<span class="row">    track token_efficiency</span>
+<span class="row">    label &quot;Token Efficiency&quot;</span>
+<span class="row">    claim &quot;SDIF AI reduces token usage vs JSON Compact&quot;</span>
+<span class="row">    metric medianRatioVsJsonCompact</span>
+<span class="row">    value 56.8</span>
+<span class="row">    unit %</span>
+<span class="row">    description &quot;SDIF AI median token ratio vs JSON Compact: 56.8%&quot;</span>
+<span class="row">    bestRatio 26.3</span>
+<span class="row">    worstRatio 83.1</span>
+<span class="row">    evidence token_efficiency/summary.md</span>
+<span class="row">  __item:</span>
+<span class="row">    track context_packing</span>
+<span class="row">    label &quot;Context Packing&quot;</span>
+<span class="row">    claim &quot;SDIF AI fits more documents into fixed context windows&quot;</span>
+<span class="row">    metric fitRateAt32K</span>
+<span class="row">    value 57.1</span>
+<span class="row">    unit %</span>
+<span class="row">    description &quot;SDIF AI 32K fit rate: 57% vs JSON Compact 43%&quot;</span>
+<span class="row">    fitRateAt32K_jsonCompact 42.9</span>
+<span class="row">    fitRateAt128K_sdifAI 85.7</span>
+<span class="row">    evidence context_packing/summary.md</span>
+<span class="row">  __item:</span>
+<span class="row">    track roundtrip_fidelity</span>
+<span class="row">    label &quot;Round-trip Fidelity&quot;</span>
+<span class="row">    claim &quot;SDIF preserves structure, value, and type across the corpus&quot;</span>
+<span class="row">    metric sdifOverallFidelity</span>
+<span class="row">    value 100.0</span>
+<span class="row">    unit %</span>
+<span class="row">    description &quot;SDIF round-trip: 20/21 documents, avg fidelity 100.0%&quot;</span>
+<span class="row">    successfulRoundTrips 20/21</span>
+<span class="row">    evidence roundtrip_fidelity/summary.md</span>
+<span class="row">  __item:</span>
+<span class="row">    track delta_compactness</span>
+<span class="row">    label &quot;Mutation Sensitivity&quot;</span>
+<span class="row">    claim &quot;SDIF produces less noise on full-document re-send after mutation&quot;</span>
+<span class="row">    metric avgTokenDeltaPct</span>
+<span class="row">    value 4.46</span>
+<span class="row">    unit %</span>
+<span class="row">    description &quot;SDIF avg token delta on full-resend: 4.5% vs JSON Compact 2.9%&quot;</span>
+<span class="row">    jsonCompactAvgDelta 2.91</span>
+<span class="row">    note &quot;full-resend model â not true SDIF delta encoding&quot;</span>
+<span class="row">    evidence delta_compactness/summary.md</span>
+<span class="h">artifacts[track,label,summaryMd,summaryJson,summarySdif,summarySdifAi,dashboard]:</span>
+<span class="k">token_efficiency</span> <span class="v">Token Efficiency	token_efficiency/summary.md	token_efficiency/summary.json	token_efficiency/summary.sdif	token_efficiency/summary.sdif.ai	token_efficiency/dashboard.html</span>
+<span class="k">context_packing</span> <span class="v">Context Packing	context_packing/summary.md	context_packing/summary.json	context_packing/summary.sdif	context_packing/summary.sdif.ai	context_packing/dashboard.html</span>
+<span class="k">roundtrip_fidelity</span> <span class="v">Round-trip Fidelity	roundtrip_fidelity/summary.md	roundtrip_fidelity/summary.json	roundtrip_fidelity/summary.sdif	roundtrip_fidelity/summary.sdif.ai	roundtrip_fidelity/dashboard.html</span>
+<span class="k">delta_compactness</span> <span class="v">Mutation Sensitivity	delta_compactness/summary.md	delta_compactness/summary.json	delta_compactness/summary.sdif	delta_compactness/summary.sdif.ai	delta_compactness/dashboard.html</span></pre>
+</main>
+</body>
+</html>

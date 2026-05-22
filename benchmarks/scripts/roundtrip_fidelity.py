@@ -617,7 +617,11 @@ def main() -> None:
             )
             (run_dir / "summary.json").write_text(report.render_json_report(structured), encoding="utf-8")
             (run_dir / "summary.sdif").write_text(sdif_text, encoding="utf-8")
-            (run_dir / "summary.sdif.ai").write_text(report.render_sdif_ai_report(sdif_text), encoding="utf-8")
+            _sdif_ai = report.render_sdif_ai_report(sdif_text)
+            (run_dir / "summary.sdif.ai").write_text(_sdif_ai, encoding="utf-8")
+            (run_dir / "summary-sdif-ai-viewer.html").write_text(
+                report.render_sdif_ai_viewer(_sdif_ai, "Round-Trip Fidelity — SDIF AI"), encoding="utf-8"
+            )
             (run_dir / "comparison.md").write_text(detail, encoding="utf-8")
             (run_dir / "comparison-viewer.html").write_text(
                 report.render_md_viewer(detail, "Round-Trip Fidelity — Detail"), encoding="utf-8"
