@@ -33,9 +33,6 @@ htmlcov/
 .agents
 .codex
 
-# Benchmark temporary outputs
-benchmarks/tmp/
-
 # Local tmp directories
 **/tmp/
 
@@ -43,3 +40,4 @@ codereview/
 
 # Local satellite repositories
 tree-sitter-sdif/
+sdif-benchmarks/
