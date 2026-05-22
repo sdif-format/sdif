@@ -40,3 +40,6 @@ benchmarks/tmp/
 **/tmp/
 
 codereview/
+
+# Local satellite repositories
+/tree-sitter-sdif/
