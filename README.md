@@ -87,13 +87,13 @@ Tokenizer-specific winners:
 
 This is not a universal claim that SDIF is always smaller than every alternative. It is current benchmark evidence for this repository corpus, generated from shared canonical fixtures with TokenX, TOON, Claude, and Llama3 disabled in the release gate.
 
-Benchmark artifacts are written under:
+Benchmark artifacts are owned by the sibling `sdif-benchmarks` repository and are written under:
 
 ```text
-benchmarks/results/token_efficiency
+sdif-benchmarks/results/token_efficiency
 ```
 
-For the full benchmark methodology, tracks, corpus model, and environment switches, see [`benchmarks/README.md`](benchmarks/README.md). For the LLM-latency profile behind `summary.sdif.ai`, locality, chunk manifests, canonical hash caching, deltas, and output contracts, see [`docs/ai-speed-profile.md`](docs/ai-speed-profile.md).
+For the full benchmark methodology, tracks, corpus model, and environment switches, see the sibling `sdif-benchmarks` repository. For the LLM-latency profile behind `summary.sdif.ai`, locality, chunk manifests, canonical hash caching, deltas, and output contracts, see [`docs/ai-speed-profile.md`](docs/ai-speed-profile.md).
 
 ## Current repository status
 
@@ -108,7 +108,6 @@ The current Python package includes:
 * `.sdif.ai` projection helpers
 * CLI tooling
 * token counting utilities
-* benchmark generation
 * golden fixtures
 * shared conformance fixtures
 
@@ -144,10 +143,11 @@ python tools/sdif-cli.py canon examples/registry.sdif
 
 ## Benchmarking
 
-Run the benchmark script to compare JSON, YAML, XML, CSV Bundle, canonical SDIF, and the compact SDIF AI projection surface from the same golden JSON fixtures:
+Run the sibling benchmark suite to compare JSON, YAML, XML, CSV Bundle, canonical SDIF, and the compact SDIF AI projection surface from the same golden JSON fixtures:
 
 ```bash
-python benchmarks/scripts/token_efficiency.py
+cd sdif-benchmarks
+make benchmark-token
 ```
 
 The benchmark loads `.env` when present and can optionally enable additional tokenizers.
@@ -175,11 +175,11 @@ summary.sdif
 summary.sdif.ai
 ```
 
-The `benchmarks/results/token_efficiency` directory contains the most recent successful token-efficiency run.
+The `sdif-benchmarks/results/token_efficiency` directory contains the most recent successful token-efficiency run.
 
 ## Tree-sitter tooling
 
-`tree-sitter-sdif/` contains the v1 grammar package for editor and incremental parse tooling.
+The sibling `tree-sitter-sdif` repository contains the v1 grammar package for editor and incremental parse tooling.
 
 It includes:
 

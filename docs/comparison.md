@@ -101,7 +101,7 @@ Use JSON for public APIs that already require JSON. Use YAML/TOML for simple loc
 
 ## Benchmark coverage
 
-`benchmarks/scripts/token_efficiency.py` derives every compared representation from the
+`sdif-benchmarks/scripts/token_efficiency.py` derives every compared representation from the
 same canonical JSON fixture and currently includes JSON compact, JSON pretty,
 YAML, XML, a practical CSV bundle, SDIF, SDIF AI, and TOON when the official
 TOON CLI is available. `SDIF AI` applies the `.sdif.ai` projection to the
@@ -113,6 +113,6 @@ using a deterministic 4-UTF-8-bytes-per-token fallback, while `tiktoken` remains
 the preferred primary metric when installed. External tokenizers such as Llama3
 and Claude are strictly opt-in via environment variables to avoid unnecessary network
 access or heavy dependencies. The benchmark writes a summary report in SDIF format under
-`benchmarks/results/token_efficiency/summary.sdif` (which is ignored by version control). The CSV
+`sdif-benchmarks/results/token_efficiency/summary.sdif` (which is ignored by version control). The CSV
 output is named `CSV Bundle` because nested SDIF documents cannot be represented honestly
 as a single flat CSV table.

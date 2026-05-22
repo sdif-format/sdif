@@ -824,7 +824,7 @@ A Tree-sitter grammar is valuable for editor support, syntax highlighting, and i
 
 The portable authority for this specification is the written specification plus the shared `conformance/manifest.sdif` fixture suite. The Python parser under `src/sdif/` is the current reference implementation used to verify those fixtures until independent parser backends are wired into CI.
 
-The repository now keeps `tree-sitter-sdif/` as a v1 tooling package with:
+The sibling `tree-sitter-sdif` repository keeps the v1 tooling package with:
 
 1. `grammar.js` for core SDIF syntax nodes.
 2. `tree-sitter.json` for CLI/editor language metadata.

@@ -79,10 +79,10 @@ Large SDIF AI artifacts should expose a section index before raw evidence:
 kind ChunkManifest
 id bench.20260521.index
 chunks[id,kind,priority,tokens,hash,path]:
-  S1	summary	high	320	sha256:...	benchmarks/results/token_efficiency/summary.sdif.ai
-  C1	consensus	high	480	sha256:...	benchmarks/results/token_efficiency/comparison.sdif.ai#consensus
-  D1	documents	medium	9000	sha256:...	benchmarks/results/token_efficiency/comparison.sdif.ai#documents
-  R1	raw	low	24000	sha256:...	benchmarks/results/token_efficiency/comparison.json
+  S1	summary	high	320	sha256:...	sdif-benchmarks/results/token_efficiency/summary.sdif.ai
+  C1	consensus	high	480	sha256:...	sdif-benchmarks/results/token_efficiency/comparison.sdif.ai#consensus
+  D1	documents	medium	9000	sha256:...	sdif-benchmarks/results/token_efficiency/comparison.sdif.ai#documents
+  R1	raw	low	24000	sha256:...	sdif-benchmarks/results/token_efficiency/comparison.json
 ```
 
 The purpose is to let an orchestrator choose the smallest sufficient context
@@ -150,7 +150,7 @@ prose when practical:
 @sdif 1.0
 kind FindingSet
 findings[id,severity,claim,evidence]:
-  F1	info	"SDIF AI has the best median token ratio"	benchmarks/results/token_efficiency/summary.sdif.ai
+  F1	info	"SDIF AI has the best median token ratio"	sdif-benchmarks/results/token_efficiency/summary.sdif.ai
 ```
 
 This reduces output tokens, narrows the response shape, and makes invalid output

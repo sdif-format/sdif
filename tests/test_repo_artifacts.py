@@ -1,4 +1,3 @@
-import json
 import re
 
 try:
@@ -8,9 +7,8 @@ except ImportError:
 from pathlib import Path
 
 
-def test_ci_tree_sitter_and_docs_artifacts_exist():
+def test_ci_and_docs_artifacts_exist():
     assert Path(".github/workflows/ci.yml").is_file()
-    assert Path("tree-sitter-sdif/grammar.js").is_file()
     docs = Path("docs/spec.md").read_text(encoding="utf-8")
     assert "Minimum normative AST" in docs
     assert "Canonicalization" in docs
@@ -26,77 +24,6 @@ def test_spec_version_matches_package_version():
 
     assert match is not None
     assert match.group(1) == pyproject["project"]["version"]
-
-    tree_sitter_package = json.loads(
-        Path("tree-sitter-sdif/package.json").read_text(encoding="utf-8")
-    )
-    assert tree_sitter_package["version"] == pyproject["project"]["version"]
-
-
-def test_tree_sitter_metadata_recognizes_sdif_ai_files():
-    package = json.loads(Path("tree-sitter-sdif/package.json").read_text(encoding="utf-8"))
-    config = json.loads(Path("tree-sitter-sdif/tree-sitter.json").read_text(encoding="utf-8"))
-
-    package_file_types = package["tree-sitter"][0]["file-types"]
-    config_file_types = config["grammars"][0]["file-types"]
-
-    assert "sdif" in package_file_types
-    assert "sdif.ai" in package_file_types
-    assert "sdif" in config_file_types
-    assert "sdif.ai" in config_file_types
-    assert config["grammars"][0]["injection-regex"] == "^sdif(\\.ai)?$"
-
-
-def test_tree_sitter_tooling_has_package_corpus_and_highlight_queries():
-    package = Path("tree-sitter-sdif/package.json").read_text(encoding="utf-8")
-    config = Path("tree-sitter-sdif/tree-sitter.json").read_text(encoding="utf-8")
-    corpus = Path("tree-sitter-sdif/test/corpus/core.txt").read_text(encoding="utf-8")
-    highlights = Path("tree-sitter-sdif/queries/highlights.scm").read_text(encoding="utf-8")
-
-    assert '"name": "tree-sitter-sdif"' in package
-    assert '"scope": "source.sdif"' in config
-    assert "@sdif 1.0" in corpus
-    assert "milestones[id,status,gate]:" in corpus
-    assert "(directive" in highlights
-    assert "(table_header" in highlights
-
-
-def test_tree_sitter_scaffold_checker_passes():
-    import subprocess
-    import sys
-
-    script = Path("scripts/check_tree_sitter_scaffold.py").read_text(encoding="utf-8")
-    assert "sdif.ai" in script
-    assert "injection-regex" in script
-    assert "checks[id,value$]:" in script
-    assert "(column) @property" in script
-
-    run = subprocess.run(
-        [sys.executable, "scripts/check_tree_sitter_scaffold.py"],
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        check=False,
-        timeout=30,
-    )
-
-    assert run.returncode == 0, run.stderr
-    assert "tree-sitter-sdif scaffold OK" in run.stdout
-
-
-def test_tree_sitter_grammar_names_core_syntax_nodes_for_highlighting():
-    grammar = Path("tree-sitter-sdif/grammar.js").read_text(encoding="utf-8")
-
-    for node in (
-        "table_header",
-        "table_row",
-        "relation_block",
-        "relation_row",
-        "rules_block",
-        "rule_row",
-        "narrative_block",
-    ):
-        assert f"{node}:" in grammar
 
 
 def test_normative_docs_table_examples_use_literal_htab_rows():
@@ -148,48 +75,6 @@ def test_docs_examples_describe_current_golden_fixture_policy():
     assert "equivalent.yaml" not in docs
     assert "equivalent.toon" not in docs
     assert "JSON is the semantic source" in docs
-
-
-def test_benchmark_golden_corpus_has_representative_size_and_complexity_mix():
-    golden_root = Path("examples/golden")
-    fixture_paths = sorted(golden_root.glob("*/equivalent.json"))
-    fixture_names = {path.parent.name for path in fixture_paths}
-    sizes = {path.parent.name: path.stat().st_size for path in fixture_paths}
-
-    small = [name for name, size in sizes.items() if size < 20 * 1024]
-    medium = [name for name, size in sizes.items() if 20 * 1024 <= size <= 200 * 1024]
-    large = [name for name, size in sizes.items() if size > 200 * 1024]
-
-    assert len(fixture_paths) >= 18
-    assert len(small) >= 4
-    assert len(medium) >= 4
-    assert len(large) >= 4
-    assert "github.openapi" in fixture_names
-
-    for required in (
-        "wide-table-survey",
-        "deep-hierarchy-project",
-        "medium-observability-run",
-        "large-audit-trail",
-    ):
-        assert required in fixture_names
-
-
-def test_semantic_quality_methodology_is_documented_separately_from_token_benchmark():
-    docs = Path("docs/semantic-quality.md").read_text(encoding="utf-8")
-
-    for term in (
-        "relational expressivity",
-        "round-trip fidelity",
-        "schema validation",
-        "SDIF AI",
-        "canonicalization",
-    ):
-        assert term in docs
-
-    assert "benchmarks/scripts/token_efficiency.py" in docs
-    assert "token" in docs.lower()
-    assert "sdif validate examples/plan.sdif --schema examples/schema.sdif" in docs
 
 
 def test_spec_records_v1_m1_normative_decisions():
@@ -244,13 +129,15 @@ def test_release_process_uses_git_archive_and_documents_required_gates():
         assert forbidden in release_docs
     for gate in (
         "scripts/check_conformance_fixtures.py",
-        "scripts/check_semantic_quality.py",
-        "scripts/check_tree_sitter_scaffold.py",
-        "python3 -m compileall -q src scripts benchmarks/scripts tests tools",
+        "python3 -m compileall -q src scripts tests tools",
         "python3 -m pytest -q",
-        "uv run python benchmarks/scripts/token_efficiency.py",
     ):
         assert gate in release_docs
+    for external_gate in (
+        "sdif-benchmarks",
+        "tree-sitter-sdif",
+    ):
+        assert external_gate in release_docs
     assert "## 1.0.0 - 2026-05-21" in changelog
     assert "@sdif 1.0" in changelog
 
@@ -297,55 +184,8 @@ def test_comparison_doc_includes_examples_for_all_compared_formats():
     assert "milestones[" in docs
 
 
-def test_benchmark_suite_documents_tracks_manifest_and_make_targets():
-    docs = Path("benchmarks/README.md").read_text(encoding="utf-8")
-    manifest = Path("benchmarks/manifest.sdif").read_text(encoding="utf-8")
-    makefile = Path("Makefile").read_text(encoding="utf-8")
-    readme = Path("README.md").read_text(encoding="utf-8")
-
-    for term in (
-        "Token Efficiency Track",
-        "Semantic Quality Track",
-        "Retrieval Accuracy Track",
-        "examples/golden/",
-        "deterministic validators",
-    ):
-        assert term in docs
-
-    for target in (
-        "benchmark-token:",
-        "benchmark-quality:",
-        "benchmark-corpus:",
-        "benchmark-large-corpus:",
-    ):
-        assert target in makefile
-
-    for row in (
-        "token-efficiency\tactive\t\"make benchmark-token\"",
-        "semantic-quality\tactive\t\"make benchmark-quality\"",
-        "retrieval-accuracy\tplanned\t\"make benchmark-accuracy\"",
-        "toon\toptional\texternal",
-    ):
-        assert row in manifest
-
-    assert "benchmarks/README.md" in readme
-
-
-
-def test_benchmark_runner_lives_under_benchmark_suite() -> None:
-    benchmark_runner = Path("benchmarks") / "scripts" / "token_efficiency.py"
-    benchmark_readme = (Path("benchmarks") / "README.md").read_text(encoding="utf-8")
-    makefile = Path("Makefile").read_text(encoding="utf-8")
-
-    assert benchmark_runner.exists()
-    assert "benchmarks/scripts/" in benchmark_readme
-    assert "python benchmarks/scripts/token_efficiency.py" in makefile
-
-
 def test_ai_speed_profile_documents_llm_latency_contract() -> None:
     docs = Path("docs/ai-speed-profile.md").read_text(encoding="utf-8")
-    benchmark_docs = Path("benchmarks/README.md").read_text(encoding="utf-8")
-    manifest = Path("benchmarks/manifest.sdif").read_text(encoding="utf-8")
     readme = Path("README.md").read_text(encoding="utf-8")
 
     for term in (
@@ -361,6 +201,4 @@ def test_ai_speed_profile_documents_llm_latency_contract() -> None:
     ):
         assert term in docs
 
-    assert "docs/ai-speed-profile.md" in benchmark_docs
     assert "docs/ai-speed-profile.md" in readme
-    assert "ai-speed-profile\tactive\tdocs/ai-speed-profile.md" in manifest

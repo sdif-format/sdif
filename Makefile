@@ -1,7 +1,7 @@
-.PHONY: install test test-cov lint format typecheck benchmark benchmark-suite benchmark-token benchmark-quality benchmark-corpus benchmark-large-corpus benchmark-packing benchmark-roundtrip benchmark-delta benchmark-retrieval clean
-
 # Detect if uv is installed
 UV := $(shell command -v uv 2> /dev/null)
+
+.PHONY: install test test-cov lint format typecheck clean archive
 
 ifdef UV
 	INSTALL_CMD := uv pip install -e ".[dev]"
@@ -28,35 +28,6 @@ format:
 
 typecheck:
 	$(RUN_PREFIX) mypy
-
-benchmark: benchmark-token
-
-benchmark-suite:
-	$(RUN_PREFIX) python benchmarks/scripts/run_suite.py
-
-benchmark-token:
-	$(RUN_PREFIX) python benchmarks/scripts/token_efficiency.py
-
-benchmark-quality:
-	$(RUN_PREFIX) python scripts/check_semantic_quality.py
-
-benchmark-corpus:
-	$(RUN_PREFIX) python scripts/generate_benchmark_golden.py
-
-benchmark-large-corpus:
-	$(RUN_PREFIX) python scripts/generate_large_golden.py
-
-benchmark-packing:
-	$(RUN_PREFIX) python benchmarks/scripts/context_packing.py
-
-benchmark-roundtrip:
-	$(RUN_PREFIX) python benchmarks/scripts/roundtrip_fidelity.py
-
-benchmark-delta:
-	$(RUN_PREFIX) python benchmarks/scripts/delta_compactness.py
-
-benchmark-retrieval:
-	SDIF_BENCHMARK_RETRIEVAL=1 $(RUN_PREFIX) python benchmarks/scripts/retrieval_accuracy.py
 
 clean:
 	rm -rf build/ dist/ *.egg-info src/*.egg-info .mypy_cache .pytest_cache .ruff_cache

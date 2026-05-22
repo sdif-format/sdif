@@ -1,6 +1,6 @@
 # Semantic quality comparison
 
-`benchmarks/scripts/token_efficiency.py` measures transport density: bytes, estimated
+`sdif-benchmarks/scripts/token_efficiency.py` measures transport density: bytes, estimated
 tokens, and tokenizer-specific token counts. Semantic quality is a separate
 question: how much intent, relationship structure, typing, validation policy,
 and auditability survive when the same document is represented in another
@@ -12,7 +12,7 @@ against JSON, YAML, and CSV without changing the token benchmark.
 Executable guard:
 
 ```bash
-python3 scripts/check_semantic_quality.py
+cd sdif-benchmarks && python3 scripts/check_semantic_quality.py
 ```
 
 The guard checks the SDIF example set against the axes below using parser,

@@ -3,8 +3,7 @@
 
 The suite is intentionally SDIF-first so parser/tooling implementations can use
 one manifest without a JSON adapter. This checker uses the current Python parser
-as a reference implementation and also checks that expected Tree-sitter node
-names stay aligned with the local grammar scaffold.
+as a reference implementation for source/canonical/hash fixture consistency.
 """
 
 from __future__ import annotations
@@ -21,7 +20,6 @@ if str(SRC) not in sys.path:
 from sdif import canonicalize, parse_text, sdif_hash  # noqa: E402
 
 MANIFEST = ROOT / "conformance" / "manifest.sdif"
-GRAMMAR = ROOT / "tree-sitter-sdif" / "grammar.js"
 CASE_COLUMNS = ["id", "profile", "source", "canonical", "tree", "sha256"]
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
@@ -53,7 +51,6 @@ def main() -> int:
     )
     _expect(bool(cases.rows), errors, "cases table must contain at least one case")
 
-    grammar_nodes = _grammar_rule_names(_read(GRAMMAR, errors))
     seen_ids: set[str] = set()
     for row in cases.rows:
         if len(row) != len(CASE_COLUMNS):
@@ -63,7 +60,7 @@ def main() -> int:
         case_id = case["id"]
         _expect(case_id not in seen_ids, errors, f"duplicate case id: {case_id}")
         seen_ids.add(case_id)
-        _check_case(case, grammar_nodes, errors)
+        _check_case(case, errors)
 
     if errors:
         return _fail(errors)
@@ -72,7 +69,7 @@ def main() -> int:
     return 0
 
 
-def _check_case(case: dict[str, str], grammar_nodes: set[str], errors: list[str]) -> None:
+def _check_case(case: dict[str, str], errors: list[str]) -> None:
     case_id = case["id"]
     source_path = _repo_path(case["source"], errors, case_id, "source")
     canonical_path = _repo_path(case["canonical"], errors, case_id, "canonical")
@@ -86,7 +83,7 @@ def _check_case(case: dict[str, str], grammar_nodes: set[str], errors: list[str]
 
     source = _read(source_path, errors)
     expected_canonical = _read(canonical_path, errors)
-    expected_tree = _read(tree_path, errors)
+    _read(tree_path, errors)
     if errors:
         return
 
@@ -112,14 +109,6 @@ def _check_case(case: dict[str, str], grammar_nodes: set[str], errors: list[str]
         f"{case_id}: canonical table rows must use literal HTAB",
     )
 
-    expected_nodes = _tree_node_names(expected_tree)
-    missing_nodes = sorted(expected_nodes - grammar_nodes)
-    _expect(
-        not missing_nodes,
-        errors,
-        f"{case_id}: expected.tree references undeclared grammar nodes: {', '.join(missing_nodes)}",
-    )
-
 
 def _repo_path(raw: str, errors: list[str], case_id: str, role: str) -> Path | None:
     path = ROOT / raw
@@ -140,14 +129,6 @@ def _read(path: Path, errors: list[str]) -> str:
     except FileNotFoundError:
         errors.append(f"missing required file: {path.relative_to(ROOT)}")
     return ""
-
-
-def _grammar_rule_names(grammar: str) -> set[str]:
-    return set(re.findall(r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*:\s*[$_]\s*=>", grammar, re.MULTILINE))
-
-
-def _tree_node_names(tree: str) -> set[str]:
-    return set(re.findall(r"\(([A-Za-z_][A-Za-z0-9_]*)", tree))
 
 
 def _tables_with_multiple_columns_use_htab(source: str) -> bool:

@@ -21,7 +21,7 @@
 ### Task 2: Deterministic fixture generator
 
 **Files:**
-- Create or modify: `scripts/generate_benchmark_golden.py`
+- Create or modify: `sdif-benchmarks/scripts/generate_benchmark_golden.py`
 - Generated under: `examples/golden/*/{equivalent.json,source.sdif,canonical.sdif,canonical.sha256}`
 
 - [ ] Generate SDIF-representable JSON fixture families for small, medium, large, wide, deep, text-heavy, relational, and mixed profiles.
@@ -31,10 +31,10 @@
 ### Task 3: Benchmark evidence
 
 **Files:**
-- Modify: `benchmarks/results/token_efficiency` result directory
+- Modify: `sdif-benchmarks/results/token_efficiency` result directory
 
 - [ ] Run deterministic benchmark with optional integrations disabled.
-- [ ] Inspect `benchmarks/results/token_efficiency/summary.md` and `summary.json` for corpus count and ranking consistency.
+- [ ] Inspect `sdif-benchmarks/results/token_efficiency/summary.md` and `summary.json` for corpus count and ranking consistency.
 
 ### Task 4: Closure
 
