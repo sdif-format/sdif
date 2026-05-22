@@ -1,0 +1,102 @@
+{
+  "kind": "BenchmarkSuiteReport",
+  "version": "1.0",
+  "generatedAt": "2026-05-22T08:09:40Z",
+  "corpus": {
+    "source": "examples/golden",
+    "documents": 21
+  },
+  "tracks": [
+    "token_efficiency",
+    "context_packing",
+    "roundtrip_fidelity",
+    "delta_compactness"
+  ],
+  "scorecard": [
+    {
+      "track": "token_efficiency",
+      "label": "Token Efficiency",
+      "claim": "SDIF AI reduces token usage vs JSON Compact",
+      "metric": "medianRatioVsJsonCompact",
+      "value": 56.8,
+      "unit": "%",
+      "description": "SDIF AI median token ratio vs JSON Compact: 56.8%",
+      "bestRatio": 26.3,
+      "worstRatio": 83.1,
+      "evidence": "token_efficiency/summary.md"
+    },
+    {
+      "track": "context_packing",
+      "label": "Context Packing",
+      "claim": "SDIF AI fits more documents into fixed context windows",
+      "metric": "fitRateAt32K",
+      "value": 57.1,
+      "unit": "%",
+      "description": "SDIF AI 32K fit rate: 57% vs JSON Compact 43%",
+      "fitRateAt32K_jsonCompact": 42.9,
+      "fitRateAt128K_sdifAI": 85.7,
+      "evidence": "context_packing/summary.md"
+    },
+    {
+      "track": "roundtrip_fidelity",
+      "label": "Round-trip Fidelity",
+      "claim": "SDIF preserves structure, value, and type across the corpus",
+      "metric": "sdifOverallFidelity",
+      "value": 100.0,
+      "unit": "%",
+      "description": "SDIF round-trip: 20/21 documents, avg fidelity 100.0%",
+      "successfulRoundTrips": "20/21",
+      "evidence": "roundtrip_fidelity/summary.md"
+    },
+    {
+      "track": "delta_compactness",
+      "label": "Mutation Sensitivity",
+      "claim": "SDIF produces less noise on full-document re-send after mutation",
+      "metric": "avgTokenDeltaPct",
+      "value": 4.46,
+      "unit": "%",
+      "description": "SDIF avg token delta on full-resend: 4.5% vs JSON Compact 2.9%",
+      "jsonCompactAvgDelta": 2.91,
+      "note": "full-resend model — not true SDIF delta encoding",
+      "evidence": "delta_compactness/summary.md"
+    }
+  ],
+  "artifacts": [
+    {
+      "track": "token_efficiency",
+      "label": "Token Efficiency",
+      "summaryMd": "token_efficiency/summary.md",
+      "summaryJson": "token_efficiency/summary.json",
+      "summarySdif": "token_efficiency/summary.sdif",
+      "summarySdifAi": "token_efficiency/summary.sdif.ai",
+      "dashboard": "token_efficiency/dashboard.html"
+    },
+    {
+      "track": "context_packing",
+      "label": "Context Packing",
+      "summaryMd": "context_packing/summary.md",
+      "summaryJson": "context_packing/summary.json",
+      "summarySdif": "context_packing/summary.sdif",
+      "summarySdifAi": "context_packing/summary.sdif.ai",
+      "dashboard": "context_packing/dashboard.html"
+    },
+    {
+      "track": "roundtrip_fidelity",
+      "label": "Round-trip Fidelity",
+      "summaryMd": "roundtrip_fidelity/summary.md",
+      "summaryJson": "roundtrip_fidelity/summary.json",
+      "summarySdif": "roundtrip_fidelity/summary.sdif",
+      "summarySdifAi": "roundtrip_fidelity/summary.sdif.ai",
+      "dashboard": "roundtrip_fidelity/dashboard.html"
+    },
+    {
+      "track": "delta_compactness",
+      "label": "Mutation Sensitivity",
+      "summaryMd": "delta_compactness/summary.md",
+      "summaryJson": "delta_compactness/summary.json",
+      "summarySdif": "delta_compactness/summary.sdif",
+      "summarySdifAi": "delta_compactness/summary.sdif.ai",
+      "dashboard": "delta_compactness/dashboard.html"
+    }
+  ]
+}

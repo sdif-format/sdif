@@ -1,0 +1,56 @@
+kind BenchmarkSuiteReport
+version "1.0"
+generatedAt 2026-05-22T08:09:40Z
+corpus:
+  source examples/golden
+  documents 21
+tracks [token_efficiency,context_packing,roundtrip_fidelity,delta_compactness]
+scorecard:
+  __item:
+    track token_efficiency
+    label "Token Efficiency"
+    claim "SDIF AI reduces token usage vs JSON Compact"
+    metric medianRatioVsJsonCompact
+    value 56.8
+    unit %
+    description "SDIF AI median token ratio vs JSON Compact: 56.8%"
+    bestRatio 26.3
+    worstRatio 83.1
+    evidence token_efficiency/summary.md
+  __item:
+    track context_packing
+    label "Context Packing"
+    claim "SDIF AI fits more documents into fixed context windows"
+    metric fitRateAt32K
+    value 57.1
+    unit %
+    description "SDIF AI 32K fit rate: 57% vs JSON Compact 43%"
+    fitRateAt32K_jsonCompact 42.9
+    fitRateAt128K_sdifAI 85.7
+    evidence context_packing/summary.md
+  __item:
+    track roundtrip_fidelity
+    label "Round-trip Fidelity"
+    claim "SDIF preserves structure, value, and type across the corpus"
+    metric sdifOverallFidelity
+    value 100.0
+    unit %
+    description "SDIF round-trip: 20/21 documents, avg fidelity 100.0%"
+    successfulRoundTrips 20/21
+    evidence roundtrip_fidelity/summary.md
+  __item:
+    track delta_compactness
+    label "Mutation Sensitivity"
+    claim "SDIF produces less noise on full-document re-send after mutation"
+    metric avgTokenDeltaPct
+    value 4.46
+    unit %
+    description "SDIF avg token delta on full-resend: 4.5% vs JSON Compact 2.9%"
+    jsonCompactAvgDelta 2.91
+    note "full-resend model â not true SDIF delta encoding"
+    evidence delta_compactness/summary.md
+artifacts[track,label,summaryMd,summaryJson,summarySdif,summarySdifAi,dashboard]:
+token_efficiency	Token Efficiency	token_efficiency/summary.md	token_efficiency/summary.json	token_efficiency/summary.sdif	token_efficiency/summary.sdif.ai	token_efficiency/dashboard.html
+context_packing	Context Packing	context_packing/summary.md	context_packing/summary.json	context_packing/summary.sdif	context_packing/summary.sdif.ai	context_packing/dashboard.html
+roundtrip_fidelity	Round-trip Fidelity	roundtrip_fidelity/summary.md	roundtrip_fidelity/summary.json	roundtrip_fidelity/summary.sdif	roundtrip_fidelity/summary.sdif.ai	roundtrip_fidelity/dashboard.html
+delta_compactness	Mutation Sensitivity	delta_compactness/summary.md	delta_compactness/summary.json	delta_compactness/summary.sdif	delta_compactness/summary.sdif.ai	delta_compactness/dashboard.html

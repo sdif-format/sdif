@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SDIF Benchmark Suite</title>
+<style>
+  :root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface-2: #f1f5f9;
+    --brand: #4338ca;
+    --brand-light: #ede9fe;
+    --brand-dark: #312e81;
+    --brand-mid: #4f46e5;
+    --success: #0f766e;
+    --success-light: #ccfbf1;
+    --warn: #b45309;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --text-soft: #334155;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --radius: 8px;
+    --radius-lg: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,.07), 0 4px 12px rgba(0,0,0,.04);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    font-size: 14px;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ---- Page header ---- */
+  .page-header {
+    background: var(--brand-dark);
+    color: white;
+    padding: 0 1.5rem;
+  }
+  .page-header-inner {
+    max-width: 1060px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 54px;
+    gap: 1rem;
+  }
+  .page-header .wordmark {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    opacity: 0.95;
+  }
+  .page-header .wordmark span {
+    font-weight: 400;
+    opacity: 0.65;
+    margin-left: 0.5rem;
+  }
+  .page-header .hdr-meta {
+    font-size: 11px;
+    opacity: 0.5;
+    font-family: var(--mono);
+  }
+
+  /* ---- Hero band ---- */
+  .hero-band {
+    background: var(--brand);
+    color: white;
+    padding: 2rem 1.5rem 1.75rem;
+    border-bottom: 3px solid var(--brand-dark);
+  }
+  .hero-band-inner {
+    max-width: 1060px;
+    margin: 0 auto;
+  }
+  .hero-band h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.35rem;
+  }
+  .hero-band .claim-text {
+    font-size: 1rem;
+    opacity: 0.85;
+    max-width: 640px;
+  }
+  .hero-band .hero-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .hero-stat .val {
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .hero-stat .lbl {
+    font-size: 0.75rem;
+    opacity: 0.65;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+  }
+  .hero-sep { width: 1px; background: rgba(255,255,255,.25); align-self: stretch; }
+
+  /* ---- Main layout ---- */
+  .container {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 1.75rem 1.5rem 3rem;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ---- Scorecard ---- */
+  .scorecard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  .score-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.1rem;
+    box-shadow: var(--shadow);
+  }
+  .score-card .sc-track {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 0.35rem;
+  }
+  .score-card .sc-value {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--brand);
+    letter-spacing: -0.03em;
+    margin-bottom: 0.3rem;
+  }
+  .score-card .sc-value.good { color: var(--success); }
+  .score-card .sc-value.na { color: var(--text-muted); font-size: 1.3rem; }
+  .score-card .sc-claim {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .score-card .sc-link {
+    display: inline-block;
+    margin-top: 0.6rem;
+    font-size: 0.75rem;
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .score-card .sc-link:hover { text-decoration: underline; }
+
+  /* ---- Context note ---- */
+  .context-note {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--brand);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+    color: var(--text-soft);
+    line-height: 1.6;
+  }
+
+  /* ---- Track cards ---- */
+  .tracks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  .track-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.1rem;
+    box-shadow: var(--shadow);
+  }
+  .track-card h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+  .track-card .links {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .track-card .links a {
+    font-size: 0.78rem;
+    padding: 3px 9px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid transparent;
+  }
+  .lnk-primary {
+    background: var(--brand-light);
+    color: var(--brand-dark);
+    border-color: #c4b5fd;
+  }
+  .lnk-secondary {
+    background: var(--surface-2);
+    color: var(--text-muted);
+    border-color: var(--border);
+  }
+  .lnk-primary:hover { background: #ddd6fe; }
+  .lnk-secondary:hover { background: var(--border); }
+
+  /* ---- Artifact table ---- */
+  .artifact-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+  }
+  .artifact-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .artifact-table th {
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .artifact-table td {
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-soft);
+  }
+  .artifact-table tr:last-child td { border-bottom: none; }
+  .artifact-table tr:hover td { background: var(--brand-light); }
+  .artifact-table td:first-child {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--brand-dark);
+    white-space: nowrap;
+  }
+  .artifact-table a { color: var(--brand); text-decoration: none; }
+  .artifact-table a:hover { text-decoration: underline; }
+
+  /* ---- Footer ---- */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.25rem 1.5rem;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    background: var(--surface);
+  }
+
+  @media print {
+    .page-header, footer { display: none; }
+    body { background: white; }
+    .hero-band { background: #312e81; -webkit-print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <span class="wordmark">SDIF <span>Benchmark Suite</span></span>
+    <span class="hdr-meta" id="hdr-meta"></span>
+  </div>
+</header>
+
+<div class="hero-band">
+  <div class="hero-band-inner">
+    <h1>Benchmark Results</h1>
+    <p class="claim-text" id="claim-text">Loading…</p>
+    <div class="hero-stats" id="hero-stats"></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="context-note" id="context-note"></div>
+
+  <p class="section-label">Scorecard</p>
+  <div class="scorecard-grid" id="scorecard"></div>
+
+  <p class="section-label">Benchmark Tracks</p>
+  <div class="tracks-grid" id="tracks"></div>
+
+  <p class="section-label">Suite Artifacts</p>
+  <div class="artifact-table">
+    <table>
+      <thead><tr><th>File</th><th>Description</th></tr></thead>
+      <tbody id="artifacts-body"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer id="footer"></footer>
+
+<script type="application/json" id="suite-index-data">{"kind": "BenchmarkSuiteReport", "version": "1.0", "generatedAt": "2026-05-22T08:09:40Z", "corpus": {"source": "examples/golden", "documents": 21}, "tracks": ["token_efficiency", "context_packing", "roundtrip_fidelity", "delta_compactness"], "scorecard": [{"track": "token_efficiency", "label": "Token Efficiency", "claim": "SDIF AI reduces token usage vs JSON Compact", "metric": "medianRatioVsJsonCompact", "value": 56.8, "unit": "%", "description": "SDIF AI median token ratio vs JSON Compact: 56.8%", "bestRatio": 26.3, "worstRatio": 83.1, "evidence": "token_efficiency/summary.md"}, {"track": "context_packing", "label": "Context Packing", "claim": "SDIF AI fits more documents into fixed context windows", "metric": "fitRateAt32K", "value": 57.1, "unit": "%", "description": "SDIF AI 32K fit rate: 57% vs JSON Compact 43%", "fitRateAt32K_jsonCompact": 42.9, "fitRateAt128K_sdifAI": 85.7, "evidence": "context_packing/summary.md"}, {"track": "roundtrip_fidelity", "label": "Round-trip Fidelity", "claim": "SDIF preserves structure, value, and type across the corpus", "metric": "sdifOverallFidelity", "value": 100.0, "unit": "%", "description": "SDIF round-trip: 20/21 documents, avg fidelity 100.0%", "successfulRoundTrips": "20/21", "evidence": "roundtrip_fidelity/summary.md"}, {"track": "delta_compactness", "label": "Mutation Sensitivity", "claim": "SDIF produces less noise on full-document re-send after mutation", "metric": "avgTokenDeltaPct", "value": 4.46, "unit": "%", "description": "SDIF avg token delta on full-resend: 4.5% vs JSON Compact 2.9%", "jsonCompactAvgDelta": 2.91, "note": "full-resend model — not true SDIF delta encoding", "evidence": "delta_compactness/summary.md"}], "artifacts": [{"track": "token_efficiency", "label": "Token Efficiency", "summaryMd": "token_efficiency/summary.md", "summaryJson": "token_efficiency/summary.json", "summarySdif": "token_efficiency/summary.sdif", "summarySdifAi": "token_efficiency/summary.sdif.ai", "dashboard": "token_efficiency/dashboard.html"}, {"track": "context_packing", "label": "Context Packing", "summaryMd": "context_packing/summary.md", "summaryJson": "context_packing/summary.json", "summarySdif": "context_packing/summary.sdif", "summarySdifAi": "context_packing/summary.sdif.ai", "dashboard": "context_packing/dashboard.html"}, {"track": "roundtrip_fidelity", "label": "Round-trip Fidelity", "summaryMd": "roundtrip_fidelity/summary.md", "summaryJson": "roundtrip_fidelity/summary.json", "summarySdif": "roundtrip_fidelity/summary.sdif", "summarySdifAi": "roundtrip_fidelity/summary.sdif.ai", "dashboard": "roundtrip_fidelity/dashboard.html"}, {"track": "delta_compactness", "label": "Mutation Sensitivity", "summaryMd": "delta_compactness/summary.md", "summaryJson": "delta_compactness/summary.json", "summarySdif": "delta_compactness/summary.sdif", "summarySdifAi": "delta_compactness/summary.sdif.ai", "dashboard": "delta_compactness/dashboard.html"}]}</script>
+<script>
+const INDEX = JSON.parse(document.getElementById('suite-index-data').textContent);
+
+// Header meta
+document.getElementById('hdr-meta').textContent = INDEX.generatedAt;
+
+// Hero
+const tokenEntry = INDEX.scorecard.find(e => e.track === 'token_efficiency');
+const claimEl = document.getElementById('claim-text');
+if (tokenEntry && tokenEntry.value !== null) {
+  claimEl.textContent = `SDIF AI uses ${tokenEntry.value}% of JSON Compact tokens — median across ${INDEX.corpus.documents} documents`;
+} else {
+  claimEl.textContent = `${INDEX.corpus.documents} documents benchmarked across ${INDEX.tracks.length} dimension${INDEX.tracks.length !== 1 ? 's' : ''}`;
+}
+
+const statsEl = document.getElementById('hero-stats');
+const statDefs = [
+  { val: INDEX.corpus.documents, lbl: 'Documents' },
+  { val: INDEX.tracks.length, lbl: 'Tracks run' },
+  { val: INDEX.scorecard.length, lbl: 'Scorecard entries' },
+];
+statDefs.forEach((s, i) => {
+  if (i > 0) {
+    const sep = document.createElement('div');
+    sep.className = 'hero-sep';
+    statsEl.appendChild(sep);
+  }
+  const div = document.createElement('div');
+  div.className = 'hero-stat';
+  div.innerHTML = `<div class="val">${s.val}</div><div class="lbl">${s.lbl}</div>`;
+  statsEl.appendChild(div);
+});
+
+// Context note
+document.getElementById('context-note').textContent =
+  `All results derive from the same canonical equivalent.json sources in examples/golden/. ` +
+  `JSON Compact is the scoring baseline. SDIF AI is an AI projection, not a lossless storage format.`;
+
+// Scorecard
+const scorecardEl = document.getElementById('scorecard');
+function metricColor(track, value) {
+  if (value === null || value === undefined) return 'na';
+  if (track === 'token_efficiency' && value < 75) return '';
+  if (track === 'context_packing' && value > 50) return 'good';
+  if (track === 'roundtrip_fidelity' && value > 95) return 'good';
+  if (track === 'delta_compactness' && value < 5) return 'good';
+  return '';
+}
+INDEX.scorecard.forEach(entry => {
+  const valStr = (entry.value !== null && entry.value !== undefined)
+    ? `${entry.value}${entry.unit || ''}` : '—';
+  const colorClass = metricColor(entry.track, entry.value);
+  const card = document.createElement('div');
+  card.className = 'score-card';
+  card.innerHTML = `
+    <div class="sc-track">${entry.label}</div>
+    <div class="sc-value ${colorClass || (entry.value === null ? 'na' : '')}">${valStr}</div>
+    <div class="sc-claim">${entry.claim}</div>
+    ${entry.evidence ? `<a class="sc-link" href="${entry.evidence}">View evidence →</a>` : ''}
+  `;
+  scorecardEl.appendChild(card);
+});
+
+// Tracks
+const tracksEl = document.getElementById('tracks');
+INDEX.artifacts.forEach(a => {
+  const card = document.createElement('div');
+  card.className = 'track-card';
+  card.innerHTML = `
+    <h3>${a.label}</h3>
+    <div class="links">
+      <a class="lnk-primary" href="${a.dashboard}">Dashboard</a>
+      <a class="lnk-secondary" href="${a.summaryMd}">Summary</a>
+      <a class="lnk-secondary" href="${a.summarySdifAi}">SDIF AI</a>
+    </div>
+  `;
+  tracksEl.appendChild(card);
+});
+
+// Artifacts table
+const tbody = document.getElementById('artifacts-body');
+[
+  ['index.json',    'Machine-readable suite index'],
+  ['index.sdif',    'SDIF encoding of suite index'],
+  ['index.sdif.ai', 'Compact AI-optimized overview of all results'],
+  ['README.md',     'Human-readable results summary'],
+  ['dashboard.html','This page'],
+].forEach(([name, desc]) => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td><a href="${name}">${name}</a></td><td>${desc}</td>`;
+  tbody.appendChild(tr);
+});
+
+// Footer
+document.getElementById('footer').textContent =
+  `SDIF Benchmark Suite · ${INDEX.generatedAt} · Benchmark evidence is itself published in SDIF format.`;
+</script>
+</body>
+</html>
