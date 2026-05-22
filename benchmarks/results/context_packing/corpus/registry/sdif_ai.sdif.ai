@@ -1,0 +1,20 @@
+kind Registry
+id example.registry
+schema example.semantic_registry.v1
+authority Canonical
+lifecycle Active
+entries[id,kind,lifecycle,authority,path,evidence]:
+example.schema	Schema	Active	Canonical	schemas/example.schema.sdif	reports/schema.md
+example.registry	Registry	Active	Canonical	registry/example.registry.sdif	reports/registry.md
+validator.core	Tool	Active	Canonical	tools/validator.md	reports/validator.md
+rules:
+  (deny missing(entries.evidence))
+rules:
+  (deny dangling(rel))
+rules:
+  (deny invalid(entries.lifecycle))
+rel[example.registry]:
+  governed_by example.schema
+  validated_by validator.core
+rel[validator.core]:
+  emits reports/validator.md

@@ -1,0 +1,1740 @@
+@sdif 1.0
+kind ContextPackingReport
+version "1.1"
+generatedAt 2026-05-22T08:11:06Z
+tokenizer tiktoken/cl100k_base
+documentCount 21
+budgets [4096,8192,32768,131072]
+budgetLabels:
+  b4096 4K
+  b8192 8K
+  b32768 32K
+  b131072 128K
+perFormatSummary:
+  SDIF_AI:
+    avgTokens 62273.6
+    vsJsonCompactPct 67.9
+    fitRate:
+      b4096 33.3
+      b8192 33.3
+      b32768 57.1
+      b131072 85.7
+    avgDocs:
+      b4096 4.9
+      b8192 10.0
+      b32768 40.8
+      b131072 164.7
+    medianDocs:
+      b4096 0.0
+      b8192 0.0
+      b32768 1.0
+      b131072 6.0
+  CSV_Bundle:
+    avgTokens 63166.6
+    vsJsonCompactPct 68.9
+    fitRate:
+      b4096 33.3
+      b8192 33.3
+      b32768 57.1
+      b131072 85.7
+    avgDocs:
+      b4096 4.3
+      b8192 8.6
+      b32768 35.2
+      b131072 141.9
+    medianDocs:
+      b4096 0.0
+      b8192 0.0
+      b32768 1.0
+      b131072 6.0
+  SDIF:
+    avgTokens 65174.1
+    vsJsonCompactPct 71.1
+    fitRate:
+      b4096 33.3
+      b8192 33.3
+      b32768 57.1
+      b131072 85.7
+    avgDocs:
+      b4096 4.7
+      b8192 9.5
+      b32768 38.7
+      b131072 155.6
+    medianDocs:
+      b4096 0.0
+      b8192 0.0
+      b32768 1.0
+      b131072 5.0
+  TOON:
+    avgTokens 66119.5
+    vsJsonCompactPct 72.1
+    fitRate:
+      b4096 33.3
+      b8192 33.3
+      b32768 57.1
+      b131072 85.7
+    avgDocs:
+      b4096 4.2
+      b8192 8.6
+      b32768 35.2
+      b131072 142.1
+    medianDocs:
+      b4096 0.0
+      b8192 0.0
+      b32768 1.0
+      b131072 5.0
+  JSON_Compact:
+    avgTokens 91696.5
+    vsJsonCompactPct 100.0
+    fitRate:
+      b4096 33.3
+      b8192 33.3
+      b32768 42.9
+      b131072 66.7
+    avgDocs:
+      b4096 3.3
+      b8192 6.8
+      b32768 27.9
+      b131072 112.8
+    medianDocs:
+      b4096 0.0
+      b8192 0.0
+      b32768 0.0
+      b131072 3.0
+  YAML:
+    avgTokens 102825.6
+    vsJsonCompactPct 112.1
+    fitRate:
+      b4096 33.3
+      b8192 33.3
+      b32768 38.1
+      b131072 61.9
+    avgDocs:
+      b4096 3.0
+      b8192 6.2
+      b32768 25.1
+      b131072 101.3
+    medianDocs:
+      b4096 0.0
+      b8192 0.0
+      b32768 0.0
+      b131072 2.0
+  JSON_Pretty:
+    avgTokens 135099.3
+    vsJsonCompactPct 147.3
+    fitRate:
+      b4096 33.3
+      b8192 33.3
+      b32768 33.3
+      b131072 61.9
+    avgDocs:
+      b4096 2.0
+      b8192 4.1
+      b32768 16.7
+      b131072 67.8
+    medianDocs:
+      b4096 0.0
+      b8192 0.0
+      b32768 0.0
+      b131072 2.0
+  XML:
+    avgTokens 161032.4
+    vsJsonCompactPct 175.6
+    fitRate:
+      b4096 33.3
+      b8192 33.3
+      b32768 33.3
+      b131072 61.9
+    avgDocs:
+      b4096 1.5
+      b8192 3.2
+      b32768 13.3
+      b131072 54.0
+    medianDocs:
+      b4096 0.0
+      b8192 0.0
+      b32768 0.0
+      b131072 1.0
+runDirectory benchmarks/results/context_packing
+semanticSource examples/golden/<document>/equivalent.json
+envFileLoaded true
+environment:
+  SDIF_BENCHMARK_GOLDEN_DIR null
+  SDIF_BENCHMARK_TOON "1"
+  SDIF_TIKTOKEN_ENCODING cl100k_base
+documents:
+  __item:
+    name deep-hierarchy-project
+    formats:
+      __item:
+        format "CSV Bundle"
+        bytes 292754
+        tokens 101645
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format "SDIF AI"
+        bytes 292716
+        tokens 103205
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format TOON
+        bytes 302214
+        tokens 106382
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format SDIF
+        bytes 302202
+        tokens 107951
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format "JSON Compact"
+        bytes 474294
+        tokens 137942
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format YAML
+        bytes 452163
+        tokens 153735
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format "JSON Pretty"
+        bytes 648068
+        tokens 204303
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format XML
+        bytes 768236
+        tokens 243817
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+  __item:
+    name github.openapi
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 167369
+        tokens 37829
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 3
+      __item:
+        format "CSV Bundle"
+        bytes 167539
+        tokens 39074
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 3
+      __item:
+        format TOON
+        bytes 174452
+        tokens 41529
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 3
+      __item:
+        format SDIF
+        bytes 173649
+        tokens 41867
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 3
+      __item:
+        format "JSON Compact"
+        bytes 292422
+        tokens 62704
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 2
+      __item:
+        format YAML
+        bytes 283256
+        tokens 72783
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format "JSON Pretty"
+        bytes 386842
+        tokens 97266
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format XML
+        bytes 472655
+        tokens 117756
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+  __item:
+    name large-audit-trail
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 1133989
+        tokens 412926
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format "CSV Bundle"
+        bytes 1134036
+        tokens 422357
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format SDIF
+        bytes 1155527
+        tokens 423698
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format TOON
+        bytes 1166582
+        tokens 433120
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format "JSON Compact"
+        bytes 1728738
+        tokens 540663
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format YAML
+        bytes 1666793
+        tokens 584405
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format "JSON Pretty"
+        bytes 2222275
+        tokens 723268
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format XML
+        bytes 2576525
+        tokens 831285
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+  __item:
+    name large-knowledge-graph
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 279580
+        tokens 86155
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format "CSV Bundle"
+        bytes 279620
+        tokens 88495
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format SDIF
+        bytes 289242
+        tokens 90989
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format TOON
+        bytes 288966
+        tokens 93032
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format "JSON Compact"
+        bytes 518882
+        tokens 132864
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format YAML
+        bytes 495208
+        tokens 153731
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format "JSON Pretty"
+        bytes 733208
+        tokens 213005
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format XML
+        bytes 884387
+        tokens 254541
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+  __item:
+    name large-plan
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 492354
+        tokens 141145
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format "CSV Bundle"
+        bytes 492413
+        tokens 144465
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format SDIF
+        bytes 504796
+        tokens 147369
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format TOON
+        bytes 504817
+        tokens 150679
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format "JSON Compact"
+        bytes 804703
+        tokens 213238
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format YAML
+        bytes 780329
+        tokens 229718
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format "JSON Pretty"
+        bytes 1048494
+        tokens 302381
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format XML
+        bytes 1273626
+        tokens 366170
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+  __item:
+    name large-registry
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 402720
+        tokens 154451
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format "CSV Bundle"
+        bytes 402772
+        tokens 159696
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format SDIF
+        bytes 426166
+        tokens 166177
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format TOON
+        bytes 426185
+        tokens 171412
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format "JSON Compact"
+        bytes 883824
+        tokens 253063
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format YAML
+        bytes 839949
+        tokens 283892
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format "JSON Pretty"
+        bytes 1285316
+        tokens 399186
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format XML
+        bytes 1652261
+        tokens 494780
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+  __item:
+    name large-schema-catalog
+    formats:
+      __item:
+        format "CSV Bundle"
+        bytes 215257
+        tokens 71357
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format "SDIF AI"
+        bytes 221599
+        tokens 75464
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format TOON
+        bytes 229126
+        tokens 78231
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format SDIF
+        bytes 228953
+        tokens 79144
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format "JSON Compact"
+        bytes 447520
+        tokens 126532
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format YAML
+        bytes 435031
+        tokens 149601
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format "JSON Pretty"
+        bytes 653078
+        tokens 199367
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format XML
+        bytes 790035
+        tokens 235726
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+  __item:
+    name large-support-export
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 342047
+        tokens 94839
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format "CSV Bundle"
+        bytes 342094
+        tokens 96002
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format SDIF
+        bytes 352437
+        tokens 100037
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format TOON
+        bytes 352453
+        tokens 101190
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format "JSON Compact"
+        bytes 592098
+        tokens 149622
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format YAML
+        bytes 573388
+        tokens 169236
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format "JSON Pretty"
+        bytes 810127
+        tokens 229579
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format XML
+        bytes 986732
+        tokens 274660
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+  __item:
+    name large-validation-report
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 383776
+        tokens 99633
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format "CSV Bundle"
+        bytes 383821
+        tokens 99656
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format SDIF
+        bytes 390534
+        tokens 103015
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format TOON
+        bytes 391666
+        tokens 103027
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+      __item:
+        format "JSON Compact"
+        bytes 559328
+        tokens 134533
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format YAML
+        bytes 549978
+        tokens 150198
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format "JSON Pretty"
+        bytes 710381
+        tokens 192034
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+      __item:
+        format XML
+        bytes 818657
+        tokens 225834
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 0
+  __item:
+    name medium-invoice-batch
+    formats:
+      __item:
+        format "CSV Bundle"
+        bytes 73941
+        tokens 25965
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 5
+      __item:
+        format "SDIF AI"
+        bytes 73903
+        tokens 26707
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 4
+      __item:
+        format TOON
+        bytes 75867
+        tokens 26932
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 4
+      __item:
+        format SDIF
+        bytes 75859
+        tokens 27688
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 4
+      __item:
+        format "JSON Compact"
+        bytes 139558
+        tokens 39858
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 3
+      __item:
+        format YAML
+        bytes 137030
+        tokens 46758
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 2
+      __item:
+        format "JSON Pretty"
+        bytes 191590
+        tokens 58931
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 2
+      __item:
+        format XML
+        bytes 238165
+        tokens 70501
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+  __item:
+    name medium-observability-run
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 55931
+        tokens 18170
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 7
+      __item:
+        format "CSV Bundle"
+        bytes 55978
+        tokens 19018
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 6
+      __item:
+        format SDIF
+        bytes 58377
+        tokens 20572
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 6
+      __item:
+        format TOON
+        bytes 58391
+        tokens 21408
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 6
+      __item:
+        format "JSON Compact"
+        bytes 114756
+        tokens 32253
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 4
+      __item:
+        format YAML
+        bytes 109099
+        tokens 38569
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 3
+      __item:
+        format "JSON Pretty"
+        bytes 167981
+        tokens 52300
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 2
+      __item:
+        format XML
+        bytes 205986
+        tokens 63274
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 2
+  __item:
+    name medium-policy-catalog
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 49782
+        tokens 18106
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 7
+      __item:
+        format SDIF
+        bytes 51672
+        tokens 19054
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 6
+      __item:
+        format "CSV Bundle"
+        bytes 49822
+        tokens 19159
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 6
+      __item:
+        format TOON
+        bytes 51680
+        tokens 20095
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 6
+      __item:
+        format "JSON Compact"
+        bytes 97573
+        tokens 28086
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 4
+      __item:
+        format YAML
+        bytes 91628
+        tokens 32094
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 4
+      __item:
+        format "JSON Pretty"
+        bytes 139351
+        tokens 43999
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 2
+      __item:
+        format XML
+        bytes 167499
+        tokens 52678
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 2
+  __item:
+    name medium-product-catalog
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 47552
+        tokens 21319
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 6
+      __item:
+        format "CSV Bundle"
+        bytes 47599
+        tokens 21445
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 6
+      __item:
+        format SDIF
+        bytes 50784
+        tokens 22938
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 5
+      __item:
+        format TOON
+        bytes 50798
+        tokens 23051
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 1
+          b131072 5
+      __item:
+        format "JSON Compact"
+        bytes 111369
+        tokens 33936
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 3
+      __item:
+        format YAML
+        bytes 104720
+        tokens 39958
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 3
+      __item:
+        format "JSON Pretty"
+        bytes 169056
+        tokens 55984
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 2
+      __item:
+        format XML
+        bytes 214848
+        tokens 69082
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
+  __item:
+    name plan
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 1000
+        tokens 251
+        recordsByBudget:
+          b4096 16
+          b8192 32
+          b32768 130
+          b131072 522
+      __item:
+        format SDIF
+        bytes 984
+        tokens 252
+        recordsByBudget:
+          b4096 16
+          b8192 32
+          b32768 130
+          b131072 520
+      __item:
+        format TOON
+        bytes 1002
+        tokens 276
+        recordsByBudget:
+          b4096 14
+          b8192 29
+          b32768 118
+          b131072 474
+      __item:
+        format "CSV Bundle"
+        bytes 1039
+        tokens 288
+        recordsByBudget:
+          b4096 14
+          b8192 28
+          b32768 113
+          b131072 455
+      __item:
+        format "JSON Compact"
+        bytes 1268
+        tokens 302
+        recordsByBudget:
+          b4096 13
+          b8192 27
+          b32768 108
+          b131072 434
+      __item:
+        format YAML
+        bytes 1197
+        tokens 334
+        recordsByBudget:
+          b4096 12
+          b8192 24
+          b32768 98
+          b131072 392
+      __item:
+        format "JSON Pretty"
+        bytes 1688
+        tokens 479
+        recordsByBudget:
+          b4096 8
+          b8192 17
+          b32768 68
+          b131072 273
+      __item:
+        format XML
+        bytes 2080
+        tokens 602
+        recordsByBudget:
+          b4096 6
+          b8192 13
+          b32768 54
+          b131072 217
+  __item:
+    name registry
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 662
+        tokens 149
+        recordsByBudget:
+          b4096 27
+          b8192 54
+          b32768 219
+          b131072 879
+      __item:
+        format SDIF
+        bytes 674
+        tokens 154
+        recordsByBudget:
+          b4096 26
+          b8192 53
+          b32768 212
+          b131072 851
+      __item:
+        format TOON
+        bytes 697
+        tokens 169
+        recordsByBudget:
+          b4096 24
+          b8192 48
+          b32768 193
+          b131072 775
+      __item:
+        format "CSV Bundle"
+        bytes 720
+        tokens 175
+        recordsByBudget:
+          b4096 23
+          b8192 46
+          b32768 187
+          b131072 748
+      __item:
+        format "JSON Compact"
+        bytes 960
+        tokens 205
+        recordsByBudget:
+          b4096 19
+          b8192 39
+          b32768 159
+          b131072 639
+      __item:
+        format YAML
+        bytes 896
+        tokens 220
+        recordsByBudget:
+          b4096 18
+          b8192 37
+          b32768 148
+          b131072 595
+      __item:
+        format "JSON Pretty"
+        bytes 1293
+        tokens 341
+        recordsByBudget:
+          b4096 12
+          b8192 24
+          b32768 96
+          b131072 384
+      __item:
+        format XML
+        bytes 1601
+        tokens 438
+        recordsByBudget:
+          b4096 9
+          b8192 18
+          b32768 74
+          b131072 299
+  __item:
+    name schema
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 1097
+        tokens 298
+        recordsByBudget:
+          b4096 13
+          b8192 27
+          b32768 109
+          b131072 439
+      __item:
+        format SDIF
+        bytes 1161
+        tokens 323
+        recordsByBudget:
+          b4096 12
+          b8192 25
+          b32768 101
+          b131072 405
+      __item:
+        format "CSV Bundle"
+        bytes 1161
+        tokens 331
+        recordsByBudget:
+          b4096 12
+          b8192 24
+          b32768 98
+          b131072 395
+      __item:
+        format TOON
+        bytes 1181
+        tokens 342
+        recordsByBudget:
+          b4096 11
+          b8192 23
+          b32768 95
+          b131072 383
+      __item:
+        format "JSON Compact"
+        bytes 2113
+        tokens 534
+        recordsByBudget:
+          b4096 7
+          b8192 15
+          b32768 61
+          b131072 245
+      __item:
+        format YAML
+        bytes 2004
+        tokens 630
+        recordsByBudget:
+          b4096 6
+          b8192 13
+          b32768 52
+          b131072 208
+      __item:
+        format "JSON Pretty"
+        bytes 3235
+        tokens 953
+        recordsByBudget:
+          b4096 4
+          b8192 8
+          b32768 34
+          b131072 137
+      __item:
+        format XML
+        bytes 4189
+        tokens 1213
+        recordsByBudget:
+          b4096 3
+          b8192 6
+          b32768 27
+          b131072 108
+  __item:
+    name small-api-catalog
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 1640
+        tokens 544
+        recordsByBudget:
+          b4096 7
+          b8192 15
+          b32768 60
+          b131072 240
+      __item:
+        format "CSV Bundle"
+        bytes 1666
+        tokens 585
+        recordsByBudget:
+          b4096 7
+          b8192 14
+          b32768 56
+          b131072 224
+      __item:
+        format SDIF
+        bytes 1716
+        tokens 585
+        recordsByBudget:
+          b4096 7
+          b8192 14
+          b32768 56
+          b131072 224
+      __item:
+        format TOON
+        bytes 1718
+        tokens 615
+        recordsByBudget:
+          b4096 6
+          b8192 13
+          b32768 53
+          b131072 213
+      __item:
+        format "JSON Compact"
+        bytes 3163
+        tokens 912
+        recordsByBudget:
+          b4096 4
+          b8192 8
+          b32768 35
+          b131072 143
+      __item:
+        format YAML
+        bytes 2909
+        tokens 1109
+        recordsByBudget:
+          b4096 3
+          b8192 7
+          b32768 29
+          b131072 118
+      __item:
+        format "JSON Pretty"
+        bytes 4849
+        tokens 1564
+        recordsByBudget:
+          b4096 2
+          b8192 5
+          b32768 20
+          b131072 83
+      __item:
+        format XML
+        bytes 5647
+        tokens 1894
+        recordsByBudget:
+          b4096 2
+          b8192 4
+          b32768 17
+          b131072 69
+  __item:
+    name small-incident
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 2563
+        tokens 706
+        recordsByBudget:
+          b4096 5
+          b8192 11
+          b32768 46
+          b131072 185
+      __item:
+        format SDIF
+        bytes 2637
+        tokens 723
+        recordsByBudget:
+          b4096 5
+          b8192 11
+          b32768 45
+          b131072 181
+      __item:
+        format "CSV Bundle"
+        bytes 2594
+        tokens 740
+        recordsByBudget:
+          b4096 5
+          b8192 11
+          b32768 44
+          b131072 177
+      __item:
+        format TOON
+        bytes 2640
+        tokens 742
+        recordsByBudget:
+          b4096 5
+          b8192 11
+          b32768 44
+          b131072 176
+      __item:
+        format "JSON Compact"
+        bytes 4148
+        tokens 1064
+        recordsByBudget:
+          b4096 3
+          b8192 7
+          b32768 30
+          b131072 123
+      __item:
+        format YAML
+        bytes 3947
+        tokens 1157
+        recordsByBudget:
+          b4096 3
+          b8192 7
+          b32768 28
+          b131072 113
+      __item:
+        format "JSON Pretty"
+        bytes 5727
+        tokens 1657
+        recordsByBudget:
+          b4096 2
+          b8192 4
+          b32768 19
+          b131072 79
+      __item:
+        format XML
+        bytes 6808
+        tokens 1941
+        recordsByBudget:
+          b4096 2
+          b8192 4
+          b32768 16
+          b131072 67
+  __item:
+    name small-invoice
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 1406
+        tokens 476
+        recordsByBudget:
+          b4096 8
+          b8192 17
+          b32768 68
+          b131072 275
+      __item:
+        format "CSV Bundle"
+        bytes 1439
+        tokens 485
+        recordsByBudget:
+          b4096 8
+          b8192 16
+          b32768 67
+          b131072 270
+      __item:
+        format TOON
+        bytes 1459
+        tokens 501
+        recordsByBudget:
+          b4096 8
+          b8192 16
+          b32768 65
+          b131072 261
+      __item:
+        format SDIF
+        bytes 1454
+        tokens 503
+        recordsByBudget:
+          b4096 8
+          b8192 16
+          b32768 65
+          b131072 260
+      __item:
+        format "JSON Compact"
+        bytes 2643
+        tokens 718
+        recordsByBudget:
+          b4096 5
+          b8192 11
+          b32768 45
+          b131072 182
+      __item:
+        format YAML
+        bytes 2537
+        tokens 850
+        recordsByBudget:
+          b4096 4
+          b8192 9
+          b32768 38
+          b131072 154
+      __item:
+        format "JSON Pretty"
+        bytes 3764
+        tokens 1159
+        recordsByBudget:
+          b4096 3
+          b8192 7
+          b32768 28
+          b131072 113
+      __item:
+        format XML
+        bytes 4738
+        tokens 1414
+        recordsByBudget:
+          b4096 2
+          b8192 5
+          b32768 23
+          b131072 92
+  __item:
+    name validation-report
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 691
+        tokens 149
+        recordsByBudget:
+          b4096 27
+          b8192 54
+          b32768 219
+          b131072 879
+      __item:
+        format SDIF
+        bytes 735
+        tokens 166
+        recordsByBudget:
+          b4096 24
+          b8192 49
+          b32768 197
+          b131072 789
+      __item:
+        format "CSV Bundle"
+        bytes 773
+        tokens 195
+        recordsByBudget:
+          b4096 21
+          b8192 42
+          b32768 168
+          b131072 672
+      __item:
+        format TOON
+        bytes 770
+        tokens 197
+        recordsByBudget:
+          b4096 20
+          b8192 41
+          b32768 166
+          b131072 665
+      __item:
+        format "JSON Compact"
+        bytes 1014
+        tokens 225
+        recordsByBudget:
+          b4096 18
+          b8192 36
+          b32768 145
+          b131072 582
+      __item:
+        format YAML
+        bytes 934
+        tokens 246
+        recordsByBudget:
+          b4096 16
+          b8192 33
+          b32768 133
+          b131072 532
+      __item:
+        format "JSON Pretty"
+        bytes 1378
+        tokens 382
+        recordsByBudget:
+          b4096 10
+          b8192 21
+          b32768 85
+          b131072 343
+      __item:
+        format XML
+        bytes 1685
+        tokens 480
+        recordsByBudget:
+          b4096 8
+          b8192 17
+          b32768 68
+          b131072 273
+  __item:
+    name wide-table-survey
+    formats:
+      __item:
+        format "SDIF AI"
+        bytes 18606
+        tokens 15224
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 2
+          b131072 8
+      __item:
+        format "CSV Bundle"
+        bytes 18632
+        tokens 15365
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 2
+          b131072 8
+      __item:
+        format SDIF
+        bytes 19054
+        tokens 15451
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 2
+          b131072 8
+      __item:
+        format TOON
+        bytes 19053
+        tokens 15579
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 2
+          b131072 8
+      __item:
+        format "JSON Compact"
+        bytes 64917
+        tokens 36372
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 3
+      __item:
+        format YAML
+        bytes 70375
+        tokens 50113
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 2
+      __item:
+        format "JSON Pretty"
+        bytes 124951
+        tokens 58948
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 2
+      __item:
+        format XML
+        bytes 149167
+        tokens 73594
+        recordsByBudget:
+          b4096 0
+          b8192 0
+          b32768 0
+          b131072 1
