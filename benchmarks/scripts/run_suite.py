@@ -485,15 +485,14 @@ def main() -> None:
     (results_dir / "index.sdif.ai").write_text(index_sdif_ai, encoding="utf-8")
 
     (results_dir / "README.md").write_text(readme_md, encoding="utf-8")
+    import report as _report
+    (results_dir / "README-viewer.html").write_text(
+        _report.render_md_viewer(readme_md, "SDIF Benchmark Suite — README", back_href="dashboard.html"),
+        encoding="utf-8",
+    )
 
     dashboard_html = _suite_dashboard_html(index, readme_md)
     (results_dir / "dashboard.html").write_text(dashboard_html, encoding="utf-8")
-
-    viewer_src = BENCHMARK_DIR / "src" / "markdown-viewer.html"
-    if viewer_src.exists():
-        (results_dir / "markdown-viewer.html").write_text(
-            viewer_src.read_text(encoding="utf-8"), encoding="utf-8"
-        )
 
     print(f"\n{'='*60}")
     print(f"  📋 Suite complete: {len([r for r in run_results if r['ran'] and r['success']])} tracks ran")

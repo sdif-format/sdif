@@ -612,10 +612,16 @@ def main() -> None:
             sdif_text = report.render_sdif_report(structured)
 
             (run_dir / "summary.md").write_text(summary, encoding="utf-8")
+            (run_dir / "summary-viewer.html").write_text(
+                report.render_md_viewer(summary, "Round-Trip Fidelity — Summary"), encoding="utf-8"
+            )
             (run_dir / "summary.json").write_text(report.render_json_report(structured), encoding="utf-8")
             (run_dir / "summary.sdif").write_text(sdif_text, encoding="utf-8")
             (run_dir / "summary.sdif.ai").write_text(report.render_sdif_ai_report(sdif_text), encoding="utf-8")
             (run_dir / "comparison.md").write_text(detail, encoding="utf-8")
+            (run_dir / "comparison-viewer.html").write_text(
+                report.render_md_viewer(detail, "Round-Trip Fidelity — Detail"), encoding="utf-8"
+            )
             (run_dir / DASHBOARD_FILE_NAME).write_text(
                 report.render_dashboard_report(structured, summary, detail), encoding="utf-8"
             )

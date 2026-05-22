@@ -460,10 +460,16 @@ def main() -> None:
             detail_sdif = report.render_sdif_report(detail_data)
 
             (run_dir / "summary.md").write_text(summary_md, encoding="utf-8")
+            (run_dir / "summary-viewer.html").write_text(
+                report.render_md_viewer(summary_md, "Context Packing — Summary"), encoding="utf-8"
+            )
             (run_dir / "summary.json").write_text(report.render_json_report(summary_data), encoding="utf-8")
             (run_dir / "summary.sdif").write_text(summary_sdif, encoding="utf-8")
             (run_dir / "summary.sdif.ai").write_text(report.render_sdif_ai_report(summary_sdif), encoding="utf-8")
             (run_dir / "comparison.md").write_text(detail_md, encoding="utf-8")
+            (run_dir / "comparison-viewer.html").write_text(
+                report.render_md_viewer(detail_md, "Context Packing — Detail"), encoding="utf-8"
+            )
             (run_dir / "comparison.json").write_text(report.render_json_report(detail_data), encoding="utf-8")
             (run_dir / "comparison.sdif").write_text(detail_sdif, encoding="utf-8")
             (run_dir / "comparison.sdif.ai").write_text(report.render_sdif_ai_report(detail_sdif), encoding="utf-8")

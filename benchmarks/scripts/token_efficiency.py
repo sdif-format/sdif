@@ -108,10 +108,12 @@ import yaml  # type: ignore[import-untyped]
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 BENCHMARK_DIR = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(BENCHMARK_DIR / "src"))
 DASHBOARD_TEMPLATE_PATH = BENCHMARK_DIR / "src" / "dashboard_template.html"
 
 from sdif.ai import ai_view  # noqa: E402
 from sdif.json import json_data_to_sdif  # noqa: E402
+from report import render_md_viewer  # noqa: E402
 
 
 # ====================
@@ -2338,6 +2340,14 @@ def main() -> None:
             )
             summary_path.write_text(
                 summary_text,
+                encoding="utf-8",
+            )
+            (run_dir / "summary-viewer.html").write_text(
+                render_md_viewer(summary_text, "Token Efficiency — Summary"),
+                encoding="utf-8",
+            )
+            (run_dir / "comparison-viewer.html").write_text(
+                render_md_viewer(markdown_text, "Token Efficiency — Detail"),
                 encoding="utf-8",
             )
             json_path.write_text(

@@ -406,7 +406,7 @@ INDEX.artifacts.forEach(a => {
     <h3>${a.label}</h3>
     <div class="links">
       <a class="lnk-primary" href="${a.dashboard}">Dashboard</a>
-      <a class="lnk-secondary" href="markdown-viewer.html?file=${a.summaryMd}">Summary</a>
+      <a class="lnk-secondary" href="${a.summaryMd.replace('.md', '-viewer.html')}">Summary</a>
       <a class="lnk-secondary" href="${a.summarySdifAi}">SDIF AI</a>
     </div>
   `;
@@ -423,7 +423,7 @@ const tbody = document.getElementById('artifacts-body');
   ['dashboard.html','This page'],
 ].forEach(([name, desc]) => {
   const tr = document.createElement('tr');
-  const href = name.endsWith('.md') ? `markdown-viewer.html?file=${name}` : name;
+  const href = name.endsWith('.md') ? name.replace('.md', '-viewer.html') : name;
   tr.innerHTML = `<td><a href="${href}">${name}</a></td><td>${desc}</td>`;
   tbody.appendChild(tr);
 });
