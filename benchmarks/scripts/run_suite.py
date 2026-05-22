@@ -489,6 +489,12 @@ def main() -> None:
     dashboard_html = _suite_dashboard_html(index, readme_md)
     (results_dir / "dashboard.html").write_text(dashboard_html, encoding="utf-8")
 
+    viewer_src = BENCHMARK_DIR / "src" / "markdown-viewer.html"
+    if viewer_src.exists():
+        (results_dir / "markdown-viewer.html").write_text(
+            viewer_src.read_text(encoding="utf-8"), encoding="utf-8"
+        )
+
     print(f"\n{'='*60}")
     print(f"  📋 Suite complete: {len([r for r in run_results if r['ran'] and r['success']])} tracks ran")
     print(f"{'='*60}")
