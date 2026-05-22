@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <kind>Plan</kind>
+  <id>release.v2.validation_plan</id>
+  <schema>example.plan.v1</schema>
+  <authority>Canonical</authority>
+  <lifecycle>Active</lifecycle>
+  <created_at>2026-05-20T18:00:00Z</created_at>
+  <status>open</status>
+  <priority>P0</priority>
+  <owner>team.platform</owner>
+  <title>Release v2 validation plan</title>
+  <intent>Define the minimum validation requirements for release v2.
+The plan must remain auditable, reproducible, and easy to review.</intent>
+  <scope>
+    <in>
+      <item>schema validation</item>
+      <item>ui redesign</item>
+    </in>
+    <out>
+      <item>canonicalization feature expansion</item>
+      <item>semantic relations remote includes</item>
+      <item>validation reports release automation</item>
+    </out>
+  </scope>
+  <milestones>
+    <item>
+      <id>R1</id>
+      <status>done</status>
+      <gate>validate-syntax</gate>
+      <evidence>reports/syntax.md</evidence>
+    </item>
+    <item>
+      <id>R2</id>
+      <status>done</status>
+      <gate>validate-canonical</gate>
+      <evidence>reports/canonical.md</evidence>
+    </item>
+    <item>
+      <id>R3</id>
+      <status>pending</status>
+      <gate>validate-schema</gate>
+      <evidence>reports/schema.md</evidence>
+    </item>
+    <item>
+      <id>R4</id>
+      <status>pending</status>
+      <gate>validate-semantics</gate>
+      <evidence>reports/semantics.md</evidence>
+    </item>
+  </milestones>
+  <rel>
+    <item>
+      <subject>R3</subject>
+      <predicate>depends_on</predicate>
+      <object>R2</object>
+    </item>
+    <item>
+      <subject>R4</subject>
+      <predicate>depends_on</predicate>
+      <object>R3</object>
+    </item>
+    <item>
+      <subject>release.v2.validation_plan</subject>
+      <predicate>validated_by</predicate>
+      <object>validation.report.v2</object>
+    </item>
+  </rel>
+  <rules>
+    <item>(deny missing(evidence))</item>
+    <item>(deny dangling(rel))</item>
+    <item>(deny invalid(lifecycle))</item>
+    <item>(warn eq(authority,Unknown))</item>
+  </rules>
+</document>

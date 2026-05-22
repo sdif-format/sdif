@@ -1,0 +1,5935 @@
+{
+  "document_type": "medium-policy-catalog",
+  "version": "1.0.0",
+  "generated": true,
+  "benchmark_size_class": "medium-v2",
+  "benchmark_profile": "rules-policy-v2",
+  "policies": [
+    {
+      "id": "POL-0001",
+      "name": "policy_0001",
+      "domain": "billing",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0002",
+      "name": "policy_0002",
+      "domain": "privacy",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0003",
+      "name": "policy_0003",
+      "domain": "operations",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0004",
+      "name": "policy_0004",
+      "domain": "security",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0005",
+      "name": "policy_0005",
+      "domain": "billing",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0006",
+      "name": "policy_0006",
+      "domain": "privacy",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0007",
+      "name": "policy_0007",
+      "domain": "operations",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0008",
+      "name": "policy_0008",
+      "domain": "security",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0009",
+      "name": "policy_0009",
+      "domain": "billing",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0010",
+      "name": "policy_0010",
+      "domain": "privacy",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0011",
+      "name": "policy_0011",
+      "domain": "operations",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0012",
+      "name": "policy_0012",
+      "domain": "security",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0013",
+      "name": "policy_0013",
+      "domain": "billing",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0014",
+      "name": "policy_0014",
+      "domain": "privacy",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0015",
+      "name": "policy_0015",
+      "domain": "operations",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0016",
+      "name": "policy_0016",
+      "domain": "security",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0017",
+      "name": "policy_0017",
+      "domain": "billing",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0018",
+      "name": "policy_0018",
+      "domain": "privacy",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0019",
+      "name": "policy_0019",
+      "domain": "operations",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0020",
+      "name": "policy_0020",
+      "domain": "security",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0021",
+      "name": "policy_0021",
+      "domain": "billing",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0022",
+      "name": "policy_0022",
+      "domain": "privacy",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0023",
+      "name": "policy_0023",
+      "domain": "operations",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0024",
+      "name": "policy_0024",
+      "domain": "security",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0025",
+      "name": "policy_0025",
+      "domain": "billing",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0026",
+      "name": "policy_0026",
+      "domain": "privacy",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0027",
+      "name": "policy_0027",
+      "domain": "operations",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0028",
+      "name": "policy_0028",
+      "domain": "security",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0029",
+      "name": "policy_0029",
+      "domain": "billing",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0030",
+      "name": "policy_0030",
+      "domain": "privacy",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0031",
+      "name": "policy_0031",
+      "domain": "operations",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0032",
+      "name": "policy_0032",
+      "domain": "security",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0033",
+      "name": "policy_0033",
+      "domain": "billing",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0034",
+      "name": "policy_0034",
+      "domain": "privacy",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0035",
+      "name": "policy_0035",
+      "domain": "operations",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0036",
+      "name": "policy_0036",
+      "domain": "security",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0037",
+      "name": "policy_0037",
+      "domain": "billing",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0038",
+      "name": "policy_0038",
+      "domain": "privacy",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0039",
+      "name": "policy_0039",
+      "domain": "operations",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0040",
+      "name": "policy_0040",
+      "domain": "security",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0041",
+      "name": "policy_0041",
+      "domain": "billing",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0042",
+      "name": "policy_0042",
+      "domain": "privacy",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0043",
+      "name": "policy_0043",
+      "domain": "operations",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0044",
+      "name": "policy_0044",
+      "domain": "security",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0045",
+      "name": "policy_0045",
+      "domain": "billing",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0046",
+      "name": "policy_0046",
+      "domain": "privacy",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0047",
+      "name": "policy_0047",
+      "domain": "operations",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0048",
+      "name": "policy_0048",
+      "domain": "security",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0049",
+      "name": "policy_0049",
+      "domain": "billing",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0050",
+      "name": "policy_0050",
+      "domain": "privacy",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0051",
+      "name": "policy_0051",
+      "domain": "operations",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0052",
+      "name": "policy_0052",
+      "domain": "security",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0053",
+      "name": "policy_0053",
+      "domain": "billing",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0054",
+      "name": "policy_0054",
+      "domain": "privacy",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0055",
+      "name": "policy_0055",
+      "domain": "operations",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0056",
+      "name": "policy_0056",
+      "domain": "security",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0057",
+      "name": "policy_0057",
+      "domain": "billing",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0058",
+      "name": "policy_0058",
+      "domain": "privacy",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0059",
+      "name": "policy_0059",
+      "domain": "operations",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0060",
+      "name": "policy_0060",
+      "domain": "security",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0061",
+      "name": "policy_0061",
+      "domain": "billing",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0062",
+      "name": "policy_0062",
+      "domain": "privacy",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0063",
+      "name": "policy_0063",
+      "domain": "operations",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0064",
+      "name": "policy_0064",
+      "domain": "security",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0065",
+      "name": "policy_0065",
+      "domain": "billing",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0066",
+      "name": "policy_0066",
+      "domain": "privacy",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0067",
+      "name": "policy_0067",
+      "domain": "operations",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0068",
+      "name": "policy_0068",
+      "domain": "security",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0069",
+      "name": "policy_0069",
+      "domain": "billing",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0070",
+      "name": "policy_0070",
+      "domain": "privacy",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0071",
+      "name": "policy_0071",
+      "domain": "operations",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0072",
+      "name": "policy_0072",
+      "domain": "security",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0073",
+      "name": "policy_0073",
+      "domain": "billing",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0074",
+      "name": "policy_0074",
+      "domain": "privacy",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0075",
+      "name": "policy_0075",
+      "domain": "operations",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0076",
+      "name": "policy_0076",
+      "domain": "security",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0077",
+      "name": "policy_0077",
+      "domain": "billing",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0078",
+      "name": "policy_0078",
+      "domain": "privacy",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0079",
+      "name": "policy_0079",
+      "domain": "operations",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0080",
+      "name": "policy_0080",
+      "domain": "security",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0081",
+      "name": "policy_0081",
+      "domain": "billing",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0082",
+      "name": "policy_0082",
+      "domain": "privacy",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0083",
+      "name": "policy_0083",
+      "domain": "operations",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0084",
+      "name": "policy_0084",
+      "domain": "security",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0085",
+      "name": "policy_0085",
+      "domain": "billing",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0086",
+      "name": "policy_0086",
+      "domain": "privacy",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0087",
+      "name": "policy_0087",
+      "domain": "operations",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0088",
+      "name": "policy_0088",
+      "domain": "security",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0089",
+      "name": "policy_0089",
+      "domain": "billing",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0090",
+      "name": "policy_0090",
+      "domain": "privacy",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0091",
+      "name": "policy_0091",
+      "domain": "operations",
+      "mode": "audit"
+    },
+    {
+      "id": "POL-0092",
+      "name": "policy_0092",
+      "domain": "security",
+      "mode": "disabled"
+    },
+    {
+      "id": "POL-0093",
+      "name": "policy_0093",
+      "domain": "billing",
+      "mode": "enforce"
+    },
+    {
+      "id": "POL-0094",
+      "name": "policy_0094",
+      "domain": "privacy",
+      "mode": "audit"
+    }
+  ],
+  "rules": [
+    {
+      "id": "RULE-0001-01",
+      "policy_id": "POL-0001",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0001-02",
+      "policy_id": "POL-0001",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0001-03",
+      "policy_id": "POL-0001",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0001-04",
+      "policy_id": "POL-0001",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0001-05",
+      "policy_id": "POL-0001",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0001-06",
+      "policy_id": "POL-0001",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0002-01",
+      "policy_id": "POL-0002",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0002-02",
+      "policy_id": "POL-0002",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0002-03",
+      "policy_id": "POL-0002",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0002-04",
+      "policy_id": "POL-0002",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0002-05",
+      "policy_id": "POL-0002",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0002-06",
+      "policy_id": "POL-0002",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0003-01",
+      "policy_id": "POL-0003",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0003-02",
+      "policy_id": "POL-0003",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0003-03",
+      "policy_id": "POL-0003",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0003-04",
+      "policy_id": "POL-0003",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0003-05",
+      "policy_id": "POL-0003",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0003-06",
+      "policy_id": "POL-0003",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0004-01",
+      "policy_id": "POL-0004",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0004-02",
+      "policy_id": "POL-0004",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0004-03",
+      "policy_id": "POL-0004",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0004-04",
+      "policy_id": "POL-0004",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0004-05",
+      "policy_id": "POL-0004",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0004-06",
+      "policy_id": "POL-0004",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0005-01",
+      "policy_id": "POL-0005",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0005-02",
+      "policy_id": "POL-0005",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0005-03",
+      "policy_id": "POL-0005",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0005-04",
+      "policy_id": "POL-0005",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0005-05",
+      "policy_id": "POL-0005",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0005-06",
+      "policy_id": "POL-0005",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0006-01",
+      "policy_id": "POL-0006",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0006-02",
+      "policy_id": "POL-0006",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0006-03",
+      "policy_id": "POL-0006",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0006-04",
+      "policy_id": "POL-0006",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0006-05",
+      "policy_id": "POL-0006",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0006-06",
+      "policy_id": "POL-0006",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0007-01",
+      "policy_id": "POL-0007",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0007-02",
+      "policy_id": "POL-0007",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0007-03",
+      "policy_id": "POL-0007",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0007-04",
+      "policy_id": "POL-0007",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0007-05",
+      "policy_id": "POL-0007",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0007-06",
+      "policy_id": "POL-0007",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0008-01",
+      "policy_id": "POL-0008",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0008-02",
+      "policy_id": "POL-0008",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0008-03",
+      "policy_id": "POL-0008",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0008-04",
+      "policy_id": "POL-0008",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0008-05",
+      "policy_id": "POL-0008",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0008-06",
+      "policy_id": "POL-0008",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0009-01",
+      "policy_id": "POL-0009",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0009-02",
+      "policy_id": "POL-0009",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0009-03",
+      "policy_id": "POL-0009",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0009-04",
+      "policy_id": "POL-0009",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0009-05",
+      "policy_id": "POL-0009",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0009-06",
+      "policy_id": "POL-0009",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0010-01",
+      "policy_id": "POL-0010",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0010-02",
+      "policy_id": "POL-0010",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0010-03",
+      "policy_id": "POL-0010",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0010-04",
+      "policy_id": "POL-0010",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0010-05",
+      "policy_id": "POL-0010",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0010-06",
+      "policy_id": "POL-0010",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0011-01",
+      "policy_id": "POL-0011",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0011-02",
+      "policy_id": "POL-0011",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0011-03",
+      "policy_id": "POL-0011",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0011-04",
+      "policy_id": "POL-0011",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0011-05",
+      "policy_id": "POL-0011",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0011-06",
+      "policy_id": "POL-0011",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0012-01",
+      "policy_id": "POL-0012",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0012-02",
+      "policy_id": "POL-0012",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0012-03",
+      "policy_id": "POL-0012",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0012-04",
+      "policy_id": "POL-0012",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0012-05",
+      "policy_id": "POL-0012",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0012-06",
+      "policy_id": "POL-0012",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0013-01",
+      "policy_id": "POL-0013",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0013-02",
+      "policy_id": "POL-0013",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0013-03",
+      "policy_id": "POL-0013",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0013-04",
+      "policy_id": "POL-0013",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0013-05",
+      "policy_id": "POL-0013",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0013-06",
+      "policy_id": "POL-0013",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0014-01",
+      "policy_id": "POL-0014",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0014-02",
+      "policy_id": "POL-0014",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0014-03",
+      "policy_id": "POL-0014",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0014-04",
+      "policy_id": "POL-0014",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0014-05",
+      "policy_id": "POL-0014",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0014-06",
+      "policy_id": "POL-0014",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0015-01",
+      "policy_id": "POL-0015",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0015-02",
+      "policy_id": "POL-0015",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0015-03",
+      "policy_id": "POL-0015",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0015-04",
+      "policy_id": "POL-0015",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0015-05",
+      "policy_id": "POL-0015",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0015-06",
+      "policy_id": "POL-0015",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0016-01",
+      "policy_id": "POL-0016",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0016-02",
+      "policy_id": "POL-0016",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0016-03",
+      "policy_id": "POL-0016",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0016-04",
+      "policy_id": "POL-0016",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0016-05",
+      "policy_id": "POL-0016",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0016-06",
+      "policy_id": "POL-0016",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0017-01",
+      "policy_id": "POL-0017",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0017-02",
+      "policy_id": "POL-0017",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0017-03",
+      "policy_id": "POL-0017",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0017-04",
+      "policy_id": "POL-0017",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0017-05",
+      "policy_id": "POL-0017",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0017-06",
+      "policy_id": "POL-0017",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0018-01",
+      "policy_id": "POL-0018",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0018-02",
+      "policy_id": "POL-0018",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0018-03",
+      "policy_id": "POL-0018",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0018-04",
+      "policy_id": "POL-0018",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0018-05",
+      "policy_id": "POL-0018",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0018-06",
+      "policy_id": "POL-0018",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0019-01",
+      "policy_id": "POL-0019",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0019-02",
+      "policy_id": "POL-0019",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0019-03",
+      "policy_id": "POL-0019",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0019-04",
+      "policy_id": "POL-0019",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0019-05",
+      "policy_id": "POL-0019",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0019-06",
+      "policy_id": "POL-0019",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0020-01",
+      "policy_id": "POL-0020",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0020-02",
+      "policy_id": "POL-0020",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0020-03",
+      "policy_id": "POL-0020",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0020-04",
+      "policy_id": "POL-0020",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0020-05",
+      "policy_id": "POL-0020",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0020-06",
+      "policy_id": "POL-0020",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0021-01",
+      "policy_id": "POL-0021",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0021-02",
+      "policy_id": "POL-0021",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0021-03",
+      "policy_id": "POL-0021",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0021-04",
+      "policy_id": "POL-0021",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0021-05",
+      "policy_id": "POL-0021",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0021-06",
+      "policy_id": "POL-0021",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0022-01",
+      "policy_id": "POL-0022",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0022-02",
+      "policy_id": "POL-0022",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0022-03",
+      "policy_id": "POL-0022",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0022-04",
+      "policy_id": "POL-0022",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0022-05",
+      "policy_id": "POL-0022",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0022-06",
+      "policy_id": "POL-0022",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0023-01",
+      "policy_id": "POL-0023",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0023-02",
+      "policy_id": "POL-0023",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0023-03",
+      "policy_id": "POL-0023",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0023-04",
+      "policy_id": "POL-0023",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0023-05",
+      "policy_id": "POL-0023",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0023-06",
+      "policy_id": "POL-0023",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0024-01",
+      "policy_id": "POL-0024",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0024-02",
+      "policy_id": "POL-0024",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0024-03",
+      "policy_id": "POL-0024",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0024-04",
+      "policy_id": "POL-0024",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0024-05",
+      "policy_id": "POL-0024",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0024-06",
+      "policy_id": "POL-0024",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0025-01",
+      "policy_id": "POL-0025",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0025-02",
+      "policy_id": "POL-0025",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0025-03",
+      "policy_id": "POL-0025",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0025-04",
+      "policy_id": "POL-0025",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0025-05",
+      "policy_id": "POL-0025",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0025-06",
+      "policy_id": "POL-0025",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0026-01",
+      "policy_id": "POL-0026",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0026-02",
+      "policy_id": "POL-0026",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0026-03",
+      "policy_id": "POL-0026",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0026-04",
+      "policy_id": "POL-0026",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0026-05",
+      "policy_id": "POL-0026",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0026-06",
+      "policy_id": "POL-0026",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0027-01",
+      "policy_id": "POL-0027",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0027-02",
+      "policy_id": "POL-0027",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0027-03",
+      "policy_id": "POL-0027",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0027-04",
+      "policy_id": "POL-0027",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0027-05",
+      "policy_id": "POL-0027",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0027-06",
+      "policy_id": "POL-0027",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0028-01",
+      "policy_id": "POL-0028",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0028-02",
+      "policy_id": "POL-0028",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0028-03",
+      "policy_id": "POL-0028",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0028-04",
+      "policy_id": "POL-0028",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0028-05",
+      "policy_id": "POL-0028",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0028-06",
+      "policy_id": "POL-0028",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0029-01",
+      "policy_id": "POL-0029",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0029-02",
+      "policy_id": "POL-0029",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0029-03",
+      "policy_id": "POL-0029",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0029-04",
+      "policy_id": "POL-0029",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0029-05",
+      "policy_id": "POL-0029",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0029-06",
+      "policy_id": "POL-0029",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0030-01",
+      "policy_id": "POL-0030",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0030-02",
+      "policy_id": "POL-0030",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0030-03",
+      "policy_id": "POL-0030",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0030-04",
+      "policy_id": "POL-0030",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0030-05",
+      "policy_id": "POL-0030",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0030-06",
+      "policy_id": "POL-0030",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0031-01",
+      "policy_id": "POL-0031",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0031-02",
+      "policy_id": "POL-0031",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0031-03",
+      "policy_id": "POL-0031",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0031-04",
+      "policy_id": "POL-0031",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0031-05",
+      "policy_id": "POL-0031",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0031-06",
+      "policy_id": "POL-0031",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0032-01",
+      "policy_id": "POL-0032",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0032-02",
+      "policy_id": "POL-0032",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0032-03",
+      "policy_id": "POL-0032",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0032-04",
+      "policy_id": "POL-0032",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0032-05",
+      "policy_id": "POL-0032",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0032-06",
+      "policy_id": "POL-0032",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0033-01",
+      "policy_id": "POL-0033",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0033-02",
+      "policy_id": "POL-0033",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0033-03",
+      "policy_id": "POL-0033",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0033-04",
+      "policy_id": "POL-0033",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0033-05",
+      "policy_id": "POL-0033",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0033-06",
+      "policy_id": "POL-0033",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0034-01",
+      "policy_id": "POL-0034",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0034-02",
+      "policy_id": "POL-0034",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0034-03",
+      "policy_id": "POL-0034",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0034-04",
+      "policy_id": "POL-0034",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0034-05",
+      "policy_id": "POL-0034",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0034-06",
+      "policy_id": "POL-0034",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0035-01",
+      "policy_id": "POL-0035",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0035-02",
+      "policy_id": "POL-0035",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0035-03",
+      "policy_id": "POL-0035",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0035-04",
+      "policy_id": "POL-0035",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0035-05",
+      "policy_id": "POL-0035",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0035-06",
+      "policy_id": "POL-0035",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0036-01",
+      "policy_id": "POL-0036",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0036-02",
+      "policy_id": "POL-0036",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0036-03",
+      "policy_id": "POL-0036",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0036-04",
+      "policy_id": "POL-0036",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0036-05",
+      "policy_id": "POL-0036",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0036-06",
+      "policy_id": "POL-0036",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0037-01",
+      "policy_id": "POL-0037",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0037-02",
+      "policy_id": "POL-0037",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0037-03",
+      "policy_id": "POL-0037",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0037-04",
+      "policy_id": "POL-0037",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0037-05",
+      "policy_id": "POL-0037",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0037-06",
+      "policy_id": "POL-0037",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0038-01",
+      "policy_id": "POL-0038",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0038-02",
+      "policy_id": "POL-0038",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0038-03",
+      "policy_id": "POL-0038",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0038-04",
+      "policy_id": "POL-0038",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0038-05",
+      "policy_id": "POL-0038",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0038-06",
+      "policy_id": "POL-0038",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0039-01",
+      "policy_id": "POL-0039",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0039-02",
+      "policy_id": "POL-0039",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0039-03",
+      "policy_id": "POL-0039",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0039-04",
+      "policy_id": "POL-0039",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0039-05",
+      "policy_id": "POL-0039",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0039-06",
+      "policy_id": "POL-0039",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0040-01",
+      "policy_id": "POL-0040",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0040-02",
+      "policy_id": "POL-0040",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0040-03",
+      "policy_id": "POL-0040",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0040-04",
+      "policy_id": "POL-0040",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0040-05",
+      "policy_id": "POL-0040",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0040-06",
+      "policy_id": "POL-0040",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0041-01",
+      "policy_id": "POL-0041",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0041-02",
+      "policy_id": "POL-0041",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0041-03",
+      "policy_id": "POL-0041",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0041-04",
+      "policy_id": "POL-0041",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0041-05",
+      "policy_id": "POL-0041",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0041-06",
+      "policy_id": "POL-0041",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0042-01",
+      "policy_id": "POL-0042",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0042-02",
+      "policy_id": "POL-0042",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0042-03",
+      "policy_id": "POL-0042",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0042-04",
+      "policy_id": "POL-0042",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0042-05",
+      "policy_id": "POL-0042",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0042-06",
+      "policy_id": "POL-0042",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0043-01",
+      "policy_id": "POL-0043",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0043-02",
+      "policy_id": "POL-0043",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0043-03",
+      "policy_id": "POL-0043",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0043-04",
+      "policy_id": "POL-0043",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0043-05",
+      "policy_id": "POL-0043",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0043-06",
+      "policy_id": "POL-0043",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0044-01",
+      "policy_id": "POL-0044",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0044-02",
+      "policy_id": "POL-0044",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0044-03",
+      "policy_id": "POL-0044",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0044-04",
+      "policy_id": "POL-0044",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0044-05",
+      "policy_id": "POL-0044",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0044-06",
+      "policy_id": "POL-0044",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0045-01",
+      "policy_id": "POL-0045",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0045-02",
+      "policy_id": "POL-0045",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0045-03",
+      "policy_id": "POL-0045",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0045-04",
+      "policy_id": "POL-0045",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0045-05",
+      "policy_id": "POL-0045",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0045-06",
+      "policy_id": "POL-0045",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0046-01",
+      "policy_id": "POL-0046",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0046-02",
+      "policy_id": "POL-0046",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0046-03",
+      "policy_id": "POL-0046",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0046-04",
+      "policy_id": "POL-0046",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0046-05",
+      "policy_id": "POL-0046",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0046-06",
+      "policy_id": "POL-0046",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0047-01",
+      "policy_id": "POL-0047",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0047-02",
+      "policy_id": "POL-0047",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0047-03",
+      "policy_id": "POL-0047",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0047-04",
+      "policy_id": "POL-0047",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0047-05",
+      "policy_id": "POL-0047",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0047-06",
+      "policy_id": "POL-0047",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0048-01",
+      "policy_id": "POL-0048",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0048-02",
+      "policy_id": "POL-0048",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0048-03",
+      "policy_id": "POL-0048",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0048-04",
+      "policy_id": "POL-0048",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0048-05",
+      "policy_id": "POL-0048",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0048-06",
+      "policy_id": "POL-0048",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0049-01",
+      "policy_id": "POL-0049",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0049-02",
+      "policy_id": "POL-0049",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0049-03",
+      "policy_id": "POL-0049",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0049-04",
+      "policy_id": "POL-0049",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0049-05",
+      "policy_id": "POL-0049",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0049-06",
+      "policy_id": "POL-0049",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0050-01",
+      "policy_id": "POL-0050",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0050-02",
+      "policy_id": "POL-0050",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0050-03",
+      "policy_id": "POL-0050",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0050-04",
+      "policy_id": "POL-0050",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0050-05",
+      "policy_id": "POL-0050",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0050-06",
+      "policy_id": "POL-0050",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0051-01",
+      "policy_id": "POL-0051",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0051-02",
+      "policy_id": "POL-0051",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0051-03",
+      "policy_id": "POL-0051",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0051-04",
+      "policy_id": "POL-0051",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0051-05",
+      "policy_id": "POL-0051",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0051-06",
+      "policy_id": "POL-0051",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0052-01",
+      "policy_id": "POL-0052",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0052-02",
+      "policy_id": "POL-0052",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0052-03",
+      "policy_id": "POL-0052",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0052-04",
+      "policy_id": "POL-0052",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0052-05",
+      "policy_id": "POL-0052",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0052-06",
+      "policy_id": "POL-0052",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0053-01",
+      "policy_id": "POL-0053",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0053-02",
+      "policy_id": "POL-0053",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0053-03",
+      "policy_id": "POL-0053",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0053-04",
+      "policy_id": "POL-0053",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0053-05",
+      "policy_id": "POL-0053",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0053-06",
+      "policy_id": "POL-0053",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0054-01",
+      "policy_id": "POL-0054",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0054-02",
+      "policy_id": "POL-0054",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0054-03",
+      "policy_id": "POL-0054",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0054-04",
+      "policy_id": "POL-0054",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0054-05",
+      "policy_id": "POL-0054",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0054-06",
+      "policy_id": "POL-0054",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0055-01",
+      "policy_id": "POL-0055",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0055-02",
+      "policy_id": "POL-0055",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0055-03",
+      "policy_id": "POL-0055",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0055-04",
+      "policy_id": "POL-0055",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0055-05",
+      "policy_id": "POL-0055",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0055-06",
+      "policy_id": "POL-0055",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0056-01",
+      "policy_id": "POL-0056",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0056-02",
+      "policy_id": "POL-0056",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0056-03",
+      "policy_id": "POL-0056",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0056-04",
+      "policy_id": "POL-0056",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0056-05",
+      "policy_id": "POL-0056",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0056-06",
+      "policy_id": "POL-0056",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0057-01",
+      "policy_id": "POL-0057",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0057-02",
+      "policy_id": "POL-0057",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0057-03",
+      "policy_id": "POL-0057",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0057-04",
+      "policy_id": "POL-0057",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0057-05",
+      "policy_id": "POL-0057",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0057-06",
+      "policy_id": "POL-0057",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0058-01",
+      "policy_id": "POL-0058",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0058-02",
+      "policy_id": "POL-0058",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0058-03",
+      "policy_id": "POL-0058",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0058-04",
+      "policy_id": "POL-0058",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0058-05",
+      "policy_id": "POL-0058",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0058-06",
+      "policy_id": "POL-0058",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0059-01",
+      "policy_id": "POL-0059",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0059-02",
+      "policy_id": "POL-0059",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0059-03",
+      "policy_id": "POL-0059",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0059-04",
+      "policy_id": "POL-0059",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0059-05",
+      "policy_id": "POL-0059",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0059-06",
+      "policy_id": "POL-0059",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0060-01",
+      "policy_id": "POL-0060",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0060-02",
+      "policy_id": "POL-0060",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0060-03",
+      "policy_id": "POL-0060",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0060-04",
+      "policy_id": "POL-0060",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0060-05",
+      "policy_id": "POL-0060",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0060-06",
+      "policy_id": "POL-0060",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0061-01",
+      "policy_id": "POL-0061",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0061-02",
+      "policy_id": "POL-0061",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0061-03",
+      "policy_id": "POL-0061",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0061-04",
+      "policy_id": "POL-0061",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0061-05",
+      "policy_id": "POL-0061",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0061-06",
+      "policy_id": "POL-0061",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0062-01",
+      "policy_id": "POL-0062",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0062-02",
+      "policy_id": "POL-0062",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0062-03",
+      "policy_id": "POL-0062",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0062-04",
+      "policy_id": "POL-0062",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0062-05",
+      "policy_id": "POL-0062",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0062-06",
+      "policy_id": "POL-0062",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0063-01",
+      "policy_id": "POL-0063",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0063-02",
+      "policy_id": "POL-0063",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0063-03",
+      "policy_id": "POL-0063",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0063-04",
+      "policy_id": "POL-0063",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0063-05",
+      "policy_id": "POL-0063",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0063-06",
+      "policy_id": "POL-0063",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0064-01",
+      "policy_id": "POL-0064",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0064-02",
+      "policy_id": "POL-0064",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0064-03",
+      "policy_id": "POL-0064",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0064-04",
+      "policy_id": "POL-0064",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0064-05",
+      "policy_id": "POL-0064",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0064-06",
+      "policy_id": "POL-0064",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0065-01",
+      "policy_id": "POL-0065",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0065-02",
+      "policy_id": "POL-0065",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0065-03",
+      "policy_id": "POL-0065",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0065-04",
+      "policy_id": "POL-0065",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0065-05",
+      "policy_id": "POL-0065",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0065-06",
+      "policy_id": "POL-0065",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0066-01",
+      "policy_id": "POL-0066",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0066-02",
+      "policy_id": "POL-0066",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0066-03",
+      "policy_id": "POL-0066",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0066-04",
+      "policy_id": "POL-0066",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0066-05",
+      "policy_id": "POL-0066",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0066-06",
+      "policy_id": "POL-0066",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0067-01",
+      "policy_id": "POL-0067",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0067-02",
+      "policy_id": "POL-0067",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0067-03",
+      "policy_id": "POL-0067",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0067-04",
+      "policy_id": "POL-0067",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0067-05",
+      "policy_id": "POL-0067",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0067-06",
+      "policy_id": "POL-0067",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0068-01",
+      "policy_id": "POL-0068",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0068-02",
+      "policy_id": "POL-0068",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0068-03",
+      "policy_id": "POL-0068",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0068-04",
+      "policy_id": "POL-0068",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0068-05",
+      "policy_id": "POL-0068",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0068-06",
+      "policy_id": "POL-0068",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0069-01",
+      "policy_id": "POL-0069",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0069-02",
+      "policy_id": "POL-0069",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0069-03",
+      "policy_id": "POL-0069",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0069-04",
+      "policy_id": "POL-0069",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0069-05",
+      "policy_id": "POL-0069",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0069-06",
+      "policy_id": "POL-0069",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0070-01",
+      "policy_id": "POL-0070",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0070-02",
+      "policy_id": "POL-0070",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0070-03",
+      "policy_id": "POL-0070",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0070-04",
+      "policy_id": "POL-0070",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0070-05",
+      "policy_id": "POL-0070",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0070-06",
+      "policy_id": "POL-0070",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0071-01",
+      "policy_id": "POL-0071",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0071-02",
+      "policy_id": "POL-0071",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0071-03",
+      "policy_id": "POL-0071",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0071-04",
+      "policy_id": "POL-0071",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0071-05",
+      "policy_id": "POL-0071",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0071-06",
+      "policy_id": "POL-0071",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0072-01",
+      "policy_id": "POL-0072",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0072-02",
+      "policy_id": "POL-0072",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0072-03",
+      "policy_id": "POL-0072",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0072-04",
+      "policy_id": "POL-0072",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0072-05",
+      "policy_id": "POL-0072",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0072-06",
+      "policy_id": "POL-0072",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0073-01",
+      "policy_id": "POL-0073",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0073-02",
+      "policy_id": "POL-0073",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0073-03",
+      "policy_id": "POL-0073",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0073-04",
+      "policy_id": "POL-0073",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0073-05",
+      "policy_id": "POL-0073",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0073-06",
+      "policy_id": "POL-0073",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0074-01",
+      "policy_id": "POL-0074",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0074-02",
+      "policy_id": "POL-0074",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0074-03",
+      "policy_id": "POL-0074",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0074-04",
+      "policy_id": "POL-0074",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0074-05",
+      "policy_id": "POL-0074",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0074-06",
+      "policy_id": "POL-0074",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0075-01",
+      "policy_id": "POL-0075",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0075-02",
+      "policy_id": "POL-0075",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0075-03",
+      "policy_id": "POL-0075",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0075-04",
+      "policy_id": "POL-0075",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0075-05",
+      "policy_id": "POL-0075",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0075-06",
+      "policy_id": "POL-0075",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0076-01",
+      "policy_id": "POL-0076",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0076-02",
+      "policy_id": "POL-0076",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0076-03",
+      "policy_id": "POL-0076",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0076-04",
+      "policy_id": "POL-0076",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0076-05",
+      "policy_id": "POL-0076",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0076-06",
+      "policy_id": "POL-0076",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0077-01",
+      "policy_id": "POL-0077",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0077-02",
+      "policy_id": "POL-0077",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0077-03",
+      "policy_id": "POL-0077",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0077-04",
+      "policy_id": "POL-0077",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0077-05",
+      "policy_id": "POL-0077",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0077-06",
+      "policy_id": "POL-0077",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0078-01",
+      "policy_id": "POL-0078",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0078-02",
+      "policy_id": "POL-0078",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0078-03",
+      "policy_id": "POL-0078",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0078-04",
+      "policy_id": "POL-0078",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0078-05",
+      "policy_id": "POL-0078",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0078-06",
+      "policy_id": "POL-0078",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0079-01",
+      "policy_id": "POL-0079",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0079-02",
+      "policy_id": "POL-0079",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0079-03",
+      "policy_id": "POL-0079",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0079-04",
+      "policy_id": "POL-0079",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0079-05",
+      "policy_id": "POL-0079",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0079-06",
+      "policy_id": "POL-0079",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0080-01",
+      "policy_id": "POL-0080",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0080-02",
+      "policy_id": "POL-0080",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0080-03",
+      "policy_id": "POL-0080",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0080-04",
+      "policy_id": "POL-0080",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0080-05",
+      "policy_id": "POL-0080",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0080-06",
+      "policy_id": "POL-0080",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0081-01",
+      "policy_id": "POL-0081",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0081-02",
+      "policy_id": "POL-0081",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0081-03",
+      "policy_id": "POL-0081",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0081-04",
+      "policy_id": "POL-0081",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0081-05",
+      "policy_id": "POL-0081",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0081-06",
+      "policy_id": "POL-0081",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0082-01",
+      "policy_id": "POL-0082",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0082-02",
+      "policy_id": "POL-0082",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0082-03",
+      "policy_id": "POL-0082",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0082-04",
+      "policy_id": "POL-0082",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0082-05",
+      "policy_id": "POL-0082",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0082-06",
+      "policy_id": "POL-0082",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0083-01",
+      "policy_id": "POL-0083",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0083-02",
+      "policy_id": "POL-0083",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0083-03",
+      "policy_id": "POL-0083",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0083-04",
+      "policy_id": "POL-0083",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0083-05",
+      "policy_id": "POL-0083",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0083-06",
+      "policy_id": "POL-0083",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0084-01",
+      "policy_id": "POL-0084",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0084-02",
+      "policy_id": "POL-0084",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0084-03",
+      "policy_id": "POL-0084",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0084-04",
+      "policy_id": "POL-0084",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0084-05",
+      "policy_id": "POL-0084",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0084-06",
+      "policy_id": "POL-0084",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0085-01",
+      "policy_id": "POL-0085",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0085-02",
+      "policy_id": "POL-0085",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0085-03",
+      "policy_id": "POL-0085",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0085-04",
+      "policy_id": "POL-0085",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0085-05",
+      "policy_id": "POL-0085",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0085-06",
+      "policy_id": "POL-0085",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0086-01",
+      "policy_id": "POL-0086",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0086-02",
+      "policy_id": "POL-0086",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0086-03",
+      "policy_id": "POL-0086",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0086-04",
+      "policy_id": "POL-0086",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0086-05",
+      "policy_id": "POL-0086",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0086-06",
+      "policy_id": "POL-0086",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0087-01",
+      "policy_id": "POL-0087",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0087-02",
+      "policy_id": "POL-0087",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0087-03",
+      "policy_id": "POL-0087",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0087-04",
+      "policy_id": "POL-0087",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0087-05",
+      "policy_id": "POL-0087",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0087-06",
+      "policy_id": "POL-0087",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0088-01",
+      "policy_id": "POL-0088",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0088-02",
+      "policy_id": "POL-0088",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0088-03",
+      "policy_id": "POL-0088",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0088-04",
+      "policy_id": "POL-0088",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0088-05",
+      "policy_id": "POL-0088",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0088-06",
+      "policy_id": "POL-0088",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0089-01",
+      "policy_id": "POL-0089",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0089-02",
+      "policy_id": "POL-0089",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0089-03",
+      "policy_id": "POL-0089",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0089-04",
+      "policy_id": "POL-0089",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0089-05",
+      "policy_id": "POL-0089",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0089-06",
+      "policy_id": "POL-0089",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0090-01",
+      "policy_id": "POL-0090",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0090-02",
+      "policy_id": "POL-0090",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0090-03",
+      "policy_id": "POL-0090",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0090-04",
+      "policy_id": "POL-0090",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0090-05",
+      "policy_id": "POL-0090",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0090-06",
+      "policy_id": "POL-0090",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0091-01",
+      "policy_id": "POL-0091",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0091-02",
+      "policy_id": "POL-0091",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0091-03",
+      "policy_id": "POL-0091",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0091-04",
+      "policy_id": "POL-0091",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0091-05",
+      "policy_id": "POL-0091",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0091-06",
+      "policy_id": "POL-0091",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0092-01",
+      "policy_id": "POL-0092",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0092-02",
+      "policy_id": "POL-0092",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0092-03",
+      "policy_id": "POL-0092",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0092-04",
+      "policy_id": "POL-0092",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0092-05",
+      "policy_id": "POL-0092",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0092-06",
+      "policy_id": "POL-0092",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0093-01",
+      "policy_id": "POL-0093",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0093-02",
+      "policy_id": "POL-0093",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0093-03",
+      "policy_id": "POL-0093",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0093-04",
+      "policy_id": "POL-0093",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0093-05",
+      "policy_id": "POL-0093",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0093-06",
+      "policy_id": "POL-0093",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0094-01",
+      "policy_id": "POL-0094",
+      "effect": "deny",
+      "condition": "resource.tag_1 == principal.scope_1",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0094-02",
+      "policy_id": "POL-0094",
+      "effect": "review",
+      "condition": "resource.tag_2 == principal.scope_2",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0094-03",
+      "policy_id": "POL-0094",
+      "effect": "allow",
+      "condition": "resource.tag_3 == principal.scope_3",
+      "severity": "low"
+    },
+    {
+      "id": "RULE-0094-04",
+      "policy_id": "POL-0094",
+      "effect": "deny",
+      "condition": "resource.tag_4 == principal.scope_4",
+      "severity": "medium"
+    },
+    {
+      "id": "RULE-0094-05",
+      "policy_id": "POL-0094",
+      "effect": "review",
+      "condition": "resource.tag_5 == principal.scope_5",
+      "severity": "high"
+    },
+    {
+      "id": "RULE-0094-06",
+      "policy_id": "POL-0094",
+      "effect": "allow",
+      "condition": "resource.tag_6 == principal.scope_6",
+      "severity": "low"
+    }
+  ],
+  "bindings": [
+    {
+      "policy_id": "POL-0001-v2",
+      "role": "admin-v2",
+      "scope": "scope-1-v2"
+    },
+    {
+      "policy_id": "POL-0001-v2",
+      "role": "operator-v2",
+      "scope": "scope-1-v2"
+    },
+    {
+      "policy_id": "POL-0001-v2",
+      "role": "viewer-v2",
+      "scope": "scope-1-v2"
+    },
+    {
+      "policy_id": "POL-0002-v2",
+      "role": "admin-v2",
+      "scope": "scope-2-v2"
+    },
+    {
+      "policy_id": "POL-0002-v2",
+      "role": "operator-v2",
+      "scope": "scope-2-v2"
+    },
+    {
+      "policy_id": "POL-0002-v2",
+      "role": "viewer-v2",
+      "scope": "scope-2-v2"
+    },
+    {
+      "policy_id": "POL-0003-v2",
+      "role": "admin-v2",
+      "scope": "scope-3-v2"
+    },
+    {
+      "policy_id": "POL-0003-v2",
+      "role": "operator-v2",
+      "scope": "scope-3-v2"
+    },
+    {
+      "policy_id": "POL-0003-v2",
+      "role": "viewer-v2",
+      "scope": "scope-3-v2"
+    },
+    {
+      "policy_id": "POL-0004-v2",
+      "role": "admin-v2",
+      "scope": "scope-4-v2"
+    },
+    {
+      "policy_id": "POL-0004-v2",
+      "role": "operator-v2",
+      "scope": "scope-4-v2"
+    },
+    {
+      "policy_id": "POL-0004-v2",
+      "role": "viewer-v2",
+      "scope": "scope-4-v2"
+    },
+    {
+      "policy_id": "POL-0005-v2",
+      "role": "admin-v2",
+      "scope": "scope-5-v2"
+    },
+    {
+      "policy_id": "POL-0005-v2",
+      "role": "operator-v2",
+      "scope": "scope-5-v2"
+    },
+    {
+      "policy_id": "POL-0005-v2",
+      "role": "viewer-v2",
+      "scope": "scope-5-v2"
+    },
+    {
+      "policy_id": "POL-0006-v2",
+      "role": "admin-v2",
+      "scope": "scope-6-v2"
+    },
+    {
+      "policy_id": "POL-0006-v2",
+      "role": "operator-v2",
+      "scope": "scope-6-v2"
+    },
+    {
+      "policy_id": "POL-0006-v2",
+      "role": "viewer-v2",
+      "scope": "scope-6-v2"
+    },
+    {
+      "policy_id": "POL-0007-v2",
+      "role": "admin-v2",
+      "scope": "scope-7-v2"
+    },
+    {
+      "policy_id": "POL-0007-v2",
+      "role": "operator-v2",
+      "scope": "scope-7-v2"
+    },
+    {
+      "policy_id": "POL-0007-v2",
+      "role": "viewer-v2",
+      "scope": "scope-7-v2"
+    },
+    {
+      "policy_id": "POL-0008-v2",
+      "role": "admin-v2",
+      "scope": "scope-8-v2"
+    },
+    {
+      "policy_id": "POL-0008-v2",
+      "role": "operator-v2",
+      "scope": "scope-8-v2"
+    },
+    {
+      "policy_id": "POL-0008-v2",
+      "role": "viewer-v2",
+      "scope": "scope-8-v2"
+    },
+    {
+      "policy_id": "POL-0009-v2",
+      "role": "admin-v2",
+      "scope": "scope-9-v2"
+    },
+    {
+      "policy_id": "POL-0009-v2",
+      "role": "operator-v2",
+      "scope": "scope-9-v2"
+    },
+    {
+      "policy_id": "POL-0009-v2",
+      "role": "viewer-v2",
+      "scope": "scope-9-v2"
+    },
+    {
+      "policy_id": "POL-0010-v2",
+      "role": "admin-v2",
+      "scope": "scope-10-v2"
+    },
+    {
+      "policy_id": "POL-0010-v2",
+      "role": "operator-v2",
+      "scope": "scope-10-v2"
+    },
+    {
+      "policy_id": "POL-0010-v2",
+      "role": "viewer-v2",
+      "scope": "scope-10-v2"
+    },
+    {
+      "policy_id": "POL-0011-v2",
+      "role": "admin-v2",
+      "scope": "scope-11-v2"
+    },
+    {
+      "policy_id": "POL-0011-v2",
+      "role": "operator-v2",
+      "scope": "scope-11-v2"
+    },
+    {
+      "policy_id": "POL-0011-v2",
+      "role": "viewer-v2",
+      "scope": "scope-11-v2"
+    },
+    {
+      "policy_id": "POL-0012-v2",
+      "role": "admin-v2",
+      "scope": "scope-0-v2"
+    },
+    {
+      "policy_id": "POL-0012-v2",
+      "role": "operator-v2",
+      "scope": "scope-0-v2"
+    },
+    {
+      "policy_id": "POL-0012-v2",
+      "role": "viewer-v2",
+      "scope": "scope-0-v2"
+    },
+    {
+      "policy_id": "POL-0013-v2",
+      "role": "admin-v2",
+      "scope": "scope-1-v2"
+    },
+    {
+      "policy_id": "POL-0013-v2",
+      "role": "operator-v2",
+      "scope": "scope-1-v2"
+    },
+    {
+      "policy_id": "POL-0013-v2",
+      "role": "viewer-v2",
+      "scope": "scope-1-v2"
+    },
+    {
+      "policy_id": "POL-0014-v2",
+      "role": "admin-v2",
+      "scope": "scope-2-v2"
+    },
+    {
+      "policy_id": "POL-0014-v2",
+      "role": "operator-v2",
+      "scope": "scope-2-v2"
+    },
+    {
+      "policy_id": "POL-0014-v2",
+      "role": "viewer-v2",
+      "scope": "scope-2-v2"
+    },
+    {
+      "policy_id": "POL-0015-v2",
+      "role": "admin-v2",
+      "scope": "scope-3-v2"
+    },
+    {
+      "policy_id": "POL-0015-v2",
+      "role": "operator-v2",
+      "scope": "scope-3-v2"
+    },
+    {
+      "policy_id": "POL-0015-v2",
+      "role": "viewer-v2",
+      "scope": "scope-3-v2"
+    },
+    {
+      "policy_id": "POL-0016-v2",
+      "role": "admin-v2",
+      "scope": "scope-4-v2"
+    },
+    {
+      "policy_id": "POL-0016-v2",
+      "role": "operator-v2",
+      "scope": "scope-4-v2"
+    },
+    {
+      "policy_id": "POL-0016-v2",
+      "role": "viewer-v2",
+      "scope": "scope-4-v2"
+    },
+    {
+      "policy_id": "POL-0017-v2",
+      "role": "admin-v2",
+      "scope": "scope-5-v2"
+    },
+    {
+      "policy_id": "POL-0017-v2",
+      "role": "operator-v2",
+      "scope": "scope-5-v2"
+    },
+    {
+      "policy_id": "POL-0017-v2",
+      "role": "viewer-v2",
+      "scope": "scope-5-v2"
+    },
+    {
+      "policy_id": "POL-0018-v2",
+      "role": "admin-v2",
+      "scope": "scope-6-v2"
+    },
+    {
+      "policy_id": "POL-0018-v2",
+      "role": "operator-v2",
+      "scope": "scope-6-v2"
+    },
+    {
+      "policy_id": "POL-0018-v2",
+      "role": "viewer-v2",
+      "scope": "scope-6-v2"
+    },
+    {
+      "policy_id": "POL-0019-v2",
+      "role": "admin-v2",
+      "scope": "scope-7-v2"
+    },
+    {
+      "policy_id": "POL-0019-v2",
+      "role": "operator-v2",
+      "scope": "scope-7-v2"
+    },
+    {
+      "policy_id": "POL-0019-v2",
+      "role": "viewer-v2",
+      "scope": "scope-7-v2"
+    },
+    {
+      "policy_id": "POL-0020-v2",
+      "role": "admin-v2",
+      "scope": "scope-8-v2"
+    },
+    {
+      "policy_id": "POL-0020-v2",
+      "role": "operator-v2",
+      "scope": "scope-8-v2"
+    },
+    {
+      "policy_id": "POL-0020-v2",
+      "role": "viewer-v2",
+      "scope": "scope-8-v2"
+    },
+    {
+      "policy_id": "POL-0021-v2",
+      "role": "admin-v2",
+      "scope": "scope-9-v2"
+    },
+    {
+      "policy_id": "POL-0021-v2",
+      "role": "operator-v2",
+      "scope": "scope-9-v2"
+    },
+    {
+      "policy_id": "POL-0021-v2",
+      "role": "viewer-v2",
+      "scope": "scope-9-v2"
+    },
+    {
+      "policy_id": "POL-0022-v2",
+      "role": "admin-v2",
+      "scope": "scope-10-v2"
+    },
+    {
+      "policy_id": "POL-0022-v2",
+      "role": "operator-v2",
+      "scope": "scope-10-v2"
+    },
+    {
+      "policy_id": "POL-0022-v2",
+      "role": "viewer-v2",
+      "scope": "scope-10-v2"
+    },
+    {
+      "policy_id": "POL-0023-v2",
+      "role": "admin-v2",
+      "scope": "scope-11-v2"
+    },
+    {
+      "policy_id": "POL-0023-v2",
+      "role": "operator-v2",
+      "scope": "scope-11-v2"
+    },
+    {
+      "policy_id": "POL-0023-v2",
+      "role": "viewer-v2",
+      "scope": "scope-11-v2"
+    },
+    {
+      "policy_id": "POL-0024-v2",
+      "role": "admin-v2",
+      "scope": "scope-0-v2"
+    },
+    {
+      "policy_id": "POL-0024-v2",
+      "role": "operator-v2",
+      "scope": "scope-0-v2"
+    },
+    {
+      "policy_id": "POL-0024-v2",
+      "role": "viewer-v2",
+      "scope": "scope-0-v2"
+    },
+    {
+      "policy_id": "POL-0025-v2",
+      "role": "admin-v2",
+      "scope": "scope-1-v2"
+    },
+    {
+      "policy_id": "POL-0025-v2",
+      "role": "operator-v2",
+      "scope": "scope-1-v2"
+    },
+    {
+      "policy_id": "POL-0025-v2",
+      "role": "viewer-v2",
+      "scope": "scope-1-v2"
+    },
+    {
+      "policy_id": "POL-0026-v2",
+      "role": "admin-v2",
+      "scope": "scope-2-v2"
+    },
+    {
+      "policy_id": "POL-0026-v2",
+      "role": "operator-v2",
+      "scope": "scope-2-v2"
+    },
+    {
+      "policy_id": "POL-0026-v2",
+      "role": "viewer-v2",
+      "scope": "scope-2-v2"
+    },
+    {
+      "policy_id": "POL-0027-v2",
+      "role": "admin-v2",
+      "scope": "scope-3-v2"
+    },
+    {
+      "policy_id": "POL-0027-v2",
+      "role": "operator-v2",
+      "scope": "scope-3-v2"
+    },
+    {
+      "policy_id": "POL-0027-v2",
+      "role": "viewer-v2",
+      "scope": "scope-3-v2"
+    },
+    {
+      "policy_id": "POL-0028-v2",
+      "role": "admin-v2",
+      "scope": "scope-4-v2"
+    },
+    {
+      "policy_id": "POL-0028-v2",
+      "role": "operator-v2",
+      "scope": "scope-4-v2"
+    },
+    {
+      "policy_id": "POL-0028-v2",
+      "role": "viewer-v2",
+      "scope": "scope-4-v2"
+    },
+    {
+      "policy_id": "POL-0029-v2",
+      "role": "admin-v2",
+      "scope": "scope-5-v2"
+    },
+    {
+      "policy_id": "POL-0029-v2",
+      "role": "operator-v2",
+      "scope": "scope-5-v2"
+    },
+    {
+      "policy_id": "POL-0029-v2",
+      "role": "viewer-v2",
+      "scope": "scope-5-v2"
+    },
+    {
+      "policy_id": "POL-0030-v2",
+      "role": "admin-v2",
+      "scope": "scope-6-v2"
+    },
+    {
+      "policy_id": "POL-0030-v2",
+      "role": "operator-v2",
+      "scope": "scope-6-v2"
+    },
+    {
+      "policy_id": "POL-0030-v2",
+      "role": "viewer-v2",
+      "scope": "scope-6-v2"
+    },
+    {
+      "policy_id": "POL-0031-v2",
+      "role": "admin-v2",
+      "scope": "scope-7-v2"
+    },
+    {
+      "policy_id": "POL-0031-v2",
+      "role": "operator-v2",
+      "scope": "scope-7-v2"
+    },
+    {
+      "policy_id": "POL-0031-v2",
+      "role": "viewer-v2",
+      "scope": "scope-7-v2"
+    },
+    {
+      "policy_id": "POL-0032-v2",
+      "role": "admin-v2",
+      "scope": "scope-8-v2"
+    },
+    {
+      "policy_id": "POL-0032-v2",
+      "role": "operator-v2",
+      "scope": "scope-8-v2"
+    },
+    {
+      "policy_id": "POL-0032-v2",
+      "role": "viewer-v2",
+      "scope": "scope-8-v2"
+    },
+    {
+      "policy_id": "POL-0033-v2",
+      "role": "admin-v2",
+      "scope": "scope-9-v2"
+    },
+    {
+      "policy_id": "POL-0033-v2",
+      "role": "operator-v2",
+      "scope": "scope-9-v2"
+    },
+    {
+      "policy_id": "POL-0033-v2",
+      "role": "viewer-v2",
+      "scope": "scope-9-v2"
+    },
+    {
+      "policy_id": "POL-0034-v2",
+      "role": "admin-v2",
+      "scope": "scope-10-v2"
+    },
+    {
+      "policy_id": "POL-0034-v2",
+      "role": "operator-v2",
+      "scope": "scope-10-v2"
+    },
+    {
+      "policy_id": "POL-0034-v2",
+      "role": "viewer-v2",
+      "scope": "scope-10-v2"
+    },
+    {
+      "policy_id": "POL-0035-v2",
+      "role": "admin-v2",
+      "scope": "scope-11-v2"
+    },
+    {
+      "policy_id": "POL-0035-v2",
+      "role": "operator-v2",
+      "scope": "scope-11-v2"
+    },
+    {
+      "policy_id": "POL-0035-v2",
+      "role": "viewer-v2",
+      "scope": "scope-11-v2"
+    },
+    {
+      "policy_id": "POL-0036-v2",
+      "role": "admin-v2",
+      "scope": "scope-0-v2"
+    },
+    {
+      "policy_id": "POL-0036-v2",
+      "role": "operator-v2",
+      "scope": "scope-0-v2"
+    },
+    {
+      "policy_id": "POL-0036-v2",
+      "role": "viewer-v2",
+      "scope": "scope-0-v2"
+    },
+    {
+      "policy_id": "POL-0037-v2",
+      "role": "admin-v2",
+      "scope": "scope-1-v2"
+    },
+    {
+      "policy_id": "POL-0037-v2",
+      "role": "operator-v2",
+      "scope": "scope-1-v2"
+    },
+    {
+      "policy_id": "POL-0037-v2",
+      "role": "viewer-v2",
+      "scope": "scope-1-v2"
+    },
+    {
+      "policy_id": "POL-0038-v2",
+      "role": "admin-v2",
+      "scope": "scope-2-v2"
+    },
+    {
+      "policy_id": "POL-0038-v2",
+      "role": "operator-v2",
+      "scope": "scope-2-v2"
+    },
+    {
+      "policy_id": "POL-0038-v2",
+      "role": "viewer-v2",
+      "scope": "scope-2-v2"
+    },
+    {
+      "policy_id": "POL-0039-v2",
+      "role": "admin-v2",
+      "scope": "scope-3-v2"
+    },
+    {
+      "policy_id": "POL-0039-v2",
+      "role": "operator-v2",
+      "scope": "scope-3-v2"
+    },
+    {
+      "policy_id": "POL-0039-v2",
+      "role": "viewer-v2",
+      "scope": "scope-3-v2"
+    },
+    {
+      "policy_id": "POL-0040-v2",
+      "role": "admin-v2",
+      "scope": "scope-4-v2"
+    },
+    {
+      "policy_id": "POL-0040-v2",
+      "role": "operator-v2",
+      "scope": "scope-4-v2"
+    },
+    {
+      "policy_id": "POL-0040-v2",
+      "role": "viewer-v2",
+      "scope": "scope-4-v2"
+    },
+    {
+      "policy_id": "POL-0041-v2",
+      "role": "admin-v2",
+      "scope": "scope-5-v2"
+    },
+    {
+      "policy_id": "POL-0041-v2",
+      "role": "operator-v2",
+      "scope": "scope-5-v2"
+    },
+    {
+      "policy_id": "POL-0041-v2",
+      "role": "viewer-v2",
+      "scope": "scope-5-v2"
+    },
+    {
+      "policy_id": "POL-0042-v2",
+      "role": "admin-v2",
+      "scope": "scope-6-v2"
+    },
+    {
+      "policy_id": "POL-0042-v2",
+      "role": "operator-v2",
+      "scope": "scope-6-v2"
+    },
+    {
+      "policy_id": "POL-0042-v2",
+      "role": "viewer-v2",
+      "scope": "scope-6-v2"
+    },
+    {
+      "policy_id": "POL-0043-v2",
+      "role": "admin-v2",
+      "scope": "scope-7-v2"
+    },
+    {
+      "policy_id": "POL-0043-v2",
+      "role": "operator-v2",
+      "scope": "scope-7-v2"
+    },
+    {
+      "policy_id": "POL-0043-v2",
+      "role": "viewer-v2",
+      "scope": "scope-7-v2"
+    },
+    {
+      "policy_id": "POL-0044-v2",
+      "role": "admin-v2",
+      "scope": "scope-8-v2"
+    },
+    {
+      "policy_id": "POL-0044-v2",
+      "role": "operator-v2",
+      "scope": "scope-8-v2"
+    },
+    {
+      "policy_id": "POL-0044-v2",
+      "role": "viewer-v2",
+      "scope": "scope-8-v2"
+    },
+    {
+      "policy_id": "POL-0045-v2",
+      "role": "admin-v2",
+      "scope": "scope-9-v2"
+    },
+    {
+      "policy_id": "POL-0045-v2",
+      "role": "operator-v2",
+      "scope": "scope-9-v2"
+    },
+    {
+      "policy_id": "POL-0045-v2",
+      "role": "viewer",
+      "scope": "scope-9"
+    },
+    {
+      "policy_id": "POL-0046",
+      "role": "admin",
+      "scope": "scope-10"
+    },
+    {
+      "policy_id": "POL-0046",
+      "role": "operator",
+      "scope": "scope-10"
+    },
+    {
+      "policy_id": "POL-0046",
+      "role": "viewer",
+      "scope": "scope-10"
+    },
+    {
+      "policy_id": "POL-0047",
+      "role": "admin",
+      "scope": "scope-11"
+    },
+    {
+      "policy_id": "POL-0047",
+      "role": "operator",
+      "scope": "scope-11"
+    },
+    {
+      "policy_id": "POL-0047",
+      "role": "viewer",
+      "scope": "scope-11"
+    },
+    {
+      "policy_id": "POL-0048",
+      "role": "admin",
+      "scope": "scope-0"
+    },
+    {
+      "policy_id": "POL-0048",
+      "role": "operator",
+      "scope": "scope-0"
+    },
+    {
+      "policy_id": "POL-0048",
+      "role": "viewer",
+      "scope": "scope-0"
+    },
+    {
+      "policy_id": "POL-0049",
+      "role": "admin",
+      "scope": "scope-1"
+    },
+    {
+      "policy_id": "POL-0049",
+      "role": "operator",
+      "scope": "scope-1"
+    },
+    {
+      "policy_id": "POL-0049",
+      "role": "viewer",
+      "scope": "scope-1"
+    },
+    {
+      "policy_id": "POL-0050",
+      "role": "admin",
+      "scope": "scope-2"
+    },
+    {
+      "policy_id": "POL-0050",
+      "role": "operator",
+      "scope": "scope-2"
+    },
+    {
+      "policy_id": "POL-0050",
+      "role": "viewer",
+      "scope": "scope-2"
+    },
+    {
+      "policy_id": "POL-0051",
+      "role": "admin",
+      "scope": "scope-3"
+    },
+    {
+      "policy_id": "POL-0051",
+      "role": "operator",
+      "scope": "scope-3"
+    },
+    {
+      "policy_id": "POL-0051",
+      "role": "viewer",
+      "scope": "scope-3"
+    },
+    {
+      "policy_id": "POL-0052",
+      "role": "admin",
+      "scope": "scope-4"
+    },
+    {
+      "policy_id": "POL-0052",
+      "role": "operator",
+      "scope": "scope-4"
+    },
+    {
+      "policy_id": "POL-0052",
+      "role": "viewer",
+      "scope": "scope-4"
+    },
+    {
+      "policy_id": "POL-0053",
+      "role": "admin",
+      "scope": "scope-5"
+    },
+    {
+      "policy_id": "POL-0053",
+      "role": "operator",
+      "scope": "scope-5"
+    },
+    {
+      "policy_id": "POL-0053",
+      "role": "viewer",
+      "scope": "scope-5"
+    },
+    {
+      "policy_id": "POL-0054",
+      "role": "admin",
+      "scope": "scope-6"
+    },
+    {
+      "policy_id": "POL-0054",
+      "role": "operator",
+      "scope": "scope-6"
+    },
+    {
+      "policy_id": "POL-0054",
+      "role": "viewer",
+      "scope": "scope-6"
+    },
+    {
+      "policy_id": "POL-0055",
+      "role": "admin",
+      "scope": "scope-7"
+    },
+    {
+      "policy_id": "POL-0055",
+      "role": "operator",
+      "scope": "scope-7"
+    },
+    {
+      "policy_id": "POL-0055",
+      "role": "viewer",
+      "scope": "scope-7"
+    },
+    {
+      "policy_id": "POL-0056",
+      "role": "admin",
+      "scope": "scope-8"
+    },
+    {
+      "policy_id": "POL-0056",
+      "role": "operator",
+      "scope": "scope-8"
+    },
+    {
+      "policy_id": "POL-0056",
+      "role": "viewer",
+      "scope": "scope-8"
+    },
+    {
+      "policy_id": "POL-0057",
+      "role": "admin",
+      "scope": "scope-9"
+    },
+    {
+      "policy_id": "POL-0057",
+      "role": "operator",
+      "scope": "scope-9"
+    },
+    {
+      "policy_id": "POL-0057",
+      "role": "viewer",
+      "scope": "scope-9"
+    },
+    {
+      "policy_id": "POL-0058",
+      "role": "admin",
+      "scope": "scope-10"
+    },
+    {
+      "policy_id": "POL-0058",
+      "role": "operator",
+      "scope": "scope-10"
+    },
+    {
+      "policy_id": "POL-0058",
+      "role": "viewer",
+      "scope": "scope-10"
+    },
+    {
+      "policy_id": "POL-0059",
+      "role": "admin",
+      "scope": "scope-11"
+    },
+    {
+      "policy_id": "POL-0059",
+      "role": "operator",
+      "scope": "scope-11"
+    },
+    {
+      "policy_id": "POL-0059",
+      "role": "viewer",
+      "scope": "scope-11"
+    },
+    {
+      "policy_id": "POL-0060",
+      "role": "admin",
+      "scope": "scope-0"
+    },
+    {
+      "policy_id": "POL-0060",
+      "role": "operator",
+      "scope": "scope-0"
+    },
+    {
+      "policy_id": "POL-0060",
+      "role": "viewer",
+      "scope": "scope-0"
+    },
+    {
+      "policy_id": "POL-0061",
+      "role": "admin",
+      "scope": "scope-1"
+    },
+    {
+      "policy_id": "POL-0061",
+      "role": "operator",
+      "scope": "scope-1"
+    },
+    {
+      "policy_id": "POL-0061",
+      "role": "viewer",
+      "scope": "scope-1"
+    },
+    {
+      "policy_id": "POL-0062",
+      "role": "admin",
+      "scope": "scope-2"
+    },
+    {
+      "policy_id": "POL-0062",
+      "role": "operator",
+      "scope": "scope-2"
+    },
+    {
+      "policy_id": "POL-0062",
+      "role": "viewer",
+      "scope": "scope-2"
+    },
+    {
+      "policy_id": "POL-0063",
+      "role": "admin",
+      "scope": "scope-3"
+    },
+    {
+      "policy_id": "POL-0063",
+      "role": "operator",
+      "scope": "scope-3"
+    },
+    {
+      "policy_id": "POL-0063",
+      "role": "viewer",
+      "scope": "scope-3"
+    },
+    {
+      "policy_id": "POL-0064",
+      "role": "admin",
+      "scope": "scope-4"
+    },
+    {
+      "policy_id": "POL-0064",
+      "role": "operator",
+      "scope": "scope-4"
+    },
+    {
+      "policy_id": "POL-0064",
+      "role": "viewer",
+      "scope": "scope-4"
+    },
+    {
+      "policy_id": "POL-0065",
+      "role": "admin",
+      "scope": "scope-5"
+    },
+    {
+      "policy_id": "POL-0065",
+      "role": "operator",
+      "scope": "scope-5"
+    },
+    {
+      "policy_id": "POL-0065",
+      "role": "viewer",
+      "scope": "scope-5"
+    },
+    {
+      "policy_id": "POL-0066",
+      "role": "admin",
+      "scope": "scope-6"
+    },
+    {
+      "policy_id": "POL-0066",
+      "role": "operator",
+      "scope": "scope-6"
+    },
+    {
+      "policy_id": "POL-0066",
+      "role": "viewer",
+      "scope": "scope-6"
+    },
+    {
+      "policy_id": "POL-0067",
+      "role": "admin",
+      "scope": "scope-7"
+    },
+    {
+      "policy_id": "POL-0067",
+      "role": "operator",
+      "scope": "scope-7"
+    },
+    {
+      "policy_id": "POL-0067",
+      "role": "viewer",
+      "scope": "scope-7"
+    },
+    {
+      "policy_id": "POL-0068",
+      "role": "admin",
+      "scope": "scope-8"
+    },
+    {
+      "policy_id": "POL-0068",
+      "role": "operator",
+      "scope": "scope-8"
+    },
+    {
+      "policy_id": "POL-0068",
+      "role": "viewer",
+      "scope": "scope-8"
+    },
+    {
+      "policy_id": "POL-0069",
+      "role": "admin",
+      "scope": "scope-9"
+    },
+    {
+      "policy_id": "POL-0069",
+      "role": "operator",
+      "scope": "scope-9"
+    },
+    {
+      "policy_id": "POL-0069",
+      "role": "viewer",
+      "scope": "scope-9"
+    },
+    {
+      "policy_id": "POL-0070",
+      "role": "admin",
+      "scope": "scope-10"
+    },
+    {
+      "policy_id": "POL-0070",
+      "role": "operator",
+      "scope": "scope-10"
+    },
+    {
+      "policy_id": "POL-0070",
+      "role": "viewer",
+      "scope": "scope-10"
+    },
+    {
+      "policy_id": "POL-0071",
+      "role": "admin",
+      "scope": "scope-11"
+    },
+    {
+      "policy_id": "POL-0071",
+      "role": "operator",
+      "scope": "scope-11"
+    },
+    {
+      "policy_id": "POL-0071",
+      "role": "viewer",
+      "scope": "scope-11"
+    },
+    {
+      "policy_id": "POL-0072",
+      "role": "admin",
+      "scope": "scope-0"
+    },
+    {
+      "policy_id": "POL-0072",
+      "role": "operator",
+      "scope": "scope-0"
+    },
+    {
+      "policy_id": "POL-0072",
+      "role": "viewer",
+      "scope": "scope-0"
+    },
+    {
+      "policy_id": "POL-0073",
+      "role": "admin",
+      "scope": "scope-1"
+    },
+    {
+      "policy_id": "POL-0073",
+      "role": "operator",
+      "scope": "scope-1"
+    },
+    {
+      "policy_id": "POL-0073",
+      "role": "viewer",
+      "scope": "scope-1"
+    },
+    {
+      "policy_id": "POL-0074",
+      "role": "admin",
+      "scope": "scope-2"
+    },
+    {
+      "policy_id": "POL-0074",
+      "role": "operator",
+      "scope": "scope-2"
+    },
+    {
+      "policy_id": "POL-0074",
+      "role": "viewer",
+      "scope": "scope-2"
+    },
+    {
+      "policy_id": "POL-0075",
+      "role": "admin",
+      "scope": "scope-3"
+    },
+    {
+      "policy_id": "POL-0075",
+      "role": "operator",
+      "scope": "scope-3"
+    },
+    {
+      "policy_id": "POL-0075",
+      "role": "viewer",
+      "scope": "scope-3"
+    },
+    {
+      "policy_id": "POL-0076",
+      "role": "admin",
+      "scope": "scope-4"
+    },
+    {
+      "policy_id": "POL-0076",
+      "role": "operator",
+      "scope": "scope-4"
+    },
+    {
+      "policy_id": "POL-0076",
+      "role": "viewer",
+      "scope": "scope-4"
+    },
+    {
+      "policy_id": "POL-0077",
+      "role": "admin",
+      "scope": "scope-5"
+    },
+    {
+      "policy_id": "POL-0077",
+      "role": "operator",
+      "scope": "scope-5"
+    },
+    {
+      "policy_id": "POL-0077",
+      "role": "viewer",
+      "scope": "scope-5"
+    },
+    {
+      "policy_id": "POL-0078",
+      "role": "admin",
+      "scope": "scope-6"
+    },
+    {
+      "policy_id": "POL-0078",
+      "role": "operator",
+      "scope": "scope-6"
+    },
+    {
+      "policy_id": "POL-0078",
+      "role": "viewer",
+      "scope": "scope-6"
+    },
+    {
+      "policy_id": "POL-0079",
+      "role": "admin",
+      "scope": "scope-7"
+    },
+    {
+      "policy_id": "POL-0079",
+      "role": "operator",
+      "scope": "scope-7"
+    },
+    {
+      "policy_id": "POL-0079",
+      "role": "viewer",
+      "scope": "scope-7"
+    },
+    {
+      "policy_id": "POL-0080",
+      "role": "admin",
+      "scope": "scope-8"
+    },
+    {
+      "policy_id": "POL-0080",
+      "role": "operator",
+      "scope": "scope-8"
+    },
+    {
+      "policy_id": "POL-0080",
+      "role": "viewer",
+      "scope": "scope-8"
+    },
+    {
+      "policy_id": "POL-0081",
+      "role": "admin",
+      "scope": "scope-9"
+    },
+    {
+      "policy_id": "POL-0081",
+      "role": "operator",
+      "scope": "scope-9"
+    },
+    {
+      "policy_id": "POL-0081",
+      "role": "viewer",
+      "scope": "scope-9"
+    },
+    {
+      "policy_id": "POL-0082",
+      "role": "admin",
+      "scope": "scope-10"
+    },
+    {
+      "policy_id": "POL-0082",
+      "role": "operator",
+      "scope": "scope-10"
+    },
+    {
+      "policy_id": "POL-0082",
+      "role": "viewer",
+      "scope": "scope-10"
+    },
+    {
+      "policy_id": "POL-0083",
+      "role": "admin",
+      "scope": "scope-11"
+    },
+    {
+      "policy_id": "POL-0083",
+      "role": "operator",
+      "scope": "scope-11"
+    },
+    {
+      "policy_id": "POL-0083",
+      "role": "viewer",
+      "scope": "scope-11"
+    },
+    {
+      "policy_id": "POL-0084",
+      "role": "admin",
+      "scope": "scope-0"
+    },
+    {
+      "policy_id": "POL-0084",
+      "role": "operator",
+      "scope": "scope-0"
+    },
+    {
+      "policy_id": "POL-0084",
+      "role": "viewer",
+      "scope": "scope-0"
+    },
+    {
+      "policy_id": "POL-0085",
+      "role": "admin",
+      "scope": "scope-1"
+    },
+    {
+      "policy_id": "POL-0085",
+      "role": "operator",
+      "scope": "scope-1"
+    },
+    {
+      "policy_id": "POL-0085",
+      "role": "viewer",
+      "scope": "scope-1"
+    },
+    {
+      "policy_id": "POL-0086",
+      "role": "admin",
+      "scope": "scope-2"
+    },
+    {
+      "policy_id": "POL-0086",
+      "role": "operator",
+      "scope": "scope-2"
+    },
+    {
+      "policy_id": "POL-0086",
+      "role": "viewer",
+      "scope": "scope-2"
+    },
+    {
+      "policy_id": "POL-0087",
+      "role": "admin",
+      "scope": "scope-3"
+    },
+    {
+      "policy_id": "POL-0087",
+      "role": "operator",
+      "scope": "scope-3"
+    },
+    {
+      "policy_id": "POL-0087",
+      "role": "viewer",
+      "scope": "scope-3"
+    },
+    {
+      "policy_id": "POL-0088",
+      "role": "admin",
+      "scope": "scope-4"
+    },
+    {
+      "policy_id": "POL-0088",
+      "role": "operator",
+      "scope": "scope-4"
+    },
+    {
+      "policy_id": "POL-0088",
+      "role": "viewer",
+      "scope": "scope-4"
+    },
+    {
+      "policy_id": "POL-0089",
+      "role": "admin",
+      "scope": "scope-5"
+    },
+    {
+      "policy_id": "POL-0089",
+      "role": "operator",
+      "scope": "scope-5"
+    },
+    {
+      "policy_id": "POL-0089",
+      "role": "viewer",
+      "scope": "scope-5"
+    },
+    {
+      "policy_id": "POL-0090",
+      "role": "admin",
+      "scope": "scope-6"
+    },
+    {
+      "policy_id": "POL-0090",
+      "role": "operator",
+      "scope": "scope-6"
+    },
+    {
+      "policy_id": "POL-0090",
+      "role": "viewer",
+      "scope": "scope-6"
+    },
+    {
+      "policy_id": "POL-0091",
+      "role": "admin",
+      "scope": "scope-7"
+    },
+    {
+      "policy_id": "POL-0091",
+      "role": "operator",
+      "scope": "scope-7"
+    },
+    {
+      "policy_id": "POL-0091",
+      "role": "viewer",
+      "scope": "scope-7"
+    },
+    {
+      "policy_id": "POL-0092",
+      "role": "admin",
+      "scope": "scope-8"
+    },
+    {
+      "policy_id": "POL-0092",
+      "role": "operator",
+      "scope": "scope-8"
+    },
+    {
+      "policy_id": "POL-0092",
+      "role": "viewer",
+      "scope": "scope-8"
+    },
+    {
+      "policy_id": "POL-0093",
+      "role": "admin",
+      "scope": "scope-9"
+    },
+    {
+      "policy_id": "POL-0093",
+      "role": "operator",
+      "scope": "scope-9"
+    },
+    {
+      "policy_id": "POL-0093",
+      "role": "viewer",
+      "scope": "scope-9"
+    },
+    {
+      "policy_id": "POL-0094",
+      "role": "admin",
+      "scope": "scope-10"
+    },
+    {
+      "policy_id": "POL-0094",
+      "role": "operator",
+      "scope": "scope-10"
+    },
+    {
+      "policy_id": "POL-0094",
+      "role": "viewer",
+      "scope": "scope-10"
+    }
+  ]
+}

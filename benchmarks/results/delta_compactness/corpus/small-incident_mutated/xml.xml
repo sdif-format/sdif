@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <document_type>small-incident</document_type>
+  <version>1.0.0</version>
+  <generated>true</generated>
+  <benchmark_size_class>small</benchmark_size_class>
+  <benchmark_profile>mixed-narrative-tables</benchmark_profile>
+  <incident_id>INC-2026-0521</incident_id>
+  <service>payments-api</service>
+  <impact>partial-degradation</impact>
+  <summary>Synthetic incident report with timeline and remediation actions.</summary>
+  <events>
+    <item>
+      <id>EVT-001</id>
+      <minute>3</minute>
+      <actor>sre</actor>
+      <severity>warning</severity>
+      <message>Incident timeline event 1 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-002</id>
+      <minute>6</minute>
+      <actor>support</actor>
+      <severity>critical</severity>
+      <message>Incident timeline event 2 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-003</id>
+      <minute>9</minute>
+      <actor>deploy-bot</actor>
+      <severity>info</severity>
+      <message>Incident timeline event 3 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-004</id>
+      <minute>12</minute>
+      <actor>monitor</actor>
+      <severity>warning</severity>
+      <message>Incident timeline event 4 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-005</id>
+      <minute>15</minute>
+      <actor>sre</actor>
+      <severity>critical</severity>
+      <message>Incident timeline event 5 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-006</id>
+      <minute>18</minute>
+      <actor>support</actor>
+      <severity>info</severity>
+      <message>Incident timeline event 6 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-007</id>
+      <minute>21</minute>
+      <actor>deploy-bot</actor>
+      <severity>warning</severity>
+      <message>Incident timeline event 7 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-008</id>
+      <minute>24</minute>
+      <actor>monitor</actor>
+      <severity>critical</severity>
+      <message>Incident timeline event 8 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-009</id>
+      <minute>27</minute>
+      <actor>sre</actor>
+      <severity>info</severity>
+      <message>Incident timeline event 9 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-010</id>
+      <minute>30</minute>
+      <actor>support</actor>
+      <severity>warning</severity>
+      <message>Incident timeline event 10 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-011</id>
+      <minute>33</minute>
+      <actor>deploy-bot</actor>
+      <severity>critical</severity>
+      <message>Incident timeline event 11 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-012</id>
+      <minute>36</minute>
+      <actor>monitor</actor>
+      <severity>info</severity>
+      <message>Incident timeline event 12 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-013</id>
+      <minute>39</minute>
+      <actor>sre</actor>
+      <severity>warning</severity>
+      <message>Incident timeline event 13 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-014</id>
+      <minute>42</minute>
+      <actor>support</actor>
+      <severity>critical</severity>
+      <message>Incident timeline event 14 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-015</id>
+      <minute>45</minute>
+      <actor>deploy-bot</actor>
+      <severity>info</severity>
+      <message>Incident timeline event 15 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-016</id>
+      <minute>48</minute>
+      <actor>monitor</actor>
+      <severity>warning</severity>
+      <message>Incident timeline event 16 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-017</id>
+      <minute>51</minute>
+      <actor>sre</actor>
+      <severity>critical</severity>
+      <message>Incident timeline event 17 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-018</id>
+      <minute>54</minute>
+      <actor>support</actor>
+      <severity>info</severity>
+      <message>Incident timeline event 18 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-019</id>
+      <minute>57</minute>
+      <actor>deploy-bot</actor>
+      <severity>warning</severity>
+      <message>Incident timeline event 19 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-020</id>
+      <minute>60</minute>
+      <actor>monitor</actor>
+      <severity>critical</severity>
+      <message>Incident timeline event 20 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-021</id>
+      <minute>63</minute>
+      <actor>sre</actor>
+      <severity>info</severity>
+      <message>Incident timeline event 21 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-022</id>
+      <minute>66</minute>
+      <actor>support</actor>
+      <severity>warning</severity>
+      <message>Incident timeline event 22 with bounded narrative context.</message>
+    </item>
+    <item>
+      <id>EVT-023</id>
+      <minute>69</minute>
+      <actor>deploy-bot</actor>
+      <severity>critical</severity>
+      <message>Incident timeline event 23 with bounded narrative context.</message>
+    </item>
+  </events>
+  <actions>
+    <item>
+      <id>ACT-001-v2</id>
+      <event_id>EVT-004-v2</event_id>
+      <owner>team-2-v2</owner>
+      <status>done-v2</status>
+    </item>
+    <item>
+      <id>ACT-002-v2</id>
+      <event_id>EVT-005-v2</event_id>
+      <owner>team-3-v2</owner>
+      <status>verified-v2</status>
+    </item>
+    <item>
+      <id>ACT-003-v2</id>
+      <event_id>EVT-006-v2</event_id>
+      <owner>team-4-v2</owner>
+      <status>open-v2</status>
+    </item>
+    <item>
+      <id>ACT-004-v2</id>
+      <event_id>EVT-007-v2</event_id>
+      <owner>team-1-v2</owner>
+      <status>done-v2</status>
+    </item>
+    <item>
+      <id>ACT-005</id>
+      <event_id>EVT-008</event_id>
+      <owner>team-2</owner>
+      <status>verified</status>
+    </item>
+    <item>
+      <id>ACT-006</id>
+      <event_id>EVT-009</event_id>
+      <owner>team-3</owner>
+      <status>open</status>
+    </item>
+    <item>
+      <id>ACT-007</id>
+      <event_id>EVT-010</event_id>
+      <owner>team-4</owner>
+      <status>done</status>
+    </item>
+    <item>
+      <id>ACT-008</id>
+      <event_id>EVT-011</event_id>
+      <owner>team-1</owner>
+      <status>verified</status>
+    </item>
+    <item>
+      <id>ACT-009</id>
+      <event_id>EVT-012</event_id>
+      <owner>team-2</owner>
+      <status>open</status>
+    </item>
+  </actions>
+</document>

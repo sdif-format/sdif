@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <document_type>small-invoice-v2</document_type>
+  <version>1.0.0</version>
+  <generated>false</generated>
+  <benchmark_size_class>small-v2</benchmark_size_class>
+  <benchmark_profile>tabular-finance-v2</benchmark_profile>
+  <invoice_id>INV-2026-0001-v2</invoice_id>
+  <currency>EUR-v2</currency>
+  <customer_id>CUST-042-v2</customer_id>
+  <issued_on>2026-05-21-v2</issued_on>
+  <lines>
+    <item>
+      <id>LINE-001-v2</id>
+      <sku>SKU-1001-v2</sku>
+      <description>Implementation service line 1-v2</description>
+      <quantity>2.2</quantity>
+      <unit_price>102</unit_price>
+      <tax_code>reduced</tax_code>
+    </item>
+    <item>
+      <id>LINE-002</id>
+      <sku>SKU-1002</sku>
+      <description>Implementation service line 2</description>
+      <quantity>3</quantity>
+      <unit_price>109</unit_price>
+      <tax_code>exempt</tax_code>
+    </item>
+    <item>
+      <id>LINE-003</id>
+      <sku>SKU-1003</sku>
+      <description>Implementation service line 3</description>
+      <quantity>4</quantity>
+      <unit_price>116</unit_price>
+      <tax_code>standard</tax_code>
+    </item>
+    <item>
+      <id>LINE-004</id>
+      <sku>SKU-1004</sku>
+      <description>Implementation service line 4</description>
+      <quantity>1</quantity>
+      <unit_price>123</unit_price>
+      <tax_code>reduced</tax_code>
+    </item>
+    <item>
+      <id>LINE-005</id>
+      <sku>SKU-1005</sku>
+      <description>Implementation service line 5</description>
+      <quantity>2</quantity>
+      <unit_price>130</unit_price>
+      <tax_code>exempt</tax_code>
+    </item>
+    <item>
+      <id>LINE-006</id>
+      <sku>SKU-1006</sku>
+      <description>Implementation service line 6</description>
+      <quantity>3</quantity>
+      <unit_price>137</unit_price>
+      <tax_code>standard</tax_code>
+    </item>
+    <item>
+      <id>LINE-007</id>
+      <sku>SKU-1007</sku>
+      <description>Implementation service line 7</description>
+      <quantity>4</quantity>
+      <unit_price>144</unit_price>
+      <tax_code>reduced</tax_code>
+    </item>
+    <item>
+      <id>LINE-008</id>
+      <sku>SKU-1008</sku>
+      <description>Implementation service line 8</description>
+      <quantity>1</quantity>
+      <unit_price>151</unit_price>
+      <tax_code>exempt</tax_code>
+    </item>
+    <item>
+      <id>LINE-009</id>
+      <sku>SKU-1009</sku>
+      <description>Implementation service line 9</description>
+      <quantity>2</quantity>
+      <unit_price>158</unit_price>
+      <tax_code>standard</tax_code>
+    </item>
+    <item>
+      <id>LINE-010</id>
+      <sku>SKU-1010</sku>
+      <description>Implementation service line 10</description>
+      <quantity>3</quantity>
+      <unit_price>165</unit_price>
+      <tax_code>reduced</tax_code>
+    </item>
+    <item>
+      <id>LINE-011</id>
+      <sku>SKU-1011</sku>
+      <description>Implementation service line 11</description>
+      <quantity>4</quantity>
+      <unit_price>172</unit_price>
+      <tax_code>exempt</tax_code>
+    </item>
+    <item>
+      <id>LINE-012</id>
+      <sku>SKU-1012</sku>
+      <description>Implementation service line 12</description>
+      <quantity>1</quantity>
+      <unit_price>179</unit_price>
+      <tax_code>standard</tax_code>
+    </item>
+    <item>
+      <id>LINE-013</id>
+      <sku>SKU-1013</sku>
+      <description>Implementation service line 13</description>
+      <quantity>2</quantity>
+      <unit_price>186</unit_price>
+      <tax_code>reduced</tax_code>
+    </item>
+    <item>
+      <id>LINE-014</id>
+      <sku>SKU-1014</sku>
+      <description>Implementation service line 14</description>
+      <quantity>3</quantity>
+      <unit_price>193</unit_price>
+      <tax_code>exempt</tax_code>
+    </item>
+    <item>
+      <id>LINE-015</id>
+      <sku>SKU-1015</sku>
+      <description>Implementation service line 15</description>
+      <quantity>4</quantity>
+      <unit_price>200</unit_price>
+      <tax_code>standard</tax_code>
+    </item>
+    <item>
+      <id>LINE-016</id>
+      <sku>SKU-1016</sku>
+      <description>Implementation service line 16</description>
+      <quantity>1</quantity>
+      <unit_price>207</unit_price>
+      <tax_code>reduced</tax_code>
+    </item>
+    <item>
+      <id>LINE-017</id>
+      <sku>SKU-1017</sku>
+      <description>Implementation service line 17</description>
+      <quantity>2</quantity>
+      <unit_price>214</unit_price>
+      <tax_code>exempt</tax_code>
+    </item>
+  </lines>
+  <payments>
+    <item>
+      <id>PAY-001</id>
+      <method>card</method>
+      <amount>1240</amount>
+      <status>captured</status>
+    </item>
+    <item>
+      <id>PAY-002</id>
+      <method>transfer</method>
+      <amount>880</amount>
+      <status>pending</status>
+    </item>
+  </payments>
+</document>

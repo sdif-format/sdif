@@ -1,0 +1,2180 @@
+@sdif 1.0
+document_type github.openapi
+version 1.0.0
+generated true
+benchmark_size_class large
+benchmark_profile real-world-openapi-sampled
+source_file examples/golden/github.openapi/github.openapi.json
+source_openapi 3.0.3
+title "GitHub v3 REST API"
+source_version 1.1.4
+sampling_policy "First 360 REST operations normalized into SDIF-representable tables."
+tags[name,description]:
+  actions	Endpoints to manage GitHub Actions using the REST API.
+  activity	Activity APIs provide access to notifications, subscriptions, and timelines.
+  apps	Information for integrations and installations.
+  billing	Monitor charges and usage from Actions and Packages.
+  checks	Rich interactions with checks run by your integrations.
+  code-scanning	Retrieve code scanning alerts from a repository.
+  codes-of-conduct	Insight into codes of conduct for your communities.
+  emojis	List emojis available to use on GitHub.
+  dependabot	Endpoints to manage Dependabot.
+  dependency-graph	Endpoints to access Dependency Graph features.
+  gists	View, modify your gists.
+  git	Raw Git functionality.
+  gitignore	View gitignore templates
+  issues	Interact with GitHub Issues.
+  licenses	View various OSS licenses.
+  markdown	Render GitHub flavored Markdown
+  merge-queue	Interact with GitHub Merge Queues.
+  meta	Endpoints that give information about the API.
+  migrations	Move projects to or from GitHub.
+  oidc	Endpoints to manage GitHub OIDC configuration using the REST API.
+  orgs	Interact with organizations.
+  packages	Manage packages for authenticated users and organizations.
+  pulls	Interact with GitHub Pull Requests.
+  rate-limit	Check your current rate limit status.
+  reactions	Interact with reactions to various GitHub entities.
+  repos	Interact with GitHub Repos.
+  search	Search for specific items on GitHub.
+  secret-scanning	Retrieve secret scanning alerts from a repository.
+  teams	Interact with GitHub Teams.
+  users	Interact with and view information about users and also current user.
+  code-quality	Insights into reliability, maintainability, and efficiency of your codebase.
+  codespaces	Endpoints to manage Codespaces using the REST API.
+  copilot	Endpoints to manage Copilot using the REST API.
+  copilot-spaces	Endpoints to manage Copilot Spaces using the REST API.
+  security-advisories	Manage security advisories.
+  interactions	Owner or admin management of users interactions.
+  classroom	Interact with GitHub Classroom.
+  desktop	Desktop specific endpoints.
+  enterprise-teams	Endpoints to manage GitHub Enterprise Teams.
+  enterprise-team-memberships	Endpoints to manage GitHub Enterprise Team memberships.
+  enterprise-team-organizations	Endpoints to manage GitHub Enterprise Team organization assignments.
+  code-security	Endpoints to manage Code security using the REST API.
+  private-registries	Manage private registry configurations.
+  hosted-compute	Manage hosted compute networking resources.
+  credentials	Revoke compromised or leaked GitHub credentials.
+  campaigns	Endpoints to manage campaigns via the REST API.
+  projects	Endpoints to manage Projects using the REST API.
+  agent-tasks	Endpoints to manage and interact with agent tasks.
+  agents	Endpoints for Agents secrets and variables.
+servers[url,description]:
+  https://api.github.com	""
+operations[operation_id,method,path,tag,summary,deprecated]:
+  meta/root	GET	/	meta	GitHub API Root	false
+  security-advisories/list-global-advisories	GET	/advisories	security-advisories	List global security advisories	false
+  security-advisories/get-global-advisory	GET	/advisories/{ghsa_id}	security-advisories	Get a global security advisory	false
+  agent-tasks/list-tasks-for-repo	GET	/agents/repos/{owner}/{repo}/tasks	agent-tasks	List tasks for repository	false
+  agent-tasks/create-task-in-repo	POST	/agents/repos/{owner}/{repo}/tasks	agent-tasks	Start a task	false
+  agent-tasks/get-task-by-repo-and-id	GET	/agents/repos/{owner}/{repo}/tasks/{task_id}	agent-tasks	Get a task by repo	false
+  agent-tasks/list-tasks	GET	/agents/tasks	agent-tasks	List tasks	false
+  agent-tasks/get-task-by-id	GET	/agents/tasks/{task_id}	agent-tasks	Get a task by ID	false
+  apps/get-authenticated	GET	/app	apps	Get the authenticated app	false
+  apps/create-from-manifest	POST	/app-manifests/{code}/conversions	apps	Create a GitHub App from a manifest	false
+  apps/get-webhook-config-for-app	GET	/app/hook/config	apps	Get a webhook configuration for an app	false
+  apps/update-webhook-config-for-app	PATCH	/app/hook/config	apps	Update a webhook configuration for an app	false
+  apps/list-webhook-deliveries	GET	/app/hook/deliveries	apps	List deliveries for an app webhook	false
+  apps/get-webhook-delivery	GET	/app/hook/deliveries/{delivery_id}	apps	Get a delivery for an app webhook	false
+  apps/redeliver-webhook-delivery	POST	/app/hook/deliveries/{delivery_id}/attempts	apps	Redeliver a delivery for an app webhook	false
+  apps/list-installation-requests-for-authenticated-app	GET	/app/installation-requests	apps	List installation requests for the authenticated app	false
+  apps/list-installations	GET	/app/installations	apps	List installations for the authenticated app	false
+  apps/get-installation	GET	/app/installations/{installation_id}	apps	Get an installation for the authenticated app	false
+  apps/delete-installation	DELETE	/app/installations/{installation_id}	apps	Delete an installation for the authenticated app	false
+  apps/create-installation-access-token	POST	/app/installations/{installation_id}/access_tokens	apps	Create an installation access token for an app	false
+  apps/suspend-installation	PUT	/app/installations/{installation_id}/suspended	apps	Suspend an app installation	false
+  apps/unsuspend-installation	DELETE	/app/installations/{installation_id}/suspended	apps	Unsuspend an app installation	false
+  apps/delete-authorization	DELETE	/applications/{client_id}/grant	apps	Delete an app authorization	false
+  apps/check-token	POST	/applications/{client_id}/token	apps	Check a token	false
+  apps/reset-token	PATCH	/applications/{client_id}/token	apps	Reset a token	false
+  apps/delete-token	DELETE	/applications/{client_id}/token	apps	Delete an app token	false
+  apps/scope-token	POST	/applications/{client_id}/token/scoped	apps	Create a scoped access token	false
+  apps/get-by-slug	GET	/apps/{app_slug}	apps	Get an app	false
+  classroom/get-an-assignment	GET	/assignments/{assignment_id}	classroom	Get an assignment	false
+  classroom/list-accepted-assignments-for-an-assignment	GET	/assignments/{assignment_id}/accepted_assignments	classroom	List accepted assignments for an assignment	false
+  classroom/get-assignment-grades	GET	/assignments/{assignment_id}/grades	classroom	Get assignment grades	false
+  classroom/list-classrooms	GET	/classrooms	classroom	List classrooms	false
+  classroom/get-a-classroom	GET	/classrooms/{classroom_id}	classroom	Get a classroom	false
+  classroom/list-assignments-for-a-classroom	GET	/classrooms/{classroom_id}/assignments	classroom	List assignments for a classroom	false
+  codes-of-conduct/get-all-codes-of-conduct	GET	/codes_of_conduct	codes-of-conduct	Get all codes of conduct	false
+  codes-of-conduct/get-conduct-code	GET	/codes_of_conduct/{key}	codes-of-conduct	Get a code of conduct	false
+  credentials/revoke	POST	/credentials/revoke	credentials	Revoke a list of credentials	false
+  emojis/get	GET	/emojis	emojis	Get emojis	false
+  actions/get-actions-cache-retention-limit-for-enterprise	GET	/enterprises/{enterprise}/actions/cache/retention-limit	actions	Get GitHub Actions cache retention limit for an enterprise	false
+  actions/set-actions-cache-retention-limit-for-enterprise	PUT	/enterprises/{enterprise}/actions/cache/retention-limit	actions	Set GitHub Actions cache retention limit for an enterprise	false
+  actions/get-actions-cache-storage-limit-for-enterprise	GET	/enterprises/{enterprise}/actions/cache/storage-limit	actions	Get GitHub Actions cache storage limit for an enterprise	false
+  actions/set-actions-cache-storage-limit-for-enterprise	PUT	/enterprises/{enterprise}/actions/cache/storage-limit	actions	Set GitHub Actions cache storage limit for an enterprise	false
+  oidc/list-oidc-custom-property-inclusions-for-enterprise	GET	/enterprises/{enterprise}/actions/oidc/customization/properties/repo	oidc	List OIDC custom property inclusions for an enterprise	false
+  oidc/create-oidc-custom-property-inclusion-for-enterprise	POST	/enterprises/{enterprise}/actions/oidc/customization/properties/repo	oidc	Create an OIDC custom property inclusion for an enterprise	false
+  oidc/delete-oidc-custom-property-inclusion-for-enterprise	DELETE	/enterprises/{enterprise}/actions/oidc/customization/properties/repo/{custom_property_name}	oidc	Delete an OIDC custom property inclusion for an enterprise	false
+  code-security/get-configurations-for-enterprise	GET	/enterprises/{enterprise}/code-security/configurations	code-security	Get code security configurations for an enterprise	false
+  code-security/create-configuration-for-enterprise	POST	/enterprises/{enterprise}/code-security/configurations	code-security	Create a code security configuration for an enterprise	false
+  code-security/get-default-configurations-for-enterprise	GET	/enterprises/{enterprise}/code-security/configurations/defaults	code-security	Get default code security configurations for an enterprise	false
+  code-security/get-single-configuration-for-enterprise	GET	/enterprises/{enterprise}/code-security/configurations/{configuration_id}	code-security	Retrieve a code security configuration of an enterprise	false
+  code-security/update-enterprise-configuration	PATCH	/enterprises/{enterprise}/code-security/configurations/{configuration_id}	code-security	Update a custom code security configuration for an enterprise	false
+  code-security/delete-configuration-for-enterprise	DELETE	/enterprises/{enterprise}/code-security/configurations/{configuration_id}	code-security	Delete a code security configuration for an enterprise	false
+  code-security/attach-enterprise-configuration	POST	/enterprises/{enterprise}/code-security/configurations/{configuration_id}/attach	code-security	Attach an enterprise configuration to repositories	false
+  code-security/set-configuration-as-default-for-enterprise	PUT	/enterprises/{enterprise}/code-security/configurations/{configuration_id}/defaults	code-security	Set a code security configuration as a default for an enterprise	false
+  code-security/get-repositories-for-enterprise-configuration	GET	/enterprises/{enterprise}/code-security/configurations/{configuration_id}/repositories	code-security	Get repositories associated with an enterprise code security configuration	false
+  copilot/copilot-enterprise-one-day-usage-metrics	GET	/enterprises/{enterprise}/copilot/metrics/reports/enterprise-1-day	copilot	Get Copilot enterprise usage metrics for a specific day	false
+  copilot/copilot-enterprise-usage-metrics	GET	/enterprises/{enterprise}/copilot/metrics/reports/enterprise-28-day/latest	copilot	Get Copilot enterprise usage metrics	false
+  copilot/copilot-enterprise-user-teams-one-day-report	GET	/enterprises/{enterprise}/copilot/metrics/reports/user-teams-1-day	copilot	Get Copilot enterprise user-teams report for a specific day	false
+  copilot/copilot-users-one-day-usage-metrics	GET	/enterprises/{enterprise}/copilot/metrics/reports/users-1-day	copilot	Get Copilot users usage metrics for a specific day	false
+  copilot/copilot-users-usage-metrics	GET	/enterprises/{enterprise}/copilot/metrics/reports/users-28-day/latest	copilot	Get Copilot users usage metrics	false
+  copilot/set-enterprise-coding-agent-policy	PUT	/enterprises/{enterprise}/copilot/policies/coding_agent	copilot	Set the coding agent policy for an enterprise	false
+  copilot/add-organizations-to-enterprise-coding-agent-policy	POST	/enterprises/{enterprise}/copilot/policies/coding_agent/organizations	copilot	Add organizations to the enterprise coding agent policy	false
+  copilot/remove-organizations-from-enterprise-coding-agent-policy	DELETE	/enterprises/{enterprise}/copilot/policies/coding_agent/organizations	copilot	Remove organizations from the enterprise coding agent policy	false
+  dependabot/list-alerts-for-enterprise	GET	/enterprises/{enterprise}/dependabot/alerts	dependabot	List Dependabot alerts for an enterprise	false
+  dependabot/repository-access-for-enterprise	GET	/enterprises/{enterprise}/dependabot/repository-access	dependabot	Lists the repositories Dependabot can access in an enterprise	false
+  dependabot/update-repository-access-for-enterprise	PATCH	/enterprises/{enterprise}/dependabot/repository-access	dependabot	Updates Dependabot's repository access list for an enterprise	false
+  dependabot/set-repository-access-default-level-for-enterprise	PUT	/enterprises/{enterprise}/dependabot/repository-access/default-level	dependabot	Set the default repository access level for Dependabot in an enterprise	false
+  enterprise-teams/list	GET	/enterprises/{enterprise}/teams	enterprise-teams	List enterprise teams	false
+  enterprise-teams/create	POST	/enterprises/{enterprise}/teams	enterprise-teams	Create an enterprise team	false
+  enterprise-team-memberships/list	GET	/enterprises/{enterprise}/teams/{enterprise-team}/memberships	enterprise-team-memberships	List members in an enterprise team	false
+  enterprise-team-memberships/bulk-add	POST	/enterprises/{enterprise}/teams/{enterprise-team}/memberships/add	enterprise-team-memberships	Bulk add team members	false
+  enterprise-team-memberships/bulk-remove	POST	/enterprises/{enterprise}/teams/{enterprise-team}/memberships/remove	enterprise-team-memberships	Bulk remove team members	false
+  enterprise-team-memberships/get	GET	/enterprises/{enterprise}/teams/{enterprise-team}/memberships/{username}	enterprise-team-memberships	Get enterprise team membership	false
+  enterprise-team-memberships/add	PUT	/enterprises/{enterprise}/teams/{enterprise-team}/memberships/{username}	enterprise-team-memberships	Add team member	false
+  enterprise-team-memberships/remove	DELETE	/enterprises/{enterprise}/teams/{enterprise-team}/memberships/{username}	enterprise-team-memberships	Remove team membership	false
+  enterprise-team-organizations/get-assignments	GET	/enterprises/{enterprise}/teams/{enterprise-team}/organizations	enterprise-team-organizations	Get organization assignments	false
+  enterprise-team-organizations/bulk-add	POST	/enterprises/{enterprise}/teams/{enterprise-team}/organizations/add	enterprise-team-organizations	Add organization assignments	false
+  enterprise-team-organizations/bulk-remove	POST	/enterprises/{enterprise}/teams/{enterprise-team}/organizations/remove	enterprise-team-organizations	Remove organization assignments	false
+  enterprise-team-organizations/get-assignment	GET	/enterprises/{enterprise}/teams/{enterprise-team}/organizations/{org}	enterprise-team-organizations	Get organization assignment	false
+  enterprise-team-organizations/add	PUT	/enterprises/{enterprise}/teams/{enterprise-team}/organizations/{org}	enterprise-team-organizations	Add an organization assignment	false
+  enterprise-team-organizations/delete	DELETE	/enterprises/{enterprise}/teams/{enterprise-team}/organizations/{org}	enterprise-team-organizations	Delete an organization assignment	false
+  enterprise-teams/get	GET	/enterprises/{enterprise}/teams/{team_slug}	enterprise-teams	Get an enterprise team	false
+  enterprise-teams/update	PATCH	/enterprises/{enterprise}/teams/{team_slug}	enterprise-teams	Update an enterprise team	false
+  enterprise-teams/delete	DELETE	/enterprises/{enterprise}/teams/{team_slug}	enterprise-teams	Delete an enterprise team	false
+  activity/list-public-events	GET	/events	activity	List public events	false
+  activity/get-feeds	GET	/feeds	activity	Get feeds	false
+  gists/list	GET	/gists	gists	List gists for the authenticated user	false
+  gists/create	POST	/gists	gists	Create a gist	false
+  gists/list-public	GET	/gists/public	gists	List public gists	false
+  gists/list-starred	GET	/gists/starred	gists	List starred gists	false
+  gists/get	GET	/gists/{gist_id}	gists	Get a gist	false
+  gists/update	PATCH	/gists/{gist_id}	gists	Update a gist	false
+  gists/delete	DELETE	/gists/{gist_id}	gists	Delete a gist	false
+  gists/list-comments	GET	/gists/{gist_id}/comments	gists	List gist comments	false
+  gists/create-comment	POST	/gists/{gist_id}/comments	gists	Create a gist comment	false
+  gists/get-comment	GET	/gists/{gist_id}/comments/{comment_id}	gists	Get a gist comment	false
+  gists/update-comment	PATCH	/gists/{gist_id}/comments/{comment_id}	gists	Update a gist comment	false
+  gists/delete-comment	DELETE	/gists/{gist_id}/comments/{comment_id}	gists	Delete a gist comment	false
+  gists/list-commits	GET	/gists/{gist_id}/commits	gists	List gist commits	false
+  gists/list-forks	GET	/gists/{gist_id}/forks	gists	List gist forks	false
+  gists/fork	POST	/gists/{gist_id}/forks	gists	Fork a gist	false
+  gists/check-is-starred	GET	/gists/{gist_id}/star	gists	Check if a gist is starred	false
+  gists/star	PUT	/gists/{gist_id}/star	gists	Star a gist	false
+  gists/unstar	DELETE	/gists/{gist_id}/star	gists	Unstar a gist	false
+  gists/get-revision	GET	/gists/{gist_id}/{sha}	gists	Get a gist revision	false
+  gitignore/get-all-templates	GET	/gitignore/templates	gitignore	Get all gitignore templates	false
+  gitignore/get-template	GET	/gitignore/templates/{name}	gitignore	Get a gitignore template	false
+  apps/list-repos-accessible-to-installation	GET	/installation/repositories	apps	List repositories accessible to the app installation	false
+  apps/revoke-installation-access-token	DELETE	/installation/token	apps	Revoke an installation access token	false
+  issues/list	GET	/issues	issues	List issues assigned to the authenticated user	false
+  licenses/get-all-commonly-used	GET	/licenses	licenses	Get all commonly used licenses	false
+  licenses/get	GET	/licenses/{license}	licenses	Get a license	false
+  markdown/render	POST	/markdown	markdown	Render a Markdown document	false
+  markdown/render-raw	POST	/markdown/raw	markdown	Render a Markdown document in raw mode	false
+  apps/get-subscription-plan-for-account	GET	/marketplace_listing/accounts/{account_id}	apps	Get a subscription plan for an account	false
+  apps/list-plans	GET	/marketplace_listing/plans	apps	List plans	false
+  apps/list-accounts-for-plan	GET	/marketplace_listing/plans/{plan_id}/accounts	apps	List accounts for a plan	false
+  apps/get-subscription-plan-for-account-stubbed	GET	/marketplace_listing/stubbed/accounts/{account_id}	apps	Get a subscription plan for an account (stubbed)	false
+  apps/list-plans-stubbed	GET	/marketplace_listing/stubbed/plans	apps	List plans (stubbed)	false
+  apps/list-accounts-for-plan-stubbed	GET	/marketplace_listing/stubbed/plans/{plan_id}/accounts	apps	List accounts for a plan (stubbed)	false
+  meta/get	GET	/meta	meta	Get GitHub meta information	false
+  activity/list-public-events-for-repo-network	GET	/networks/{owner}/{repo}/events	activity	List public events for a network of repositories	false
+  activity/list-notifications-for-authenticated-user	GET	/notifications	activity	List notifications for the authenticated user	false
+  activity/mark-notifications-as-read	PUT	/notifications	activity	Mark notifications as read	false
+  activity/get-thread	GET	/notifications/threads/{thread_id}	activity	Get a thread	false
+  activity/mark-thread-as-read	PATCH	/notifications/threads/{thread_id}	activity	Mark a thread as read	false
+  activity/mark-thread-as-done	DELETE	/notifications/threads/{thread_id}	activity	Mark a thread as done	false
+  activity/get-thread-subscription-for-authenticated-user	GET	/notifications/threads/{thread_id}/subscription	activity	Get a thread subscription for the authenticated user	false
+  activity/set-thread-subscription	PUT	/notifications/threads/{thread_id}/subscription	activity	Set a thread subscription	false
+  activity/delete-thread-subscription	DELETE	/notifications/threads/{thread_id}/subscription	activity	Delete a thread subscription	false
+  meta/get-octocat	GET	/octocat	meta	Get Octocat	false
+  orgs/list	GET	/organizations	orgs	List organizations	false
+  actions/get-actions-cache-retention-limit-for-organization	GET	/organizations/{org}/actions/cache/retention-limit	actions	Get GitHub Actions cache retention limit for an organization	false
+  actions/set-actions-cache-retention-limit-for-organization	PUT	/organizations/{org}/actions/cache/retention-limit	actions	Set GitHub Actions cache retention limit for an organization	false
+  actions/get-actions-cache-storage-limit-for-organization	GET	/organizations/{org}/actions/cache/storage-limit	actions	Get GitHub Actions cache storage limit for an organization	false
+  actions/set-actions-cache-storage-limit-for-organization	PUT	/organizations/{org}/actions/cache/storage-limit	actions	Set GitHub Actions cache storage limit for an organization	false
+  billing/get-all-budgets-org	GET	/organizations/{org}/settings/billing/budgets	billing	Get all budgets for an organization	false
+  billing/get-budget-org	GET	/organizations/{org}/settings/billing/budgets/{budget_id}	billing	Get a budget by ID for an organization	false
+  billing/update-budget-org	PATCH	/organizations/{org}/settings/billing/budgets/{budget_id}	billing	Update a budget for an organization	false
+  billing/delete-budget-org	DELETE	/organizations/{org}/settings/billing/budgets/{budget_id}	billing	Delete a budget for an organization	false
+  billing/get-github-billing-premium-request-usage-report-org	GET	/organizations/{org}/settings/billing/premium_request/usage	billing	Get billing premium request usage report for an organization	false
+  billing/get-github-billing-usage-report-org	GET	/organizations/{org}/settings/billing/usage	billing	Get billing usage report for an organization	false
+  billing/get-github-billing-usage-summary-report-org	GET	/organizations/{org}/settings/billing/usage/summary	billing	Get billing usage summary for an organization	false
+  orgs/get	GET	/orgs/{org}	orgs	Get an organization	false
+  orgs/update	PATCH	/orgs/{org}	orgs	Update an organization	false
+  orgs/delete	DELETE	/orgs/{org}	orgs	Delete an organization	false
+  actions/get-actions-cache-usage-for-org	GET	/orgs/{org}/actions/cache/usage	actions	Get GitHub Actions cache usage for an organization	false
+  actions/get-actions-cache-usage-by-repo-for-org	GET	/orgs/{org}/actions/cache/usage-by-repository	actions	List repositories with GitHub Actions cache usage for an organization	false
+  actions/list-hosted-runners-for-org	GET	/orgs/{org}/actions/hosted-runners	actions	List GitHub-hosted runners for an organization	false
+  actions/create-hosted-runner-for-org	POST	/orgs/{org}/actions/hosted-runners	actions	Create a GitHub-hosted runner for an organization	false
+  actions/list-custom-images-for-org	GET	/orgs/{org}/actions/hosted-runners/images/custom	actions	List custom images for an organization	false
+  actions/get-custom-image-for-org	GET	/orgs/{org}/actions/hosted-runners/images/custom/{image_definition_id}	actions	Get a custom image definition for GitHub Actions Hosted Runners	false
+  actions/delete-custom-image-from-org	DELETE	/orgs/{org}/actions/hosted-runners/images/custom/{image_definition_id}	actions	Delete a custom image from the organization	false
+  actions/list-custom-image-versions-for-org	GET	/orgs/{org}/actions/hosted-runners/images/custom/{image_definition_id}/versions	actions	List image versions of a custom image for an organization	false
+  actions/get-custom-image-version-for-org	GET	/orgs/{org}/actions/hosted-runners/images/custom/{image_definition_id}/versions/{version}	actions	Get an image version of a custom image for GitHub Actions Hosted Runners	false
+  actions/delete-custom-image-version-from-org	DELETE	/orgs/{org}/actions/hosted-runners/images/custom/{image_definition_id}/versions/{version}	actions	Delete an image version of custom image from the organization	false
+  actions/get-hosted-runners-github-owned-images-for-org	GET	/orgs/{org}/actions/hosted-runners/images/github-owned	actions	Get GitHub-owned images for GitHub-hosted runners in an organization	false
+  actions/get-hosted-runners-partner-images-for-org	GET	/orgs/{org}/actions/hosted-runners/images/partner	actions	Get partner images for GitHub-hosted runners in an organization	false
+  actions/get-hosted-runners-limits-for-org	GET	/orgs/{org}/actions/hosted-runners/limits	actions	Get limits on GitHub-hosted runners for an organization	false
+  actions/get-hosted-runners-machine-specs-for-org	GET	/orgs/{org}/actions/hosted-runners/machine-sizes	actions	Get GitHub-hosted runners machine specs for an organization	false
+  actions/get-hosted-runners-platforms-for-org	GET	/orgs/{org}/actions/hosted-runners/platforms	actions	Get platforms for GitHub-hosted runners in an organization	false
+  actions/get-hosted-runner-for-org	GET	/orgs/{org}/actions/hosted-runners/{hosted_runner_id}	actions	Get a GitHub-hosted runner for an organization	false
+  actions/update-hosted-runner-for-org	PATCH	/orgs/{org}/actions/hosted-runners/{hosted_runner_id}	actions	Update a GitHub-hosted runner for an organization	false
+  actions/delete-hosted-runner-for-org	DELETE	/orgs/{org}/actions/hosted-runners/{hosted_runner_id}	actions	Delete a GitHub-hosted runner for an organization	false
+  oidc/list-oidc-custom-property-inclusions-for-org	GET	/orgs/{org}/actions/oidc/customization/properties/repo	oidc	List OIDC custom property inclusions for an organization	false
+  oidc/create-oidc-custom-property-inclusion-for-org	POST	/orgs/{org}/actions/oidc/customization/properties/repo	oidc	Create an OIDC custom property inclusion for an organization	false
+  oidc/delete-oidc-custom-property-inclusion-for-org	DELETE	/orgs/{org}/actions/oidc/customization/properties/repo/{custom_property_name}	oidc	Delete an OIDC custom property inclusion for an organization	false
+  oidc/get-oidc-custom-sub-template-for-org	GET	/orgs/{org}/actions/oidc/customization/sub	oidc	Get the customization template for an OIDC subject claim for an organization	false
+  oidc/update-oidc-custom-sub-template-for-org	PUT	/orgs/{org}/actions/oidc/customization/sub	oidc	Set the customization template for an OIDC subject claim for an organization	false
+  actions/get-github-actions-permissions-organization	GET	/orgs/{org}/actions/permissions	actions	Get GitHub Actions permissions for an organization	false
+  actions/set-github-actions-permissions-organization	PUT	/orgs/{org}/actions/permissions	actions	Set GitHub Actions permissions for an organization	false
+  actions/get-artifact-and-log-retention-settings-organization	GET	/orgs/{org}/actions/permissions/artifact-and-log-retention	actions	Get artifact and log retention settings for an organization	false
+  actions/set-artifact-and-log-retention-settings-organization	PUT	/orgs/{org}/actions/permissions/artifact-and-log-retention	actions	Set artifact and log retention settings for an organization	false
+  actions/get-fork-pr-contributor-approval-permissions-organization	GET	/orgs/{org}/actions/permissions/fork-pr-contributor-approval	actions	Get fork PR contributor approval permissions for an organization	false
+  actions/set-fork-pr-contributor-approval-permissions-organization	PUT	/orgs/{org}/actions/permissions/fork-pr-contributor-approval	actions	Set fork PR contributor approval permissions for an organization	false
+  actions/get-private-repo-fork-pr-workflows-settings-organization	GET	/orgs/{org}/actions/permissions/fork-pr-workflows-private-repos	actions	Get private repo fork PR workflow settings for an organization	false
+  actions/set-private-repo-fork-pr-workflows-settings-organization	PUT	/orgs/{org}/actions/permissions/fork-pr-workflows-private-repos	actions	Set private repo fork PR workflow settings for an organization	false
+  actions/list-selected-repositories-enabled-github-actions-organization	GET	/orgs/{org}/actions/permissions/repositories	actions	List selected repositories enabled for GitHub Actions in an organization	false
+  actions/set-selected-repositories-enabled-github-actions-organization	PUT	/orgs/{org}/actions/permissions/repositories	actions	Set selected repositories enabled for GitHub Actions in an organization	false
+  actions/enable-selected-repository-github-actions-organization	PUT	/orgs/{org}/actions/permissions/repositories/{repository_id}	actions	Enable a selected repository for GitHub Actions in an organization	false
+  actions/disable-selected-repository-github-actions-organization	DELETE	/orgs/{org}/actions/permissions/repositories/{repository_id}	actions	Disable a selected repository for GitHub Actions in an organization	false
+  actions/get-allowed-actions-organization	GET	/orgs/{org}/actions/permissions/selected-actions	actions	Get allowed actions and reusable workflows for an organization	false
+  actions/set-allowed-actions-organization	PUT	/orgs/{org}/actions/permissions/selected-actions	actions	Set allowed actions and reusable workflows for an organization	false
+  actions/get-self-hosted-runners-permissions-organization	GET	/orgs/{org}/actions/permissions/self-hosted-runners	actions	Get self-hosted runners settings for an organization	false
+  actions/set-self-hosted-runners-permissions-organization	PUT	/orgs/{org}/actions/permissions/self-hosted-runners	actions	Set self-hosted runners settings for an organization	false
+  actions/list-selected-repositories-self-hosted-runners-organization	GET	/orgs/{org}/actions/permissions/self-hosted-runners/repositories	actions	List repositories allowed to use self-hosted runners in an organization	false
+  actions/set-selected-repositories-self-hosted-runners-organization	PUT	/orgs/{org}/actions/permissions/self-hosted-runners/repositories	actions	Set repositories allowed to use self-hosted runners in an organization	false
+  actions/enable-selected-repository-self-hosted-runners-organization	PUT	/orgs/{org}/actions/permissions/self-hosted-runners/repositories/{repository_id}	actions	Add a repository to the list of repositories allowed to use self-hosted runners in an organization	false
+  actions/disable-selected-repository-self-hosted-runners-organization	DELETE	/orgs/{org}/actions/permissions/self-hosted-runners/repositories/{repository_id}	actions	Remove a repository from the list of repositories allowed to use self-hosted runners in an organization	false
+  actions/get-github-actions-default-workflow-permissions-organization	GET	/orgs/{org}/actions/permissions/workflow	actions	Get default workflow permissions for an organization	false
+  actions/set-github-actions-default-workflow-permissions-organization	PUT	/orgs/{org}/actions/permissions/workflow	actions	Set default workflow permissions for an organization	false
+  actions/list-self-hosted-runner-groups-for-org	GET	/orgs/{org}/actions/runner-groups	actions	List self-hosted runner groups for an organization	false
+  actions/create-self-hosted-runner-group-for-org	POST	/orgs/{org}/actions/runner-groups	actions	Create a self-hosted runner group for an organization	false
+  actions/get-self-hosted-runner-group-for-org	GET	/orgs/{org}/actions/runner-groups/{runner_group_id}	actions	Get a self-hosted runner group for an organization	false
+  actions/update-self-hosted-runner-group-for-org	PATCH	/orgs/{org}/actions/runner-groups/{runner_group_id}	actions	Update a self-hosted runner group for an organization	false
+  actions/delete-self-hosted-runner-group-from-org	DELETE	/orgs/{org}/actions/runner-groups/{runner_group_id}	actions	Delete a self-hosted runner group from an organization	false
+  actions/list-github-hosted-runners-in-group-for-org	GET	/orgs/{org}/actions/runner-groups/{runner_group_id}/hosted-runners	actions	List GitHub-hosted runners in a group for an organization	false
+  actions/list-repo-access-to-self-hosted-runner-group-in-org	GET	/orgs/{org}/actions/runner-groups/{runner_group_id}/repositories	actions	List repository access to a self-hosted runner group in an organization	false
+  actions/set-repo-access-to-self-hosted-runner-group-in-org	PUT	/orgs/{org}/actions/runner-groups/{runner_group_id}/repositories	actions	Set repository access for a self-hosted runner group in an organization	false
+  actions/add-repo-access-to-self-hosted-runner-group-in-org	PUT	/orgs/{org}/actions/runner-groups/{runner_group_id}/repositories/{repository_id}	actions	Add repository access to a self-hosted runner group in an organization	false
+  actions/remove-repo-access-to-self-hosted-runner-group-in-org	DELETE	/orgs/{org}/actions/runner-groups/{runner_group_id}/repositories/{repository_id}	actions	Remove repository access to a self-hosted runner group in an organization	false
+  actions/list-self-hosted-runners-in-group-for-org	GET	/orgs/{org}/actions/runner-groups/{runner_group_id}/runners	actions	List self-hosted runners in a group for an organization	false
+  actions/set-self-hosted-runners-in-group-for-org	PUT	/orgs/{org}/actions/runner-groups/{runner_group_id}/runners	actions	Set self-hosted runners in a group for an organization	false
+  actions/add-self-hosted-runner-to-group-for-org	PUT	/orgs/{org}/actions/runner-groups/{runner_group_id}/runners/{runner_id}	actions	Add a self-hosted runner to a group for an organization	false
+  actions/remove-self-hosted-runner-from-group-for-org	DELETE	/orgs/{org}/actions/runner-groups/{runner_group_id}/runners/{runner_id}	actions	Remove a self-hosted runner from a group for an organization	false
+  actions/list-self-hosted-runners-for-org	GET	/orgs/{org}/actions/runners	actions	List self-hosted runners for an organization	false
+  actions/list-runner-applications-for-org	GET	/orgs/{org}/actions/runners/downloads	actions	List runner applications for an organization	false
+  actions/generate-runner-jitconfig-for-org	POST	/orgs/{org}/actions/runners/generate-jitconfig	actions	Create configuration for a just-in-time runner for an organization	false
+  actions/create-registration-token-for-org	POST	/orgs/{org}/actions/runners/registration-token	actions	Create a registration token for an organization	false
+  actions/create-remove-token-for-org	POST	/orgs/{org}/actions/runners/remove-token	actions	Create a remove token for an organization	false
+  actions/get-self-hosted-runner-for-org	GET	/orgs/{org}/actions/runners/{runner_id}	actions	Get a self-hosted runner for an organization	false
+  actions/delete-self-hosted-runner-from-org	DELETE	/orgs/{org}/actions/runners/{runner_id}	actions	Delete a self-hosted runner from an organization	false
+  actions/list-labels-for-self-hosted-runner-for-org	GET	/orgs/{org}/actions/runners/{runner_id}/labels	actions	List labels for a self-hosted runner for an organization	false
+  actions/add-custom-labels-to-self-hosted-runner-for-org	POST	/orgs/{org}/actions/runners/{runner_id}/labels	actions	Add custom labels to a self-hosted runner for an organization	false
+  actions/set-custom-labels-for-self-hosted-runner-for-org	PUT	/orgs/{org}/actions/runners/{runner_id}/labels	actions	Set custom labels for a self-hosted runner for an organization	false
+  actions/remove-all-custom-labels-from-self-hosted-runner-for-org	DELETE	/orgs/{org}/actions/runners/{runner_id}/labels	actions	Remove all custom labels from a self-hosted runner for an organization	false
+  actions/remove-custom-label-from-self-hosted-runner-for-org	DELETE	/orgs/{org}/actions/runners/{runner_id}/labels/{name}	actions	Remove a custom label from a self-hosted runner for an organization	false
+  actions/list-org-secrets	GET	/orgs/{org}/actions/secrets	actions	List organization secrets	false
+  actions/get-org-public-key	GET	/orgs/{org}/actions/secrets/public-key	actions	Get an organization public key	false
+  actions/get-org-secret	GET	/orgs/{org}/actions/secrets/{secret_name}	actions	Get an organization secret	false
+  actions/create-or-update-org-secret	PUT	/orgs/{org}/actions/secrets/{secret_name}	actions	Create or update an organization secret	false
+  actions/delete-org-secret	DELETE	/orgs/{org}/actions/secrets/{secret_name}	actions	Delete an organization secret	false
+  actions/list-selected-repos-for-org-secret	GET	/orgs/{org}/actions/secrets/{secret_name}/repositories	actions	List selected repositories for an organization secret	false
+  actions/set-selected-repos-for-org-secret	PUT	/orgs/{org}/actions/secrets/{secret_name}/repositories	actions	Set selected repositories for an organization secret	false
+  actions/add-selected-repo-to-org-secret	PUT	/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}	actions	Add selected repository to an organization secret	false
+  actions/remove-selected-repo-from-org-secret	DELETE	/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}	actions	Remove selected repository from an organization secret	false
+  actions/list-org-variables	GET	/orgs/{org}/actions/variables	actions	List organization variables	false
+  actions/create-org-variable	POST	/orgs/{org}/actions/variables	actions	Create an organization variable	false
+  actions/get-org-variable	GET	/orgs/{org}/actions/variables/{name}	actions	Get an organization variable	false
+  actions/update-org-variable	PATCH	/orgs/{org}/actions/variables/{name}	actions	Update an organization variable	false
+  actions/delete-org-variable	DELETE	/orgs/{org}/actions/variables/{name}	actions	Delete an organization variable	false
+  actions/list-selected-repos-for-org-variable	GET	/orgs/{org}/actions/variables/{name}/repositories	actions	List selected repositories for an organization variable	false
+  actions/set-selected-repos-for-org-variable	PUT	/orgs/{org}/actions/variables/{name}/repositories	actions	Set selected repositories for an organization variable	false
+  actions/add-selected-repo-to-org-variable	PUT	/orgs/{org}/actions/variables/{name}/repositories/{repository_id}	actions	Add selected repository to an organization variable	false
+  actions/remove-selected-repo-from-org-variable	DELETE	/orgs/{org}/actions/variables/{name}/repositories/{repository_id}	actions	Remove selected repository from an organization variable	false
+  agents/list-org-secrets	GET	/orgs/{org}/agents/secrets	agents	List organization secrets	false
+  agents/get-org-public-key	GET	/orgs/{org}/agents/secrets/public-key	agents	Get an organization public key	false
+  agents/get-org-secret	GET	/orgs/{org}/agents/secrets/{secret_name}	agents	Get an organization secret	false
+  agents/create-or-update-org-secret	PUT	/orgs/{org}/agents/secrets/{secret_name}	agents	Create or update an organization secret	false
+  agents/delete-org-secret	DELETE	/orgs/{org}/agents/secrets/{secret_name}	agents	Delete an organization secret	false
+  agents/list-selected-repos-for-org-secret	GET	/orgs/{org}/agents/secrets/{secret_name}/repositories	agents	List selected repositories for an organization secret	false
+  agents/set-selected-repos-for-org-secret	PUT	/orgs/{org}/agents/secrets/{secret_name}/repositories	agents	Set selected repositories for an organization secret	false
+  agents/add-selected-repo-to-org-secret	PUT	/orgs/{org}/agents/secrets/{secret_name}/repositories/{repository_id}	agents	Add selected repository to an organization secret	false
+  agents/remove-selected-repo-from-org-secret	DELETE	/orgs/{org}/agents/secrets/{secret_name}/repositories/{repository_id}	agents	Remove selected repository from an organization secret	false
+  agents/list-org-variables	GET	/orgs/{org}/agents/variables	agents	List organization variables	false
+  agents/create-org-variable	POST	/orgs/{org}/agents/variables	agents	Create an organization variable	false
+  agents/get-org-variable	GET	/orgs/{org}/agents/variables/{name}	agents	Get an organization variable	false
+  agents/update-org-variable	PATCH	/orgs/{org}/agents/variables/{name}	agents	Update an organization variable	false
+  agents/delete-org-variable	DELETE	/orgs/{org}/agents/variables/{name}	agents	Delete an organization variable	false
+  agents/list-selected-repos-for-org-variable	GET	/orgs/{org}/agents/variables/{name}/repositories	agents	List selected repositories for an organization variable	false
+  agents/set-selected-repos-for-org-variable	PUT	/orgs/{org}/agents/variables/{name}/repositories	agents	Set selected repositories for an organization variable	false
+  agents/add-selected-repo-to-org-variable	PUT	/orgs/{org}/agents/variables/{name}/repositories/{repository_id}	agents	Add selected repository to an organization variable	false
+  agents/remove-selected-repo-from-org-variable	DELETE	/orgs/{org}/agents/variables/{name}/repositories/{repository_id}	agents	Remove selected repository from an organization variable	false
+  orgs/create-artifact-deployment-record	POST	/orgs/{org}/artifacts/metadata/deployment-record	orgs	Create an artifact deployment record	false
+  orgs/set-cluster-deployment-records	POST	/orgs/{org}/artifacts/metadata/deployment-record/cluster/{cluster}	orgs	Set cluster deployment records	false
+  orgs/create-artifact-storage-record	POST	/orgs/{org}/artifacts/metadata/storage-record	orgs	Create artifact metadata storage record	false
+  orgs/list-artifact-deployment-records	GET	/orgs/{org}/artifacts/{subject_digest}/metadata/deployment-records	orgs	List artifact deployment records	false
+  orgs/list-artifact-storage-records	GET	/orgs/{org}/artifacts/{subject_digest}/metadata/storage-records	orgs	List artifact storage records	false
+  orgs/list-attestations-bulk	POST	/orgs/{org}/attestations/bulk-list	orgs	List attestations by bulk subject digests	false
+  orgs/delete-attestations-bulk	POST	/orgs/{org}/attestations/delete-request	orgs	Delete attestations in bulk	false
+  orgs/delete-attestations-by-subject-digest	DELETE	/orgs/{org}/attestations/digest/{subject_digest}	orgs	Delete attestations by subject digest	false
+  orgs/list-attestation-repositories	GET	/orgs/{org}/attestations/repositories	orgs	List attestation repositories	false
+  orgs/delete-attestations-by-id	DELETE	/orgs/{org}/attestations/{attestation_id}	orgs	Delete attestations by ID	false
+  orgs/list-attestations	GET	/orgs/{org}/attestations/{subject_digest}	orgs	List attestations	false
+  orgs/list-blocked-users	GET	/orgs/{org}/blocks	orgs	List users blocked by an organization	false
+  orgs/check-blocked-user	GET	/orgs/{org}/blocks/{username}	orgs	Check if a user is blocked by an organization	false
+  orgs/block-user	PUT	/orgs/{org}/blocks/{username}	orgs	Block a user from an organization	false
+  orgs/unblock-user	DELETE	/orgs/{org}/blocks/{username}	orgs	Unblock a user from an organization	false
+  campaigns/list-org-campaigns	GET	/orgs/{org}/campaigns	campaigns	List campaigns for an organization	false
+  campaigns/create-campaign	POST	/orgs/{org}/campaigns	campaigns	Create a campaign for an organization	false
+  campaigns/get-campaign-summary	GET	/orgs/{org}/campaigns/{campaign_number}	campaigns	Get a campaign for an organization	false
+  campaigns/update-campaign	PATCH	/orgs/{org}/campaigns/{campaign_number}	campaigns	Update a campaign	false
+  campaigns/delete-campaign	DELETE	/orgs/{org}/campaigns/{campaign_number}	campaigns	Delete a campaign for an organization	false
+  code-scanning/list-alerts-for-org	GET	/orgs/{org}/code-scanning/alerts	code-scanning	List code scanning alerts for an organization	false
+  code-security/get-configurations-for-org	GET	/orgs/{org}/code-security/configurations	code-security	Get code security configurations for an organization	false
+  code-security/create-configuration	POST	/orgs/{org}/code-security/configurations	code-security	Create a code security configuration	false
+  code-security/get-default-configurations	GET	/orgs/{org}/code-security/configurations/defaults	code-security	Get default code security configurations	false
+  code-security/detach-configuration	DELETE	/orgs/{org}/code-security/configurations/detach	code-security	Detach configurations from repositories	false
+  code-security/get-configuration	GET	/orgs/{org}/code-security/configurations/{configuration_id}	code-security	Get a code security configuration	false
+  code-security/update-configuration	PATCH	/orgs/{org}/code-security/configurations/{configuration_id}	code-security	Update a code security configuration	false
+  code-security/delete-configuration	DELETE	/orgs/{org}/code-security/configurations/{configuration_id}	code-security	Delete a code security configuration	false
+  code-security/attach-configuration	POST	/orgs/{org}/code-security/configurations/{configuration_id}/attach	code-security	Attach a configuration to repositories	false
+  code-security/set-configuration-as-default	PUT	/orgs/{org}/code-security/configurations/{configuration_id}/defaults	code-security	Set a code security configuration as a default for an organization	false
+  code-security/get-repositories-for-configuration	GET	/orgs/{org}/code-security/configurations/{configuration_id}/repositories	code-security	Get repositories associated with a code security configuration	false
+  codespaces/list-in-organization	GET	/orgs/{org}/codespaces	codespaces	List codespaces for the organization	false
+  codespaces/set-codespaces-access	PUT	/orgs/{org}/codespaces/access	codespaces	Manage access control for organization codespaces	true
+  codespaces/set-codespaces-access-users	POST	/orgs/{org}/codespaces/access/selected_users	codespaces	Add users to Codespaces access for an organization	true
+  codespaces/delete-codespaces-access-users	DELETE	/orgs/{org}/codespaces/access/selected_users	codespaces	Remove users from Codespaces access for an organization	true
+  codespaces/list-org-secrets	GET	/orgs/{org}/codespaces/secrets	codespaces	List organization secrets	false
+  codespaces/get-org-public-key	GET	/orgs/{org}/codespaces/secrets/public-key	codespaces	Get an organization public key	false
+  codespaces/get-org-secret	GET	/orgs/{org}/codespaces/secrets/{secret_name}	codespaces	Get an organization secret	false
+  codespaces/create-or-update-org-secret	PUT	/orgs/{org}/codespaces/secrets/{secret_name}	codespaces	Create or update an organization secret	false
+  codespaces/delete-org-secret	DELETE	/orgs/{org}/codespaces/secrets/{secret_name}	codespaces	Delete an organization secret	false
+  codespaces/list-selected-repos-for-org-secret	GET	/orgs/{org}/codespaces/secrets/{secret_name}/repositories	codespaces	List selected repositories for an organization secret	false
+  codespaces/set-selected-repos-for-org-secret	PUT	/orgs/{org}/codespaces/secrets/{secret_name}/repositories	codespaces	Set selected repositories for an organization secret	false
+  codespaces/add-selected-repo-to-org-secret	PUT	/orgs/{org}/codespaces/secrets/{secret_name}/repositories/{repository_id}	codespaces	Add selected repository to an organization secret	false
+  codespaces/remove-selected-repo-from-org-secret	DELETE	/orgs/{org}/codespaces/secrets/{secret_name}/repositories/{repository_id}	codespaces	Remove selected repository from an organization secret	false
+  copilot-spaces/list-for-org	GET	/orgs/{org}/copilot-spaces	copilot-spaces	List organization Copilot Spaces	false
+  copilot-spaces/create-for-org	POST	/orgs/{org}/copilot-spaces	copilot-spaces	Create an organization Copilot Space	false
+  copilot-spaces/get-for-org	GET	/orgs/{org}/copilot-spaces/{space_number}	copilot-spaces	Get an organization Copilot Space	false
+  copilot-spaces/update-for-org	PUT	/orgs/{org}/copilot-spaces/{space_number}	copilot-spaces	Set an organization Copilot Space	false
+  copilot-spaces/delete-for-org	DELETE	/orgs/{org}/copilot-spaces/{space_number}	copilot-spaces	Delete an organization Copilot Space	false
+  copilot-spaces/list-collaborators-for-org	GET	/orgs/{org}/copilot-spaces/{space_number}/collaborators	copilot-spaces	List collaborators for an organization Copilot Space	false
+  copilot-spaces/add-collaborator-for-org	POST	/orgs/{org}/copilot-spaces/{space_number}/collaborators	copilot-spaces	Add a collaborator to an organization Copilot Space	false
+  copilot-spaces/update-collaborator-for-org	PUT	/orgs/{org}/copilot-spaces/{space_number}/collaborators/{actor_type}/{actor_identifier}	copilot-spaces	Set a collaborator role for an organization Copilot Space	false
+  copilot-spaces/remove-collaborator-for-org	DELETE	/orgs/{org}/copilot-spaces/{space_number}/collaborators/{actor_type}/{actor_identifier}	copilot-spaces	Remove a collaborator from an organization Copilot Space	false
+  copilot-spaces/list-resources-for-org	GET	/orgs/{org}/copilot-spaces/{space_number}/resources	copilot-spaces	List resources for an organization Copilot Space	false
+  copilot-spaces/create-resource-for-org	POST	/orgs/{org}/copilot-spaces/{space_number}/resources	copilot-spaces	Create a resource for an organization Copilot Space	false
+  copilot-spaces/get-resource-for-org	GET	/orgs/{org}/copilot-spaces/{space_number}/resources/{space_resource_id}	copilot-spaces	Get a resource for an organization Copilot Space	false
+  copilot-spaces/update-resource-for-org	PUT	/orgs/{org}/copilot-spaces/{space_number}/resources/{space_resource_id}	copilot-spaces	Set a resource for an organization Copilot Space	false
+  copilot-spaces/delete-resource-for-org	DELETE	/orgs/{org}/copilot-spaces/{space_number}/resources/{space_resource_id}	copilot-spaces	Delete a resource from an organization Copilot Space	false
+  copilot/get-copilot-organization-details	GET	/orgs/{org}/copilot/billing	copilot	Get Copilot seat information and settings for an organization	false
+  copilot/list-copilot-seats	GET	/orgs/{org}/copilot/billing/seats	copilot	List all Copilot seat assignments for an organization	false
+  copilot/add-copilot-seats-for-teams	POST	/orgs/{org}/copilot/billing/selected_teams	copilot	Add teams to the Copilot subscription for an organization	false
+  copilot/cancel-copilot-seat-assignment-for-teams	DELETE	/orgs/{org}/copilot/billing/selected_teams	copilot	Remove teams from the Copilot subscription for an organization	false
+  copilot/add-copilot-seats-for-users	POST	/orgs/{org}/copilot/billing/selected_users	copilot	Add users to the Copilot subscription for an organization	false
+  copilot/cancel-copilot-seat-assignment-for-users	DELETE	/orgs/{org}/copilot/billing/selected_users	copilot	Remove users from the Copilot subscription for an organization	false
+  copilot/get-copilot-coding-agent-permissions-organization	GET	/orgs/{org}/copilot/coding-agent/permissions	copilot	Get Copilot cloud agent permissions for an organization	false
+  copilot/set-copilot-coding-agent-permissions-organization	PUT	/orgs/{org}/copilot/coding-agent/permissions	copilot	Set Copilot cloud agent permissions for an organization	false
+  copilot/list-copilot-coding-agent-selected-repositories-for-organization	GET	/orgs/{org}/copilot/coding-agent/permissions/repositories	copilot	List repositories enabled for Copilot cloud agent in an organization	false
+  copilot/set-copilot-coding-agent-selected-repositories-for-organization	PUT	/orgs/{org}/copilot/coding-agent/permissions/repositories	copilot	Set selected repositories for Copilot cloud agent in an organization	false
+  copilot/enable-copilot-coding-agent-for-repository-in-organization	PUT	/orgs/{org}/copilot/coding-agent/permissions/repositories/{repository_id}	copilot	Enable a repository for Copilot cloud agent in an organization	false
+  copilot/disable-copilot-coding-agent-for-repository-in-organization	DELETE	/orgs/{org}/copilot/coding-agent/permissions/repositories/{repository_id}	copilot	Disable a repository for Copilot cloud agent in an organization	false
+  copilot/copilot-content-exclusion-for-organization	GET	/orgs/{org}/copilot/content_exclusion	copilot	Get Copilot content exclusion rules for an organization	false
+  copilot/set-copilot-content-exclusion-for-organization	PUT	/orgs/{org}/copilot/content_exclusion	copilot	Set Copilot content exclusion rules for an organization	false
+  copilot/copilot-metrics-for-organization	GET	/orgs/{org}/copilot/metrics	copilot	Get Copilot metrics for an organization	false
+  copilot/copilot-organization-one-day-usage-metrics	GET	/orgs/{org}/copilot/metrics/reports/organization-1-day	copilot	Get Copilot organization usage metrics for a specific day	false
+  copilot/copilot-organization-usage-metrics	GET	/orgs/{org}/copilot/metrics/reports/organization-28-day/latest	copilot	Get Copilot organization usage metrics	false
+  copilot/copilot-organization-user-teams-one-day-report	GET	/orgs/{org}/copilot/metrics/reports/user-teams-1-day	copilot	Get Copilot organization user-teams report for a specific day	false
+  copilot/copilot-organization-users-one-day-usage-metrics	GET	/orgs/{org}/copilot/metrics/reports/users-1-day	copilot	Get Copilot organization users usage metrics for a specific day	false
+  copilot/copilot-organization-users-usage-metrics	GET	/orgs/{org}/copilot/metrics/reports/users-28-day/latest	copilot	Get Copilot organization users usage metrics	false
+  dependabot/list-alerts-for-org	GET	/orgs/{org}/dependabot/alerts	dependabot	List Dependabot alerts for an organization	false
+  dependabot/repository-access-for-org	GET	/orgs/{org}/dependabot/repository-access	dependabot	Lists the repositories Dependabot can access in an organization	false
+  dependabot/update-repository-access-for-org	PATCH	/orgs/{org}/dependabot/repository-access	dependabot	Updates Dependabot's repository access list for an organization	false
+  dependabot/set-repository-access-default-level	PUT	/orgs/{org}/dependabot/repository-access/default-level	dependabot	Set the default repository access level for Dependabot	false
+  dependabot/list-org-secrets	GET	/orgs/{org}/dependabot/secrets	dependabot	List organization secrets	false
+  dependabot/get-org-public-key	GET	/orgs/{org}/dependabot/secrets/public-key	dependabot	Get an organization public key	false
+  dependabot/get-org-secret	GET	/orgs/{org}/dependabot/secrets/{secret_name}	dependabot	Get an organization secret	false
+  dependabot/create-or-update-org-secret	PUT	/orgs/{org}/dependabot/secrets/{secret_name}	dependabot	Create or update an organization secret	false
+  dependabot/delete-org-secret	DELETE	/orgs/{org}/dependabot/secrets/{secret_name}	dependabot	Delete an organization secret	false
+  dependabot/list-selected-repos-for-org-secret	GET	/orgs/{org}/dependabot/secrets/{secret_name}/repositories	dependabot	List selected repositories for an organization secret	false
+  dependabot/set-selected-repos-for-org-secret	PUT	/orgs/{org}/dependabot/secrets/{secret_name}/repositories	dependabot	Set selected repositories for an organization secret	false
+  dependabot/add-selected-repo-to-org-secret	PUT	/orgs/{org}/dependabot/secrets/{secret_name}/repositories/{repository_id}	dependabot	Add selected repository to an organization secret	false
+  dependabot/remove-selected-repo-from-org-secret	DELETE	/orgs/{org}/dependabot/secrets/{secret_name}/repositories/{repository_id}	dependabot	Remove selected repository from an organization secret	false
+  packages/list-docker-migration-conflicting-packages-for-organization	GET	/orgs/{org}/docker/conflicts	packages	Get list of conflicting packages during Docker migration for organization	false
+  activity/list-public-org-events	GET	/orgs/{org}/events	activity	List public organization events	false
+  orgs/list-failed-invitations	GET	/orgs/{org}/failed_invitations	orgs	List failed organization invitations	false
+  orgs/list-webhooks	GET	/orgs/{org}/hooks	orgs	List organization webhooks	false
+  orgs/create-webhook	POST	/orgs/{org}/hooks	orgs	Create an organization webhook	false
+  orgs/get-webhook	GET	/orgs/{org}/hooks/{hook_id}	orgs	Get an organization webhook	false
+  orgs/update-webhook	PATCH	/orgs/{org}/hooks/{hook_id}	orgs	Update an organization webhook	false
+  orgs/delete-webhook	DELETE	/orgs/{org}/hooks/{hook_id}	orgs	Delete an organization webhook	false
+  orgs/get-webhook-config-for-org	GET	/orgs/{org}/hooks/{hook_id}/config	orgs	Get a webhook configuration for an organization	false
+  orgs/update-webhook-config-for-org	PATCH	/orgs/{org}/hooks/{hook_id}/config	orgs	Update a webhook configuration for an organization	false
+  orgs/list-webhook-deliveries	GET	/orgs/{org}/hooks/{hook_id}/deliveries	orgs	List deliveries for an organization webhook	false
+  orgs/get-webhook-delivery	GET	/orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id}	orgs	Get a webhook delivery for an organization webhook	false
+  orgs/redeliver-webhook-delivery	POST	/orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id}/attempts	orgs	Redeliver a delivery for an organization webhook	false
+  orgs/ping-webhook	POST	/orgs/{org}/hooks/{hook_id}/pings	orgs	Ping an organization webhook	false
+  api-insights/get-route-stats-by-actor	GET	/orgs/{org}/insights/api/route-stats/{actor_type}/{actor_id}	orgs	Get route stats by actor	false
+  api-insights/get-subject-stats	GET	/orgs/{org}/insights/api/subject-stats	orgs	Get subject stats	false
+  api-insights/get-summary-stats	GET	/orgs/{org}/insights/api/summary-stats	orgs	Get summary stats	false
+parameters[operation_id,name,location,required,schema_type]:
+  security-advisories/list-global-advisories	ghsa_id	query	false	string
+  security-advisories/list-global-advisories	type	query	false	string
+  security-advisories/list-global-advisories	cve_id	query	false	string
+  security-advisories/list-global-advisories	ecosystem	query	false	string
+  security-advisories/list-global-advisories	severity	query	false	string
+  security-advisories/list-global-advisories	cwes	query	false	""
+  security-advisories/list-global-advisories	is_withdrawn	query	false	boolean
+  security-advisories/list-global-advisories	affects	query	false	""
+  security-advisories/list-global-advisories	published	query	false	string
+  security-advisories/list-global-advisories	updated	query	false	string
+  security-advisories/get-global-advisory	ghsa_id	path	true	string
+  agent-tasks/list-tasks-for-repo	owner	path	true	string
+  agent-tasks/list-tasks-for-repo	repo	path	true	string
+  agent-tasks/list-tasks-for-repo	per_page	query	false	integer
+  agent-tasks/list-tasks-for-repo	page	query	false	integer
+  agent-tasks/list-tasks-for-repo	sort	query	false	string
+  agent-tasks/list-tasks-for-repo	direction	query	false	string
+  agent-tasks/list-tasks-for-repo	state	query	false	string
+  agent-tasks/list-tasks-for-repo	is_archived	query	false	boolean
+  agent-tasks/list-tasks-for-repo	since	query	false	string
+  agent-tasks/list-tasks-for-repo	creator_id	query	false	integer
+  agent-tasks/create-task-in-repo	owner	path	true	string
+  agent-tasks/create-task-in-repo	repo	path	true	string
+  agent-tasks/get-task-by-repo-and-id	owner	path	true	string
+  agent-tasks/get-task-by-repo-and-id	repo	path	true	string
+  agent-tasks/get-task-by-repo-and-id	task_id	path	true	string
+  agent-tasks/list-tasks	per_page	query	false	integer
+  agent-tasks/list-tasks	page	query	false	integer
+  agent-tasks/list-tasks	sort	query	false	string
+  agent-tasks/list-tasks	direction	query	false	string
+  agent-tasks/list-tasks	state	query	false	string
+  agent-tasks/list-tasks	is_archived	query	false	boolean
+  agent-tasks/list-tasks	since	query	false	string
+  agent-tasks/get-task-by-id	task_id	path	true	string
+  apps/create-from-manifest	code	path	true	string
+  apps/list-webhook-deliveries	per_page	query	false	integer
+  apps/list-webhook-deliveries	cursor	query	false	string
+  apps/list-webhook-deliveries	status	query	false	string
+  apps/get-webhook-delivery	delivery_id	path	true	integer
+  apps/redeliver-webhook-delivery	delivery_id	path	true	integer
+  apps/list-installation-requests-for-authenticated-app	per_page	query	false	integer
+  apps/list-installation-requests-for-authenticated-app	page	query	false	integer
+  apps/list-installations	per_page	query	false	integer
+  apps/list-installations	page	query	false	integer
+  apps/list-installations	since	query	false	string
+  apps/list-installations	outdated	query	false	string
+  apps/get-installation	installation_id	path	true	integer
+  apps/delete-installation	installation_id	path	true	integer
+  apps/create-installation-access-token	installation_id	path	true	integer
+  apps/suspend-installation	installation_id	path	true	integer
+  apps/unsuspend-installation	installation_id	path	true	integer
+  apps/delete-authorization	client_id	path	true	string
+  apps/check-token	client_id	path	true	string
+  apps/reset-token	client_id	path	true	string
+  apps/delete-token	client_id	path	true	string
+  apps/scope-token	client_id	path	true	string
+  apps/get-by-slug	app_slug	path	true	string
+  classroom/get-an-assignment	assignment_id	path	true	integer
+  classroom/list-accepted-assignments-for-an-assignment	assignment_id	path	true	integer
+  classroom/list-accepted-assignments-for-an-assignment	page	query	false	integer
+  classroom/list-accepted-assignments-for-an-assignment	per_page	query	false	integer
+  classroom/get-assignment-grades	assignment_id	path	true	integer
+  classroom/list-classrooms	page	query	false	integer
+  classroom/list-classrooms	per_page	query	false	integer
+  classroom/get-a-classroom	classroom_id	path	true	integer
+  classroom/list-assignments-for-a-classroom	classroom_id	path	true	integer
+  classroom/list-assignments-for-a-classroom	page	query	false	integer
+  classroom/list-assignments-for-a-classroom	per_page	query	false	integer
+  codes-of-conduct/get-conduct-code	key	path	true	string
+  actions/get-actions-cache-retention-limit-for-enterprise	enterprise	path	true	string
+  actions/set-actions-cache-retention-limit-for-enterprise	enterprise	path	true	string
+  actions/get-actions-cache-storage-limit-for-enterprise	enterprise	path	true	string
+  actions/set-actions-cache-storage-limit-for-enterprise	enterprise	path	true	string
+  oidc/list-oidc-custom-property-inclusions-for-enterprise	enterprise	path	true	string
+  oidc/create-oidc-custom-property-inclusion-for-enterprise	enterprise	path	true	string
+  oidc/delete-oidc-custom-property-inclusion-for-enterprise	enterprise	path	true	string
+  oidc/delete-oidc-custom-property-inclusion-for-enterprise	custom_property_name	path	true	string
+  code-security/get-configurations-for-enterprise	enterprise	path	true	string
+  code-security/get-configurations-for-enterprise	per_page	query	false	integer
+  code-security/get-configurations-for-enterprise	before	query	false	string
+  code-security/get-configurations-for-enterprise	after	query	false	string
+  code-security/create-configuration-for-enterprise	enterprise	path	true	string
+  code-security/get-default-configurations-for-enterprise	enterprise	path	true	string
+  code-security/get-single-configuration-for-enterprise	enterprise	path	true	string
+  code-security/get-single-configuration-for-enterprise	configuration_id	path	true	integer
+  code-security/update-enterprise-configuration	enterprise	path	true	string
+  code-security/update-enterprise-configuration	configuration_id	path	true	integer
+  code-security/delete-configuration-for-enterprise	enterprise	path	true	string
+  code-security/delete-configuration-for-enterprise	configuration_id	path	true	integer
+  code-security/attach-enterprise-configuration	enterprise	path	true	string
+  code-security/attach-enterprise-configuration	configuration_id	path	true	integer
+  code-security/set-configuration-as-default-for-enterprise	enterprise	path	true	string
+  code-security/set-configuration-as-default-for-enterprise	configuration_id	path	true	integer
+  code-security/get-repositories-for-enterprise-configuration	enterprise	path	true	string
+  code-security/get-repositories-for-enterprise-configuration	configuration_id	path	true	integer
+  code-security/get-repositories-for-enterprise-configuration	per_page	query	false	integer
+  code-security/get-repositories-for-enterprise-configuration	before	query	false	string
+  code-security/get-repositories-for-enterprise-configuration	after	query	false	string
+  code-security/get-repositories-for-enterprise-configuration	status	query	false	string
+  copilot/copilot-enterprise-one-day-usage-metrics	enterprise	path	true	string
+  copilot/copilot-enterprise-one-day-usage-metrics	day	query	true	string
+  copilot/copilot-enterprise-usage-metrics	enterprise	path	true	string
+  copilot/copilot-enterprise-user-teams-one-day-report	enterprise	path	true	string
+  copilot/copilot-enterprise-user-teams-one-day-report	day	query	true	string
+  copilot/copilot-users-one-day-usage-metrics	enterprise	path	true	string
+  copilot/copilot-users-one-day-usage-metrics	day	query	true	string
+  copilot/copilot-users-usage-metrics	enterprise	path	true	string
+  copilot/set-enterprise-coding-agent-policy	enterprise	path	true	string
+  copilot/add-organizations-to-enterprise-coding-agent-policy	enterprise	path	true	string
+  copilot/remove-organizations-from-enterprise-coding-agent-policy	enterprise	path	true	string
+  dependabot/list-alerts-for-enterprise	enterprise	path	true	string
+  dependabot/list-alerts-for-enterprise	classification	query	false	string
+  dependabot/list-alerts-for-enterprise	state	query	false	string
+  dependabot/list-alerts-for-enterprise	severity	query	false	string
+  dependabot/list-alerts-for-enterprise	ecosystem	query	false	string
+  dependabot/list-alerts-for-enterprise	package	query	false	string
+  dependabot/list-alerts-for-enterprise	epss_percentage	query	false	string
+  dependabot/list-alerts-for-enterprise	has	query	false	""
+  dependabot/list-alerts-for-enterprise	assignee	query	false	string
+  dependabot/list-alerts-for-enterprise	scope	query	false	string
+  dependabot/repository-access-for-enterprise	enterprise	path	true	string
+  dependabot/repository-access-for-enterprise	page	query	false	integer
+  dependabot/repository-access-for-enterprise	per_page	query	false	integer
+  dependabot/update-repository-access-for-enterprise	enterprise	path	true	string
+  dependabot/set-repository-access-default-level-for-enterprise	enterprise	path	true	string
+  enterprise-teams/list	enterprise	path	true	string
+  enterprise-teams/list	per_page	query	false	integer
+  enterprise-teams/list	page	query	false	integer
+  enterprise-teams/create	enterprise	path	true	string
+  enterprise-team-memberships/list	enterprise	path	true	string
+  enterprise-team-memberships/list	enterprise-team	path	true	string
+  enterprise-team-memberships/list	per_page	query	false	integer
+  enterprise-team-memberships/list	page	query	false	integer
+  enterprise-team-memberships/bulk-add	enterprise	path	true	string
+  enterprise-team-memberships/bulk-add	enterprise-team	path	true	string
+  enterprise-team-memberships/bulk-remove	enterprise	path	true	string
+  enterprise-team-memberships/bulk-remove	enterprise-team	path	true	string
+  enterprise-team-memberships/get	enterprise	path	true	string
+  enterprise-team-memberships/get	enterprise-team	path	true	string
+  enterprise-team-memberships/get	username	path	true	string
+  enterprise-team-memberships/add	enterprise	path	true	string
+  enterprise-team-memberships/add	enterprise-team	path	true	string
+  enterprise-team-memberships/add	username	path	true	string
+  enterprise-team-memberships/remove	enterprise	path	true	string
+  enterprise-team-memberships/remove	enterprise-team	path	true	string
+  enterprise-team-memberships/remove	username	path	true	string
+  enterprise-team-organizations/get-assignments	enterprise	path	true	string
+  enterprise-team-organizations/get-assignments	enterprise-team	path	true	string
+  enterprise-team-organizations/get-assignments	per_page	query	false	integer
+  enterprise-team-organizations/get-assignments	page	query	false	integer
+  enterprise-team-organizations/bulk-add	enterprise	path	true	string
+  enterprise-team-organizations/bulk-add	enterprise-team	path	true	string
+  enterprise-team-organizations/bulk-remove	enterprise	path	true	string
+  enterprise-team-organizations/bulk-remove	enterprise-team	path	true	string
+  enterprise-team-organizations/get-assignment	enterprise	path	true	string
+  enterprise-team-organizations/get-assignment	enterprise-team	path	true	string
+  enterprise-team-organizations/get-assignment	org	path	true	string
+  enterprise-team-organizations/add	enterprise	path	true	string
+  enterprise-team-organizations/add	enterprise-team	path	true	string
+  enterprise-team-organizations/add	org	path	true	string
+  enterprise-team-organizations/delete	enterprise	path	true	string
+  enterprise-team-organizations/delete	enterprise-team	path	true	string
+  enterprise-team-organizations/delete	org	path	true	string
+  enterprise-teams/get	enterprise	path	true	string
+  enterprise-teams/get	team_slug	path	true	string
+  enterprise-teams/update	enterprise	path	true	string
+  enterprise-teams/update	team_slug	path	true	string
+  enterprise-teams/delete	enterprise	path	true	string
+  enterprise-teams/delete	team_slug	path	true	string
+  activity/list-public-events	per_page	query	false	integer
+  activity/list-public-events	page	query	false	integer
+  gists/list	since	query	false	string
+  gists/list	per_page	query	false	integer
+  gists/list	page	query	false	integer
+  gists/list-public	since	query	false	string
+  gists/list-public	per_page	query	false	integer
+  gists/list-public	page	query	false	integer
+  gists/list-starred	since	query	false	string
+  gists/list-starred	per_page	query	false	integer
+  gists/list-starred	page	query	false	integer
+  gists/get	gist_id	path	true	string
+  gists/update	gist_id	path	true	string
+  gists/delete	gist_id	path	true	string
+  gists/list-comments	gist_id	path	true	string
+  gists/list-comments	per_page	query	false	integer
+  gists/list-comments	page	query	false	integer
+  gists/create-comment	gist_id	path	true	string
+  gists/get-comment	gist_id	path	true	string
+  gists/get-comment	comment_id	path	true	integer
+  gists/update-comment	gist_id	path	true	string
+  gists/update-comment	comment_id	path	true	integer
+  gists/delete-comment	gist_id	path	true	string
+  gists/delete-comment	comment_id	path	true	integer
+  gists/list-commits	gist_id	path	true	string
+  gists/list-commits	per_page	query	false	integer
+  gists/list-commits	page	query	false	integer
+  gists/list-forks	gist_id	path	true	string
+  gists/list-forks	per_page	query	false	integer
+  gists/list-forks	page	query	false	integer
+  gists/fork	gist_id	path	true	string
+  gists/check-is-starred	gist_id	path	true	string
+  gists/star	gist_id	path	true	string
+  gists/unstar	gist_id	path	true	string
+  gists/get-revision	gist_id	path	true	string
+  gists/get-revision	sha	path	true	string
+  gitignore/get-template	name	path	true	string
+  apps/list-repos-accessible-to-installation	per_page	query	false	integer
+  apps/list-repos-accessible-to-installation	page	query	false	integer
+  issues/list	filter	query	false	string
+  issues/list	state	query	false	string
+  issues/list	labels	query	false	string
+  issues/list	sort	query	false	string
+  issues/list	direction	query	false	string
+  issues/list	since	query	false	string
+  issues/list	collab	query	false	boolean
+  issues/list	orgs	query	false	boolean
+  issues/list	owned	query	false	boolean
+  issues/list	pulls	query	false	boolean
+  licenses/get-all-commonly-used	featured	query	false	boolean
+  licenses/get-all-commonly-used	per_page	query	false	integer
+  licenses/get-all-commonly-used	page	query	false	integer
+  licenses/get	license	path	true	string
+  apps/get-subscription-plan-for-account	account_id	path	true	integer
+  apps/list-plans	per_page	query	false	integer
+  apps/list-plans	page	query	false	integer
+  apps/list-accounts-for-plan	plan_id	path	true	integer
+  apps/list-accounts-for-plan	sort	query	false	string
+  apps/list-accounts-for-plan	direction	query	false	string
+  apps/list-accounts-for-plan	per_page	query	false	integer
+  apps/list-accounts-for-plan	page	query	false	integer
+  apps/get-subscription-plan-for-account-stubbed	account_id	path	true	integer
+  apps/list-plans-stubbed	per_page	query	false	integer
+  apps/list-plans-stubbed	page	query	false	integer
+  apps/list-accounts-for-plan-stubbed	plan_id	path	true	integer
+  apps/list-accounts-for-plan-stubbed	sort	query	false	string
+  apps/list-accounts-for-plan-stubbed	direction	query	false	string
+  apps/list-accounts-for-plan-stubbed	per_page	query	false	integer
+  apps/list-accounts-for-plan-stubbed	page	query	false	integer
+  activity/list-public-events-for-repo-network	owner	path	true	string
+  activity/list-public-events-for-repo-network	repo	path	true	string
+  activity/list-public-events-for-repo-network	per_page	query	false	integer
+  activity/list-public-events-for-repo-network	page	query	false	integer
+  activity/list-notifications-for-authenticated-user	all	query	false	boolean
+  activity/list-notifications-for-authenticated-user	participating	query	false	boolean
+  activity/list-notifications-for-authenticated-user	since	query	false	string
+  activity/list-notifications-for-authenticated-user	before	query	false	string
+  activity/list-notifications-for-authenticated-user	page	query	false	integer
+  activity/list-notifications-for-authenticated-user	per_page	query	false	integer
+  activity/get-thread	thread_id	path	true	integer
+  activity/mark-thread-as-read	thread_id	path	true	integer
+  activity/mark-thread-as-done	thread_id	path	true	integer
+  activity/get-thread-subscription-for-authenticated-user	thread_id	path	true	integer
+  activity/set-thread-subscription	thread_id	path	true	integer
+  activity/delete-thread-subscription	thread_id	path	true	integer
+  meta/get-octocat	s	query	false	string
+  orgs/list	since	query	false	integer
+  orgs/list	per_page	query	false	integer
+  actions/get-actions-cache-retention-limit-for-organization	org	path	true	string
+  actions/set-actions-cache-retention-limit-for-organization	org	path	true	string
+  actions/get-actions-cache-storage-limit-for-organization	org	path	true	string
+  actions/set-actions-cache-storage-limit-for-organization	org	path	true	string
+  billing/get-all-budgets-org	org	path	true	string
+  billing/get-all-budgets-org	page	query	false	integer
+  billing/get-all-budgets-org	per_page	query	false	integer
+  billing/get-all-budgets-org	scope	query	false	string
+  billing/get-budget-org	org	path	true	string
+  billing/get-budget-org	budget_id	path	true	string
+  billing/update-budget-org	org	path	true	string
+  billing/update-budget-org	budget_id	path	true	string
+  billing/delete-budget-org	org	path	true	string
+  billing/delete-budget-org	budget_id	path	true	string
+  billing/get-github-billing-premium-request-usage-report-org	org	path	true	string
+  billing/get-github-billing-premium-request-usage-report-org	year	query	false	integer
+  billing/get-github-billing-premium-request-usage-report-org	month	query	false	integer
+  billing/get-github-billing-premium-request-usage-report-org	day	query	false	integer
+  billing/get-github-billing-premium-request-usage-report-org	user	query	false	string
+  billing/get-github-billing-premium-request-usage-report-org	model	query	false	string
+  billing/get-github-billing-premium-request-usage-report-org	product	query	false	string
+  billing/get-github-billing-usage-report-org	org	path	true	string
+  billing/get-github-billing-usage-report-org	year	query	false	integer
+  billing/get-github-billing-usage-report-org	month	query	false	integer
+  billing/get-github-billing-usage-report-org	day	query	false	integer
+  billing/get-github-billing-usage-summary-report-org	org	path	true	string
+  billing/get-github-billing-usage-summary-report-org	year	query	false	integer
+  billing/get-github-billing-usage-summary-report-org	month	query	false	integer
+  billing/get-github-billing-usage-summary-report-org	day	query	false	integer
+  billing/get-github-billing-usage-summary-report-org	repository	query	false	string
+  billing/get-github-billing-usage-summary-report-org	product	query	false	string
+  billing/get-github-billing-usage-summary-report-org	sku	query	false	string
+  orgs/get	org	path	true	string
+  orgs/update	org	path	true	string
+  orgs/delete	org	path	true	string
+  actions/get-actions-cache-usage-for-org	org	path	true	string
+  actions/get-actions-cache-usage-by-repo-for-org	org	path	true	string
+  actions/get-actions-cache-usage-by-repo-for-org	per_page	query	false	integer
+  actions/get-actions-cache-usage-by-repo-for-org	page	query	false	integer
+  actions/list-hosted-runners-for-org	org	path	true	string
+  actions/list-hosted-runners-for-org	per_page	query	false	integer
+  actions/list-hosted-runners-for-org	page	query	false	integer
+  actions/create-hosted-runner-for-org	org	path	true	string
+  actions/list-custom-images-for-org	org	path	true	string
+  actions/get-custom-image-for-org	org	path	true	string
+  actions/get-custom-image-for-org	image_definition_id	path	true	integer
+  actions/delete-custom-image-from-org	org	path	true	string
+  actions/delete-custom-image-from-org	image_definition_id	path	true	integer
+  actions/list-custom-image-versions-for-org	image_definition_id	path	true	integer
+  actions/list-custom-image-versions-for-org	org	path	true	string
+  actions/get-custom-image-version-for-org	org	path	true	string
+  actions/get-custom-image-version-for-org	image_definition_id	path	true	integer
+  actions/get-custom-image-version-for-org	version	path	true	string
+  actions/delete-custom-image-version-from-org	org	path	true	string
+  actions/delete-custom-image-version-from-org	image_definition_id	path	true	integer
+  actions/delete-custom-image-version-from-org	version	path	true	string
+  actions/get-hosted-runners-github-owned-images-for-org	org	path	true	string
+  actions/get-hosted-runners-partner-images-for-org	org	path	true	string
+  actions/get-hosted-runners-limits-for-org	org	path	true	string
+  actions/get-hosted-runners-machine-specs-for-org	org	path	true	string
+  actions/get-hosted-runners-platforms-for-org	org	path	true	string
+  actions/get-hosted-runner-for-org	org	path	true	string
+  actions/get-hosted-runner-for-org	hosted_runner_id	path	true	integer
+  actions/update-hosted-runner-for-org	org	path	true	string
+  actions/update-hosted-runner-for-org	hosted_runner_id	path	true	integer
+  actions/delete-hosted-runner-for-org	org	path	true	string
+  actions/delete-hosted-runner-for-org	hosted_runner_id	path	true	integer
+  oidc/list-oidc-custom-property-inclusions-for-org	org	path	true	string
+  oidc/create-oidc-custom-property-inclusion-for-org	org	path	true	string
+  oidc/delete-oidc-custom-property-inclusion-for-org	org	path	true	string
+  oidc/delete-oidc-custom-property-inclusion-for-org	custom_property_name	path	true	string
+  oidc/get-oidc-custom-sub-template-for-org	org	path	true	string
+  oidc/update-oidc-custom-sub-template-for-org	org	path	true	string
+  actions/get-github-actions-permissions-organization	org	path	true	string
+  actions/set-github-actions-permissions-organization	org	path	true	string
+  actions/get-artifact-and-log-retention-settings-organization	org	path	true	string
+  actions/set-artifact-and-log-retention-settings-organization	org	path	true	string
+  actions/get-fork-pr-contributor-approval-permissions-organization	org	path	true	string
+  actions/set-fork-pr-contributor-approval-permissions-organization	org	path	true	string
+  actions/get-private-repo-fork-pr-workflows-settings-organization	org	path	true	string
+  actions/set-private-repo-fork-pr-workflows-settings-organization	org	path	true	string
+  actions/list-selected-repositories-enabled-github-actions-organization	org	path	true	string
+  actions/list-selected-repositories-enabled-github-actions-organization	per_page	query	false	integer
+  actions/list-selected-repositories-enabled-github-actions-organization	page	query	false	integer
+  actions/set-selected-repositories-enabled-github-actions-organization	org	path	true	string
+  actions/enable-selected-repository-github-actions-organization	org	path	true	string
+  actions/enable-selected-repository-github-actions-organization	repository_id	path	true	integer
+  actions/disable-selected-repository-github-actions-organization	org	path	true	string
+  actions/disable-selected-repository-github-actions-organization	repository_id	path	true	integer
+  actions/get-allowed-actions-organization	org	path	true	string
+  actions/set-allowed-actions-organization	org	path	true	string
+  actions/get-self-hosted-runners-permissions-organization	org	path	true	string
+  actions/set-self-hosted-runners-permissions-organization	org	path	true	string
+  actions/list-selected-repositories-self-hosted-runners-organization	org	path	true	string
+  actions/list-selected-repositories-self-hosted-runners-organization	per_page	query	false	integer
+  actions/list-selected-repositories-self-hosted-runners-organization	page	query	false	integer
+  actions/set-selected-repositories-self-hosted-runners-organization	org	path	true	string
+  actions/enable-selected-repository-self-hosted-runners-organization	org	path	true	string
+  actions/enable-selected-repository-self-hosted-runners-organization	repository_id	path	true	integer
+  actions/disable-selected-repository-self-hosted-runners-organization	org	path	true	string
+  actions/disable-selected-repository-self-hosted-runners-organization	repository_id	path	true	integer
+  actions/get-github-actions-default-workflow-permissions-organization	org	path	true	string
+  actions/set-github-actions-default-workflow-permissions-organization	org	path	true	string
+  actions/list-self-hosted-runner-groups-for-org	org	path	true	string
+  actions/list-self-hosted-runner-groups-for-org	per_page	query	false	integer
+  actions/list-self-hosted-runner-groups-for-org	page	query	false	integer
+  actions/list-self-hosted-runner-groups-for-org	visible_to_repository	query	false	string
+  actions/create-self-hosted-runner-group-for-org	org	path	true	string
+  actions/get-self-hosted-runner-group-for-org	org	path	true	string
+  actions/get-self-hosted-runner-group-for-org	runner_group_id	path	true	integer
+  actions/update-self-hosted-runner-group-for-org	org	path	true	string
+  actions/update-self-hosted-runner-group-for-org	runner_group_id	path	true	integer
+  actions/delete-self-hosted-runner-group-from-org	org	path	true	string
+  actions/delete-self-hosted-runner-group-from-org	runner_group_id	path	true	integer
+  actions/list-github-hosted-runners-in-group-for-org	org	path	true	string
+  actions/list-github-hosted-runners-in-group-for-org	runner_group_id	path	true	integer
+  actions/list-github-hosted-runners-in-group-for-org	per_page	query	false	integer
+  actions/list-github-hosted-runners-in-group-for-org	page	query	false	integer
+  actions/list-repo-access-to-self-hosted-runner-group-in-org	org	path	true	string
+  actions/list-repo-access-to-self-hosted-runner-group-in-org	runner_group_id	path	true	integer
+  actions/list-repo-access-to-self-hosted-runner-group-in-org	page	query	false	integer
+  actions/list-repo-access-to-self-hosted-runner-group-in-org	per_page	query	false	integer
+  actions/set-repo-access-to-self-hosted-runner-group-in-org	org	path	true	string
+  actions/set-repo-access-to-self-hosted-runner-group-in-org	runner_group_id	path	true	integer
+  actions/add-repo-access-to-self-hosted-runner-group-in-org	org	path	true	string
+  actions/add-repo-access-to-self-hosted-runner-group-in-org	runner_group_id	path	true	integer
+  actions/add-repo-access-to-self-hosted-runner-group-in-org	repository_id	path	true	integer
+  actions/remove-repo-access-to-self-hosted-runner-group-in-org	org	path	true	string
+  actions/remove-repo-access-to-self-hosted-runner-group-in-org	runner_group_id	path	true	integer
+  actions/remove-repo-access-to-self-hosted-runner-group-in-org	repository_id	path	true	integer
+  actions/list-self-hosted-runners-in-group-for-org	org	path	true	string
+  actions/list-self-hosted-runners-in-group-for-org	runner_group_id	path	true	integer
+  actions/list-self-hosted-runners-in-group-for-org	per_page	query	false	integer
+  actions/list-self-hosted-runners-in-group-for-org	page	query	false	integer
+  actions/set-self-hosted-runners-in-group-for-org	org	path	true	string
+  actions/set-self-hosted-runners-in-group-for-org	runner_group_id	path	true	integer
+  actions/add-self-hosted-runner-to-group-for-org	org	path	true	string
+  actions/add-self-hosted-runner-to-group-for-org	runner_group_id	path	true	integer
+  actions/add-self-hosted-runner-to-group-for-org	runner_id	path	true	integer
+  actions/remove-self-hosted-runner-from-group-for-org	org	path	true	string
+  actions/remove-self-hosted-runner-from-group-for-org	runner_group_id	path	true	integer
+  actions/remove-self-hosted-runner-from-group-for-org	runner_id	path	true	integer
+  actions/list-self-hosted-runners-for-org	name	query	false	string
+  actions/list-self-hosted-runners-for-org	org	path	true	string
+  actions/list-self-hosted-runners-for-org	per_page	query	false	integer
+  actions/list-self-hosted-runners-for-org	page	query	false	integer
+  actions/list-runner-applications-for-org	org	path	true	string
+  actions/generate-runner-jitconfig-for-org	org	path	true	string
+  actions/create-registration-token-for-org	org	path	true	string
+  actions/create-remove-token-for-org	org	path	true	string
+  actions/get-self-hosted-runner-for-org	org	path	true	string
+  actions/get-self-hosted-runner-for-org	runner_id	path	true	integer
+  actions/delete-self-hosted-runner-from-org	org	path	true	string
+  actions/delete-self-hosted-runner-from-org	runner_id	path	true	integer
+  actions/list-labels-for-self-hosted-runner-for-org	org	path	true	string
+  actions/list-labels-for-self-hosted-runner-for-org	runner_id	path	true	integer
+  actions/add-custom-labels-to-self-hosted-runner-for-org	org	path	true	string
+  actions/add-custom-labels-to-self-hosted-runner-for-org	runner_id	path	true	integer
+  actions/set-custom-labels-for-self-hosted-runner-for-org	org	path	true	string
+  actions/set-custom-labels-for-self-hosted-runner-for-org	runner_id	path	true	integer
+  actions/remove-all-custom-labels-from-self-hosted-runner-for-org	org	path	true	string
+  actions/remove-all-custom-labels-from-self-hosted-runner-for-org	runner_id	path	true	integer
+  actions/remove-custom-label-from-self-hosted-runner-for-org	org	path	true	string
+  actions/remove-custom-label-from-self-hosted-runner-for-org	runner_id	path	true	integer
+  actions/remove-custom-label-from-self-hosted-runner-for-org	name	path	true	string
+  actions/list-org-secrets	org	path	true	string
+  actions/list-org-secrets	per_page	query	false	integer
+  actions/list-org-secrets	page	query	false	integer
+  actions/get-org-public-key	org	path	true	string
+  actions/get-org-secret	org	path	true	string
+  actions/get-org-secret	secret_name	path	true	string
+  actions/create-or-update-org-secret	org	path	true	string
+  actions/create-or-update-org-secret	secret_name	path	true	string
+  actions/delete-org-secret	org	path	true	string
+  actions/delete-org-secret	secret_name	path	true	string
+  actions/list-selected-repos-for-org-secret	org	path	true	string
+  actions/list-selected-repos-for-org-secret	secret_name	path	true	string
+  actions/list-selected-repos-for-org-secret	page	query	false	integer
+  actions/list-selected-repos-for-org-secret	per_page	query	false	integer
+  actions/set-selected-repos-for-org-secret	org	path	true	string
+  actions/set-selected-repos-for-org-secret	secret_name	path	true	string
+  actions/add-selected-repo-to-org-secret	org	path	true	string
+  actions/add-selected-repo-to-org-secret	secret_name	path	true	string
+  actions/add-selected-repo-to-org-secret	repository_id	path	true	integer
+  actions/remove-selected-repo-from-org-secret	org	path	true	string
+  actions/remove-selected-repo-from-org-secret	secret_name	path	true	string
+  actions/remove-selected-repo-from-org-secret	repository_id	path	true	integer
+  actions/list-org-variables	org	path	true	string
+  actions/list-org-variables	per_page	query	false	integer
+  actions/list-org-variables	page	query	false	integer
+  actions/create-org-variable	org	path	true	string
+  actions/get-org-variable	org	path	true	string
+  actions/get-org-variable	name	path	true	string
+  actions/update-org-variable	org	path	true	string
+  actions/update-org-variable	name	path	true	string
+  actions/delete-org-variable	org	path	true	string
+  actions/delete-org-variable	name	path	true	string
+  actions/list-selected-repos-for-org-variable	org	path	true	string
+  actions/list-selected-repos-for-org-variable	name	path	true	string
+  actions/list-selected-repos-for-org-variable	page	query	false	integer
+  actions/list-selected-repos-for-org-variable	per_page	query	false	integer
+  actions/set-selected-repos-for-org-variable	org	path	true	string
+  actions/set-selected-repos-for-org-variable	name	path	true	string
+  actions/add-selected-repo-to-org-variable	org	path	true	string
+  actions/add-selected-repo-to-org-variable	name	path	true	string
+  actions/add-selected-repo-to-org-variable	repository_id	path	true	integer
+  actions/remove-selected-repo-from-org-variable	org	path	true	string
+  actions/remove-selected-repo-from-org-variable	name	path	true	string
+  actions/remove-selected-repo-from-org-variable	repository_id	path	true	integer
+  agents/list-org-secrets	org	path	true	string
+  agents/list-org-secrets	per_page	query	false	integer
+  agents/list-org-secrets	page	query	false	integer
+  agents/get-org-public-key	org	path	true	string
+  agents/get-org-secret	org	path	true	string
+  agents/get-org-secret	secret_name	path	true	string
+  agents/create-or-update-org-secret	org	path	true	string
+  agents/create-or-update-org-secret	secret_name	path	true	string
+  agents/delete-org-secret	org	path	true	string
+  agents/delete-org-secret	secret_name	path	true	string
+  agents/list-selected-repos-for-org-secret	org	path	true	string
+  agents/list-selected-repos-for-org-secret	secret_name	path	true	string
+  agents/list-selected-repos-for-org-secret	page	query	false	integer
+  agents/list-selected-repos-for-org-secret	per_page	query	false	integer
+  agents/set-selected-repos-for-org-secret	org	path	true	string
+  agents/set-selected-repos-for-org-secret	secret_name	path	true	string
+  agents/add-selected-repo-to-org-secret	org	path	true	string
+  agents/add-selected-repo-to-org-secret	secret_name	path	true	string
+  agents/add-selected-repo-to-org-secret	repository_id	path	true	integer
+  agents/remove-selected-repo-from-org-secret	org	path	true	string
+  agents/remove-selected-repo-from-org-secret	secret_name	path	true	string
+  agents/remove-selected-repo-from-org-secret	repository_id	path	true	integer
+  agents/list-org-variables	org	path	true	string
+  agents/list-org-variables	per_page	query	false	integer
+  agents/list-org-variables	page	query	false	integer
+  agents/create-org-variable	org	path	true	string
+  agents/get-org-variable	org	path	true	string
+  agents/get-org-variable	name	path	true	string
+  agents/update-org-variable	org	path	true	string
+  agents/update-org-variable	name	path	true	string
+  agents/delete-org-variable	org	path	true	string
+  agents/delete-org-variable	name	path	true	string
+  agents/list-selected-repos-for-org-variable	org	path	true	string
+  agents/list-selected-repos-for-org-variable	name	path	true	string
+  agents/list-selected-repos-for-org-variable	page	query	false	integer
+  agents/list-selected-repos-for-org-variable	per_page	query	false	integer
+  agents/set-selected-repos-for-org-variable	org	path	true	string
+  agents/set-selected-repos-for-org-variable	name	path	true	string
+  agents/add-selected-repo-to-org-variable	org	path	true	string
+  agents/add-selected-repo-to-org-variable	name	path	true	string
+  agents/add-selected-repo-to-org-variable	repository_id	path	true	integer
+  agents/remove-selected-repo-from-org-variable	org	path	true	string
+  agents/remove-selected-repo-from-org-variable	name	path	true	string
+  agents/remove-selected-repo-from-org-variable	repository_id	path	true	integer
+  orgs/create-artifact-deployment-record	org	path	true	string
+  orgs/set-cluster-deployment-records	org	path	true	string
+  orgs/set-cluster-deployment-records	cluster	path	true	string
+  orgs/create-artifact-storage-record	org	path	true	string
+  orgs/list-artifact-deployment-records	org	path	true	string
+  orgs/list-artifact-deployment-records	subject_digest	path	true	string
+  orgs/list-artifact-storage-records	org	path	true	string
+  orgs/list-artifact-storage-records	subject_digest	path	true	string
+  orgs/list-attestations-bulk	per_page	query	false	integer
+  orgs/list-attestations-bulk	before	query	false	string
+  orgs/list-attestations-bulk	after	query	false	string
+  orgs/list-attestations-bulk	org	path	true	string
+  orgs/delete-attestations-bulk	org	path	true	string
+  orgs/delete-attestations-by-subject-digest	org	path	true	string
+  orgs/delete-attestations-by-subject-digest	subject_digest	path	true	string
+  orgs/list-attestation-repositories	per_page	query	false	integer
+  orgs/list-attestation-repositories	before	query	false	string
+  orgs/list-attestation-repositories	after	query	false	string
+  orgs/list-attestation-repositories	org	path	true	string
+  orgs/list-attestation-repositories	predicate_type	query	false	string
+  orgs/delete-attestations-by-id	org	path	true	string
+  orgs/delete-attestations-by-id	attestation_id	path	true	integer
+  orgs/list-attestations	per_page	query	false	integer
+  orgs/list-attestations	before	query	false	string
+  orgs/list-attestations	after	query	false	string
+  orgs/list-attestations	org	path	true	string
+  orgs/list-attestations	subject_digest	path	true	string
+  orgs/list-attestations	predicate_type	query	false	string
+  orgs/list-blocked-users	org	path	true	string
+  orgs/list-blocked-users	per_page	query	false	integer
+  orgs/list-blocked-users	page	query	false	integer
+  orgs/check-blocked-user	org	path	true	string
+  orgs/check-blocked-user	username	path	true	string
+  orgs/block-user	org	path	true	string
+  orgs/block-user	username	path	true	string
+  orgs/unblock-user	org	path	true	string
+  orgs/unblock-user	username	path	true	string
+  campaigns/list-org-campaigns	org	path	true	string
+  campaigns/list-org-campaigns	page	query	false	integer
+  campaigns/list-org-campaigns	per_page	query	false	integer
+  campaigns/list-org-campaigns	direction	query	false	string
+  campaigns/list-org-campaigns	state	query	false	string
+  campaigns/list-org-campaigns	sort	query	false	string
+  campaigns/create-campaign	org	path	true	string
+  campaigns/get-campaign-summary	org	path	true	string
+  campaigns/get-campaign-summary	campaign_number	path	true	integer
+  campaigns/update-campaign	org	path	true	string
+  campaigns/update-campaign	campaign_number	path	true	integer
+  campaigns/delete-campaign	org	path	true	string
+  campaigns/delete-campaign	campaign_number	path	true	integer
+  code-scanning/list-alerts-for-org	org	path	true	string
+  code-scanning/list-alerts-for-org	tool_name	query	false	string
+  code-scanning/list-alerts-for-org	tool_guid	query	false	string
+  code-scanning/list-alerts-for-org	before	query	false	string
+  code-scanning/list-alerts-for-org	after	query	false	string
+  code-scanning/list-alerts-for-org	page	query	false	integer
+  code-scanning/list-alerts-for-org	per_page	query	false	integer
+  code-scanning/list-alerts-for-org	direction	query	false	string
+  code-scanning/list-alerts-for-org	state	query	false	string
+  code-scanning/list-alerts-for-org	sort	query	false	string
+  code-security/get-configurations-for-org	org	path	true	string
+  code-security/get-configurations-for-org	target_type	query	false	string
+  code-security/get-configurations-for-org	per_page	query	false	integer
+  code-security/get-configurations-for-org	before	query	false	string
+  code-security/get-configurations-for-org	after	query	false	string
+  code-security/create-configuration	org	path	true	string
+  code-security/get-default-configurations	org	path	true	string
+  code-security/detach-configuration	org	path	true	string
+  code-security/get-configuration	org	path	true	string
+  code-security/get-configuration	configuration_id	path	true	integer
+  code-security/update-configuration	org	path	true	string
+  code-security/update-configuration	configuration_id	path	true	integer
+  code-security/delete-configuration	org	path	true	string
+  code-security/delete-configuration	configuration_id	path	true	integer
+  code-security/attach-configuration	org	path	true	string
+  code-security/attach-configuration	configuration_id	path	true	integer
+  code-security/set-configuration-as-default	org	path	true	string
+  code-security/set-configuration-as-default	configuration_id	path	true	integer
+  code-security/get-repositories-for-configuration	org	path	true	string
+  code-security/get-repositories-for-configuration	configuration_id	path	true	integer
+  code-security/get-repositories-for-configuration	per_page	query	false	integer
+  code-security/get-repositories-for-configuration	before	query	false	string
+  code-security/get-repositories-for-configuration	after	query	false	string
+  code-security/get-repositories-for-configuration	status	query	false	string
+  codespaces/list-in-organization	per_page	query	false	integer
+  codespaces/list-in-organization	page	query	false	integer
+  codespaces/list-in-organization	org	path	true	string
+  codespaces/set-codespaces-access	org	path	true	string
+  codespaces/set-codespaces-access-users	org	path	true	string
+  codespaces/delete-codespaces-access-users	org	path	true	string
+  codespaces/list-org-secrets	org	path	true	string
+  codespaces/list-org-secrets	per_page	query	false	integer
+  codespaces/list-org-secrets	page	query	false	integer
+  codespaces/get-org-public-key	org	path	true	string
+  codespaces/get-org-secret	org	path	true	string
+  codespaces/get-org-secret	secret_name	path	true	string
+  codespaces/create-or-update-org-secret	org	path	true	string
+  codespaces/create-or-update-org-secret	secret_name	path	true	string
+  codespaces/delete-org-secret	org	path	true	string
+  codespaces/delete-org-secret	secret_name	path	true	string
+  codespaces/list-selected-repos-for-org-secret	org	path	true	string
+  codespaces/list-selected-repos-for-org-secret	secret_name	path	true	string
+  codespaces/list-selected-repos-for-org-secret	page	query	false	integer
+  codespaces/list-selected-repos-for-org-secret	per_page	query	false	integer
+  codespaces/set-selected-repos-for-org-secret	org	path	true	string
+  codespaces/set-selected-repos-for-org-secret	secret_name	path	true	string
+  codespaces/add-selected-repo-to-org-secret	org	path	true	string
+  codespaces/add-selected-repo-to-org-secret	secret_name	path	true	string
+  codespaces/add-selected-repo-to-org-secret	repository_id	path	true	integer
+  codespaces/remove-selected-repo-from-org-secret	org	path	true	string
+  codespaces/remove-selected-repo-from-org-secret	secret_name	path	true	string
+  codespaces/remove-selected-repo-from-org-secret	repository_id	path	true	integer
+  copilot-spaces/list-for-org	org	path	true	string
+  copilot-spaces/list-for-org	per_page	query	false	integer
+  copilot-spaces/list-for-org	before	query	false	string
+  copilot-spaces/list-for-org	after	query	false	string
+  copilot-spaces/create-for-org	org	path	true	string
+  copilot-spaces/get-for-org	org	path	true	string
+  copilot-spaces/get-for-org	space_number	path	true	integer
+  copilot-spaces/update-for-org	org	path	true	string
+  copilot-spaces/update-for-org	space_number	path	true	integer
+  copilot-spaces/delete-for-org	org	path	true	string
+  copilot-spaces/delete-for-org	space_number	path	true	integer
+  copilot-spaces/list-collaborators-for-org	org	path	true	string
+  copilot-spaces/list-collaborators-for-org	space_number	path	true	integer
+  copilot-spaces/add-collaborator-for-org	org	path	true	string
+  copilot-spaces/add-collaborator-for-org	space_number	path	true	integer
+  copilot-spaces/update-collaborator-for-org	org	path	true	string
+  copilot-spaces/update-collaborator-for-org	space_number	path	true	integer
+  copilot-spaces/update-collaborator-for-org	actor_type	path	true	string
+  copilot-spaces/update-collaborator-for-org	actor_identifier	path	true	string
+  copilot-spaces/remove-collaborator-for-org	org	path	true	string
+  copilot-spaces/remove-collaborator-for-org	space_number	path	true	integer
+  copilot-spaces/remove-collaborator-for-org	actor_type	path	true	string
+  copilot-spaces/remove-collaborator-for-org	actor_identifier	path	true	string
+  copilot-spaces/list-resources-for-org	org	path	true	string
+  copilot-spaces/list-resources-for-org	space_number	path	true	integer
+  copilot-spaces/create-resource-for-org	org	path	true	string
+  copilot-spaces/create-resource-for-org	space_number	path	true	integer
+  copilot-spaces/get-resource-for-org	org	path	true	string
+  copilot-spaces/get-resource-for-org	space_number	path	true	integer
+  copilot-spaces/get-resource-for-org	space_resource_id	path	true	integer
+  copilot-spaces/update-resource-for-org	org	path	true	string
+  copilot-spaces/update-resource-for-org	space_number	path	true	integer
+  copilot-spaces/update-resource-for-org	space_resource_id	path	true	integer
+  copilot-spaces/delete-resource-for-org	org	path	true	string
+  copilot-spaces/delete-resource-for-org	space_number	path	true	integer
+  copilot-spaces/delete-resource-for-org	space_resource_id	path	true	integer
+  copilot/get-copilot-organization-details	org	path	true	string
+  copilot/list-copilot-seats	org	path	true	string
+  copilot/list-copilot-seats	page	query	false	integer
+  copilot/list-copilot-seats	per_page	query	false	integer
+  copilot/add-copilot-seats-for-teams	org	path	true	string
+  copilot/cancel-copilot-seat-assignment-for-teams	org	path	true	string
+  copilot/add-copilot-seats-for-users	org	path	true	string
+  copilot/cancel-copilot-seat-assignment-for-users	org	path	true	string
+  copilot/get-copilot-coding-agent-permissions-organization	org	path	true	string
+  copilot/set-copilot-coding-agent-permissions-organization	org	path	true	string
+  copilot/list-copilot-coding-agent-selected-repositories-for-organization	org	path	true	string
+  copilot/list-copilot-coding-agent-selected-repositories-for-organization	per_page	query	false	integer
+  copilot/list-copilot-coding-agent-selected-repositories-for-organization	page	query	false	integer
+  copilot/set-copilot-coding-agent-selected-repositories-for-organization	org	path	true	string
+  copilot/enable-copilot-coding-agent-for-repository-in-organization	org	path	true	string
+  copilot/enable-copilot-coding-agent-for-repository-in-organization	repository_id	path	true	integer
+  copilot/disable-copilot-coding-agent-for-repository-in-organization	org	path	true	string
+  copilot/disable-copilot-coding-agent-for-repository-in-organization	repository_id	path	true	integer
+  copilot/copilot-content-exclusion-for-organization	org	path	true	string
+  copilot/set-copilot-content-exclusion-for-organization	org	path	true	string
+  copilot/copilot-metrics-for-organization	org	path	true	string
+  copilot/copilot-metrics-for-organization	since	query	false	string
+  copilot/copilot-metrics-for-organization	until	query	false	string
+  copilot/copilot-metrics-for-organization	page	query	false	integer
+  copilot/copilot-metrics-for-organization	per_page	query	false	integer
+  copilot/copilot-organization-one-day-usage-metrics	org	path	true	string
+  copilot/copilot-organization-one-day-usage-metrics	day	query	true	string
+  copilot/copilot-organization-usage-metrics	org	path	true	string
+  copilot/copilot-organization-user-teams-one-day-report	org	path	true	string
+  copilot/copilot-organization-user-teams-one-day-report	day	query	true	string
+  copilot/copilot-organization-users-one-day-usage-metrics	org	path	true	string
+  copilot/copilot-organization-users-one-day-usage-metrics	day	query	true	string
+  copilot/copilot-organization-users-usage-metrics	org	path	true	string
+  dependabot/list-alerts-for-org	org	path	true	string
+  dependabot/list-alerts-for-org	classification	query	false	string
+  dependabot/list-alerts-for-org	state	query	false	string
+  dependabot/list-alerts-for-org	severity	query	false	string
+  dependabot/list-alerts-for-org	ecosystem	query	false	string
+  dependabot/list-alerts-for-org	package	query	false	string
+  dependabot/list-alerts-for-org	epss_percentage	query	false	string
+  dependabot/list-alerts-for-org	artifact_registry_url	query	false	string
+  dependabot/list-alerts-for-org	artifact_registry	query	false	string
+  dependabot/list-alerts-for-org	has	query	false	""
+  dependabot/repository-access-for-org	org	path	true	string
+  dependabot/repository-access-for-org	page	query	false	integer
+  dependabot/repository-access-for-org	per_page	query	false	integer
+  dependabot/update-repository-access-for-org	org	path	true	string
+  dependabot/set-repository-access-default-level	org	path	true	string
+  dependabot/list-org-secrets	org	path	true	string
+  dependabot/list-org-secrets	per_page	query	false	integer
+  dependabot/list-org-secrets	page	query	false	integer
+  dependabot/get-org-public-key	org	path	true	string
+  dependabot/get-org-secret	org	path	true	string
+  dependabot/get-org-secret	secret_name	path	true	string
+  dependabot/create-or-update-org-secret	org	path	true	string
+  dependabot/create-or-update-org-secret	secret_name	path	true	string
+  dependabot/delete-org-secret	org	path	true	string
+  dependabot/delete-org-secret	secret_name	path	true	string
+  dependabot/list-selected-repos-for-org-secret	org	path	true	string
+  dependabot/list-selected-repos-for-org-secret	secret_name	path	true	string
+  dependabot/list-selected-repos-for-org-secret	page	query	false	integer
+  dependabot/list-selected-repos-for-org-secret	per_page	query	false	integer
+  dependabot/set-selected-repos-for-org-secret	org	path	true	string
+  dependabot/set-selected-repos-for-org-secret	secret_name	path	true	string
+  dependabot/add-selected-repo-to-org-secret	org	path	true	string
+  dependabot/add-selected-repo-to-org-secret	secret_name	path	true	string
+  dependabot/add-selected-repo-to-org-secret	repository_id	path	true	integer
+  dependabot/remove-selected-repo-from-org-secret	org	path	true	string
+  dependabot/remove-selected-repo-from-org-secret	secret_name	path	true	string
+  dependabot/remove-selected-repo-from-org-secret	repository_id	path	true	integer
+  packages/list-docker-migration-conflicting-packages-for-organization	org	path	true	string
+  activity/list-public-org-events	org	path	true	string
+  activity/list-public-org-events	per_page	query	false	integer
+  activity/list-public-org-events	page	query	false	integer
+  orgs/list-failed-invitations	org	path	true	string
+  orgs/list-failed-invitations	per_page	query	false	integer
+  orgs/list-failed-invitations	page	query	false	integer
+  orgs/list-webhooks	org	path	true	string
+  orgs/list-webhooks	per_page	query	false	integer
+  orgs/list-webhooks	page	query	false	integer
+  orgs/create-webhook	org	path	true	string
+  orgs/get-webhook	org	path	true	string
+  orgs/get-webhook	hook_id	path	true	integer
+  orgs/update-webhook	org	path	true	string
+  orgs/update-webhook	hook_id	path	true	integer
+  orgs/delete-webhook	org	path	true	string
+  orgs/delete-webhook	hook_id	path	true	integer
+  orgs/get-webhook-config-for-org	org	path	true	string
+  orgs/get-webhook-config-for-org	hook_id	path	true	integer
+  orgs/update-webhook-config-for-org	org	path	true	string
+  orgs/update-webhook-config-for-org	hook_id	path	true	integer
+  orgs/list-webhook-deliveries	org	path	true	string
+  orgs/list-webhook-deliveries	hook_id	path	true	integer
+  orgs/list-webhook-deliveries	per_page	query	false	integer
+  orgs/list-webhook-deliveries	cursor	query	false	string
+  orgs/list-webhook-deliveries	status	query	false	string
+  orgs/get-webhook-delivery	org	path	true	string
+  orgs/get-webhook-delivery	hook_id	path	true	integer
+  orgs/get-webhook-delivery	delivery_id	path	true	integer
+  orgs/redeliver-webhook-delivery	org	path	true	string
+  orgs/redeliver-webhook-delivery	hook_id	path	true	integer
+  orgs/redeliver-webhook-delivery	delivery_id	path	true	integer
+  orgs/ping-webhook	org	path	true	string
+  orgs/ping-webhook	hook_id	path	true	integer
+  api-insights/get-route-stats-by-actor	org	path	true	string
+  api-insights/get-route-stats-by-actor	actor_type	path	true	string
+  api-insights/get-route-stats-by-actor	actor_id	path	true	integer
+  api-insights/get-route-stats-by-actor	min_timestamp	query	true	string
+  api-insights/get-route-stats-by-actor	max_timestamp	query	false	string
+  api-insights/get-route-stats-by-actor	page	query	false	integer
+  api-insights/get-route-stats-by-actor	per_page	query	false	integer
+  api-insights/get-route-stats-by-actor	direction	query	false	string
+  api-insights/get-route-stats-by-actor	sort	query	false	array
+  api-insights/get-route-stats-by-actor	api_route_substring	query	false	string
+  api-insights/get-subject-stats	org	path	true	string
+  api-insights/get-subject-stats	min_timestamp	query	true	string
+  api-insights/get-subject-stats	max_timestamp	query	false	string
+  api-insights/get-subject-stats	page	query	false	integer
+  api-insights/get-subject-stats	per_page	query	false	integer
+  api-insights/get-subject-stats	direction	query	false	string
+  api-insights/get-subject-stats	sort	query	false	array
+  api-insights/get-subject-stats	subject_name_substring	query	false	string
+  api-insights/get-summary-stats	org	path	true	string
+  api-insights/get-summary-stats	min_timestamp	query	true	string
+  api-insights/get-summary-stats	max_timestamp	query	false	string
+responses[operation_id,status,description]:
+  meta/root	"200"	Response
+  security-advisories/list-global-advisories	"200"	Response
+  security-advisories/list-global-advisories	"429"	Too many requests
+  security-advisories/list-global-advisories	"422"	Validation failed, or the endpoint has been spammed.
+  security-advisories/get-global-advisory	"200"	Response
+  security-advisories/get-global-advisory	"404"	Resource not found
+  agent-tasks/list-tasks-for-repo	"200"	Tasks retrieved successfully
+  agent-tasks/list-tasks-for-repo	"400"	Bad request
+  agent-tasks/list-tasks-for-repo	"401"	Authentication required
+  agent-tasks/list-tasks-for-repo	"403"	Insufficient permissions
+  agent-tasks/list-tasks-for-repo	"404"	Resource not found
+  agent-tasks/list-tasks-for-repo	"422"	Validation Failed
+  agent-tasks/create-task-in-repo	"201"	Task created successfully
+  agent-tasks/create-task-in-repo	"400"	Problems parsing JSON
+  agent-tasks/create-task-in-repo	"401"	Authentication required
+  agent-tasks/create-task-in-repo	"403"	Insufficient permissions
+  agent-tasks/create-task-in-repo	"422"	Validation Failed
+  agent-tasks/get-task-by-repo-and-id	"200"	Task retrieved successfully
+  agent-tasks/get-task-by-repo-and-id	"400"	Bad request
+  agent-tasks/get-task-by-repo-and-id	"401"	Authentication required
+  agent-tasks/get-task-by-repo-and-id	"403"	Insufficient permissions
+  agent-tasks/get-task-by-repo-and-id	"404"	Resource not found
+  agent-tasks/get-task-by-repo-and-id	"422"	Validation Failed
+  agent-tasks/list-tasks	"200"	Tasks retrieved successfully
+  agent-tasks/list-tasks	"400"	Bad request
+  agent-tasks/list-tasks	"401"	Authentication required
+  agent-tasks/list-tasks	"403"	Insufficient permissions
+  agent-tasks/list-tasks	"422"	Validation Failed
+  agent-tasks/get-task-by-id	"200"	Task retrieved successfully
+  agent-tasks/get-task-by-id	"400"	Problems parsing request
+  agent-tasks/get-task-by-id	"401"	Authentication required
+  agent-tasks/get-task-by-id	"403"	Insufficient permissions
+  agent-tasks/get-task-by-id	"404"	Resource not found
+  agent-tasks/get-task-by-id	"422"	Validation Failed
+  apps/get-authenticated	"200"	Response
+  apps/create-from-manifest	"201"	Response
+  apps/create-from-manifest	"404"	Resource not found
+  apps/create-from-manifest	"422"	Validation failed, or the endpoint has been spammed.
+  apps/get-webhook-config-for-app	"200"	Response
+  apps/update-webhook-config-for-app	"200"	Response
+  apps/list-webhook-deliveries	"200"	Response
+  apps/list-webhook-deliveries	"400"	Bad Request
+  apps/list-webhook-deliveries	"422"	Validation failed, or the endpoint has been spammed.
+  apps/get-webhook-delivery	"200"	Response
+  apps/get-webhook-delivery	"400"	Bad Request
+  apps/get-webhook-delivery	"422"	Validation failed, or the endpoint has been spammed.
+  apps/redeliver-webhook-delivery	"202"	Accepted
+  apps/redeliver-webhook-delivery	"400"	Bad Request
+  apps/redeliver-webhook-delivery	"422"	Validation failed, or the endpoint has been spammed.
+  apps/list-installation-requests-for-authenticated-app	"200"	List of integration installation requests
+  apps/list-installation-requests-for-authenticated-app	"304"	Not modified
+  apps/list-installation-requests-for-authenticated-app	"401"	Requires authentication
+  apps/list-installations	"200"	The permissions the installation has are included under the `permissions` key.
+  apps/get-installation	"200"	Response
+  apps/get-installation	"404"	Resource not found
+  apps/delete-installation	"204"	Response
+  apps/delete-installation	"404"	Resource not found
+  apps/create-installation-access-token	"201"	Response
+  apps/create-installation-access-token	"403"	Forbidden
+  apps/create-installation-access-token	"401"	Requires authentication
+  apps/create-installation-access-token	"404"	Resource not found
+  apps/create-installation-access-token	"422"	Validation failed, or the endpoint has been spammed.
+  apps/suspend-installation	"204"	Response
+  apps/suspend-installation	"404"	Resource not found
+  apps/unsuspend-installation	"204"	Response
+  apps/unsuspend-installation	"404"	Resource not found
+  apps/delete-authorization	"204"	Response
+  apps/delete-authorization	"422"	Validation failed, or the endpoint has been spammed.
+  apps/check-token	"200"	Response
+  apps/check-token	"422"	Validation failed, or the endpoint has been spammed.
+  apps/check-token	"404"	Resource not found
+  apps/reset-token	"200"	Response
+  apps/reset-token	"422"	Validation failed, or the endpoint has been spammed.
+  apps/delete-token	"204"	Response
+  apps/delete-token	"422"	Validation failed, or the endpoint has been spammed.
+  apps/scope-token	"200"	Response
+  apps/scope-token	"401"	Requires authentication
+  apps/scope-token	"403"	Forbidden
+  apps/scope-token	"404"	Resource not found
+  apps/scope-token	"422"	Validation failed, or the endpoint has been spammed.
+  apps/get-by-slug	"200"	Response
+  apps/get-by-slug	"403"	Forbidden
+  apps/get-by-slug	"404"	Resource not found
+  classroom/get-an-assignment	"200"	Response
+  classroom/get-an-assignment	"404"	Resource not found
+  classroom/list-accepted-assignments-for-an-assignment	"200"	Response
+  classroom/get-assignment-grades	"200"	Response
+  classroom/get-assignment-grades	"404"	Resource not found
+  classroom/list-classrooms	"200"	Response
+  classroom/get-a-classroom	"200"	Response
+  classroom/get-a-classroom	"404"	Resource not found
+  classroom/list-assignments-for-a-classroom	"200"	Response
+  codes-of-conduct/get-all-codes-of-conduct	"200"	Response
+  codes-of-conduct/get-all-codes-of-conduct	"304"	Not modified
+  codes-of-conduct/get-conduct-code	"200"	Response
+  codes-of-conduct/get-conduct-code	"404"	Resource not found
+  codes-of-conduct/get-conduct-code	"304"	Not modified
+  credentials/revoke	"202"	Accepted
+  credentials/revoke	"422"	Validation failed, or the endpoint has been spammed.
+  credentials/revoke	"500"	Internal Error
+  emojis/get	"200"	Response
+  emojis/get	"304"	Not modified
+  actions/get-actions-cache-retention-limit-for-enterprise	"200"	Response
+  actions/get-actions-cache-retention-limit-for-enterprise	"403"	Forbidden
+  actions/get-actions-cache-retention-limit-for-enterprise	"404"	Resource not found
+  actions/set-actions-cache-retention-limit-for-enterprise	"204"	Response
+  actions/set-actions-cache-retention-limit-for-enterprise	"400"	Bad Request
+  actions/set-actions-cache-retention-limit-for-enterprise	"403"	Forbidden
+  actions/set-actions-cache-retention-limit-for-enterprise	"404"	Resource not found
+  actions/get-actions-cache-storage-limit-for-enterprise	"200"	Response
+  actions/get-actions-cache-storage-limit-for-enterprise	"403"	Forbidden
+  actions/get-actions-cache-storage-limit-for-enterprise	"404"	Resource not found
+  actions/set-actions-cache-storage-limit-for-enterprise	"204"	Response
+  actions/set-actions-cache-storage-limit-for-enterprise	"400"	Bad Request
+  actions/set-actions-cache-storage-limit-for-enterprise	"403"	Forbidden
+  actions/set-actions-cache-storage-limit-for-enterprise	"404"	Resource not found
+  oidc/list-oidc-custom-property-inclusions-for-enterprise	"200"	A JSON array of OIDC custom property inclusions
+  oidc/list-oidc-custom-property-inclusions-for-enterprise	"404"	Resource not found
+  oidc/list-oidc-custom-property-inclusions-for-enterprise	"403"	Forbidden
+  oidc/create-oidc-custom-property-inclusion-for-enterprise	"201"	OIDC custom property inclusion created
+  oidc/create-oidc-custom-property-inclusion-for-enterprise	"400"	Invalid input
+  oidc/create-oidc-custom-property-inclusion-for-enterprise	"403"	Forbidden
+  oidc/create-oidc-custom-property-inclusion-for-enterprise	"422"	Property inclusion already exists
+  oidc/delete-oidc-custom-property-inclusion-for-enterprise	"204"	OIDC custom property inclusion deleted
+  oidc/delete-oidc-custom-property-inclusion-for-enterprise	"400"	Invalid input
+  oidc/delete-oidc-custom-property-inclusion-for-enterprise	"403"	Forbidden
+  oidc/delete-oidc-custom-property-inclusion-for-enterprise	"404"	Property inclusion not found
+  code-security/get-configurations-for-enterprise	"200"	Response
+  code-security/get-configurations-for-enterprise	"403"	Forbidden
+  code-security/get-configurations-for-enterprise	"404"	Resource not found
+  code-security/create-configuration-for-enterprise	"201"	Successfully created code security configuration
+  code-security/create-configuration-for-enterprise	"400"	Bad Request
+  code-security/create-configuration-for-enterprise	"403"	Forbidden
+  code-security/create-configuration-for-enterprise	"404"	Resource not found
+  code-security/get-default-configurations-for-enterprise	"200"	Response
+  code-security/get-single-configuration-for-enterprise	"200"	Response
+  code-security/get-single-configuration-for-enterprise	"304"	Not modified
+  code-security/get-single-configuration-for-enterprise	"403"	Forbidden
+  code-security/get-single-configuration-for-enterprise	"404"	Resource not found
+  code-security/update-enterprise-configuration	"200"	Response
+  code-security/update-enterprise-configuration	"304"	Not modified
+  code-security/update-enterprise-configuration	"403"	Forbidden
+  code-security/update-enterprise-configuration	"404"	Resource not found
+  code-security/update-enterprise-configuration	"409"	Conflict
+  code-security/delete-configuration-for-enterprise	"204"	A header with no content is returned.
+  code-security/delete-configuration-for-enterprise	"400"	Bad Request
+  code-security/delete-configuration-for-enterprise	"403"	Forbidden
+  code-security/delete-configuration-for-enterprise	"404"	Resource not found
+  code-security/delete-configuration-for-enterprise	"409"	Conflict
+  code-security/attach-enterprise-configuration	"202"	Accepted
+  code-security/attach-enterprise-configuration	"403"	Forbidden
+  code-security/attach-enterprise-configuration	"404"	Resource not found
+  code-security/attach-enterprise-configuration	"409"	Conflict
+  code-security/set-configuration-as-default-for-enterprise	"200"	Default successfully changed.
+  code-security/set-configuration-as-default-for-enterprise	"403"	Forbidden
+  code-security/set-configuration-as-default-for-enterprise	"404"	Resource not found
+  code-security/get-repositories-for-enterprise-configuration	"200"	Response
+  code-security/get-repositories-for-enterprise-configuration	"403"	Forbidden
+  code-security/get-repositories-for-enterprise-configuration	"404"	Resource not found
+  copilot/copilot-enterprise-one-day-usage-metrics	"200"	Response
+  copilot/copilot-enterprise-one-day-usage-metrics	"500"	Internal Error
+  copilot/copilot-enterprise-one-day-usage-metrics	"403"	Forbidden
+  copilot/copilot-enterprise-one-day-usage-metrics	"404"	Resource not found
+  copilot/copilot-enterprise-usage-metrics	"200"	Response
+  copilot/copilot-enterprise-usage-metrics	"500"	Internal Error
+  copilot/copilot-enterprise-usage-metrics	"403"	Forbidden
+  copilot/copilot-enterprise-usage-metrics	"404"	Resource not found
+  copilot/copilot-enterprise-user-teams-one-day-report	"200"	Response
+  copilot/copilot-enterprise-user-teams-one-day-report	"500"	Internal Error
+  copilot/copilot-enterprise-user-teams-one-day-report	"403"	Forbidden
+  copilot/copilot-enterprise-user-teams-one-day-report	"404"	Resource not found
+  copilot/copilot-users-one-day-usage-metrics	"200"	Response
+  copilot/copilot-users-one-day-usage-metrics	"500"	Internal Error
+  copilot/copilot-users-one-day-usage-metrics	"403"	Forbidden
+  copilot/copilot-users-one-day-usage-metrics	"404"	Resource not found
+  copilot/copilot-users-usage-metrics	"200"	Response
+  copilot/copilot-users-usage-metrics	"500"	Internal Error
+  copilot/copilot-users-usage-metrics	"403"	Forbidden
+  copilot/copilot-users-usage-metrics	"404"	Resource not found
+  copilot/set-enterprise-coding-agent-policy	"204"	A header with no content is returned.
+  copilot/set-enterprise-coding-agent-policy	"400"	Bad Request
+  copilot/add-organizations-to-enterprise-coding-agent-policy	"204"	A header with no content is returned.
+  copilot/add-organizations-to-enterprise-coding-agent-policy	"400"	Bad Request
+  copilot/remove-organizations-from-enterprise-coding-agent-policy	"204"	A header with no content is returned.
+  copilot/remove-organizations-from-enterprise-coding-agent-policy	"400"	Bad Request
+  dependabot/list-alerts-for-enterprise	"200"	Response
+  dependabot/list-alerts-for-enterprise	"304"	Not modified
+  dependabot/list-alerts-for-enterprise	"403"	Forbidden
+  dependabot/list-alerts-for-enterprise	"404"	Resource not found
+  dependabot/list-alerts-for-enterprise	"422"	Validation failed, or the endpoint has been spammed.
+  dependabot/repository-access-for-enterprise	"200"	Response
+  dependabot/repository-access-for-enterprise	"403"	Forbidden
+  dependabot/repository-access-for-enterprise	"404"	Resource not found
+  dependabot/update-repository-access-for-enterprise	"204"	Response
+  dependabot/update-repository-access-for-enterprise	"403"	Forbidden
+  dependabot/update-repository-access-for-enterprise	"404"	Resource not found
+  dependabot/set-repository-access-default-level-for-enterprise	"204"	Response
+  dependabot/set-repository-access-default-level-for-enterprise	"403"	Forbidden
+  dependabot/set-repository-access-default-level-for-enterprise	"404"	Resource not found
+  enterprise-teams/list	"200"	Response
+  enterprise-teams/list	"403"	Forbidden
+  enterprise-teams/create	"201"	Response
+  enterprise-team-memberships/list	"200"	Response
+  enterprise-team-memberships/bulk-add	"200"	Successfully added team members.
+  enterprise-team-memberships/bulk-remove	"200"	Successfully removed team members.
+  enterprise-team-memberships/get	"200"	User is a member of the enterprise team.
+  enterprise-team-memberships/add	"201"	Successfully added team member
+  enterprise-team-memberships/remove	"204"	Response
+  enterprise-team-memberships/remove	"403"	Forbidden
+  enterprise-team-organizations/get-assignments	"200"	An array of organizations the team is assigned to
+  enterprise-team-organizations/bulk-add	"200"	Successfully assigned the enterprise team to organizations.
+  enterprise-team-organizations/bulk-remove	"204"	Successfully unassigned the enterprise team from organizations.
+  enterprise-team-organizations/get-assignment	"200"	The team is assigned to the organization
+  enterprise-team-organizations/get-assignment	"404"	The team is not assigned to the organization
+  enterprise-team-organizations/add	"201"	Successfully assigned the enterprise team to the organization.
+  enterprise-team-organizations/delete	"204"	Successfully unassigned the enterprise team from the organization.
+  enterprise-teams/get	"200"	Response
+  enterprise-teams/get	"403"	Forbidden
+  enterprise-teams/update	"200"	Response
+  enterprise-teams/update	"403"	Forbidden
+  enterprise-teams/delete	"204"	Response
+  enterprise-teams/delete	"403"	Forbidden
+  activity/list-public-events	"200"	Response
+  activity/list-public-events	"304"	Not modified
+  activity/list-public-events	"403"	Forbidden
+  activity/list-public-events	"503"	Service unavailable
+  activity/get-feeds	"200"	Response
+  gists/list	"200"	Response
+  gists/list	"304"	Not modified
+  gists/list	"403"	Forbidden
+  gists/create	"201"	Response
+  gists/create	"422"	Validation failed, or the endpoint has been spammed.
+  gists/create	"304"	Not modified
+  gists/create	"404"	Resource not found
+  gists/create	"403"	Forbidden
+  gists/list-public	"200"	Response
+  gists/list-public	"422"	Validation failed, or the endpoint has been spammed.
+  gists/list-public	"304"	Not modified
+  gists/list-public	"403"	Forbidden
+  gists/list-starred	"200"	Response
+  gists/list-starred	"401"	Requires authentication
+  gists/list-starred	"304"	Not modified
+  gists/list-starred	"403"	Forbidden
+  gists/get	"200"	Response
+  gists/get	"403"	Forbidden Gist
+  gists/get	"404"	Resource not found
+  gists/get	"304"	Not modified
+  gists/update	"200"	Response
+  gists/update	"422"	Validation failed, or the endpoint has been spammed.
+  gists/update	"404"	Resource not found
+  gists/delete	"204"	Response
+  gists/delete	"404"	Resource not found
+  gists/delete	"304"	Not modified
+  gists/delete	"403"	Forbidden
+  gists/list-comments	"200"	Response
+  gists/list-comments	"304"	Not modified
+  gists/list-comments	"404"	Resource not found
+  gists/list-comments	"403"	Forbidden
+  gists/create-comment	"201"	Response
+  gists/create-comment	"304"	Not modified
+  gists/create-comment	"404"	Resource not found
+  gists/create-comment	"403"	Forbidden
+  gists/get-comment	"200"	Response
+  gists/get-comment	"304"	Not modified
+  gists/get-comment	"404"	Resource not found
+  gists/get-comment	"403"	Forbidden Gist
+  gists/update-comment	"200"	Response
+  gists/update-comment	"404"	Resource not found
+  gists/delete-comment	"204"	Response
+  gists/delete-comment	"304"	Not modified
+  gists/delete-comment	"404"	Resource not found
+  gists/delete-comment	"403"	Forbidden
+  gists/list-commits	"200"	Response
+  gists/list-commits	"404"	Resource not found
+  gists/list-commits	"304"	Not modified
+  gists/list-commits	"403"	Forbidden
+  gists/list-forks	"200"	Response
+  gists/list-forks	"404"	Resource not found
+  gists/list-forks	"304"	Not modified
+  gists/list-forks	"403"	Forbidden
+  gists/fork	"201"	Response
+  gists/fork	"404"	Resource not found
+  gists/fork	"422"	Validation failed, or the endpoint has been spammed.
+  gists/fork	"304"	Not modified
+  gists/fork	"403"	Forbidden
+  gists/check-is-starred	"204"	Response if gist is starred
+  gists/check-is-starred	"404"	Not Found if gist is not starred
+  gists/check-is-starred	"304"	Not modified
+  gists/check-is-starred	"403"	Forbidden
+  gists/star	"204"	Response
+  gists/star	"404"	Resource not found
+  gists/star	"304"	Not modified
+  gists/star	"403"	Forbidden
+  gists/unstar	"204"	Response
+  gists/unstar	"304"	Not modified
+  gists/unstar	"404"	Resource not found
+  gists/unstar	"403"	Forbidden
+  gists/get-revision	"200"	Response
+  gists/get-revision	"422"	Validation failed, or the endpoint has been spammed.
+  gists/get-revision	"404"	Resource not found
+  gists/get-revision	"403"	Forbidden
+  gitignore/get-all-templates	"200"	Response
+  gitignore/get-all-templates	"304"	Not modified
+  gitignore/get-template	"200"	Response
+  gitignore/get-template	"304"	Not modified
+  apps/list-repos-accessible-to-installation	"200"	Response
+  apps/list-repos-accessible-to-installation	"403"	Forbidden
+  apps/list-repos-accessible-to-installation	"304"	Not modified
+  apps/list-repos-accessible-to-installation	"401"	Requires authentication
+  apps/revoke-installation-access-token	"204"	Response
+  issues/list	"200"	Response
+  issues/list	"422"	Validation failed, or the endpoint has been spammed.
+  issues/list	"304"	Not modified
+  issues/list	"404"	Resource not found
+  licenses/get-all-commonly-used	"200"	Response
+  licenses/get-all-commonly-used	"304"	Not modified
+  licenses/get	"200"	Response
+  licenses/get	"403"	Forbidden
+  licenses/get	"404"	Resource not found
+  licenses/get	"304"	Not modified
+  markdown/render	"200"	Response
+  markdown/render	"304"	Not modified
+  markdown/render-raw	"200"	Response
+  markdown/render-raw	"304"	Not modified
+  apps/get-subscription-plan-for-account	"200"	Response
+  apps/get-subscription-plan-for-account	"404"	Not Found when the account has not purchased the listing
+  apps/get-subscription-plan-for-account	"401"	Requires authentication
+  apps/list-plans	"200"	Response
+  apps/list-plans	"404"	Resource not found
+  apps/list-plans	"401"	Requires authentication
+  apps/list-accounts-for-plan	"200"	Response
+  apps/list-accounts-for-plan	"404"	Resource not found
+  apps/list-accounts-for-plan	"422"	Validation failed, or the endpoint has been spammed.
+  apps/list-accounts-for-plan	"401"	Requires authentication
+  apps/get-subscription-plan-for-account-stubbed	"200"	Response
+  apps/get-subscription-plan-for-account-stubbed	"404"	Not Found when the account has not purchased the listing
+  apps/get-subscription-plan-for-account-stubbed	"401"	Requires authentication
+  apps/list-plans-stubbed	"200"	Response
+  apps/list-plans-stubbed	"401"	Requires authentication
+  apps/list-accounts-for-plan-stubbed	"200"	Response
+  apps/list-accounts-for-plan-stubbed	"401"	Requires authentication
+  meta/get	"200"	Response
+  meta/get	"304"	Not modified
+  activity/list-public-events-for-repo-network	"200"	Response
+  activity/list-public-events-for-repo-network	"404"	Resource not found
+  activity/list-public-events-for-repo-network	"403"	Forbidden
+  activity/list-public-events-for-repo-network	"304"	Not modified
+  activity/list-public-events-for-repo-network	"301"	Moved permanently
+  activity/list-notifications-for-authenticated-user	"200"	Response
+  activity/list-notifications-for-authenticated-user	"304"	Not modified
+  activity/list-notifications-for-authenticated-user	"403"	Forbidden
+  activity/list-notifications-for-authenticated-user	"401"	Requires authentication
+  activity/list-notifications-for-authenticated-user	"422"	Validation failed, or the endpoint has been spammed.
+  activity/mark-notifications-as-read	"202"	Response
+  activity/mark-notifications-as-read	"205"	Reset Content
+  activity/mark-notifications-as-read	"304"	Not modified
+  activity/mark-notifications-as-read	"403"	Forbidden
+  activity/mark-notifications-as-read	"401"	Requires authentication
+  activity/get-thread	"200"	Response
+  activity/get-thread	"304"	Not modified
+  activity/get-thread	"403"	Forbidden
+  activity/get-thread	"401"	Requires authentication
+  activity/mark-thread-as-read	"205"	Reset Content
+  activity/mark-thread-as-read	"304"	Not modified
+  activity/mark-thread-as-read	"403"	Forbidden
+  activity/mark-thread-as-done	"204"	No content
+  activity/get-thread-subscription-for-authenticated-user	"200"	Response
+  activity/get-thread-subscription-for-authenticated-user	"304"	Not modified
+  activity/get-thread-subscription-for-authenticated-user	"403"	Forbidden
+  activity/get-thread-subscription-for-authenticated-user	"401"	Requires authentication
+  activity/set-thread-subscription	"200"	Response
+  activity/set-thread-subscription	"304"	Not modified
+  activity/set-thread-subscription	"403"	Forbidden
+  activity/set-thread-subscription	"401"	Requires authentication
+  activity/delete-thread-subscription	"204"	Response
+  activity/delete-thread-subscription	"304"	Not modified
+  activity/delete-thread-subscription	"403"	Forbidden
+  activity/delete-thread-subscription	"401"	Requires authentication
+  meta/get-octocat	"200"	Response
+  orgs/list	"200"	Response
+  orgs/list	"304"	Not modified
+  actions/get-actions-cache-retention-limit-for-organization	"200"	Response
+  actions/get-actions-cache-retention-limit-for-organization	"403"	Forbidden
+  actions/get-actions-cache-retention-limit-for-organization	"404"	Resource not found
+  actions/set-actions-cache-retention-limit-for-organization	"204"	Response
+  actions/set-actions-cache-retention-limit-for-organization	"400"	Bad Request
+  actions/set-actions-cache-retention-limit-for-organization	"403"	Forbidden
+  actions/set-actions-cache-retention-limit-for-organization	"404"	Resource not found
+  actions/get-actions-cache-storage-limit-for-organization	"200"	Response
+  actions/get-actions-cache-storage-limit-for-organization	"403"	Forbidden
+  actions/get-actions-cache-storage-limit-for-organization	"404"	Resource not found
+  actions/set-actions-cache-storage-limit-for-organization	"204"	Response
+  actions/set-actions-cache-storage-limit-for-organization	"400"	Bad Request
+  actions/set-actions-cache-storage-limit-for-organization	"403"	Forbidden
+  actions/set-actions-cache-storage-limit-for-organization	"404"	Resource not found
+  billing/get-all-budgets-org	"200"	Response when getting all budgets
+  billing/get-all-budgets-org	"404"	Resource not found
+  billing/get-all-budgets-org	"403"	Forbidden
+  billing/get-all-budgets-org	"500"	Internal Error
+  billing/get-budget-org	"200"	Response when updating a budget
+  billing/get-budget-org	"400"	Bad Request
+  billing/get-budget-org	"404"	Resource not found
+  billing/get-budget-org	"403"	Forbidden
+  billing/get-budget-org	"500"	Internal Error
+  billing/get-budget-org	"503"	Service unavailable
+  billing/update-budget-org	"200"	Budget updated successfully
+  billing/update-budget-org	"400"	Bad Request
+  billing/update-budget-org	"401"	Requires authentication
+  billing/update-budget-org	"403"	Forbidden
+  billing/update-budget-org	"404"	Budget not found or feature not enabled
+  billing/update-budget-org	"422"	Validation failed, or the endpoint has been spammed.
+  billing/update-budget-org	"500"	Internal server error
+  billing/delete-budget-org	"200"	Response when deleting a budget
+  billing/delete-budget-org	"400"	Bad Request
+  billing/delete-budget-org	"404"	Resource not found
+  billing/delete-budget-org	"403"	Forbidden
+  billing/delete-budget-org	"500"	Internal Error
+  billing/delete-budget-org	"503"	Service unavailable
+  billing/get-github-billing-premium-request-usage-report-org	"200"	Response when getting a billing premium request usage report
+  billing/get-github-billing-premium-request-usage-report-org	"400"	Bad Request
+  billing/get-github-billing-premium-request-usage-report-org	"403"	Forbidden
+  billing/get-github-billing-premium-request-usage-report-org	"404"	Resource not found
+  billing/get-github-billing-premium-request-usage-report-org	"500"	Internal Error
+  billing/get-github-billing-premium-request-usage-report-org	"503"	Service unavailable
+  billing/get-github-billing-usage-report-org	"200"	Billing usage report response for an organization
+  billing/get-github-billing-usage-report-org	"400"	Bad Request
+  billing/get-github-billing-usage-report-org	"403"	Forbidden
+  billing/get-github-billing-usage-report-org	"500"	Internal Error
+  billing/get-github-billing-usage-report-org	"503"	Service unavailable
+  billing/get-github-billing-usage-summary-report-org	"200"	Response when getting a billing usage summary
+  billing/get-github-billing-usage-summary-report-org	"400"	Bad Request
+  billing/get-github-billing-usage-summary-report-org	"403"	Forbidden
+  billing/get-github-billing-usage-summary-report-org	"500"	Internal Error
+  billing/get-github-billing-usage-summary-report-org	"503"	Service unavailable
+  orgs/get	"200"	Response
+  orgs/get	"404"	Resource not found
+  orgs/update	"200"	Response
+  orgs/update	"422"	Validation failed
+  orgs/update	"409"	Conflict
+  orgs/delete	"202"	Accepted
+  orgs/delete	"404"	Resource not found
+  orgs/delete	"403"	Forbidden
+  actions/get-actions-cache-usage-for-org	"200"	Response
+  actions/get-actions-cache-usage-by-repo-for-org	"200"	Response
+  actions/list-hosted-runners-for-org	"200"	Response
+  actions/create-hosted-runner-for-org	"201"	Response
+  actions/list-custom-images-for-org	"200"	Response
+  actions/get-custom-image-for-org	"200"	Response
+  actions/delete-custom-image-from-org	"204"	Response
+  actions/list-custom-image-versions-for-org	"200"	Response
+  actions/get-custom-image-version-for-org	"200"	Response
+  actions/delete-custom-image-version-from-org	"204"	Response
+  actions/get-hosted-runners-github-owned-images-for-org	"200"	Response
+  actions/get-hosted-runners-partner-images-for-org	"200"	Response
+  actions/get-hosted-runners-limits-for-org	"200"	Response
+  actions/get-hosted-runners-machine-specs-for-org	"200"	Response
+  actions/get-hosted-runners-platforms-for-org	"200"	Response
+  actions/get-hosted-runner-for-org	"200"	Response
+  actions/update-hosted-runner-for-org	"200"	Response
+  actions/delete-hosted-runner-for-org	"202"	Response
+  oidc/list-oidc-custom-property-inclusions-for-org	"200"	A JSON array of OIDC custom property inclusions
+  oidc/list-oidc-custom-property-inclusions-for-org	"404"	Resource not found
+  oidc/list-oidc-custom-property-inclusions-for-org	"403"	Forbidden
+  oidc/create-oidc-custom-property-inclusion-for-org	"201"	OIDC custom property inclusion created
+  oidc/create-oidc-custom-property-inclusion-for-org	"400"	Invalid input
+  oidc/create-oidc-custom-property-inclusion-for-org	"403"	Forbidden
+  oidc/create-oidc-custom-property-inclusion-for-org	"422"	Property inclusion already exists
+  oidc/delete-oidc-custom-property-inclusion-for-org	"204"	OIDC custom property inclusion deleted
+  oidc/delete-oidc-custom-property-inclusion-for-org	"400"	Invalid input
+  oidc/delete-oidc-custom-property-inclusion-for-org	"403"	Forbidden
+  oidc/delete-oidc-custom-property-inclusion-for-org	"404"	Property inclusion not found
+  oidc/get-oidc-custom-sub-template-for-org	"200"	A JSON serialized template for OIDC subject claim customization
+  oidc/update-oidc-custom-sub-template-for-org	"201"	Empty response
+  oidc/update-oidc-custom-sub-template-for-org	"404"	Resource not found
+  oidc/update-oidc-custom-sub-template-for-org	"403"	Forbidden
+  actions/get-github-actions-permissions-organization	"200"	Response
+  actions/set-github-actions-permissions-organization	"204"	Response
+  actions/get-artifact-and-log-retention-settings-organization	"200"	Response
+  actions/get-artifact-and-log-retention-settings-organization	"403"	Forbidden
+  actions/get-artifact-and-log-retention-settings-organization	"404"	Resource not found
+  actions/set-artifact-and-log-retention-settings-organization	"204"	No content
+  actions/set-artifact-and-log-retention-settings-organization	"403"	Forbidden
+  actions/set-artifact-and-log-retention-settings-organization	"404"	Resource not found
+  actions/set-artifact-and-log-retention-settings-organization	"409"	Conflict
+  actions/set-artifact-and-log-retention-settings-organization	"422"	Validation failed, or the endpoint has been spammed.
+  actions/get-fork-pr-contributor-approval-permissions-organization	"200"	Response
+  actions/get-fork-pr-contributor-approval-permissions-organization	"404"	Resource not found
+  actions/set-fork-pr-contributor-approval-permissions-organization	"204"	Response
+  actions/set-fork-pr-contributor-approval-permissions-organization	"404"	Resource not found
+  actions/set-fork-pr-contributor-approval-permissions-organization	"422"	Validation failed, or the endpoint has been spammed.
+  actions/get-private-repo-fork-pr-workflows-settings-organization	"200"	Response
+  actions/get-private-repo-fork-pr-workflows-settings-organization	"403"	Forbidden
+  actions/get-private-repo-fork-pr-workflows-settings-organization	"404"	Resource not found
+  actions/set-private-repo-fork-pr-workflows-settings-organization	"204"	Empty response for successful settings update
+  actions/set-private-repo-fork-pr-workflows-settings-organization	"403"	Forbidden - Fork PR workflow settings for private repositories are managed by the enterprise owner
+  actions/set-private-repo-fork-pr-workflows-settings-organization	"404"	Resource not found
+  actions/set-private-repo-fork-pr-workflows-settings-organization	"422"	Validation failed, or the endpoint has been spammed.
+  actions/list-selected-repositories-enabled-github-actions-organization	"200"	Response
+  actions/set-selected-repositories-enabled-github-actions-organization	"204"	Response
+  actions/enable-selected-repository-github-actions-organization	"204"	Response
+  actions/disable-selected-repository-github-actions-organization	"204"	Response
+  actions/get-allowed-actions-organization	"200"	Response
+  actions/set-allowed-actions-organization	"204"	Response
+  actions/get-self-hosted-runners-permissions-organization	"200"	Response
+  actions/get-self-hosted-runners-permissions-organization	"403"	Forbidden
+  actions/get-self-hosted-runners-permissions-organization	"404"	Resource not found
+  actions/set-self-hosted-runners-permissions-organization	"204"	No content
+  actions/set-self-hosted-runners-permissions-organization	"403"	Forbidden
+  actions/set-self-hosted-runners-permissions-organization	"404"	Resource not found
+  actions/set-self-hosted-runners-permissions-organization	"409"	Conflict
+  actions/set-self-hosted-runners-permissions-organization	"422"	Validation failed, or the endpoint has been spammed.
+  actions/list-selected-repositories-self-hosted-runners-organization	"200"	Response
+  actions/list-selected-repositories-self-hosted-runners-organization	"403"	Forbidden
+  actions/list-selected-repositories-self-hosted-runners-organization	"404"	Resource not found
+  actions/set-selected-repositories-self-hosted-runners-organization	"204"	No content
+  actions/set-selected-repositories-self-hosted-runners-organization	"403"	Forbidden
+  actions/set-selected-repositories-self-hosted-runners-organization	"404"	Resource not found
+  actions/set-selected-repositories-self-hosted-runners-organization	"422"	Validation failed, or the endpoint has been spammed.
+  actions/enable-selected-repository-self-hosted-runners-organization	"204"	No content
+  actions/enable-selected-repository-self-hosted-runners-organization	"403"	Forbidden
+  actions/enable-selected-repository-self-hosted-runners-organization	"404"	Resource not found
+  actions/enable-selected-repository-self-hosted-runners-organization	"409"	Conflict
+  actions/enable-selected-repository-self-hosted-runners-organization	"422"	Validation failed, or the endpoint has been spammed.
+  actions/disable-selected-repository-self-hosted-runners-organization	"204"	No content
+  actions/disable-selected-repository-self-hosted-runners-organization	"403"	Forbidden
+  actions/disable-selected-repository-self-hosted-runners-organization	"404"	Resource not found
+  actions/disable-selected-repository-self-hosted-runners-organization	"409"	Conflict
+  actions/disable-selected-repository-self-hosted-runners-organization	"422"	Validation failed, or the endpoint has been spammed.
+  actions/get-github-actions-default-workflow-permissions-organization	"200"	Response
+  actions/set-github-actions-default-workflow-permissions-organization	"204"	Success response
+  actions/list-self-hosted-runner-groups-for-org	"200"	Response
+  actions/create-self-hosted-runner-group-for-org	"201"	Response
+  actions/get-self-hosted-runner-group-for-org	"200"	Response
+  actions/update-self-hosted-runner-group-for-org	"200"	Response
+  actions/delete-self-hosted-runner-group-from-org	"204"	Response
+  actions/list-github-hosted-runners-in-group-for-org	"200"	Response
+  actions/list-repo-access-to-self-hosted-runner-group-in-org	"200"	Response
+  actions/set-repo-access-to-self-hosted-runner-group-in-org	"204"	Response
+  actions/add-repo-access-to-self-hosted-runner-group-in-org	"204"	Response
+  actions/remove-repo-access-to-self-hosted-runner-group-in-org	"204"	Response
+  actions/list-self-hosted-runners-in-group-for-org	"200"	Response
+  actions/set-self-hosted-runners-in-group-for-org	"204"	Response
+  actions/add-self-hosted-runner-to-group-for-org	"204"	Response
+  actions/remove-self-hosted-runner-from-group-for-org	"204"	Response
+  actions/list-self-hosted-runners-for-org	"200"	Response
+  actions/list-runner-applications-for-org	"200"	Response
+  actions/generate-runner-jitconfig-for-org	"201"	Response
+  actions/generate-runner-jitconfig-for-org	"404"	Resource not found
+  actions/generate-runner-jitconfig-for-org	"422"	Validation failed, or the endpoint has been spammed.
+  actions/generate-runner-jitconfig-for-org	"409"	Conflict
+  actions/create-registration-token-for-org	"201"	Response
+  actions/create-remove-token-for-org	"201"	Response
+  actions/get-self-hosted-runner-for-org	"200"	Response
+  actions/delete-self-hosted-runner-from-org	"204"	Response
+  actions/delete-self-hosted-runner-from-org	"422"	Validation failed, or the endpoint has been spammed.
+  actions/list-labels-for-self-hosted-runner-for-org	"200"	Response
+  actions/list-labels-for-self-hosted-runner-for-org	"404"	Resource not found
+  actions/add-custom-labels-to-self-hosted-runner-for-org	"200"	Response
+  actions/add-custom-labels-to-self-hosted-runner-for-org	"404"	Resource not found
+  actions/add-custom-labels-to-self-hosted-runner-for-org	"422"	Validation failed, or the endpoint has been spammed.
+  actions/set-custom-labels-for-self-hosted-runner-for-org	"200"	Response
+  actions/set-custom-labels-for-self-hosted-runner-for-org	"404"	Resource not found
+  actions/set-custom-labels-for-self-hosted-runner-for-org	"422"	Validation failed, or the endpoint has been spammed.
+  actions/remove-all-custom-labels-from-self-hosted-runner-for-org	"200"	Response
+  actions/remove-all-custom-labels-from-self-hosted-runner-for-org	"404"	Resource not found
+  actions/remove-custom-label-from-self-hosted-runner-for-org	"200"	Response
+  actions/remove-custom-label-from-self-hosted-runner-for-org	"404"	Resource not found
+  actions/remove-custom-label-from-self-hosted-runner-for-org	"422"	Validation failed, or the endpoint has been spammed.
+  actions/list-org-secrets	"200"	Response
+  actions/get-org-public-key	"200"	Response
+  actions/get-org-secret	"200"	Response
+  actions/create-or-update-org-secret	"201"	Response when creating a secret
+  actions/create-or-update-org-secret	"204"	Response when updating a secret
+  actions/delete-org-secret	"204"	Response
+  actions/list-selected-repos-for-org-secret	"200"	Response
+  actions/set-selected-repos-for-org-secret	"204"	Response
+  actions/add-selected-repo-to-org-secret	"204"	No Content when repository was added to the selected list
+  actions/add-selected-repo-to-org-secret	"409"	Conflict when visibility type is not set to selected
+  actions/remove-selected-repo-from-org-secret	"204"	Response when repository was removed from the selected list
+  actions/remove-selected-repo-from-org-secret	"409"	Conflict when visibility type not set to selected
+  actions/list-org-variables	"200"	Response
+  actions/create-org-variable	"201"	Response when creating a variable
+  actions/get-org-variable	"200"	Response
+  actions/update-org-variable	"204"	Response
+  actions/delete-org-variable	"204"	Response
+  actions/list-selected-repos-for-org-variable	"200"	Response
+  actions/list-selected-repos-for-org-variable	"409"	Response when the visibility of the variable is not set to `selected`
+  actions/set-selected-repos-for-org-variable	"204"	Response
+  actions/set-selected-repos-for-org-variable	"409"	Response when the visibility of the variable is not set to `selected`
+  actions/add-selected-repo-to-org-variable	"204"	Response
+  actions/add-selected-repo-to-org-variable	"409"	Response when the visibility of the variable is not set to `selected`
+  actions/remove-selected-repo-from-org-variable	"204"	Response
+  actions/remove-selected-repo-from-org-variable	"409"	Response when the visibility of the variable is not set to `selected`
+  agents/list-org-secrets	"200"	Response
+  agents/get-org-public-key	"200"	Response
+  agents/get-org-secret	"200"	Response
+  agents/create-or-update-org-secret	"201"	Response when creating a secret
+  agents/create-or-update-org-secret	"204"	Response when updating a secret
+  agents/delete-org-secret	"204"	Response
+  agents/list-selected-repos-for-org-secret	"200"	Response
+  agents/set-selected-repos-for-org-secret	"204"	Response
+  agents/add-selected-repo-to-org-secret	"204"	No Content when repository was added to the selected list
+  agents/add-selected-repo-to-org-secret	"409"	Conflict when visibility type is not set to selected
+  agents/remove-selected-repo-from-org-secret	"204"	Response when repository was removed from the selected list
+  agents/remove-selected-repo-from-org-secret	"409"	Conflict when visibility type not set to selected
+  agents/list-org-variables	"200"	Response
+  agents/create-org-variable	"201"	Response when creating a variable
+  agents/get-org-variable	"200"	Response
+  agents/update-org-variable	"204"	Response
+  agents/delete-org-variable	"204"	Response
+  agents/list-selected-repos-for-org-variable	"200"	Response
+  agents/list-selected-repos-for-org-variable	"409"	Response when the visibility of the variable is not set to `selected`
+  agents/set-selected-repos-for-org-variable	"204"	Response
+  agents/set-selected-repos-for-org-variable	"409"	Response when the visibility of the variable is not set to `selected`
+  agents/add-selected-repo-to-org-variable	"204"	Response
+  agents/add-selected-repo-to-org-variable	"409"	Response when the visibility of the variable is not set to `selected`
+  agents/remove-selected-repo-from-org-variable	"204"	Response
+  agents/remove-selected-repo-from-org-variable	"409"	Response when the visibility of the variable is not set to `selected`
+  orgs/create-artifact-deployment-record	"200"	Artifact deployment record stored successfully.
+  orgs/create-artifact-deployment-record	"403"	Forbidden
+  orgs/create-artifact-deployment-record	"404"	Resource not found
+  orgs/set-cluster-deployment-records	"200"	Deployment records created or updated successfully.
+  orgs/set-cluster-deployment-records	"403"	Forbidden
+  orgs/set-cluster-deployment-records	"404"	Resource not found
+  orgs/create-artifact-storage-record	"200"	Artifact metadata storage record stored successfully.
+  orgs/create-artifact-storage-record	"403"	Forbidden
+  orgs/create-artifact-storage-record	"404"	Resource not found
+  orgs/list-artifact-deployment-records	"200"	Successful response
+  orgs/list-artifact-storage-records	"200"	Response
+  orgs/list-attestations-bulk	"200"	Response
+  orgs/delete-attestations-bulk	"200"	Response
+  orgs/delete-attestations-bulk	"404"	Resource not found
+  orgs/delete-attestations-by-subject-digest	"200"	Response
+  orgs/delete-attestations-by-subject-digest	"204"	Response
+  orgs/delete-attestations-by-subject-digest	"404"	Resource not found
+  orgs/list-attestation-repositories	"200"	Response
+  orgs/delete-attestations-by-id	"200"	Response
+  orgs/delete-attestations-by-id	"204"	Response
+  orgs/delete-attestations-by-id	"403"	Forbidden
+  orgs/delete-attestations-by-id	"404"	Resource not found
+  orgs/list-attestations	"200"	Response
+  orgs/list-blocked-users	"200"	Response
+  orgs/check-blocked-user	"204"	If the user is blocked
+  orgs/check-blocked-user	"404"	If the user is not blocked
+  orgs/block-user	"204"	Response
+  orgs/block-user	"422"	Validation failed, or the endpoint has been spammed.
+  orgs/unblock-user	"204"	Response
+  campaigns/list-org-campaigns	"200"	Response
+  campaigns/list-org-campaigns	"404"	Resource not found
+  campaigns/list-org-campaigns	"503"	Service unavailable
+  campaigns/create-campaign	"200"	Response
+  campaigns/create-campaign	"400"	Bad Request
+  campaigns/create-campaign	"404"	Resource not found
+  campaigns/create-campaign	"422"	Unprocessable Entity
+  campaigns/create-campaign	"429"	Too Many Requests
+  campaigns/create-campaign	"503"	Service unavailable
+  campaigns/get-campaign-summary	"200"	Response
+  campaigns/get-campaign-summary	"404"	Resource not found
+  campaigns/get-campaign-summary	"422"	Unprocessable Entity
+  campaigns/get-campaign-summary	"503"	Service unavailable
+  campaigns/update-campaign	"200"	Response
+  campaigns/update-campaign	"400"	Bad Request
+  campaigns/update-campaign	"404"	Resource not found
+  campaigns/update-campaign	"422"	Unprocessable Entity
+  campaigns/update-campaign	"503"	Service unavailable
+  campaigns/delete-campaign	"204"	Deletion successful
+  campaigns/delete-campaign	"404"	Resource not found
+  campaigns/delete-campaign	"503"	Service unavailable
+  code-scanning/list-alerts-for-org	"200"	Response
+  code-scanning/list-alerts-for-org	"404"	Resource not found
+  code-scanning/list-alerts-for-org	"503"	Service unavailable
+  code-security/get-configurations-for-org	"200"	Response
+  code-security/get-configurations-for-org	"403"	Forbidden
+  code-security/get-configurations-for-org	"404"	Resource not found
+  code-security/create-configuration	"201"	Successfully created code security configuration
+  code-security/get-default-configurations	"200"	Response
+  code-security/get-default-configurations	"304"	Not modified
+  code-security/get-default-configurations	"403"	Forbidden
+  code-security/get-default-configurations	"404"	Resource not found
+  code-security/detach-configuration	"204"	A header with no content is returned.
+  code-security/detach-configuration	"400"	Bad Request
+  code-security/detach-configuration	"403"	Forbidden
+  code-security/detach-configuration	"404"	Resource not found
+  code-security/detach-configuration	"409"	Conflict
+  code-security/get-configuration	"200"	Response
+  code-security/get-configuration	"304"	Not modified
+  code-security/get-configuration	"403"	Forbidden
+  code-security/get-configuration	"404"	Resource not found
+  code-security/update-configuration	"200"	Response when a configuration is updated
+  code-security/update-configuration	"204"	Response when no new updates are made
+  code-security/delete-configuration	"204"	A header with no content is returned.
+  code-security/delete-configuration	"400"	Bad Request
+  code-security/delete-configuration	"403"	Forbidden
+  code-security/delete-configuration	"404"	Resource not found
+  code-security/delete-configuration	"409"	Conflict
+  code-security/attach-configuration	"202"	Accepted
+  code-security/set-configuration-as-default	"200"	Default successfully changed.
+  code-security/set-configuration-as-default	"403"	Forbidden
+  code-security/set-configuration-as-default	"404"	Resource not found
+  code-security/get-repositories-for-configuration	"200"	Response
+  code-security/get-repositories-for-configuration	"403"	Forbidden
+  code-security/get-repositories-for-configuration	"404"	Resource not found
+  codespaces/list-in-organization	"200"	Response
+  codespaces/list-in-organization	"304"	Not modified
+  codespaces/list-in-organization	"500"	Internal Error
+  codespaces/list-in-organization	"401"	Requires authentication
+  codespaces/list-in-organization	"403"	Forbidden
+  codespaces/list-in-organization	"404"	Resource not found
+  codespaces/set-codespaces-access	"204"	Response when successfully modifying permissions.
+  codespaces/set-codespaces-access	"304"	Not modified
+  codespaces/set-codespaces-access	"400"	Users are neither members nor collaborators of this organization.
+  codespaces/set-codespaces-access	"404"	Resource not found
+  codespaces/set-codespaces-access	"422"	Validation failed, or the endpoint has been spammed.
+  codespaces/set-codespaces-access	"500"	Internal Error
+  codespaces/set-codespaces-access-users	"204"	Response when successfully modifying permissions.
+  codespaces/set-codespaces-access-users	"304"	Not modified
+  codespaces/set-codespaces-access-users	"400"	Users are neither members nor collaborators of this organization.
+  codespaces/set-codespaces-access-users	"404"	Resource not found
+  codespaces/set-codespaces-access-users	"422"	Validation failed, or the endpoint has been spammed.
+  codespaces/set-codespaces-access-users	"500"	Internal Error
+  codespaces/delete-codespaces-access-users	"204"	Response when successfully modifying permissions.
+  codespaces/delete-codespaces-access-users	"304"	Not modified
+  codespaces/delete-codespaces-access-users	"400"	Users are neither members nor collaborators of this organization.
+  codespaces/delete-codespaces-access-users	"404"	Resource not found
+  codespaces/delete-codespaces-access-users	"422"	Validation failed, or the endpoint has been spammed.
+  codespaces/delete-codespaces-access-users	"500"	Internal Error
+  codespaces/list-org-secrets	"200"	Response
+  codespaces/get-org-public-key	"200"	Response
+  codespaces/get-org-secret	"200"	Response
+  codespaces/create-or-update-org-secret	"201"	Response when creating a secret
+  codespaces/create-or-update-org-secret	"204"	Response when updating a secret
+  codespaces/create-or-update-org-secret	"404"	Resource not found
+  codespaces/create-or-update-org-secret	"422"	Validation failed, or the endpoint has been spammed.
+  codespaces/delete-org-secret	"204"	Response
+  codespaces/delete-org-secret	"404"	Resource not found
+  codespaces/list-selected-repos-for-org-secret	"200"	Response
+  codespaces/list-selected-repos-for-org-secret	"404"	Resource not found
+  codespaces/set-selected-repos-for-org-secret	"204"	Response
+  codespaces/set-selected-repos-for-org-secret	"404"	Resource not found
+  codespaces/set-selected-repos-for-org-secret	"409"	Conflict when visibility type not set to selected
+  codespaces/add-selected-repo-to-org-secret	"204"	No Content when repository was added to the selected list
+  codespaces/add-selected-repo-to-org-secret	"404"	Resource not found
+  codespaces/add-selected-repo-to-org-secret	"409"	Conflict when visibility type is not set to selected
+  codespaces/add-selected-repo-to-org-secret	"422"	Validation failed, or the endpoint has been spammed.
+  codespaces/remove-selected-repo-from-org-secret	"204"	Response when repository was removed from the selected list
+  codespaces/remove-selected-repo-from-org-secret	"404"	Resource not found
+  codespaces/remove-selected-repo-from-org-secret	"409"	Conflict when visibility type not set to selected
+  codespaces/remove-selected-repo-from-org-secret	"422"	Validation failed, or the endpoint has been spammed.
+  copilot-spaces/list-for-org	"200"	Response
+  copilot-spaces/list-for-org	"403"	Forbidden
+  copilot-spaces/list-for-org	"404"	Resource not found
+  copilot-spaces/create-for-org	"201"	Response
+  copilot-spaces/create-for-org	"403"	Forbidden
+  copilot-spaces/create-for-org	"404"	Resource not found
+  copilot-spaces/create-for-org	"422"	Validation failed, or the endpoint has been spammed.
+  copilot-spaces/get-for-org	"200"	Response
+  copilot-spaces/get-for-org	"403"	Forbidden
+  copilot-spaces/get-for-org	"404"	Resource not found
+  copilot-spaces/update-for-org	"200"	Response
+  copilot-spaces/update-for-org	"403"	Forbidden
+  copilot-spaces/update-for-org	"404"	Resource not found
+  copilot-spaces/update-for-org	"422"	Validation failed, or the endpoint has been spammed.
+  copilot-spaces/delete-for-org	"204"	The Copilot Space has been successfully deleted.
+  copilot-spaces/delete-for-org	"404"	Resource not found
+  copilot-spaces/delete-for-org	"422"	Validation failed, or the endpoint has been spammed.
+  copilot-spaces/list-collaborators-for-org	"200"	Response
+  copilot-spaces/list-collaborators-for-org	"403"	Forbidden
+  copilot-spaces/list-collaborators-for-org	"404"	Resource not found
+  copilot-spaces/add-collaborator-for-org	"201"	Response
+  copilot-spaces/add-collaborator-for-org	"403"	Forbidden
+  copilot-spaces/add-collaborator-for-org	"404"	Resource not found
+  copilot-spaces/add-collaborator-for-org	"422"	Validation failed, or the endpoint has been spammed.
+  copilot-spaces/update-collaborator-for-org	"200"	Response
+  copilot-spaces/update-collaborator-for-org	"204"	Response when `role` is `no_access` and the collaborator was removed.
+  copilot-spaces/update-collaborator-for-org	"403"	Forbidden
+  copilot-spaces/update-collaborator-for-org	"404"	Resource not found
+  copilot-spaces/update-collaborator-for-org	"422"	Validation failed, or the endpoint has been spammed.
+  copilot-spaces/remove-collaborator-for-org	"204"	Response
+  copilot-spaces/remove-collaborator-for-org	"403"	Forbidden
+  copilot-spaces/remove-collaborator-for-org	"404"	Resource not found
+  copilot-spaces/list-resources-for-org	"200"	Response
+  copilot-spaces/list-resources-for-org	"403"	Forbidden
+  copilot-spaces/list-resources-for-org	"404"	Resource not found
+  copilot-spaces/create-resource-for-org	"201"	Resource created
+  copilot-spaces/create-resource-for-org	"200"	Duplicate github_file resource already exists
+  copilot-spaces/create-resource-for-org	"403"	Forbidden
+  copilot-spaces/create-resource-for-org	"404"	Resource not found
+  copilot-spaces/create-resource-for-org	"422"	Validation failed, or the endpoint has been spammed.
+  copilot-spaces/get-resource-for-org	"200"	Response
+  copilot-spaces/get-resource-for-org	"403"	Forbidden
+  copilot-spaces/get-resource-for-org	"404"	Resource not found
+  copilot-spaces/update-resource-for-org	"200"	Response
+  copilot-spaces/update-resource-for-org	"403"	Forbidden
+  copilot-spaces/update-resource-for-org	"404"	Resource not found
+  copilot-spaces/update-resource-for-org	"422"	Validation failed, or the endpoint has been spammed.
+  copilot-spaces/delete-resource-for-org	"204"	Response
+  copilot-spaces/delete-resource-for-org	"403"	Forbidden
+  copilot-spaces/delete-resource-for-org	"404"	Resource not found
+  copilot/get-copilot-organization-details	"200"	OK
+  copilot/get-copilot-organization-details	"500"	Internal Error
+  copilot/get-copilot-organization-details	"401"	Requires authentication
+  copilot/get-copilot-organization-details	"403"	Forbidden
+  copilot/get-copilot-organization-details	"404"	Resource not found
+  copilot/get-copilot-organization-details	"422"	There is a problem with your account's associated payment method.
+  copilot/list-copilot-seats	"200"	Response
+  copilot/list-copilot-seats	"500"	Internal Error
+  copilot/list-copilot-seats	"401"	Requires authentication
+  copilot/list-copilot-seats	"403"	Forbidden
+  copilot/list-copilot-seats	"404"	Resource not found
+  copilot/add-copilot-seats-for-teams	"201"	OK
+  copilot/add-copilot-seats-for-teams	"500"	Internal Error
+  copilot/add-copilot-seats-for-teams	"401"	Requires authentication
+  copilot/add-copilot-seats-for-teams	"403"	Forbidden
+  copilot/add-copilot-seats-for-teams	"404"	Resource not found
+  copilot/add-copilot-seats-for-teams	"422"	Copilot Business or Enterprise is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copil
+  copilot/cancel-copilot-seat-assignment-for-teams	"200"	OK
+  copilot/cancel-copilot-seat-assignment-for-teams	"500"	Internal Error
+  copilot/cancel-copilot-seat-assignment-for-teams	"401"	Requires authentication
+  copilot/cancel-copilot-seat-assignment-for-teams	"403"	Forbidden
+  copilot/cancel-copilot-seat-assignment-for-teams	"404"	Resource not found
+  copilot/cancel-copilot-seat-assignment-for-teams	"422"	Copilot Business or Enterprise is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copil
+  copilot/add-copilot-seats-for-users	"201"	OK
+  copilot/add-copilot-seats-for-users	"500"	Internal Error
+  copilot/add-copilot-seats-for-users	"401"	Requires authentication
+  copilot/add-copilot-seats-for-users	"403"	Forbidden
+  copilot/add-copilot-seats-for-users	"404"	Resource not found
+  copilot/add-copilot-seats-for-users	"422"	Copilot Business or Enterprise is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copil
+  copilot/cancel-copilot-seat-assignment-for-users	"200"	OK
+  copilot/cancel-copilot-seat-assignment-for-users	"500"	Internal Error
+  copilot/cancel-copilot-seat-assignment-for-users	"401"	Requires authentication
+  copilot/cancel-copilot-seat-assignment-for-users	"403"	Forbidden
+  copilot/cancel-copilot-seat-assignment-for-users	"404"	Resource not found
+  copilot/cancel-copilot-seat-assignment-for-users	"422"	Copilot Business or Enterprise is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, the seat management setting
+  copilot/get-copilot-coding-agent-permissions-organization	"200"	Response
+  copilot/get-copilot-coding-agent-permissions-organization	"500"	Internal Error
+  copilot/get-copilot-coding-agent-permissions-organization	"401"	Requires authentication
+  copilot/get-copilot-coding-agent-permissions-organization	"403"	Forbidden
+  copilot/get-copilot-coding-agent-permissions-organization	"404"	Resource not found
+  copilot/set-copilot-coding-agent-permissions-organization	"204"	No Content
+  copilot/set-copilot-coding-agent-permissions-organization	"500"	Internal Error
+  copilot/set-copilot-coding-agent-permissions-organization	"401"	Requires authentication
+  copilot/set-copilot-coding-agent-permissions-organization	"403"	Forbidden
+  copilot/set-copilot-coding-agent-permissions-organization	"404"	Resource not found
+  copilot/set-copilot-coding-agent-permissions-organization	"422"	Validation failed, or the endpoint has been spammed.
+  copilot/list-copilot-coding-agent-selected-repositories-for-organization	"200"	Response
+  copilot/list-copilot-coding-agent-selected-repositories-for-organization	"500"	Internal Error
+  copilot/list-copilot-coding-agent-selected-repositories-for-organization	"401"	Requires authentication
+  copilot/list-copilot-coding-agent-selected-repositories-for-organization	"403"	Forbidden
+  copilot/list-copilot-coding-agent-selected-repositories-for-organization	"404"	Resource not found
+  copilot/list-copilot-coding-agent-selected-repositories-for-organization	"409"	Conflict
+  copilot/set-copilot-coding-agent-selected-repositories-for-organization	"204"	No Content
+  copilot/set-copilot-coding-agent-selected-repositories-for-organization	"500"	Internal Error
+  copilot/set-copilot-coding-agent-selected-repositories-for-organization	"401"	Requires authentication
+  copilot/set-copilot-coding-agent-selected-repositories-for-organization	"403"	Forbidden
+  copilot/set-copilot-coding-agent-selected-repositories-for-organization	"404"	Resource not found
+  copilot/set-copilot-coding-agent-selected-repositories-for-organization	"409"	Conflict
+  copilot/set-copilot-coding-agent-selected-repositories-for-organization	"422"	Validation failed, or the endpoint has been spammed.
+  copilot/enable-copilot-coding-agent-for-repository-in-organization	"204"	No Content
+  copilot/enable-copilot-coding-agent-for-repository-in-organization	"500"	Internal Error
+  copilot/enable-copilot-coding-agent-for-repository-in-organization	"401"	Requires authentication
+  copilot/enable-copilot-coding-agent-for-repository-in-organization	"403"	Forbidden
+  copilot/enable-copilot-coding-agent-for-repository-in-organization	"404"	Resource not found
+  copilot/enable-copilot-coding-agent-for-repository-in-organization	"409"	Conflict
+  copilot/enable-copilot-coding-agent-for-repository-in-organization	"422"	Validation failed, or the endpoint has been spammed.
+  copilot/disable-copilot-coding-agent-for-repository-in-organization	"204"	No Content
+  copilot/disable-copilot-coding-agent-for-repository-in-organization	"500"	Internal Error
+  copilot/disable-copilot-coding-agent-for-repository-in-organization	"401"	Requires authentication
+  copilot/disable-copilot-coding-agent-for-repository-in-organization	"403"	Forbidden
+  copilot/disable-copilot-coding-agent-for-repository-in-organization	"404"	Resource not found
+  copilot/disable-copilot-coding-agent-for-repository-in-organization	"409"	Conflict
+  copilot/copilot-content-exclusion-for-organization	"200"	OK
+  copilot/copilot-content-exclusion-for-organization	"500"	Internal Error
+  copilot/copilot-content-exclusion-for-organization	"401"	Requires authentication
+  copilot/copilot-content-exclusion-for-organization	"403"	Forbidden
+  copilot/copilot-content-exclusion-for-organization	"404"	Resource not found
+  copilot/set-copilot-content-exclusion-for-organization	"200"	Success
+  copilot/set-copilot-content-exclusion-for-organization	"500"	Internal Error
+  copilot/set-copilot-content-exclusion-for-organization	"401"	Requires authentication
+  copilot/set-copilot-content-exclusion-for-organization	"403"	Forbidden
+  copilot/set-copilot-content-exclusion-for-organization	"404"	Resource not found
+  copilot/set-copilot-content-exclusion-for-organization	"413"	Payload Too Large
+  copilot/set-copilot-content-exclusion-for-organization	"422"	Validation failed, or the endpoint has been spammed.
+  copilot/copilot-metrics-for-organization	"200"	Response
+  copilot/copilot-metrics-for-organization	"500"	Internal Error
+  copilot/copilot-metrics-for-organization	"403"	Forbidden
+  copilot/copilot-metrics-for-organization	"404"	Resource not found
+  copilot/copilot-metrics-for-organization	"422"	Copilot Usage Metrics API setting is disabled at the organization or enterprise level.
+  copilot/copilot-organization-one-day-usage-metrics	"200"	Response
+  copilot/copilot-organization-one-day-usage-metrics	"204"	A header with no content is returned.
+  copilot/copilot-organization-one-day-usage-metrics	"500"	Internal Error
+  copilot/copilot-organization-one-day-usage-metrics	"403"	Forbidden
+  copilot/copilot-organization-one-day-usage-metrics	"404"	Resource not found
+  copilot/copilot-organization-usage-metrics	"200"	Response
+  copilot/copilot-organization-usage-metrics	"500"	Internal Error
+  copilot/copilot-organization-usage-metrics	"403"	Forbidden
+  copilot/copilot-organization-usage-metrics	"404"	Resource not found
+  copilot/copilot-organization-user-teams-one-day-report	"200"	Response
+  copilot/copilot-organization-user-teams-one-day-report	"204"	A header with no content is returned.
+  copilot/copilot-organization-user-teams-one-day-report	"500"	Internal Error
+  copilot/copilot-organization-user-teams-one-day-report	"403"	Forbidden
+  copilot/copilot-organization-user-teams-one-day-report	"404"	Resource not found
+  copilot/copilot-organization-users-one-day-usage-metrics	"200"	Response
+  copilot/copilot-organization-users-one-day-usage-metrics	"204"	A header with no content is returned.
+  copilot/copilot-organization-users-one-day-usage-metrics	"500"	Internal Error
+  copilot/copilot-organization-users-one-day-usage-metrics	"403"	Forbidden
+  copilot/copilot-organization-users-one-day-usage-metrics	"404"	Resource not found
+  copilot/copilot-organization-users-usage-metrics	"200"	Response
+  copilot/copilot-organization-users-usage-metrics	"500"	Internal Error
+  copilot/copilot-organization-users-usage-metrics	"403"	Forbidden
+  copilot/copilot-organization-users-usage-metrics	"404"	Resource not found
+  dependabot/list-alerts-for-org	"200"	Response
+  dependabot/list-alerts-for-org	"304"	Not modified
+  dependabot/list-alerts-for-org	"400"	Bad Request
+  dependabot/list-alerts-for-org	"403"	Forbidden
+  dependabot/list-alerts-for-org	"404"	Resource not found
+  dependabot/list-alerts-for-org	"422"	Validation failed, or the endpoint has been spammed.
+  dependabot/repository-access-for-org	"200"	Response
+  dependabot/repository-access-for-org	"403"	Forbidden
+  dependabot/repository-access-for-org	"404"	Resource not found
+  dependabot/update-repository-access-for-org	"204"	Response
+  dependabot/update-repository-access-for-org	"403"	Forbidden
+  dependabot/update-repository-access-for-org	"404"	Resource not found
+  dependabot/set-repository-access-default-level	"204"	Response
+  dependabot/set-repository-access-default-level	"403"	Forbidden
+  dependabot/set-repository-access-default-level	"404"	Resource not found
+  dependabot/list-org-secrets	"200"	Response
+  dependabot/get-org-public-key	"200"	Response
+  dependabot/get-org-secret	"200"	Response
+  dependabot/create-or-update-org-secret	"201"	Response when creating a secret
+  dependabot/create-or-update-org-secret	"204"	Response when updating a secret
+  dependabot/delete-org-secret	"204"	Response
+  dependabot/list-selected-repos-for-org-secret	"200"	Response
+  dependabot/set-selected-repos-for-org-secret	"204"	Response
+  dependabot/add-selected-repo-to-org-secret	"204"	No Content when repository was added to the selected list
+  dependabot/add-selected-repo-to-org-secret	"409"	Conflict when visibility type is not set to selected
+  dependabot/remove-selected-repo-from-org-secret	"204"	Response when repository was removed from the selected list
+  dependabot/remove-selected-repo-from-org-secret	"409"	Conflict when visibility type not set to selected
+  packages/list-docker-migration-conflicting-packages-for-organization	"200"	Response
+  packages/list-docker-migration-conflicting-packages-for-organization	"403"	Forbidden
+  packages/list-docker-migration-conflicting-packages-for-organization	"401"	Requires authentication
+  activity/list-public-org-events	"200"	Response
+  orgs/list-failed-invitations	"200"	Response
+  orgs/list-failed-invitations	"404"	Resource not found
+  orgs/list-webhooks	"200"	Response
+  orgs/list-webhooks	"404"	Resource not found
+  orgs/create-webhook	"201"	Response
+  orgs/create-webhook	"422"	Validation failed, or the endpoint has been spammed.
+  orgs/create-webhook	"404"	Resource not found
+  orgs/get-webhook	"200"	Response
+  orgs/get-webhook	"404"	Resource not found
+  orgs/update-webhook	"200"	Response
+  orgs/update-webhook	"422"	Validation failed, or the endpoint has been spammed.
+  orgs/update-webhook	"404"	Resource not found
+  orgs/delete-webhook	"204"	Response
+  orgs/delete-webhook	"404"	Resource not found
+  orgs/get-webhook-config-for-org	"200"	Response
+  orgs/update-webhook-config-for-org	"200"	Response
+  orgs/list-webhook-deliveries	"200"	Response
+  orgs/list-webhook-deliveries	"400"	Bad Request
+  orgs/list-webhook-deliveries	"422"	Validation failed, or the endpoint has been spammed.
+  orgs/get-webhook-delivery	"200"	Response
+  orgs/get-webhook-delivery	"400"	Bad Request
+  orgs/get-webhook-delivery	"422"	Validation failed, or the endpoint has been spammed.
+  orgs/redeliver-webhook-delivery	"202"	Accepted
+  orgs/redeliver-webhook-delivery	"400"	Bad Request
+  orgs/redeliver-webhook-delivery	"422"	Validation failed, or the endpoint has been spammed.
+  orgs/ping-webhook	"204"	Response
+  orgs/ping-webhook	"404"	Resource not found
+  api-insights/get-route-stats-by-actor	"200"	Response
+  api-insights/get-subject-stats	"200"	Response
+  api-insights/get-summary-stats	"200"	Response

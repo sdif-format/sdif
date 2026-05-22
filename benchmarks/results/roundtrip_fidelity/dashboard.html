@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SDIF Benchmark Report</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-2: #f1f5f9;
+      --brand: #4338ca;
+      --brand-light: #ede9fe;
+      --brand-dark: #312e81;
+      --success: #0f766e;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --text-soft: #334155;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --radius: 6px;
+      --shadow: 0 1px 3px rgba(0,0,0,.07), 0 4px 12px rgba(0,0,0,.04);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ---- Header ---- */
+    .site-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+    }
+    .site-header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 52px;
+      gap: 1rem;
+    }
+    .site-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .site-title .badge {
+      background: var(--brand-light);
+      color: var(--brand-dark);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 99px;
+      letter-spacing: 0.04em;
+    }
+    .print-btn {
+      font-size: 12px;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 4px 10px;
+      cursor: pointer;
+    }
+    .print-btn:hover { background: var(--surface-2); }
+
+    /* ---- Tab nav ---- */
+    .tab-nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+    }
+    .tab-nav-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0;
+    }
+    .tab-nav button {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: -1px;
+    }
+    .tab-nav button.active {
+      color: var(--brand);
+      border-bottom-color: var(--brand);
+    }
+    .tab-nav button:hover:not(.active) { color: var(--text); }
+
+    /* ---- Main content ---- */
+    #app {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1.75rem 1.5rem 3rem;
+    }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* ---- Typography ---- */
+    h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.4rem; letter-spacing: -0.01em; }
+    h2 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 2rem 0 0.5rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    h3 { font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.3rem; color: var(--text); }
+    p { margin-bottom: 0.75rem; color: var(--text-soft); }
+    ul, ol { margin: 0.4rem 0 0.75rem 1.4rem; color: var(--text-soft); }
+    li { margin-bottom: 0.2rem; }
+    strong { font-weight: 600; color: var(--text); }
+    em { font-style: italic; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Blockquote */
+    blockquote {
+      border-left: 3px solid var(--brand);
+      padding: 0.5rem 1rem;
+      margin: 0.75rem 0;
+      background: var(--brand-light);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      color: var(--brand-dark);
+      font-size: 0.9rem;
+    }
+    blockquote p { color: var(--brand-dark); margin: 0; }
+
+    /* ---- Code ---- */
+    code {
+      background: var(--surface-2);
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 0.85em;
+      color: var(--text);
+    }
+    pre {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 0.9rem 1rem;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+    pre code { background: none; padding: 0; font-size: 0.83em; }
+
+    /* ---- Tables ---- */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 1.25rem;
+      font-size: 0.88em;
+      background: var(--surface);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    thead th {
+      background: var(--surface-2);
+      padding: 7px 10px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.82em;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-soft);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--brand-light); }
+
+    @media print {
+      .site-header, .tab-nav, .print-btn { display: none; }
+      .panel { display: block !important; }
+      body { background: white; font-size: 12px; }
+      table { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <span class="site-title">
+      SDIF Benchmark
+      <span class="badge">Evidence</span>
+    </span>
+    <button class="print-btn" onclick="window.print()">Print / PDF</button>
+  </div>
+</header>
+
+<div class="tab-nav">
+  <div class="tab-nav-inner">
+    <button class="active" onclick="show('summary', this)">Summary</button>
+    <button onclick="show('detail', this)">Detail</button>
+  </div>
+</div>
+
+<div id="app">
+  <div id="summary" class="panel active"></div>
+  <div id="detail" class="panel"></div>
+</div>
+
+<script type="application/json" id="report-data">{"kind":"RoundTripFidelityReport","version":"1.0","generatedAt":"2026-05-22T08:11:56Z","runDirectory":"benchmarks/results/roundtrip_fidelity","semanticSource":"examples/golden/<document>/equivalent.json","envFileLoaded":true,"environment":{"SDIF_BENCHMARK_GOLDEN_DIR":null},"documents":[{"name":"deep-hierarchy-project","formats":[{"format":"JSON Compact","bytes":474294,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":648068,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":452163,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":292754,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":302202,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":768236,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":90.0,"structureFidelity":100.0,"overallFidelity":96.4,"note":""},{"format":"SDIF AI","bytes":292716,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":302214,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"github.openapi","formats":[{"format":"JSON Compact","bytes":292422,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":386842,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":283256,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":173649,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":167539,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":89.3,"structureFidelity":100.0,"overallFidelity":96.2,"note":""},{"format":"XML","bytes":472655,"parseSuccess":true,"valueFidelity":87.4,"typeFidelity":87.4,"structureFidelity":100.0,"overallFidelity":91.3,"note":""},{"format":"SDIF AI","bytes":167369,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":174452,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"large-audit-trail","formats":[{"format":"JSON Compact","bytes":1728738,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":2222275,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":1666793,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":2576525,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":1134036,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":89.3,"structureFidelity":100.0,"overallFidelity":96.1,"note":""},{"format":"SDIF","bytes":1155527,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"parse error"},{"format":"SDIF AI","bytes":1133989,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":1166582,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"large-knowledge-graph","formats":[{"format":"JSON Compact","bytes":518882,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":733208,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":495208,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":279620,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":289242,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":884387,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":83.7,"structureFidelity":100.0,"overallFidelity":93.9,"note":""},{"format":"SDIF AI","bytes":279580,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":288966,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"large-plan","formats":[{"format":"JSON Compact","bytes":804703,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":1048494,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":780329,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":492413,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":504796,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":1273626,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":83.1,"structureFidelity":100.0,"overallFidelity":93.6,"note":""},{"format":"SDIF AI","bytes":492354,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":504817,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"large-registry","formats":[{"format":"JSON Compact","bytes":883824,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":1285316,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":839949,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":402772,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":426166,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":1652261,"parseSuccess":true,"valueFidelity":79.7,"typeFidelity":79.7,"structureFidelity":100.0,"overallFidelity":85.5,"note":""},{"format":"SDIF AI","bytes":402720,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":426185,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"large-schema-catalog","formats":[{"format":"JSON Compact","bytes":447520,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":653078,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":435031,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":228953,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":215257,"parseSuccess":true,"valueFidelity":84.8,"typeFidelity":84.8,"structureFidelity":100.0,"overallFidelity":89.3,"note":""},{"format":"XML","bytes":790035,"parseSuccess":true,"valueFidelity":80.4,"typeFidelity":77.6,"structureFidelity":100.0,"overallFidelity":84.9,"note":""},{"format":"SDIF AI","bytes":221599,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":229126,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"large-support-export","formats":[{"format":"JSON Compact","bytes":592098,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":810127,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":573388,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":342094,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":352437,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":986732,"parseSuccess":true,"valueFidelity":85.0,"typeFidelity":70.0,"structureFidelity":100.0,"overallFidelity":83.2,"note":""},{"format":"SDIF AI","bytes":342047,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":352453,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"large-validation-report","formats":[{"format":"JSON Compact","bytes":559328,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":710381,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":549978,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":390534,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":383821,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":96.2,"structureFidelity":100.0,"overallFidelity":98.7,"note":""},{"format":"XML","bytes":818657,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":92.0,"structureFidelity":100.0,"overallFidelity":97.2,"note":""},{"format":"SDIF AI","bytes":383776,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":391666,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"medium-invoice-batch","formats":[{"format":"JSON Compact","bytes":139558,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":191590,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":137030,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":73941,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":75859,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":238165,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":57.9,"structureFidelity":100.0,"overallFidelity":80.5,"note":""},{"format":"SDIF AI","bytes":73903,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":75867,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"medium-observability-run","formats":[{"format":"JSON Compact","bytes":114756,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":167981,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":109099,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":55978,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":58377,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":205986,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":81.2,"structureFidelity":100.0,"overallFidelity":92.8,"note":""},{"format":"SDIF AI","bytes":55931,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":58391,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"medium-policy-catalog","formats":[{"format":"JSON Compact","bytes":97573,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":139351,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":91628,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":167499,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":49822,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":51672,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF AI","bytes":49782,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":51680,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"medium-product-catalog","formats":[{"format":"JSON Compact","bytes":111369,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":169056,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":104720,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":47599,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":50784,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":214848,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":82.8,"structureFidelity":100.0,"overallFidelity":93.5,"note":""},{"format":"SDIF AI","bytes":47552,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":50798,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"plan","formats":[{"format":"JSON Compact","bytes":1268,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":1688,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":1197,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":2080,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":984,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":1039,"parseSuccess":true,"valueFidelity":97.2,"typeFidelity":100.0,"structureFidelity":80.0,"overallFidelity":91.5,"note":""},{"format":"SDIF AI","bytes":1000,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":1002,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"registry","formats":[{"format":"JSON Compact","bytes":960,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":1293,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":896,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":1601,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":674,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":720,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":91.4,"overallFidelity":97.0,"note":""},{"format":"SDIF AI","bytes":662,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":697,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"schema","formats":[{"format":"JSON Compact","bytes":2113,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":3235,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":2004,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":1161,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":1161,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":4189,"parseSuccess":true,"valueFidelity":76.2,"typeFidelity":62.9,"structureFidelity":100.0,"overallFidelity":76.9,"note":""},{"format":"SDIF AI","bytes":1097,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":1181,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"small-api-catalog","formats":[{"format":"JSON Compact","bytes":3163,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":4849,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":2909,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":1666,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":1716,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":5647,"parseSuccess":true,"valueFidelity":99.4,"typeFidelity":99.4,"structureFidelity":100.0,"overallFidelity":99.6,"note":""},{"format":"SDIF AI","bytes":1640,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":1718,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"small-incident","formats":[{"format":"JSON Compact","bytes":4148,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":5727,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":3947,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":2594,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":2637,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":6808,"parseSuccess":true,"valueFidelity":99.4,"typeFidelity":85.0,"structureFidelity":100.0,"overallFidelity":94.3,"note":""},{"format":"SDIF AI","bytes":2563,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":2640,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"small-invoice","formats":[{"format":"JSON Compact","bytes":2643,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":3764,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":2537,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":1439,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":1454,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":4738,"parseSuccess":true,"valueFidelity":99.2,"typeFidelity":68.9,"structureFidelity":100.0,"overallFidelity":86.7,"note":""},{"format":"SDIF AI","bytes":1406,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":1459,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"validation-report","formats":[{"format":"JSON Compact","bytes":1014,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":1378,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":934,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":1685,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":773,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":735,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF AI","bytes":691,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":770,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]},{"name":"wide-table-survey","formats":[{"format":"JSON Compact","bytes":64917,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"JSON Pretty","bytes":124951,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"YAML","bytes":70375,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"CSV Bundle","bytes":18632,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"SDIF","bytes":19054,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":100.0,"structureFidelity":100.0,"overallFidelity":100.0,"note":""},{"format":"XML","bytes":149167,"parseSuccess":true,"valueFidelity":100.0,"typeFidelity":9.1,"structureFidelity":100.0,"overallFidelity":23.2,"note":""},{"format":"SDIF AI","bytes":18606,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"},{"format":"TOON","bytes":19053,"parseSuccess":false,"valueFidelity":null,"typeFidelity":null,"structureFidelity":null,"overallFidelity":null,"note":"N/A (projection/no parser)"}]}]}</script>
+<script>
+const summaryMd = "# SDIF Round-Trip Fidelity Benchmark — Summary\n\n- Generated at: `2026-05-22T08:11:56Z`\n- Documents: `21`\n\n## Key Findings\n\nFidelity measures semantic preservation when converting `JSON → format → JSON`.\n100% = lossless. Lower = semantic loss (type coercion, nesting collapse, etc.).\n\n| Format | Avg Overall | Coverage |\n| --- | ---: | ---: |\n| JSON Compact | 100.0% | 21/21 |\n| JSON Pretty | 100.0% | 21/21 |\n| YAML | 100.0% | 21/21 |\n| SDIF | 100.0% | 20/21 |\n| CSV Bundle | 98.5% | 21/21 |\n| XML | 89.2% | 21/21 |\n\n## Score Definitions\n\n| Score | Definition |\n| --- | --- |\n| **Value fidelity** | % of leaf values that round-trip to the same value (string comparison). |\n| **Type fidelity** | % of leaf values whose Python type is preserved exactly. |\n| **Structure fidelity** | % of key paths from the original that exist in the round-tripped document. |\n| **Overall fidelity** | Harmonic mean of the three scores above. |\n";
+const detailMd  = "# SDIF Round-Trip Fidelity Benchmark — Document Detail\n\n- Generated at: `2026-05-22T08:11:56Z`\n\n## deep-hierarchy-project\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 96.4% | 100.0% | 90.0% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## github.openapi\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 96.2% | 100.0% | 89.3% | 100.0% |  |\n| XML | 91.3% | 87.4% | 87.4% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## large-audit-trail\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 96.1% | 100.0% | 89.3% | 100.0% |  |\n| SDIF | N/A | N/A | N/A | N/A | parse error |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## large-knowledge-graph\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 93.9% | 100.0% | 83.7% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## large-plan\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 93.6% | 100.0% | 83.1% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## large-registry\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 85.5% | 79.7% | 79.7% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## large-schema-catalog\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 89.3% | 84.8% | 84.8% | 100.0% |  |\n| XML | 84.9% | 80.4% | 77.6% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## large-support-export\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 83.2% | 85.0% | 70.0% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## large-validation-report\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 98.7% | 100.0% | 96.2% | 100.0% |  |\n| XML | 97.2% | 100.0% | 92.0% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## medium-invoice-batch\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 80.5% | 100.0% | 57.9% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## medium-observability-run\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 92.8% | 100.0% | 81.2% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## medium-policy-catalog\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## medium-product-catalog\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 93.5% | 100.0% | 82.8% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## plan\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 91.5% | 97.2% | 100.0% | 80.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## registry\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 97.0% | 100.0% | 100.0% | 91.4% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## schema\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 76.9% | 76.2% | 62.9% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## small-api-catalog\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 99.6% | 99.4% | 99.4% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## small-incident\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 94.3% | 99.4% | 85.0% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## small-invoice\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 86.7% | 99.2% | 68.9% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## validation-report\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n\n## wide-table-survey\n\n| Format | Overall | Value | Type | Structure | Note |\n| --- | ---: | ---: | ---: | ---: | --- |\n| JSON Compact | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |\n| XML | 23.2% | 100.0% | 9.1% | 100.0% |  |\n| SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |\n";
+
+function show(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function mdToHtml(md) {
+  let h = md
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/^#{6}\s+(.+)$/gm, '<h6>$1</h6>')
+    .replace(/^#{5}\s+(.+)$/gm, '<h5>$1</h5>')
+    .replace(/^#{4}\s+(.+)$/gm, '<h4>$1</h4>')
+    .replace(/^#{3}\s+(.+)$/gm, '<h3>$1</h3>')
+    .replace(/^#{2}\s+(.+)$/gm, '<h2>$1</h2>')
+    .replace(/^#{1}\s+(.+)$/gm, '<h1>$1</h1>')
+    .replace(/^---+$/gm, '<hr>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/__(.+?)__/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/_(.+?)_/g, '<em>$1</em>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>');
+
+  // Blockquotes (must run before table)
+  h = h.replace(/((?:^&gt;\s*.+\n?)+)/gm, block => {
+    const inner = block.trim().split('\n').map(l => l.replace(/^&gt;\s*/, '')).join(' ');
+    return `<blockquote><p>${inner}</p></blockquote>\n`;
+  });
+
+  // Tables
+  h = h.replace(/((?:^\|.+\|\n)+)/gm, block => {
+    const lines = block.trim().split('\n');
+    if (lines.length < 2) return block;
+    const header = lines[0].split('|').slice(1, -1).map(c => `<th>${c.trim()}</th>`).join('');
+    const body = lines.slice(2).map(r =>
+      '<tr>' + r.split('|').slice(1, -1).map(c => `<td>${c.trim()}</td>`).join('') + '</tr>'
+    ).join('\n');
+    return `<table><thead><tr>${header}</tr></thead><tbody>${body}</tbody></table>\n`;
+  });
+
+  // Code blocks
+  h = h.replace(/```[\w]*\n([\s\S]*?)```/g, (_, code) =>
+    `<pre><code>${code.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')}</code></pre>`
+  );
+
+  // Lists
+  h = h.replace(/((?:^[-*]\s.+\n?)+)/gm, block => {
+    const items = block.trim().split('\n').map(l => `<li>${l.replace(/^[-*]\s/, '')}</li>`).join('');
+    return `<ul>${items}</ul>\n`;
+  });
+  h = h.replace(/((?:^\d+\.\s.+\n?)+)/gm, block => {
+    const items = block.trim().split('\n').map(l => `<li>${l.replace(/^\d+\.\s/, '')}</li>`).join('');
+    return `<ol>${items}</ol>\n`;
+  });
+
+  // Paragraphs
+  h = h.split('\n\n').map(para => {
+    para = para.trim();
+    if (!para) return '';
+    if (/^<[h1-6houpt]/.test(para)) return para;
+    return `<p>${para.replace(/\n/g, '<br>')}</p>`;
+  }).join('\n');
+
+  return h;
+}
+
+document.getElementById('summary').innerHTML = mdToHtml(summaryMd);
+document.getElementById('detail').innerHTML   = mdToHtml(detailMd);
+
+// Set document title from first h1
+const h1 = document.querySelector('h1');
+if (h1) document.title = `SDIF — ${h1.textContent}`;
+</script>
+</body>
+</html>

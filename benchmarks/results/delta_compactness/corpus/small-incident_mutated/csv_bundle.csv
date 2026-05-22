@@ -1,0 +1,49 @@
+# fields
+key,value
+document_type,small-incident
+version,1.0.0
+generated,true
+benchmark_size_class,small
+benchmark_profile,mixed-narrative-tables
+incident_id,INC-2026-0521
+service,payments-api
+impact,partial-degradation
+summary,Synthetic incident report with timeline and remediation actions.
+
+# table:events
+id,minute,actor,severity,message
+EVT-001,3,sre,warning,Incident timeline event 1 with bounded narrative context.
+EVT-002,6,support,critical,Incident timeline event 2 with bounded narrative context.
+EVT-003,9,deploy-bot,info,Incident timeline event 3 with bounded narrative context.
+EVT-004,12,monitor,warning,Incident timeline event 4 with bounded narrative context.
+EVT-005,15,sre,critical,Incident timeline event 5 with bounded narrative context.
+EVT-006,18,support,info,Incident timeline event 6 with bounded narrative context.
+EVT-007,21,deploy-bot,warning,Incident timeline event 7 with bounded narrative context.
+EVT-008,24,monitor,critical,Incident timeline event 8 with bounded narrative context.
+EVT-009,27,sre,info,Incident timeline event 9 with bounded narrative context.
+EVT-010,30,support,warning,Incident timeline event 10 with bounded narrative context.
+EVT-011,33,deploy-bot,critical,Incident timeline event 11 with bounded narrative context.
+EVT-012,36,monitor,info,Incident timeline event 12 with bounded narrative context.
+EVT-013,39,sre,warning,Incident timeline event 13 with bounded narrative context.
+EVT-014,42,support,critical,Incident timeline event 14 with bounded narrative context.
+EVT-015,45,deploy-bot,info,Incident timeline event 15 with bounded narrative context.
+EVT-016,48,monitor,warning,Incident timeline event 16 with bounded narrative context.
+EVT-017,51,sre,critical,Incident timeline event 17 with bounded narrative context.
+EVT-018,54,support,info,Incident timeline event 18 with bounded narrative context.
+EVT-019,57,deploy-bot,warning,Incident timeline event 19 with bounded narrative context.
+EVT-020,60,monitor,critical,Incident timeline event 20 with bounded narrative context.
+EVT-021,63,sre,info,Incident timeline event 21 with bounded narrative context.
+EVT-022,66,support,warning,Incident timeline event 22 with bounded narrative context.
+EVT-023,69,deploy-bot,critical,Incident timeline event 23 with bounded narrative context.
+
+# table:actions
+id,event_id,owner,status
+ACT-001-v2,EVT-004-v2,team-2-v2,done-v2
+ACT-002-v2,EVT-005-v2,team-3-v2,verified-v2
+ACT-003-v2,EVT-006-v2,team-4-v2,open-v2
+ACT-004-v2,EVT-007-v2,team-1-v2,done-v2
+ACT-005,EVT-008,team-2,verified
+ACT-006,EVT-009,team-3,open
+ACT-007,EVT-010,team-4,done
+ACT-008,EVT-011,team-1,verified
+ACT-009,EVT-012,team-2,open

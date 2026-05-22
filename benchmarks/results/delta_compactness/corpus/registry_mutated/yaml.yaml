@@ -1,0 +1,38 @@
+kind: Registry
+id: example.registry
+schema: example.semantic_registry.v1
+authority: Canonical-v2
+lifecycle: Active
+entries:
+- id: example.schema-v2
+  kind: Schema
+  lifecycle: Active
+  authority: Canonical-v2
+  path: schemas/example.schema.sdif
+  evidence: reports/schema.md-v2
+- id: example.registry
+  kind: Registry
+  lifecycle: Active
+  authority: Canonical
+  path: registry/example.registry.sdif
+  evidence: reports/registry.md
+- id: validator.core
+  kind: Tool
+  lifecycle: Active
+  authority: Canonical
+  path: tools/validator.md
+  evidence: reports/validator.md
+rel:
+- subject: example.registry
+  predicate: governed_by
+  object: example.schema
+- subject: example.registry
+  predicate: validated_by
+  object: validator.core
+- subject: validator.core
+  predicate: emits
+  object: reports/validator.md
+rules:
+- (deny missing(entries.evidence))
+- (deny dangling(rel))
+- (deny invalid(entries.lifecycle))

@@ -1,0 +1,30 @@
+document_type: small-invoice-v2
+version: 1.0.0
+generated: false
+benchmark_size_class: small-v2
+benchmark_profile: tabular-finance-v2
+invoice_id: INV-2026-0001-v2
+currency: EUR-v2
+customer_id: CUST-042-v2
+issued_on: 2026-05-21-v2
+lines[17]{id,sku,description,quantity,unit_price,tax_code}:
+  LINE-001-v2,SKU-1001-v2,Implementation service line 1-v2,2.2,102,reduced
+  LINE-002,SKU-1002,Implementation service line 2,3,109,exempt
+  LINE-003,SKU-1003,Implementation service line 3,4,116,standard
+  LINE-004,SKU-1004,Implementation service line 4,1,123,reduced
+  LINE-005,SKU-1005,Implementation service line 5,2,130,exempt
+  LINE-006,SKU-1006,Implementation service line 6,3,137,standard
+  LINE-007,SKU-1007,Implementation service line 7,4,144,reduced
+  LINE-008,SKU-1008,Implementation service line 8,1,151,exempt
+  LINE-009,SKU-1009,Implementation service line 9,2,158,standard
+  LINE-010,SKU-1010,Implementation service line 10,3,165,reduced
+  LINE-011,SKU-1011,Implementation service line 11,4,172,exempt
+  LINE-012,SKU-1012,Implementation service line 12,1,179,standard
+  LINE-013,SKU-1013,Implementation service line 13,2,186,reduced
+  LINE-014,SKU-1014,Implementation service line 14,3,193,exempt
+  LINE-015,SKU-1015,Implementation service line 15,4,200,standard
+  LINE-016,SKU-1016,Implementation service line 16,1,207,reduced
+  LINE-017,SKU-1017,Implementation service line 17,2,214,exempt
+payments[2]{id,method,amount,status}:
+  PAY-001,card,1240,captured
+  PAY-002,transfer,880,pending

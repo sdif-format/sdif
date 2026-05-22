@@ -1,0 +1,240 @@
+kind RoundTripFidelityReport
+version "1.0"
+generatedAt 2026-05-22T08:11:56Z
+runDirectory benchmarks/results/roundtrip_fidelity
+semanticSource examples/golden/<document>/equivalent.json
+envFileLoaded true
+environment:
+  SDIF_BENCHMARK_GOLDEN_DIR null
+documents:
+  __item:
+    name deep-hierarchy-project
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	474294	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	648068	true	100.0	100.0	100.0	100.0	""
+    YAML	452163	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	292754	true	100.0	100.0	100.0	100.0	""
+    SDIF	302202	true	100.0	100.0	100.0	100.0	""
+    XML	768236	true	100.0	90.0	100.0	96.4	""
+    SDIF AI	292716	false	null	null	null	null	N/A (projection/no parser)
+    TOON	302214	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name github.openapi
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	292422	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	386842	true	100.0	100.0	100.0	100.0	""
+    YAML	283256	true	100.0	100.0	100.0	100.0	""
+    SDIF	173649	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	167539	true	100.0	89.3	100.0	96.2	""
+    XML	472655	true	87.4	87.4	100.0	91.3	""
+    SDIF AI	167369	false	null	null	null	null	N/A (projection/no parser)
+    TOON	174452	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name large-audit-trail
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	1728738	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	2222275	true	100.0	100.0	100.0	100.0	""
+    YAML	1666793	true	100.0	100.0	100.0	100.0	""
+    XML	2576525	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	1134036	true	100.0	89.3	100.0	96.1	""
+    SDIF	1155527	false	null	null	null	null	parse error
+    SDIF AI	1133989	false	null	null	null	null	N/A (projection/no parser)
+    TOON	1166582	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name large-knowledge-graph
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	518882	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	733208	true	100.0	100.0	100.0	100.0	""
+    YAML	495208	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	279620	true	100.0	100.0	100.0	100.0	""
+    SDIF	289242	true	100.0	100.0	100.0	100.0	""
+    XML	884387	true	100.0	83.7	100.0	93.9	""
+    SDIF AI	279580	false	null	null	null	null	N/A (projection/no parser)
+    TOON	288966	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name large-plan
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	804703	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	1048494	true	100.0	100.0	100.0	100.0	""
+    YAML	780329	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	492413	true	100.0	100.0	100.0	100.0	""
+    SDIF	504796	true	100.0	100.0	100.0	100.0	""
+    XML	1273626	true	100.0	83.1	100.0	93.6	""
+    SDIF AI	492354	false	null	null	null	null	N/A (projection/no parser)
+    TOON	504817	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name large-registry
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	883824	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	1285316	true	100.0	100.0	100.0	100.0	""
+    YAML	839949	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	402772	true	100.0	100.0	100.0	100.0	""
+    SDIF	426166	true	100.0	100.0	100.0	100.0	""
+    XML	1652261	true	79.7	79.7	100.0	85.5	""
+    SDIF AI	402720	false	null	null	null	null	N/A (projection/no parser)
+    TOON	426185	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name large-schema-catalog
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	447520	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	653078	true	100.0	100.0	100.0	100.0	""
+    YAML	435031	true	100.0	100.0	100.0	100.0	""
+    SDIF	228953	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	215257	true	84.8	84.8	100.0	89.3	""
+    XML	790035	true	80.4	77.6	100.0	84.9	""
+    SDIF AI	221599	false	null	null	null	null	N/A (projection/no parser)
+    TOON	229126	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name large-support-export
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	592098	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	810127	true	100.0	100.0	100.0	100.0	""
+    YAML	573388	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	342094	true	100.0	100.0	100.0	100.0	""
+    SDIF	352437	true	100.0	100.0	100.0	100.0	""
+    XML	986732	true	85.0	70.0	100.0	83.2	""
+    SDIF AI	342047	false	null	null	null	null	N/A (projection/no parser)
+    TOON	352453	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name large-validation-report
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	559328	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	710381	true	100.0	100.0	100.0	100.0	""
+    YAML	549978	true	100.0	100.0	100.0	100.0	""
+    SDIF	390534	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	383821	true	100.0	96.2	100.0	98.7	""
+    XML	818657	true	100.0	92.0	100.0	97.2	""
+    SDIF AI	383776	false	null	null	null	null	N/A (projection/no parser)
+    TOON	391666	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name medium-invoice-batch
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	139558	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	191590	true	100.0	100.0	100.0	100.0	""
+    YAML	137030	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	73941	true	100.0	100.0	100.0	100.0	""
+    SDIF	75859	true	100.0	100.0	100.0	100.0	""
+    XML	238165	true	100.0	57.9	100.0	80.5	""
+    SDIF AI	73903	false	null	null	null	null	N/A (projection/no parser)
+    TOON	75867	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name medium-observability-run
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	114756	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	167981	true	100.0	100.0	100.0	100.0	""
+    YAML	109099	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	55978	true	100.0	100.0	100.0	100.0	""
+    SDIF	58377	true	100.0	100.0	100.0	100.0	""
+    XML	205986	true	100.0	81.2	100.0	92.8	""
+    SDIF AI	55931	false	null	null	null	null	N/A (projection/no parser)
+    TOON	58391	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name medium-policy-catalog
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	97573	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	139351	true	100.0	100.0	100.0	100.0	""
+    YAML	91628	true	100.0	100.0	100.0	100.0	""
+    XML	167499	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	49822	true	100.0	100.0	100.0	100.0	""
+    SDIF	51672	true	100.0	100.0	100.0	100.0	""
+    SDIF AI	49782	false	null	null	null	null	N/A (projection/no parser)
+    TOON	51680	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name medium-product-catalog
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	111369	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	169056	true	100.0	100.0	100.0	100.0	""
+    YAML	104720	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	47599	true	100.0	100.0	100.0	100.0	""
+    SDIF	50784	true	100.0	100.0	100.0	100.0	""
+    XML	214848	true	100.0	82.8	100.0	93.5	""
+    SDIF AI	47552	false	null	null	null	null	N/A (projection/no parser)
+    TOON	50798	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name plan
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	1268	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	1688	true	100.0	100.0	100.0	100.0	""
+    YAML	1197	true	100.0	100.0	100.0	100.0	""
+    XML	2080	true	100.0	100.0	100.0	100.0	""
+    SDIF	984	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	1039	true	97.2	100.0	80.0	91.5	""
+    SDIF AI	1000	false	null	null	null	null	N/A (projection/no parser)
+    TOON	1002	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name registry
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	960	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	1293	true	100.0	100.0	100.0	100.0	""
+    YAML	896	true	100.0	100.0	100.0	100.0	""
+    XML	1601	true	100.0	100.0	100.0	100.0	""
+    SDIF	674	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	720	true	100.0	100.0	91.4	97.0	""
+    SDIF AI	662	false	null	null	null	null	N/A (projection/no parser)
+    TOON	697	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name schema
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	2113	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	3235	true	100.0	100.0	100.0	100.0	""
+    YAML	2004	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	1161	true	100.0	100.0	100.0	100.0	""
+    SDIF	1161	true	100.0	100.0	100.0	100.0	""
+    XML	4189	true	76.2	62.9	100.0	76.9	""
+    SDIF AI	1097	false	null	null	null	null	N/A (projection/no parser)
+    TOON	1181	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name small-api-catalog
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	3163	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	4849	true	100.0	100.0	100.0	100.0	""
+    YAML	2909	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	1666	true	100.0	100.0	100.0	100.0	""
+    SDIF	1716	true	100.0	100.0	100.0	100.0	""
+    XML	5647	true	99.4	99.4	100.0	99.6	""
+    SDIF AI	1640	false	null	null	null	null	N/A (projection/no parser)
+    TOON	1718	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name small-incident
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	4148	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	5727	true	100.0	100.0	100.0	100.0	""
+    YAML	3947	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	2594	true	100.0	100.0	100.0	100.0	""
+    SDIF	2637	true	100.0	100.0	100.0	100.0	""
+    XML	6808	true	99.4	85.0	100.0	94.3	""
+    SDIF AI	2563	false	null	null	null	null	N/A (projection/no parser)
+    TOON	2640	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name small-invoice
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	2643	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	3764	true	100.0	100.0	100.0	100.0	""
+    YAML	2537	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	1439	true	100.0	100.0	100.0	100.0	""
+    SDIF	1454	true	100.0	100.0	100.0	100.0	""
+    XML	4738	true	99.2	68.9	100.0	86.7	""
+    SDIF AI	1406	false	null	null	null	null	N/A (projection/no parser)
+    TOON	1459	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name validation-report
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	1014	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	1378	true	100.0	100.0	100.0	100.0	""
+    YAML	934	true	100.0	100.0	100.0	100.0	""
+    XML	1685	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	773	true	100.0	100.0	100.0	100.0	""
+    SDIF	735	true	100.0	100.0	100.0	100.0	""
+    SDIF AI	691	false	null	null	null	null	N/A (projection/no parser)
+    TOON	770	false	null	null	null	null	N/A (projection/no parser)
+  __item:
+    name wide-table-survey
+    formats[format,bytes,parseSuccess,valueFidelity,typeFidelity,structureFidelity,overallFidelity,note]:
+    JSON Compact	64917	true	100.0	100.0	100.0	100.0	""
+    JSON Pretty	124951	true	100.0	100.0	100.0	100.0	""
+    YAML	70375	true	100.0	100.0	100.0	100.0	""
+    CSV Bundle	18632	true	100.0	100.0	100.0	100.0	""
+    SDIF	19054	true	100.0	100.0	100.0	100.0	""
+    XML	149167	true	100.0	9.1	100.0	23.2	""
+    SDIF AI	18606	false	null	null	null	null	N/A (projection/no parser)
+    TOON	19053	false	null	null	null	null	N/A (projection/no parser)
