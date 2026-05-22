@@ -1,6 +1,6 @@
 # SDIF Round-Trip Fidelity Benchmark — Summary
 
-- Generated at: `2026-05-22T08:11:56Z`
+- Generated at: `2026-05-22T09:57:03Z`
 - Documents: `21`
 
 ## Key Findings
@@ -13,7 +13,7 @@ Fidelity measures semantic preservation when converting `JSON → format → JSO
 | JSON Compact | 100.0% | 21/21 |
 | JSON Pretty | 100.0% | 21/21 |
 | YAML | 100.0% | 21/21 |
-| SDIF | 100.0% | 20/21 |
+| SDIF | 100.0% | 21/21 |
 | CSV Bundle | 98.5% | 21/21 |
 | XML | 89.2% | 21/21 |
 

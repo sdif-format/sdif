@@ -1,7 +1,7 @@
 {
   "kind": "RoundTripFidelityReport",
   "version": "1.0",
-  "generatedAt": "2026-05-22T08:11:56Z",
+  "generatedAt": "2026-05-22T09:57:03Z",
   "runDirectory": "benchmarks/results/roundtrip_fidelity",
   "semanticSource": "examples/golden/<document>/equivalent.json",
   "envFileLoaded": true,
@@ -75,16 +75,6 @@
         {
           "format": "SDIF AI",
           "bytes": 292716,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 302214,
           "parseSuccess": false,
           "valueFidelity": null,
           "typeFidelity": null,
@@ -166,16 +156,6 @@
           "structureFidelity": null,
           "overallFidelity": null,
           "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 174452,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
         }
       ]
     },
@@ -223,6 +203,16 @@
           "note": ""
         },
         {
+          "format": "SDIF",
+          "bytes": 1155527,
+          "parseSuccess": true,
+          "valueFidelity": 100.0,
+          "typeFidelity": 100.0,
+          "structureFidelity": 100.0,
+          "overallFidelity": 100.0,
+          "note": ""
+        },
+        {
           "format": "CSV Bundle",
           "bytes": 1134036,
           "parseSuccess": true,
@@ -233,28 +223,8 @@
           "note": ""
         },
         {
-          "format": "SDIF",
-          "bytes": 1155527,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "parse error"
-        },
-        {
           "format": "SDIF AI",
           "bytes": 1133989,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 1166582,
           "parseSuccess": false,
           "valueFidelity": null,
           "typeFidelity": null,
@@ -336,16 +306,6 @@
           "structureFidelity": null,
           "overallFidelity": null,
           "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 288966,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
         }
       ]
     },
@@ -415,16 +375,6 @@
         {
           "format": "SDIF AI",
           "bytes": 492354,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 504817,
           "parseSuccess": false,
           "valueFidelity": null,
           "typeFidelity": null,
@@ -506,16 +456,6 @@
           "structureFidelity": null,
           "overallFidelity": null,
           "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 426185,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
         }
       ]
     },
@@ -585,16 +525,6 @@
         {
           "format": "SDIF AI",
           "bytes": 221599,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 229126,
           "parseSuccess": false,
           "valueFidelity": null,
           "typeFidelity": null,
@@ -676,16 +606,6 @@
           "structureFidelity": null,
           "overallFidelity": null,
           "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 352453,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
         }
       ]
     },
@@ -755,16 +675,6 @@
         {
           "format": "SDIF AI",
           "bytes": 383776,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 391666,
           "parseSuccess": false,
           "valueFidelity": null,
           "typeFidelity": null,
@@ -846,16 +756,6 @@
           "structureFidelity": null,
           "overallFidelity": null,
           "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 75867,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
         }
       ]
     },
@@ -925,16 +825,6 @@
         {
           "format": "SDIF AI",
           "bytes": 55931,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 58391,
           "parseSuccess": false,
           "valueFidelity": null,
           "typeFidelity": null,
@@ -1016,16 +906,6 @@
           "structureFidelity": null,
           "overallFidelity": null,
           "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 51680,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
         }
       ]
     },
@@ -1095,16 +975,6 @@
         {
           "format": "SDIF AI",
           "bytes": 47552,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 50798,
           "parseSuccess": false,
           "valueFidelity": null,
           "typeFidelity": null,
@@ -1186,16 +1056,6 @@
           "structureFidelity": null,
           "overallFidelity": null,
           "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 1002,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
         }
       ]
     },
@@ -1265,16 +1125,6 @@
         {
           "format": "SDIF AI",
           "bytes": 662,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 697,
           "parseSuccess": false,
           "valueFidelity": null,
           "typeFidelity": null,
@@ -1356,16 +1206,6 @@
           "structureFidelity": null,
           "overallFidelity": null,
           "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 1181,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
         }
       ]
     },
@@ -1435,16 +1275,6 @@
         {
           "format": "SDIF AI",
           "bytes": 1640,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 1718,
           "parseSuccess": false,
           "valueFidelity": null,
           "typeFidelity": null,
@@ -1526,16 +1356,6 @@
           "structureFidelity": null,
           "overallFidelity": null,
           "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 2640,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
         }
       ]
     },
@@ -1605,16 +1425,6 @@
         {
           "format": "SDIF AI",
           "bytes": 1406,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 1459,
           "parseSuccess": false,
           "valueFidelity": null,
           "typeFidelity": null,
@@ -1696,16 +1506,6 @@
           "structureFidelity": null,
           "overallFidelity": null,
           "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 770,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
         }
       ]
     },
@@ -1775,16 +1575,6 @@
         {
           "format": "SDIF AI",
           "bytes": 18606,
-          "parseSuccess": false,
-          "valueFidelity": null,
-          "typeFidelity": null,
-          "structureFidelity": null,
-          "overallFidelity": null,
-          "note": "N/A (projection/no parser)"
-        },
-        {
-          "format": "TOON",
-          "bytes": 19053,
           "parseSuccess": false,
           "valueFidelity": null,
           "typeFidelity": null,

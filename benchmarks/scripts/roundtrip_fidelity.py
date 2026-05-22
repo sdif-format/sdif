@@ -70,6 +70,13 @@ import yaml  # type: ignore[import-untyped]
 
 from sdif.json.converter import document_to_json_data  # noqa: E402
 from sdif import parse_text  # noqa: E402
+from sdif.core.policy import Policy  # noqa: E402
+
+_BENCHMARK_POLICY = Policy(
+    max_document_size=10_000_000,
+    max_table_row_count=100_000,
+    max_string_length=1_000_000,
+)
 
 BENCHMARK_TRACK_NAME = "roundtrip_fidelity"
 
@@ -206,7 +213,7 @@ def _infer_scalar(value: str) -> Any:
 
 def parse_sdif(text: str) -> dict[str, Any] | None:
     try:
-        doc = parse_text(text)
+        doc = parse_text(text, policy=_BENCHMARK_POLICY)
         return document_to_json_data(doc)
     except Exception as exc:
         verbose_warning(f"SDIF parse failed: {exc}")

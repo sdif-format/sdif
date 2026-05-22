@@ -288,3 +288,29 @@ def test_benchmark_main_publishes_compared_corpus_files(monkeypatch, tmp_path):
     assert (corpus_dir / "sdif_ai.sdif.ai").is_file()
     assert not (corpus_dir / "toon.toon").exists()
     assert report["artifacts"]["corpus"] == "benchmarks/results/token_efficiency/corpus"
+
+
+def load_roundtrip_fidelity_module():
+    module_path = Path("benchmarks/scripts/roundtrip_fidelity.py")
+    spec = importlib.util.spec_from_file_location("roundtrip_fidelity", module_path)
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["roundtrip_fidelity"] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_roundtrip_parse_sdif_large_document():
+    """Regression: large-audit-trail (>1MB) must parse without PolicyError."""
+    golden = Path("examples/golden/large-audit-trail/source.sdif")
+    if not golden.exists():
+        pytest.skip("large-audit-trail golden fixture not found")
+
+    rt = load_roundtrip_fidelity_module()
+    text = golden.read_text(encoding="utf-8")
+
+    assert len(text.encode("utf-8")) > 1_000_000, "fixture must exceed default 1MB policy limit"
+
+    result = rt.parse_sdif(text)
+    assert result is not None, "parse_sdif must succeed for large-audit-trail"

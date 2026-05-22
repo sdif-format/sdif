@@ -1,6 +1,6 @@
 # SDIF Round-Trip Fidelity Benchmark — Document Detail
 
-- Generated at: `2026-05-22T08:11:56Z`
+- Generated at: `2026-05-22T09:57:03Z`
 
 ## deep-hierarchy-project
 
@@ -13,7 +13,6 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | XML | 96.4% | 100.0% | 90.0% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## github.openapi
 
@@ -26,7 +25,6 @@
 | CSV Bundle | 96.2% | 100.0% | 89.3% | 100.0% |  |
 | XML | 91.3% | 87.4% | 87.4% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## large-audit-trail
 
@@ -36,10 +34,9 @@
 | JSON Pretty | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | YAML | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | XML | 100.0% | 100.0% | 100.0% | 100.0% |  |
+| SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | CSV Bundle | 96.1% | 100.0% | 89.3% | 100.0% |  |
-| SDIF | N/A | N/A | N/A | N/A | parse error |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## large-knowledge-graph
 
@@ -52,7 +49,6 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | XML | 93.9% | 100.0% | 83.7% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## large-plan
 
@@ -65,7 +61,6 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | XML | 93.6% | 100.0% | 83.1% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## large-registry
 
@@ -78,7 +73,6 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | XML | 85.5% | 79.7% | 79.7% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## large-schema-catalog
 
@@ -91,7 +85,6 @@
 | CSV Bundle | 89.3% | 84.8% | 84.8% | 100.0% |  |
 | XML | 84.9% | 80.4% | 77.6% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## large-support-export
 
@@ -104,7 +97,6 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | XML | 83.2% | 85.0% | 70.0% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## large-validation-report
 
@@ -117,7 +109,6 @@
 | CSV Bundle | 98.7% | 100.0% | 96.2% | 100.0% |  |
 | XML | 97.2% | 100.0% | 92.0% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## medium-invoice-batch
 
@@ -130,7 +121,6 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | XML | 80.5% | 100.0% | 57.9% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## medium-observability-run
 
@@ -143,7 +133,6 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | XML | 92.8% | 100.0% | 81.2% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## medium-policy-catalog
 
@@ -156,7 +145,6 @@
 | CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## medium-product-catalog
 
@@ -169,7 +157,6 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | XML | 93.5% | 100.0% | 82.8% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## plan
 
@@ -182,7 +169,6 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | CSV Bundle | 91.5% | 97.2% | 100.0% | 80.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## registry
 
@@ -195,7 +181,6 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | CSV Bundle | 97.0% | 100.0% | 100.0% | 91.4% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## schema
 
@@ -208,7 +193,6 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | XML | 76.9% | 76.2% | 62.9% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## small-api-catalog
 
@@ -221,7 +205,6 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | XML | 99.6% | 99.4% | 99.4% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## small-incident
 
@@ -234,7 +217,6 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | XML | 94.3% | 99.4% | 85.0% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## small-invoice
 
@@ -247,7 +229,6 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | XML | 86.7% | 99.2% | 68.9% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## validation-report
 
@@ -260,7 +241,6 @@
 | CSV Bundle | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
 
 ## wide-table-survey
 
@@ -273,4 +253,3 @@
 | SDIF | 100.0% | 100.0% | 100.0% | 100.0% |  |
 | XML | 23.2% | 100.0% | 9.1% | 100.0% |  |
 | SDIF AI | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
-| TOON | N/A | N/A | N/A | N/A | N/A (projection/no parser) |
