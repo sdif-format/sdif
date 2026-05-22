@@ -1,78 +1,73 @@
 # SDIF Benchmarks
 
-Benchmarks measuring SDIF's token efficiency, semantic fidelity, and model-facing readability compared to JSON, JSON Compact, YAML, XML, CSV Bundle, `.sdif.ai`, and TOON when the official TOON CLI is available.
-
-The benchmark suite is intentionally evidence-first: every compared representation is derived from the same canonical JSON semantic source under `examples/golden/`, and each run writes machine-readable and human-readable evidence under `benchmarks/tmp/token_efficiency/` while running, then moves the completed result to `benchmarks/results/token_efficiency/`.
+Evidence-first benchmarks measuring SDIF against JSON, YAML, XML, CSV Bundle, SDIF AI, and TOON from the perspective of AI and LLM developers. Every compared representation is derived from the same canonical JSON source under `examples/golden/`. Each run writes evidence to `benchmarks/tmp/<track>/` while running and promotes it to `benchmarks/results/<track>/` on success.
 
 ## Quick Start
 
 ```bash
-# Run the token efficiency benchmark
+# Token reduction across formats
 make benchmark-token
 
-# Run semantic-quality documentation checks
+# Context-window fit rate by budget
+make benchmark-packing
+
+# JSON→format→JSON round-trip fidelity
+make benchmark-roundtrip
+
+# Mutation sensitivity (re-send overhead)
+make benchmark-delta
+
+# LLM retrieval accuracy by format — opt-in
+SDIF_BENCHMARK_RETRIEVAL=1 ANTHROPIC_API_KEY=<key> make benchmark-retrieval
+
+# Semantic-quality documentation checks
 make benchmark-quality
-
-# Regenerate the deterministic benchmark corpus
-make benchmark-corpus
-
-# Regenerate large benchmark fixtures
-make benchmark-large-corpus
 ```
-
-`make benchmark` remains an alias for the token efficiency benchmark.
 
 ## Benchmark Tracks
 
-### Token Efficiency Track
+### Token Efficiency
 
 Measures byte and token reduction across shared semantic fixtures:
 
 1. Read each `examples/golden/<fixture>/equivalent.json` source.
-2. Convert it to JSON Compact, JSON Pretty, YAML, XML, CSV Bundle, SDIF, `.sdif.ai`, and optionally TOON.
-3. Count tokens through the available tokenizers.
+2. Convert to JSON Compact, JSON Pretty, YAML, XML, CSV Bundle, SDIF, SDIF AI, and optionally TOON.
+3. Count tokens with tiktoken (`cl100k_base`) or a byte-estimate fallback.
 4. Rank formats against JSON Compact as the stable baseline.
-5. Write reports as Markdown, JSON, SDIF, and `.sdif.ai`.
+5. Write Markdown, JSON, SDIF, SDIF AI, and HTML reports.
 
-Run it with:
+Results: `benchmarks/results/token_efficiency/` — run with `make benchmark-token`.
 
-```bash
-make benchmark-token
-```
+### Context Packing
 
-The latest successful token-efficiency result is available in:
+Measures how many document copies of each format fit inside fixed token budgets (4K, 8K, 32K, 128K). Reports:
 
-```text
-benchmarks/results/token_efficiency/
-```
+- **Fit rate**: % of corpus documents where at least one copy fits.
+- **Avg docs** / **Median docs**: mean and median copies per budget.
 
-### Semantic Quality Track
+Results: `benchmarks/results/context_packing/` — run with `make benchmark-packing`.
 
-Checks that token claims are not the only story. SDIF must also preserve semantic structure: relations, rules, schema validation, canonicalization, and reversible AI projection boundaries.
+### Round-trip Fidelity
 
-Run it with:
+Measures JSON→format→JSON preservation. Scores value fidelity, type fidelity, and structure fidelity (harmonic mean = overall fidelity). N/A for SDIF AI and TOON, which are projections, not full encodings.
 
-```bash
-make benchmark-quality
-```
+Results: `benchmarks/results/roundtrip_fidelity/` — run with `make benchmark-roundtrip`.
 
-This currently verifies `docs/semantic-quality.md` and guards that the methodology stays separate from raw token counting.
+### Delta Compactness (Mutation Sensitivity)
 
-### Retrieval Accuracy Track
+Measures the token overhead of re-sending a mutated document vs the original. Applies a deterministic mutation to the first 10% of leaf values. Reports token delta, % overhead, and unified-diff line counts. This is a full-resend measurement — not a true SDIF delta protocol.
 
-Not implemented yet. The intended shape is deliberately close to the token track but with deterministic answer validation instead of an LLM judge:
+Results: `benchmarks/results/delta_compactness/` — run with `make benchmark-delta`.
 
-1. Generate questions from each fixture profile.
-2. Render each fixture into every supported format.
-3. Ask selected models the same retrieval, filtering, aggregation, and structure-awareness questions.
-4. Validate answers with deterministic, type-aware comparators.
-5. Aggregate results by model, dataset profile, question type, and format.
+### Retrieval Accuracy
 
-This track should not block `v1.0.0`; it is a post-core-release evidence layer.
+Measures LLM answer quality by format. Generates deterministic questions from each fixture (scalar lookup, count, aggregation, filtered count) and validates answers deterministically — no LLM judge. Opt-in: requires `SDIF_BENCHMARK_RETRIEVAL=1` and `ANTHROPIC_API_KEY`.
 
-### SDIF AI Speed Profile
+Run with: `SDIF_BENCHMARK_RETRIEVAL=1 make benchmark-retrieval`.
 
-The benchmark suite also documents how `.sdif.ai` should be used for lower-latency LLM workflows: summary-first input, locality, semantic aliases, chunk manifests, canonical hash caching, deltas, and parseable output contracts. See [`docs/ai-speed-profile.md`](../docs/ai-speed-profile.md).
+### Semantic Quality
+
+Guards that SDIF preserves semantic structure beyond token efficiency: relations, rules, schema validation, canonicalization, and reversible AI projection boundaries. Verifies `docs/semantic-quality.md` methodology. Run with `make benchmark-quality`.
 
 ## Corpus Model
 
@@ -103,76 +98,79 @@ benchmarks/scripts/
 
 ## Result Model
 
-A normal token benchmark run writes:
+Each benchmark run writes:
 
 ```text
-benchmarks/tmp/token_efficiency/       # while running
-└── moved on success to benchmarks/results/token_efficiency/
-    ├── comparison.log
-    ├── comparison.md
-    ├── comparison.json
-    ├── comparison.sdif
-    ├── comparison.sdif.ai
-    ├── summary.md
-    ├── summary.json
-    ├── summary.sdif
-    ├── summary.sdif.ai
-    ├── dashboard.html
-    └── corpus/
+benchmarks/tmp/<track>/           # while running
+└── moved on success to benchmarks/results/<track>/
+    ├── comparison.log            # console output
+    ├── comparison.md             # per-document detail
+    ├── summary.md                # key findings
+    ├── summary.json              # machine-readable summary
+    ├── summary.sdif              # SDIF encoding
+    ├── summary.sdif.ai           # compact AI projection
+    ├── dashboard.html            # self-contained HTML dashboard
+    └── corpus/                   # exact format files measured
         └── <document>/
-            ├── csv_bundle.csv
             ├── json_compact.json
             ├── json_pretty.json
+            ├── yaml.yaml
+            ├── xml.xml
+            ├── csv_bundle.csv
             ├── sdif.sdif
             ├── sdif_ai.sdif.ai
-            ├── toon.toon        # when TOON is enabled and available
-            ├── xml.xml
-            └── yaml.yaml
+            └── toon.toon         # when TOON is enabled
 ```
 
-`dashboard.html` is a self-contained HTML evidence dashboard generated from the same
-run data as `summary.json` and `comparison.json`. `corpus/` contains the exact
-per-document representation files that were measured in the run. `benchmarks/results/token_efficiency/`
-is replaced only after a successful run. Failed runs can leave
-`benchmarks/tmp/token_efficiency/` for diagnosis without mutating the last completed result.
+`benchmarks/results/<track>/` is replaced only after a successful run. Failed runs leave `benchmarks/tmp/<track>/` for diagnosis without touching the last clean result.
 
 ## Environment
 
-Useful switches:
+Common environment switches (all tracks):
 
 ```bash
-SDIF_BENCHMARK_OUTPUT_DIR=/tmp/sdif-benchmarks  # redirect output
+SDIF_BENCHMARK_OUTPUT_DIR=/tmp/sdif-benchmarks  # redirect all benchmark output
 SDIF_BENCHMARK_GOLDEN_DIR=/tmp/golden-fixtures   # use a custom corpus
 SDIF_BENCHMARK_TOON=0                           # disable TOON comparison
+SDIF_BENCHMARK_VERBOSE=1                        # print optional-tool diagnostics
+SDIF_ENV_OVERRIDE=0                             # keep existing env vars instead of loading .env
+```
+
+Token efficiency additional switches:
+
+```bash
+SDIF_TIKTOKEN_ENCODING=cl100k_base              # tiktoken encoding (default)
 SDIF_BENCHMARK_TOKENX=0                         # disable TokenX estimation
 SDIF_BENCHMARK_LLAMA=0                          # disable Llama tokenizer
 SDIF_BENCHMARK_CLAUDE=1                         # enable Claude counting; needs ANTHROPIC_API_KEY
-SDIF_BENCHMARK_VERBOSE=1                        # print optional-tool diagnostics
 ```
 
-The benchmark script also loads `.env` when present unless `SDIF_ENV_OVERRIDE=0` is set.
+Retrieval accuracy:
+
+```bash
+SDIF_BENCHMARK_RETRIEVAL=1                      # opt-in to retrieval accuracy track
+ANTHROPIC_API_KEY=<key>                         # required for retrieval accuracy
+```
+
+All scripts load `.env` from the repository root when present, unless `SDIF_ENV_OVERRIDE=0`.
 
 ## Project Structure
 
 ```text
 benchmarks/
-├── README.md              # methodology and operating contract
-├── manifest.sdif          # machine-readable suite manifest
-├── scripts/               # executable benchmark runners
-├── src/                   # reusable benchmark helpers, introduced only when needed
-├── tmp/                   # in-progress benchmark output
+├── README.md              # this file — methodology and operating contract
+├── scripts/               # executable benchmark runners (one per track)
+├── src/                   # reusable helpers shared across tracks
+├── tmp/                   # in-progress benchmark output (gitignored)
 └── results/               # completed benchmark results
 ```
 
 ## Organization Contract
 
-The benchmark suite follows these rules:
-
 - Executable benchmark runners belong in `benchmarks/scripts/`.
-- Reusable benchmark helpers belong in `benchmarks/src/` only after a second track needs them.
-- Token-efficiency scratch output belongs in `benchmarks/tmp/token_efficiency/`; completed evidence belongs in `benchmarks/results/token_efficiency/`.
-- Canonical semantic sources belong in `examples/golden/`, unless `SDIF_BENCHMARK_GOLDEN_DIR` points to an explicit test corpus.
-- Release-facing summaries may be mirrored into the root README, but the detailed methodology lives here.
-- Optional external tools must degrade gracefully.
-- Claims must name the tokenizer/model coverage that produced them.
+- Reusable helpers belong in `benchmarks/src/` — code shared by two or more tracks.
+- Each track writes scratch output to `benchmarks/tmp/<track>/`; completed evidence goes to `benchmarks/results/<track>/`.
+- Canonical semantic sources belong in `examples/golden/`, unless `SDIF_BENCHMARK_GOLDEN_DIR` overrides.
+- Optional external tools (TOON, tiktoken) must degrade gracefully.
+- Claims must name the tokenizer and model coverage that produced them.
 - Retrieval accuracy must use deterministic validators, not subjective LLM judging.

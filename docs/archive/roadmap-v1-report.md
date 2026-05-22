@@ -4,7 +4,7 @@ This report summarizes the completion of the technical milestones defined in the
 
 ## Implementation Summary
 
-All 6 milestones (M1–M6) have been successfully implemented, verified, and merged. The implementation ensures that the core SDIF v1.0.0 contract is robust, predictable, safe by default, and fully compliant with the specification.
+All 6 milestones (M1-M6) have been successfully implemented, verified, and merged. The implementation ensures that the core SDIF v1.0.0 contract is robust, predictable, safe by default, and fully compliant with the specification.
 
 ### Milestone Status Matrix
 
