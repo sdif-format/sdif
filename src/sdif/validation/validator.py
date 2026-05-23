@@ -67,90 +67,125 @@ class Schema:
             actual = "<missing>" if kind is None else kind.value
             raise SchemaError(f"expected schema document with `kind Schema`, got `{actual}`")
 
-        required_fields: set[str] = set()
-        field_types: dict[str, str] = {}
-        required_columns: dict[str, set[str]] = {}
-        table_column_types: dict[str, dict[str, str]] = {}
-        rule_functions: dict[str, RuleFunction] = {}
-        table_policies: dict[str, TablePolicy] = {}
-        relation_policies: dict[str, RelationPolicy] = {}
-
-        tables_policy = doc.tables.get("tables")
-        if tables_policy:
-            name_idx = _required_column(tables_policy.columns, "name", "tables")
-            ordered_idx = _optional_column(tables_policy.columns, "ordered")
-            pk_idx = _optional_column(tables_policy.columns, "primary_key")
-            for row in tables_policy.rows:
-                name = row[name_idx]
-                ordered = True if ordered_idx is None else row[ordered_idx] == "true"
-                primary_key = None if pk_idx is None or row[pk_idx] == "null" else row[pk_idx]
-                table_policies[name] = TablePolicy(
-                    name=name, ordered=ordered, primary_key=primary_key
-                )
-
-        fields_table = doc.tables.get("fields")
-        if fields_table:
-            name_idx = _required_column(fields_table.columns, "name", "fields")
-            type_idx = _optional_column(fields_table.columns, "type")
-            required_idx = _required_column(fields_table.columns, "required", "fields")
-            for row in fields_table.rows:
-                name = row[name_idx]
-                if row[required_idx] == "true":
-                    required_fields.add(name)
-                if type_idx is not None:
-                    field_types[name] = row[type_idx]
-
-        columns_table = doc.tables.get("columns")
-        if columns_table:
-            table_idx = _required_column(columns_table.columns, "table", "columns")
-            name_idx = _required_column(columns_table.columns, "name", "columns")
-            type_idx = _optional_column(columns_table.columns, "type")
-            required_idx = _required_column(columns_table.columns, "required", "columns")
-            for row in columns_table.rows:
-                table_name = row[table_idx]
-                column_name = row[name_idx]
-                if row[required_idx] == "true":
-                    required_columns.setdefault(table_name, set()).add(column_name)
-                if type_idx is not None:
-                    table_column_types.setdefault(table_name, {})[column_name] = row[type_idx]
-
-        relations_table = doc.tables.get("relations")
-        if relations_table:
-            predicate_idx = _required_column(relations_table.columns, "predicate", "relations")
-            subject_type_idx = _optional_column(relations_table.columns, "subject_type")
-            object_type_idx = _optional_column(relations_table.columns, "object_type")
-            rel_required_idx = _optional_column(relations_table.columns, "required")
-            for row in relations_table.rows:
-                predicate = row[predicate_idx]
-                subject_type = "Identifier" if subject_type_idx is None else row[subject_type_idx]
-                object_type = "Identifier" if object_type_idx is None else row[object_type_idx]
-                required = False if rel_required_idx is None else row[rel_required_idx] == "true"
-                relation_policies[predicate] = RelationPolicy(
-                    predicate=predicate,
-                    subject_type=subject_type,
-                    object_type=object_type,
-                    required=required,
-                )
-
-        funcs_table = doc.tables.get("rule_functions")
-        if funcs_table:
-            name_idx = _required_column(funcs_table.columns, "name", "rule_functions")
-            min_idx = _required_column(funcs_table.columns, "min_args", "rule_functions")
-            max_idx = _required_column(funcs_table.columns, "max_args", "rule_functions")
-            for row in funcs_table.rows:
-                rule_functions[row[name_idx]] = RuleFunction(
-                    name=row[name_idx], min_args=int(row[min_idx]), max_args=int(row[max_idx])
-                )
-
         return cls(
-            required_fields=required_fields,
-            field_types=field_types,
-            required_table_columns=required_columns,
-            table_column_types=table_column_types,
-            rule_functions=rule_functions,
-            table_policies=table_policies,
-            relation_policies=relation_policies,
+            table_policies=_load_table_policies(doc),
+            required_fields=_load_required_fields(doc),
+            field_types=_load_field_types(doc),
+            required_table_columns=_load_required_columns(doc),
+            table_column_types=_load_column_types(doc),
+            relation_policies=_load_relation_policies(doc),
+            rule_functions=_load_rule_functions(doc),
         )
+
+
+def _load_table_policies(doc: Document) -> dict[str, TablePolicy]:
+    result: dict[str, TablePolicy] = {}
+    table = doc.tables.get("tables")
+    if not table:
+        return result
+    name_idx = _required_column(table.columns, "name", "tables")
+    ordered_idx = _optional_column(table.columns, "ordered")
+    pk_idx = _optional_column(table.columns, "primary_key")
+    for row in table.rows:
+        name = row[name_idx]
+        ordered = True if ordered_idx is None else row[ordered_idx] == "true"
+        primary_key = None if pk_idx is None or row[pk_idx] == "null" else row[pk_idx]
+        result[name] = TablePolicy(name=name, ordered=ordered, primary_key=primary_key)
+    return result
+
+
+def _load_required_fields(doc: Document) -> set[str]:
+    result: set[str] = set()
+    table = doc.tables.get("fields")
+    if not table:
+        return result
+    name_idx = _required_column(table.columns, "name", "fields")
+    required_idx = _required_column(table.columns, "required", "fields")
+    for row in table.rows:
+        if row[required_idx] == "true":
+            result.add(row[name_idx])
+    return result
+
+
+def _load_field_types(doc: Document) -> dict[str, str]:
+    result: dict[str, str] = {}
+    table = doc.tables.get("fields")
+    if not table:
+        return result
+    name_idx = _required_column(table.columns, "name", "fields")
+    type_idx = _optional_column(table.columns, "type")
+    if type_idx is None:
+        return result
+    for row in table.rows:
+        result[row[name_idx]] = row[type_idx]
+    return result
+
+
+def _load_required_columns(doc: Document) -> dict[str, set[str]]:
+    result: dict[str, set[str]] = {}
+    table = doc.tables.get("columns")
+    if not table:
+        return result
+    table_idx = _required_column(table.columns, "table", "columns")
+    name_idx = _required_column(table.columns, "name", "columns")
+    required_idx = _required_column(table.columns, "required", "columns")
+    for row in table.rows:
+        if row[required_idx] == "true":
+            result.setdefault(row[table_idx], set()).add(row[name_idx])
+    return result
+
+
+def _load_column_types(doc: Document) -> dict[str, dict[str, str]]:
+    result: dict[str, dict[str, str]] = {}
+    table = doc.tables.get("columns")
+    if not table:
+        return result
+    table_idx = _required_column(table.columns, "table", "columns")
+    name_idx = _required_column(table.columns, "name", "columns")
+    type_idx = _optional_column(table.columns, "type")
+    if type_idx is None:
+        return result
+    for row in table.rows:
+        result.setdefault(row[table_idx], {})[row[name_idx]] = row[type_idx]
+    return result
+
+
+def _load_relation_policies(doc: Document) -> dict[str, RelationPolicy]:
+    result: dict[str, RelationPolicy] = {}
+    table = doc.tables.get("relations")
+    if not table:
+        return result
+    predicate_idx = _required_column(table.columns, "predicate", "relations")
+    subject_type_idx = _optional_column(table.columns, "subject_type")
+    object_type_idx = _optional_column(table.columns, "object_type")
+    rel_required_idx = _optional_column(table.columns, "required")
+    for row in table.rows:
+        predicate = row[predicate_idx]
+        subject_type = "Identifier" if subject_type_idx is None else row[subject_type_idx]
+        object_type = "Identifier" if object_type_idx is None else row[object_type_idx]
+        required = False if rel_required_idx is None else row[rel_required_idx] == "true"
+        result[predicate] = RelationPolicy(
+            predicate=predicate,
+            subject_type=subject_type,
+            object_type=object_type,
+            required=required,
+        )
+    return result
+
+
+def _load_rule_functions(doc: Document) -> dict[str, RuleFunction]:
+    result: dict[str, RuleFunction] = {}
+    table = doc.tables.get("rule_functions")
+    if not table:
+        return result
+    name_idx = _required_column(table.columns, "name", "rule_functions")
+    min_idx = _required_column(table.columns, "min_args", "rule_functions")
+    max_idx = _required_column(table.columns, "max_args", "rule_functions")
+    for row in table.rows:
+        result[row[name_idx]] = RuleFunction(
+            name=row[name_idx], min_args=int(row[min_idx]), max_args=int(row[max_idx])
+        )
+    return result
 
 
 def diagnostics_to_json(diagnostics: list[Diagnostic]) -> list[dict[str, object]]:
@@ -164,6 +199,20 @@ def validate_document(doc: Document, schema: Schema) -> list[Diagnostic]:
     diagnostics: list[Diagnostic] = []
     diagnostics.extend(_validate_unique_top_level(doc))
     diagnostics.extend(_validate_allowed_tables(doc, schema))
+    diagnostics.extend(_validate_required_fields(doc, schema))
+    diagnostics.extend(_validate_field_types(doc, schema))
+    diagnostics.extend(_validate_required_tables(doc, schema))
+    diagnostics.extend(_validate_column_types(doc, schema))
+    if schema.relation_policies:
+        diagnostics.extend(_validate_relations(doc, schema))
+    if schema.rule_functions:
+        for rule_idx, rule in enumerate(doc.rules):
+            diagnostics.extend(_validate_rule(rule.expression, schema, f"rules[{rule_idx}]"))
+    return diagnostics
+
+
+def _validate_required_fields(doc: Document, schema: Schema) -> list[Diagnostic]:
+    diagnostics: list[Diagnostic] = []
     fields = doc.fields
     for field_name in sorted(schema.required_fields):
         if field_name not in fields and field_name not in doc.objects:
@@ -176,7 +225,12 @@ def validate_document(doc: Document, schema: Schema) -> list[Diagnostic]:
                     hint=f"add `{field_name}` to the document",
                 )
             )
+    return diagnostics
 
+
+def _validate_field_types(doc: Document, schema: Schema) -> list[Diagnostic]:
+    diagnostics: list[Diagnostic] = []
+    fields = doc.fields
     for field_name, type_name in schema.field_types.items():
         if field_name not in fields:
             if field_name in doc.objects:
@@ -197,10 +251,13 @@ def validate_document(doc: Document, schema: Schema) -> list[Diagnostic]:
                                     path=f"{field_name}[{idx}]",
                                 )
                             )
-                    continue
             continue
         diagnostics.extend(_validate_value(fields[field_name].value, type_name, field_name))
+    return diagnostics
 
+
+def _validate_required_tables(doc: Document, schema: Schema) -> list[Diagnostic]:
+    diagnostics: list[Diagnostic] = []
     tables = doc.tables
     for table_name in sorted(schema.required_table_columns):
         if table_name not in tables:
@@ -226,7 +283,12 @@ def validate_document(doc: Document, schema: Schema) -> list[Diagnostic]:
                     hint=f"add `{column}` to `{table_name}` table header",
                 )
             )
+    return diagnostics
 
+
+def _validate_column_types(doc: Document, schema: Schema) -> list[Diagnostic]:
+    diagnostics: list[Diagnostic] = []
+    tables = doc.tables
     for table_name, column_types in schema.table_column_types.items():
         if table_name not in tables:
             continue
@@ -239,14 +301,6 @@ def validate_document(doc: Document, schema: Schema) -> list[Diagnostic]:
                 diagnostics.extend(
                     _validate_value(row[column_idx], type_name, f"{table_name}[{row_idx}].{column}")
                 )
-
-    if schema.relation_policies:
-        diagnostics.extend(_validate_relations(doc, schema))
-
-    if schema.rule_functions:
-        for rule_idx, rule in enumerate(doc.rules):
-            diagnostics.extend(_validate_rule(rule.expression, schema, f"rules[{rule_idx}]"))
-
     return diagnostics
 
 

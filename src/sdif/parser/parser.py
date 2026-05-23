@@ -129,13 +129,11 @@ class _Parser:
                 alias_name = alias_name.strip()
                 canonical_name = canonical_name.strip()
 
-                # Check reserved terms
                 if alias_name in RESERVED_TERMS or canonical_name in RESERVED_TERMS:
                     raise PolicyError(
                         "SDIF_POLICY_ALIAS_RESERVED",
                         f"Alias entry '{entry}' uses or targets a reserved term",
                     )
-                # Check duplicate collision
                 if (
                     alias_name in self.alias_to_canonical
                     and self.alias_to_canonical[alias_name] != canonical_name

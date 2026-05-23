@@ -1,3 +1,11 @@
+"""Security and resource policy for the SDIF parser and evaluation engine.
+
+Defines :class:`Policy` (frozen dataclass of resource limits and permission
+flags) and :class:`PolicyError` (raised when a policy constraint is violated).
+``RESERVED_TERMS`` lists identifiers that may not appear as user-defined alias
+names or targets.
+"""
+
 from dataclasses import dataclass, field
 from pathlib import Path
 

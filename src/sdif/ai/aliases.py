@@ -2,12 +2,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
+
 from sdif import parse_text
 from sdif.canonical import canonicalize
-from collections.abc import Sequence
-from sdif.core.policy import Policy
-from sdif.core.policy import PolicyError
-
 from sdif.core.ast import (
     Directive,
     Document,
@@ -19,6 +17,7 @@ from sdif.core.ast import (
     Statement,
     Table,
 )
+from sdif.core.policy import RESERVED_TERMS, Policy, PolicyError
 
 
 def ai_view(
@@ -51,14 +50,11 @@ def sdif_from_ai(source: str | Document, *, policy: Policy | None = None) -> str
     must be proven by comparing canonical hashes of the original source and
     this restored source.
     """
-    from sdif.core.policy import Policy
-
     pol = policy or Policy()
 
     doc = parse_text(source, policy=pol) if isinstance(source, str) else source
     aliases = _alias_to_canonical(doc)
     directives = _source_directives(doc)
-
     expansion_count = [0]
     limit = pol.max_alias_expansion
 
@@ -83,8 +79,6 @@ def _expanded_name(
         if expansion_count is not None:
             expansion_count[0] += 1
             if expansion_count[0] > limit:
-                from sdif.core.policy import PolicyError
-
                 raise PolicyError(
                     "SDIF_POLICY_ALIAS_EXPANSION",
                     f"Alias expansion limit of {limit} exceeded",
@@ -94,8 +88,6 @@ def _expanded_name(
 
 
 def _alias_to_canonical(doc: Document) -> dict[str, str]:
-    from sdif.core.policy import RESERVED_TERMS, PolicyError
-
     aliases: dict[str, str] = {}
     for directive in doc.directives:
         if directive.name != "alias":
