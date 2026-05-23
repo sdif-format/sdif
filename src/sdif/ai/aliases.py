@@ -50,19 +50,26 @@ def sdif_from_ai(source: str | Document, *, policy: Policy | None = None) -> str
     must be proven by comparing canonical hashes of the original source and
     this restored source.
     """
-    pol = policy or Policy()
+    return canonicalize(expand_ai_doc(source, policy=policy))
 
+
+def expand_ai_doc(source: str | Document, *, policy: Policy | None = None) -> Document:
+    """Expand `.sdif.ai` aliases, returning a Document without canonicalization.
+
+    Preserves statement order (fields, rules, relations) — use this instead of
+    sdif_from_ai when order fidelity matters (e.g. round-trip fidelity checks).
+    """
+    pol = policy or Policy()
     doc = parse_text(source, policy=pol) if isinstance(source, str) else source
     aliases = _alias_to_canonical(doc)
     directives = _source_directives(doc)
     expansion_count = [0]
     limit = pol.max_alias_expansion
-
     statements: list[Statement] = [
         _expand_statement(statement, aliases, expansion_count, limit)
         for statement in doc.statements
     ]
-    return canonicalize(Document(directives=directives, statements=statements))
+    return Document(directives=directives, statements=statements)
 
 
 def _name(name: str, inverse: dict[str, str]) -> str:
