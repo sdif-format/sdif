@@ -10,3 +10,18 @@ cases[id,profile,source,canonical,tree,sha256]:
   nested-narrative-canonical	v1	conformance/cases/nested-narrative-canonical/source.sdif	conformance/cases/nested-narrative-canonical/canonical.sdif	conformance/cases/nested-narrative-canonical/expected.tree	6de74fd0ec4b8e7a5ba5a62b9f4ddb82288e2552b9836d23123eb0008cbd743f
   ai-roundtrip-safe	ai	conformance/cases/ai-roundtrip-safe/source.sdif	conformance/cases/ai-roundtrip-safe/canonical.sdif	conformance/cases/ai-roundtrip-safe/expected.tree	288061f5e9507d441d6215ddf0c71e8cc54f5c4526944fad7ac0add258f2f691
   ai-relation-quoted-object	ai	conformance/cases/ai-relation-quoted-object/source.sdif	conformance/cases/ai-relation-quoted-object/canonical.sdif	conformance/cases/ai-relation-quoted-object/expected.tree	2b92097479242925af63d1c9e02eb00854e757faadc8025671dd1f030a18baef
+invalid_cases[id,source,expected_code]:
+  alias-collision	conformance/invalid/alias_collision.sdif	SDIF_POLICY_ALIAS_COLLISION
+  alias-reserved	conformance/invalid/alias_reserved.sdif	SDIF_POLICY_ALIAS_RESERVED
+  directive-unknown	conformance/invalid/directive_unknown.sdif	SDIF_DIRECTIVE_UNKNOWN
+  narrative-bad-close	conformance/invalid/nested_narrative_bad_close.sdif	SDIF_NARRATIVE_CLOSE_ALIGN
+  policy-nesting-depth	conformance/invalid/policy_nesting_depth.sdif	SDIF_POLICY_NESTING_DEPTH
+  source-grouped-relation	conformance/invalid/source_grouped_relation.sdif	SDIF_AI_REL_SUBJECT
+  table-row-comment	conformance/invalid/table_row_comment.sdif	SDIF_TABLE_ROW_COMMENT
+  table-too-few-cells	conformance/invalid/table_too_few_cells.sdif	SDIF_TABLE_ARITY
+  table-too-many-cells	conformance/invalid/table_too_many_cells.sdif	SDIF_TABLE_ARITY
+  version-bad-token	conformance/invalid/version_bad_token.sdif	SDIF_VERSION_UNSUPPORTED
+  version-missing	conformance/invalid/version_missing.sdif	SDIF_VERSION_MISSING
+  version-unsupported	conformance/invalid/version_unsupported.sdif	SDIF_VERSION_UNSUPPORTED
+  scalar-unclosed-quote	conformance/invalid/scalar_unclosed_quote.sdif	SDIF_STRING_UNCLOSED
+  scalar-trailing-after-quote	conformance/invalid/scalar_trailing_after_quote.sdif	SDIF_STRING_TRAILING

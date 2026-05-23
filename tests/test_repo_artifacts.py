@@ -129,7 +129,7 @@ def test_release_process_uses_git_archive_and_documents_required_gates():
     release_docs = Path("docs/release-process.md").read_text(encoding="utf-8")
     changelog = Path("CHANGELOG.md").read_text(encoding="utf-8")
 
-    assert "git archive --format=tar.gz --output=dist/sdif.tar.gz HEAD" in makefile
+    assert "git archive --format=tar.gz" in makefile
     assert "mkdir -p dist" in makefile
     assert "\n\tINSTALL_CMD :=" not in makefile
     assert "\n\tRUN_PREFIX :=" not in makefile

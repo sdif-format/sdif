@@ -623,6 +623,19 @@ Line breaks are preserved.
 """
 ```
 
+#### Quoted scalar constraints
+
+A quoted scalar field outside tables must satisfy two constraints:
+
+1. **Single-line closure.** The closing `"` must appear on the same logical line as the opening `"`. A quoted scalar that reaches end-of-line without a closing quote is a parse error (`SDIF_STRING_UNCLOSED`).
+2. **No trailing content.** No non-whitespace, non-comment characters may appear after the closing `"` on the same line. Trailing content is a parse error (`SDIF_STRING_TRAILING`).
+
+```sdif
+title "valid value"          # OK
+title "unclosed              # SDIF_STRING_UNCLOSED — no closing quote
+title "hello" trailing       # SDIF_STRING_TRAILING — content after close
+```
+
 ### 8.4 Identifiers
 
 A safe identifier may contain:
