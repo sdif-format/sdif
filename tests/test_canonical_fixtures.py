@@ -62,8 +62,7 @@ milestones[id,status]:
         [sys.executable, "tools/sdif-cli.py", "canon", str(source), "--schema", str(schema)],
         cwd=ROOT,
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         check=True,
         timeout=30,
     )
@@ -83,8 +82,7 @@ milestones[id,status]:
         [sys.executable, "tools/sdif-cli.py", "hash", str(source), "--schema", str(schema)],
         cwd=ROOT,
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         check=True,
         timeout=30,
     )
@@ -102,8 +100,7 @@ def test_cli_schema_option_rejects_non_schema_document(tmp_path):
         [sys.executable, "tools/sdif-cli.py", "canon", str(source), "--schema", str(not_schema)],
         cwd=ROOT,
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         check=False,
         timeout=30,
     )
@@ -122,8 +119,7 @@ def test_cli_validate_rejects_non_schema_document(tmp_path):
         [sys.executable, "tools/sdif-cli.py", "validate", str(source), "--schema", str(not_schema)],
         cwd=ROOT,
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         check=False,
         timeout=30,
     )

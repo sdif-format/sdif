@@ -19,8 +19,7 @@ def test_conformance_checker_passes_for_python_and_tree_sitter_shared_fixtures()
     run = subprocess.run(
         [sys.executable, "scripts/check_conformance_fixtures.py"],
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         check=False,
         timeout=30,
     )

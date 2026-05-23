@@ -44,8 +44,7 @@ rules:
             "--json",
         ],
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         check=False,
         timeout=30,
     )
@@ -79,8 +78,7 @@ fields[name,type,required,default]:
     run = subprocess.run(
         [sys.executable, "tools/sdif-cli.py", "validate", str(doc), "--schema", str(schema)],
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         check=False,
         timeout=30,
     )
@@ -106,8 +104,7 @@ def test_cli_validate_json_reports_parse_errors_as_structured_diagnostics(tmp_pa
             "--json",
         ],
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         check=False,
         timeout=30,
     )
@@ -140,8 +137,7 @@ def test_cli_validate_text_reports_parse_errors_without_traceback(tmp_path):
     run = subprocess.run(
         [sys.executable, "tools/sdif-cli.py", "validate", str(doc), "--schema", str(schema)],
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         check=False,
         timeout=30,
     )
@@ -165,8 +161,7 @@ def test_cli_validate_reports_malformed_schema_without_traceback(tmp_path):
     run = subprocess.run(
         [sys.executable, "tools/sdif-cli.py", "validate", str(doc), "--schema", str(schema)],
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         check=False,
         timeout=30,
     )

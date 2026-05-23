@@ -5,10 +5,10 @@ from sdif.parser import ParseError, parse_text, parse_file, Policy, PolicyError
 
 __all__ = [
     "ParseError",
-    "canonicalize",
-    "parse_text",
-    "parse_file",
     "Policy",
     "PolicyError",
+    "canonicalize",
+    "parse_file",
+    "parse_text",
     "sdif_hash",
 ]

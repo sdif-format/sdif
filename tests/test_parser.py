@@ -163,8 +163,7 @@ def test_cli_parse_canon_hash_and_tokens(tmp_path):
     parse_run = subprocess.run(
         [sys.executable, "tools/sdif-cli.py", "parse", str(fixture)],
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         check=True,
         timeout=30,
     )

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sdif import parse_text
 from sdif.canonical import canonicalize
-from typing import Sequence
+from collections.abc import Sequence
 from sdif.core.policy import Policy
 from sdif.core.policy import PolicyError
 

@@ -1,6 +1,5 @@
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import FrozenSet
 
 RESERVED_TERMS = frozenset({"include", "alias"})
 
@@ -17,7 +16,7 @@ class PolicyError(Exception):
 @dataclass(frozen=True)
 class Policy:
     allow_includes: bool = False
-    allowed_include_paths: FrozenSet[Path] = field(default_factory=frozenset)
+    allowed_include_paths: frozenset[Path] = field(default_factory=frozenset)
     allow_remote_includes: bool = False
     allow_remote_schemas: bool = False
     max_document_size: int = 1_000_000  # 1MB

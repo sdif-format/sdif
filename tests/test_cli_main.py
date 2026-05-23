@@ -575,7 +575,7 @@ def test_load_schema_invalid_schema_raises_system_exit(tmp_path):
     assert "invalid --schema" in str(exc_info.value)
 
 
-def test_load_schema_ftp_remote(tmp_path):
+def test_load_schema_ftp_remote():
     """FTP URLs are treated as remote and raise PolicyError."""
     from unittest.mock import MagicMock
 
@@ -646,7 +646,7 @@ def test_count_tokens_without_tiktoken():
 def test_count_tokens_small_byte_count():
     """Byte count of 1 should still return at least 1 token."""
     with patch("builtins.__import__", side_effect=ImportError):
-        tokenizer, count = _count_tokens("x", 1)
+        _, count = _count_tokens("x", 1)
     assert count >= 1
 
 

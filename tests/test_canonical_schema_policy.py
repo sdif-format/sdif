@@ -90,8 +90,7 @@ def test_cli_reports_canonicalization_error_without_traceback(tmp_path):
     run = subprocess.run(
         [sys.executable, "-m", "sdif.cli", "canon", str(source_path), "--schema", str(schema_path)],
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         timeout=30,
     )
 

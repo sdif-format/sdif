@@ -61,7 +61,7 @@ class Schema:
     relation_policies: dict[str, RelationPolicy] = field(default_factory=dict)
 
     @classmethod
-    def from_document(cls, doc: Document) -> "Schema":
+    def from_document(cls, doc: Document) -> Schema:
         kind = doc.fields.get("kind")
         if kind is None or kind.value != "Schema":
             actual = "<missing>" if kind is None else kind.value

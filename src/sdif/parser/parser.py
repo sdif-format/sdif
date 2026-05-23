@@ -310,7 +310,7 @@ class _Parser:
             self.index += 1
         return Table(name, columns, rows)
 
-    def _parse_relations(self, indent: int, line_no: int) -> list[Relation]:
+    def _parse_relations(self, indent: int, _line_no: int) -> list[Relation]:
         self.index += 1
         child_indent = indent + 2
         relations: list[Relation] = []
@@ -343,7 +343,7 @@ class _Parser:
         return relations
 
     def _parse_relations_for_subject(
-        self, subject: str, indent: int, line_no: int
+        self, subject: str, indent: int, _line_no: int
     ) -> list[Relation]:
         self.index += 1
         child_indent = indent + 2
@@ -378,7 +378,7 @@ class _Parser:
             self.index += 1
         return relations
 
-    def _parse_rules(self, indent: int, line_no: int) -> list[Rule]:
+    def _parse_rules(self, indent: int, _line_no: int) -> list[Rule]:
         self.index += 1
         child_indent = indent + 2
         rules: list[Rule] = []
@@ -403,7 +403,7 @@ class _Parser:
                     raise ValueError("Rule expression must start with a parenthesized action call")
                 rule_expr = _to_rule_expression(expr_ast)
             except Exception as exc:
-                raise ParseError("SDIF_RULE_EXPR", f"invalid rule expression: {exc}", row_no)
+                raise ParseError("SDIF_RULE_EXPR", f"invalid rule expression: {exc}", row_no) from exc
             rules.append(Rule(source, rule_expr))
             self.index += 1
         return rules
@@ -487,7 +487,7 @@ def _split_quoted_whitespace(source: str, line_no: int, error_code: str) -> list
     current: list[str] = []
     in_quote = False
     escaped = False
-    for column, char in enumerate(source, start=1):
+    for _column, char in enumerate(source, start=1):
         if escaped:
             current.append(char)
             escaped = False
@@ -685,7 +685,7 @@ def parse_file(filepath: Path | str, *, policy: Policy | None = None) -> Documen
         try:
             content = abs_path.read_text(encoding="utf-8")
         except Exception as e:
-            raise IOError(f"Failed to read file {abs_path}: {e}")
+            raise OSError(f"Failed to read file {abs_path}: {e}") from e
 
         file_bytes = len(content.encode("utf-8"))
         expanded_bytes[0] += file_bytes

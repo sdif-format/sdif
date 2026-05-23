@@ -7,8 +7,7 @@ def run_cli(*args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         [sys.executable, "tools/sdif-cli.py", *args],
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         check=check,
         timeout=30,
     )

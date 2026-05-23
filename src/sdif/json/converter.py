@@ -325,9 +325,7 @@ def _must_quote_table_cell(value: str) -> bool:
         return True
     if _is_list_literal(value):
         return True
-    if any(char in value for char in ['"', "\\", "\n", "\t"]):
-        return True
-    return False
+    return bool(any(char in value for char in ['"', "\\", "\n", "\t"]))
 
 
 def _must_quote_string(value: str) -> bool:
@@ -341,9 +339,7 @@ def _must_quote_string(value: str) -> bool:
         return True
     if any(char in value for char in ['"', "\\", "\n", "\t", " "]):
         return True
-    if "#" in value:
-        return True
-    return False
+    return "#" in value
 
 
 def _quote(value: str) -> str:
