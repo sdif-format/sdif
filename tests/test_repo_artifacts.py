@@ -138,7 +138,7 @@ def test_release_process_uses_git_archive_and_documents_required_gates():
         "tree-sitter-sdif",
     ):
         assert external_gate in release_docs
-    assert "## 1.0.0 - 2026-05-21" in changelog
+    assert "## 1.0.0 - 2026-05-22" in changelog
     assert "@sdif 1.0" in changelog
 
 

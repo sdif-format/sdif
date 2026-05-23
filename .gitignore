@@ -14,6 +14,9 @@ dist/
 .eggs/
 .pytest_cache/
 .coverage
+.coverage.*
+coverage.*
+*.py.cover
 htmlcov/
 .mypy_cache/
 .ruff_cache/
@@ -41,3 +44,4 @@ codereview/
 # Local satellite repositories
 tree-sitter-sdif/
 sdif-benchmarks/
+sdif-docs/

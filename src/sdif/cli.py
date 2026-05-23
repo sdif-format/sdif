@@ -317,7 +317,7 @@ def main(argv: list[str] | None = None) -> int:
                     args.path.write_text(canonical_text, encoding="utf-8")
                     print(f"Reformatted {args.path}")
                 return 0
-        return 0
+        return 0  # pragma: no cover
 
     except PolicyError as exc:
         if getattr(args, "json_output", False):

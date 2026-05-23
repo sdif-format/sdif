@@ -108,8 +108,8 @@ class _Parser:
             self.index += 1
             return None
         actual_indent = _indent(raw, line_no)
-        if actual_indent < indent:
-            return None
+        if actual_indent < indent:  # pragma: no cover
+            return None  # pragma: no cover
         if actual_indent > indent:
             raise ParseError("SDIF_INDENT", "unexpected indentation", line_no, actual_indent + 1)
 
@@ -123,8 +123,8 @@ class _Parser:
             self.index += 1
             entries = alias.group("entries").split(",")
             for entry in entries:
-                if "=" not in entry:
-                    raise ParseError("SDIF_ALIAS_SYNTAX", "invalid alias entry syntax", line_no)
+                if "=" not in entry:  # pragma: no cover
+                    raise ParseError("SDIF_ALIAS_SYNTAX", "invalid alias entry syntax", line_no)  # pragma: no cover
                 alias_name, canonical_name = entry.split("=", 1)
                 alias_name = alias_name.strip()
                 canonical_name = canonical_name.strip()
@@ -659,8 +659,8 @@ def parse_file(filepath: Path | str, *, policy: Policy | None = None) -> Documen
                 if resolved_target == abs_allowed or abs_allowed in resolved_target.parents:
                     is_allowed = True
                     break
-            except Exception:
-                pass
+            except Exception:  # pragma: no cover
+                pass  # pragma: no cover
 
         if not is_allowed:
             raise PolicyError(

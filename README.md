@@ -285,6 +285,7 @@ SDIF focuses on a narrower problem:
 | [`docs/canonicalization.md`](docs/canonicalization.md) | Canonicalization contract |
 | [`docs/comparison.md`](docs/comparison.md) | Format comparison |
 | [`docs/semantic-quality.md`](docs/semantic-quality.md) | Semantic quality methodology |
+| [`docs/ai-speed-profile.md`](docs/ai-speed-profile.md) | AI speed profile contract |
 | [`examples/`](examples/) | Annotated examples |
 | [`conformance/`](conformance/) | Shared conformance fixtures |
 
