@@ -5,24 +5,16 @@ These tests target the specific uncovered lines identified in the coverage repor
 
 from __future__ import annotations
 
-from pathlib import Path
 
 import pytest
 
 from sdif import canonicalize, parse_text
 from sdif.canonical.canonicalizer import _inside_current_block
 from sdif.core.ast import (
-    Call,
     Directive,
     Document,
     Field,
-    Identifier,
-    Narrative,
     ObjectBlock,
-    Relation,
-    Rule,
-    RuleExpression,
-    Table,
     statement_count,
 )
 from sdif.core.policy import Policy, PolicyError
@@ -418,6 +410,12 @@ def test_split_quoted_whitespace_unterminated_raises():
     with pytest.raises(ParseError) as exc_info:
         parse_text('@sdif 1.0\nrel:\n  doc.1 describes "unterminated\n')
     assert exc_info.value.code == "SDIF_REL_QUOTE"
+
+
+def test_parse_scalar_field_unterminated_quote_raises():
+    with pytest.raises(ParseError) as exc_info:
+        parse_text('@sdif 1.0\ntitle "hello\n')
+    assert exc_info.value.code == "SDIF_STRING_UNCLOSED"
 
 
 def test_split_quoted_whitespace_escaped_at_end_raises():

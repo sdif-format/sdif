@@ -223,6 +223,7 @@ class _Parser:
             raise ParseError("SDIF_FIELD", "field requires a key and value", line_no)
         key, value = clean.split(None, 1)
         raw_value = value.strip()
+        _ensure_scalar_quote_closed(raw_value, line_no)
         unquoted = _unquote(raw_value)
         self._check_string_length(unquoted, "Field value")
         return Field(key, unquoted, quoted=_is_quoted(raw_value))
@@ -474,6 +475,29 @@ def _strip_inline_comment(body: str) -> str:
 
 def _is_quoted(value: str) -> bool:
     return len(value) >= 2 and value[0] == value[-1] == '"'
+
+
+def _ensure_scalar_quote_closed(value: str, line_no: int) -> None:
+    if not value.startswith('"'):
+        return
+    escaped = False
+    for idx, char in enumerate(value[1:], start=2):
+        if escaped:
+            escaped = False
+            continue
+        if char == "\\":
+            escaped = True
+            continue
+        if char == '"':
+            if idx != len(value):
+                raise ParseError(
+                    "SDIF_STRING_TRAILING",
+                    "quoted scalar field has trailing content after closing quote",
+                    line_no,
+                    idx + 1,
+                )
+            return
+    raise ParseError("SDIF_STRING_UNCLOSED", "unterminated quoted scalar field", line_no, len(value) + 1)
 
 
 def _unquote(value: str) -> str:
