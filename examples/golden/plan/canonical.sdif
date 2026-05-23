@@ -14,8 +14,8 @@ Define the minimum validation requirements for release v2.
 The plan must remain auditable, reproducible, and easy to review.
 """
 scope:
-  in "[\"schema validation\",\"ui redesign\"]"
-  out "[\"canonicalization feature expansion\",\"semantic relations remote includes\",\"validation reports release automation\"]"
+  in ["schema validation","ui redesign"]
+  out ["canonicalization feature expansion","semantic relations remote includes","validation reports release automation"]
 milestones[id,status,gate,evidence]:
   R1	done	validate-syntax	reports/syntax.md
   R2	done	validate-canonical	reports/canonical.md

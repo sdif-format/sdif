@@ -108,12 +108,16 @@ def test_scalar_ambiguous_strings_survive_sdif_ai_expand_table_round_trip():
         assert isinstance(cell, str), f"SDIF AI expand round-trip changed type of {value!r}"
 
 
-def test_canonicalize_preserves_list_literals_without_inner_quotes():
-    # Regression: canonicalize must not convert bare list literals into quoted strings.
-    # [a,b] and [1,2,3] must remain list literals, not become "[a,b]" (a string).
-    sdif_text = "@sdif 1.0\ntags [a,b,c]\nids [1,2,3]\n"
+def test_canonicalize_preserves_list_literals():
+    # Regression: canonicalize must not convert list literals into quoted strings.
+    # Both bare-token lists ([a,b,c], [1,2,3]) and quoted-string lists
+    # (["alpha","beta"]) must survive canonicalize → parse_text as lists, not strings.
+    sdif_text = '@sdif 1.0\ntags [a,b,c]\nids [1,2,3]\nlabels ["alpha","beta"]\n'
     canonical = canonicalize(sdif_text)
     doc = parse_text(canonical)
     data = document_to_json_data(doc)
-    assert data["tags"] == ["a", "b", "c"], f"list literal became {data['tags']!r}"
-    assert data["ids"] == [1, 2, 3], f"list literal became {data['ids']!r}"
+    assert data["tags"] == ["a", "b", "c"], f"bare list literal became {data['tags']!r}"
+    assert data["ids"] == [1, 2, 3], f"numeric list literal became {data['ids']!r}"
+    assert data["labels"] == ["alpha", "beta"], (
+        f'quoted-string list literal became {data["labels"]!r}'
+    )

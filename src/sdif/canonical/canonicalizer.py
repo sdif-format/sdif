@@ -139,7 +139,7 @@ def _quote_if_needed(value: str, *, force: bool = False) -> str:
         return f'"{escaped}"'
     if value in {"null", "true", "false"}:
         return value
-    if len(value) >= 2 and value[0] == "[" and value[-1] == "]" and '"' not in value:
+    if len(value) >= 2 and value[0] == "[" and value[-1] == "]":
         return value
     safe = all(ch.isalnum() or ch in "_-./:[] ," for ch in value)
     if safe and value and " " not in value and "," not in value:
