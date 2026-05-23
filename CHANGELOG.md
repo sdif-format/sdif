@@ -6,10 +6,15 @@
 
 - Fixed release checks so CI runs development tooling through declared dev extras.
 - Fixed Python 3.10 type-checking compatibility for the `tomllib` fallback.
+- Added `expand_ai_doc()` to `sdif.ai` — expands `.sdif.ai` aliases and returns a `Document`
+  without calling `canonicalize()`. This preserves statement order (fields, rules, relations)
+  for callers that need semantic equivalence rather than canonical form.
+  `sdif_from_ai()` now delegates to `expand_ai_doc()` before canonicalizing.
 
 ### Added
 
 - Configured Dependabot updates for Python dependencies and GitHub Actions.
+- Exported `expand_ai_doc` from the `sdif.ai` public API.
 
 ### Maintenance
 
