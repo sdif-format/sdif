@@ -27,7 +27,7 @@ ARCHIVE_PATH := dist/sdif.tar.gz
 # Public targets
 # -----------------------------------------------------------------------------
 
-.PHONY: install test test-cov lint format typecheck release-check clean archive
+.PHONY: install test test-cov lint format typecheck release-check clean archive build
 
 
 install:
@@ -77,3 +77,9 @@ clean:
 archive:
 	mkdir -p dist
 	git archive --format=tar.gz --output=$(ARCHIVE_PATH) HEAD
+
+
+build: clean
+	$(RUN) python3 -m build
+	$(RUN) python3 -m twine check dist/*
+
