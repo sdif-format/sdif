@@ -4,16 +4,18 @@
 
 ### Fixed
 
-- Fixed `_parse_table_cell` in `sdif.json.converter` to honour `Table.quoted_columns`
-  when decoding. Previously, after `expand_ai_doc()` strips the `$` suffix from column
-  names and records their indices in `quoted_columns`, the decoder ignored that set and
-  coerced numeric-looking strings (e.g. HTTP status codes `"200"`, `"404"`) to integers.
-  Now the column index is checked against `quoted_columns` and such cells are returned
-  as strings.
-- Fixed `_quote_if_needed` in `sdif.canonical.canonicalizer` to not re-quote bare list
-  literals (e.g. `[a,b,c]`, `[1,2,3]`). Previously, the presence of a comma caused the
-  safe-identifier check to fall through and wrap the literal in quotes, converting a list
-  into a string after a canonicalize → parse round-trip.
+- Fixed canonicalization of list literals so `canonicalize → parse` preserves lists as
+  lists instead of converting them into quoted strings. Previously, `_quote_if_needed`
+  re-quoted any list literal containing a comma or double-quote — a semantic change, not
+  normalization. Both bare-token lists (`[a,b,c]`, `[1,2,3]`) and quoted-string lists
+  (`["alpha","beta"]`) now survive the round-trip unchanged.
+- Regenerated the `plan` canonical fixture and SHA-256 hash: the canonical representation
+  of `scope.in` was semantically incorrect (a quoted string instead of a list literal).
+  The new hash reflects the corrected canonical output.
+- Fixed SDIF AI expansion of `$`-suffixed table columns so numeric-looking strings such
+  as HTTP status codes (`"200"`, `"404"`) remain strings during round-trip conversion.
+  Previously, `expand_ai_doc()` recorded column indices in `Table.quoted_columns` but
+  `_parse_table_cell` ignored that set and coerced the values to integers.
 - Fixed release checks so CI runs development tooling through declared dev extras.
 - Fixed Python 3.10 type-checking compatibility for the `tomllib` fallback.
 - Added `expand_ai_doc()` to `sdif.ai` — expands `.sdif.ai` aliases and returns a `Document`
@@ -31,8 +33,8 @@
     table cells.
   - `test_scalar_ambiguous_strings_survive_sdif_ai_expand_table_round_trip` — same
     through the SDIF AI → `expand_ai_doc` → `document_to_json_data` path.
-  - `test_canonicalize_preserves_list_literals_without_inner_quotes` — guards against
-    `canonicalize` converting bare list literals to quoted strings.
+  - `test_canonicalize_preserves_list_literals` — guards against `canonicalize` converting
+    list literals to quoted strings; covers bare-token, numeric, and quoted-string variants.
 - Configured Dependabot updates for Python dependencies and GitHub Actions.
 - Exported `expand_ai_doc` from the `sdif.ai` public API.
 
