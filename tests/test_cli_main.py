@@ -10,6 +10,8 @@ from unittest.mock import patch
 
 import pytest
 
+import sdif.cli as cli_mod
+import sdif.parser as parser_mod
 from sdif.cli import _ast_to_json, _count_tokens, _load_schema, _parse_aliases, main
 from sdif.core.ast import (
     Directive,
@@ -496,8 +498,6 @@ def test_fmt_with_schema(tmp_path, capsys):
 
 def test_policy_error_text_output(tmp_path, capsys):
     """PolicyError in non-JSON mode: stderr message, return 2."""
-    import sdif.cli as cli_mod
-
     doc = write_fixture(tmp_path, "d.sdif", MINIMAL_SDIF)
     schema = write_fixture(tmp_path, "s.sdif", MINIMAL_SCHEMA)
     with patch.object(
@@ -513,8 +513,6 @@ def test_policy_error_text_output(tmp_path, capsys):
 
 def test_policy_error_json_output(tmp_path, capsys):
     """PolicyError in JSON mode (validate --json): stdout JSON, return 2."""
-    import sdif.cli as cli_mod
-
     doc = write_fixture(tmp_path, "d.sdif", MINIMAL_SDIF)
     schema = write_fixture(tmp_path, "s.sdif", MINIMAL_SCHEMA)
     with patch.object(
@@ -761,8 +759,6 @@ def test_canon_value_error_text(tmp_path, capsys):
 
 def test_canon_value_error_json(tmp_path, capsys):
     """ValueError with json_output=True: patch parse_file to raise ValueError from inspect --json."""
-    import sdif.cli as cli_mod
-
     doc = write_fixture(tmp_path, "d.sdif", MINIMAL_SDIF)
 
     # inspect --json has json_output=True on args; if parse_file raises ValueError
@@ -793,9 +789,6 @@ def test_outer_parse_error_json_output(tmp_path, capsys):
     mocking parse_file to raise ParseError for a validate --json call where the
     parse happens in the inner try (caught already). Let's test via a broken schema
     that raises ParseError (not SchemaError) from Schema.from_document by mocking."""
-    import sdif.cli as cli_mod
-    from sdif.parser import ParseError as PE
-
     doc = write_fixture(tmp_path, "d.sdif", MINIMAL_SDIF)
     schema = write_fixture(tmp_path, "s.sdif", MINIMAL_SCHEMA)
 
@@ -804,7 +797,7 @@ def test_outer_parse_error_json_output(tmp_path, capsys):
     with patch.object(
         cli_mod,
         "_load_schema",
-        side_effect=PE(code="SDIF_TEST", message="test parse error", line=1, column=1),
+        side_effect=parser_mod.ParseError(code="SDIF_TEST", message="test parse error", line=1, column=1),
     ):
         rc = main(["validate", str(doc), "--schema", str(schema), "--json"])
         out = capsys.readouterr()
@@ -816,16 +809,13 @@ def test_outer_parse_error_json_output(tmp_path, capsys):
 
 def test_outer_parse_error_non_json_output(tmp_path, capsys):
     """Outer ParseError handler without json_output — writes to stderr."""
-    import sdif.cli as cli_mod
-    from sdif.parser import ParseError as PE
-
     doc = write_fixture(tmp_path, "d.sdif", MINIMAL_SDIF)
     schema = write_fixture(tmp_path, "s.sdif", MINIMAL_SCHEMA)
 
     with patch.object(
         cli_mod,
         "_load_schema",
-        side_effect=PE(code="SDIF_TEST", message="test parse error", line=1, column=1),
+        side_effect=parser_mod.ParseError(code="SDIF_TEST", message="test parse error", line=1, column=1),
     ):
         rc = main(["validate", str(doc), "--schema", str(schema)])
         out = capsys.readouterr()
@@ -858,8 +848,6 @@ def test_allow_remote_include_flag(tmp_path, capsys):
 
 def test_allow_remote_schema_then_still_fails(tmp_path, capsys):
     """--allow-remote-schema bypasses the first PolicyError check but the second raise still fires."""
-    import sdif.cli as cli_mod
-
     doc = write_fixture(tmp_path, "d.sdif", MINIMAL_SDIF)
 
     # Simulate a remote path that would hit the "remote schemas not supported" branch

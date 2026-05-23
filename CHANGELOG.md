@@ -1,11 +1,20 @@
 # Changelog
 
-## Unreleased
+## [Unreleased]
 
 ### Fixed
 
 - Fixed release checks so CI runs development tooling through declared dev extras.
 - Fixed Python 3.10 type-checking compatibility for the `tomllib` fallback.
+
+### Added
+
+- Configured Dependabot updates for Python dependencies and GitHub Actions.
+
+### Maintenance
+
+- Cleaned up test imports to satisfy CodeQL maintainability checks.
+- Refreshed the `uv.lock` lockfile after development dependency updates.
 
 ## 1.0.0 - 2026-05-22
 
