@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- Fixed release checks so CI runs development tooling through declared dev extras.
+- Fixed Python 3.10 type-checking compatibility for the `tomllib` fallback.
+
 ## 1.0.0 - 2026-05-22
 
 ### Stable v1 contract

@@ -7,9 +7,11 @@ UV := $(shell command -v uv 2>/dev/null)
 ifdef UV
 INSTALL_CMD := uv pip install -e ".[dev]"
 RUN := uv run
+RUN_DEV ?= uv run --extra dev
 else
 INSTALL_CMD := python3 -m pip install -e ".[dev]"
 RUN :=
+RUN_DEV ?=
 endif
 
 
@@ -55,12 +57,12 @@ typecheck:
 
 
 release-check:
-	PYTHONPATH=$(PYTHONPATH) $(RUN) python scripts/check_conformance_fixtures.py
-	PYTHONPATH=$(PYTHONPATH) $(RUN) python -m compileall -q $(SOURCE_DIRS)
-	$(RUN) ruff check .
-	$(RUN) mypy
-	PYTHONPATH=$(PYTHONPATH) $(RUN) python -c "import $(PACKAGE); print('$(PACKAGE) import OK')"
-	PYTHONPATH=$(PYTHONPATH) $(RUN) python -m pytest -q
+	PYTHONPATH=$(PYTHONPATH) $(RUN_DEV) python scripts/check_conformance_fixtures.py
+	PYTHONPATH=$(PYTHONPATH) $(RUN_DEV) python -m compileall -q $(SOURCE_DIRS)
+	$(RUN_DEV) ruff check .
+	$(RUN_DEV) mypy
+	PYTHONPATH=$(PYTHONPATH) $(RUN_DEV) python -c "import $(PACKAGE); print('$(PACKAGE) import OK')"
+	PYTHONPATH=$(PYTHONPATH) $(RUN_DEV) python -m pytest -q
 
 
 clean:
@@ -80,6 +82,6 @@ archive:
 
 
 build: clean
-	$(RUN) python3 -m build
-	$(RUN) python3 -m twine check dist/*
+	$(RUN_DEV) python3 -m build
+	$(RUN_DEV) python3 -m twine check dist/*
 
