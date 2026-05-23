@@ -74,8 +74,12 @@ def _statements_to_json_value(statements: Sequence[object]) -> JsonValue:
         elif isinstance(statement, Table):
             data[statement.name] = [
                 {
-                    _json_column_name(column): _parse_table_cell(column, cell)
-                    for column, cell in zip(statement.columns, row, strict=True)
+                    _json_column_name(column): _parse_table_cell(
+                        column, cell, quoted=column_index in statement.quoted_columns
+                    )
+                    for column_index, (column, cell) in enumerate(
+                        zip(statement.columns, row, strict=True)
+                    )
                 }
                 for row in statement.rows
             ]
@@ -107,8 +111,8 @@ def _json_column_name(column: str) -> str:
     return column
 
 
-def _parse_table_cell(column: str, cell: str) -> JsonValue:
-    if column.endswith("$"):
+def _parse_table_cell(column: str, cell: str, *, quoted: bool = False) -> JsonValue:
+    if quoted or column.endswith("$"):
         if _is_quoted(cell):
             return _unquote(cell)
         return cell
