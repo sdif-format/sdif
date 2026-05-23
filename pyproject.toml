@@ -1,16 +1,38 @@
+# -----------------------------------------------------------------------------
+# Build system
+# -----------------------------------------------------------------------------
+
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
+
+# -----------------------------------------------------------------------------
+# Project metadata
+# -----------------------------------------------------------------------------
+
 [project]
 name = "sdif"
 version = "1.0.0"
-description = "Semantic Data Interchange Format - Formato semántico compacto, canonicalizable y eficiente en tokens"
+description = "Semantic Data Interchange Format. Compact, canonicalizable and token-efficient structured data"
 readme = "README.md"
-license = { text = "MIT" }
-authors = [{ name = "Alessandro Barbagallo" }]
 requires-python = ">=3.10"
-keywords = ["sdif", "semantic-format", "canonicalization", "data-interchange", "ai", "llm", "validation"]
+license = { text = "MIT" }
+
+authors = [
+    { name = "Alessandro Barbagallo" },
+]
+
+keywords = [
+    "sdif",
+    "semantic-format",
+    "canonicalization",
+    "data-interchange",
+    "ai",
+    "llm",
+    "validation",
+]
+
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -22,54 +44,75 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
-dependencies = [
-]
+dependencies = []
+
+
+# -----------------------------------------------------------------------------
+# Optional dependencies
+# -----------------------------------------------------------------------------
 
 [project.optional-dependencies]
 dev = [
     "mypy>=1.10.0",
     "pytest>=8.0",
     "pytest-cov>=5.0",
-    "ruff>=0.4",
+    "ruff>=0.15.14",
     "tomli>=2.0.0; python_version < '3.11'",
 ]
-tokens = ["tiktoken>=0.13.0"]
+
+tokens = [
+    "tiktoken>=0.13.0",
+]
+
+
+# -----------------------------------------------------------------------------
+# Command-line entry points
+# -----------------------------------------------------------------------------
 
 [project.scripts]
 sdif = "sdif.cli:main"
 
+
+# -----------------------------------------------------------------------------
+# Setuptools
+# -----------------------------------------------------------------------------
+
 [tool.setuptools.packages.find]
 where = ["src"]
+
+
+# -----------------------------------------------------------------------------
+# Pytest
+# -----------------------------------------------------------------------------
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src", "."]
+
+
+# -----------------------------------------------------------------------------
+# Ruff
+# -----------------------------------------------------------------------------
 
 [tool.ruff]
 line-length = 100
 src = ["src", "tests"]
 target-version = "py310"
 
-[tool.black]
-line-length = 100
+
+# -----------------------------------------------------------------------------
+# Mypy
+# -----------------------------------------------------------------------------
 
 [tool.mypy]
 files = ["src", "tests"]
-exclude = [
-  '^build/',
-  '^dist/',
-  '^\.venv/',
-  '^\.mypy_cache/',
-]
-python_version = "3.12"
+python_version = "3.10"
 warn_unused_configs = true
 show_error_codes = true
 
-[dependency-groups]
-dev = [
-    "mypy>=1.10.0",
-    "pytest>=8.0",
-    "pytest-cov>=5.0",
-    "ruff>=0.4",
-    "tomli>=2.0.0; python_version < '3.11'",
+exclude = [
+    "^build/",
+    "^dist/",
+    "^\\.venv/",
+    "^\\.mypy_cache/",
 ]
