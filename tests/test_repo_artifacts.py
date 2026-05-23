@@ -131,6 +131,8 @@ def test_release_process_uses_git_archive_and_documents_required_gates():
 
     assert "git archive --format=tar.gz --output=dist/sdif.tar.gz HEAD" in makefile
     assert "mkdir -p dist" in makefile
+    assert "\n\tINSTALL_CMD :=" not in makefile
+    assert "\n\tRUN_PREFIX :=" not in makefile
     assert "release-check:" in makefile
     assert "make release-check" in ci
     for forbidden in ("__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".venv"):

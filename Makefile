@@ -4,11 +4,11 @@ UV := $(shell command -v uv 2> /dev/null)
 .PHONY: install test test-cov lint format typecheck release-check clean archive
 
 ifdef UV
-	INSTALL_CMD := uv pip install -e ".[dev]"
-	RUN_PREFIX := uv run
+INSTALL_CMD := uv pip install -e ".[dev]"
+RUN_PREFIX := uv run
 else
-	INSTALL_CMD := python -m pip install -e ".[dev]"
-	RUN_PREFIX :=
+INSTALL_CMD := python -m pip install -e ".[dev]"
+RUN_PREFIX :=
 endif
 
 install:

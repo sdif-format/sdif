@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import sys
+import types
 from pathlib import Path
 from unittest.mock import patch
 
@@ -439,7 +440,6 @@ def test_fmt_not_canonical_rewrites(tmp_path, capsys):
 def test_fmt_check_already_canonical(tmp_path, capsys):
     doc = write_fixture(tmp_path, "d.sdif", MINIMAL_SDIF)
     rc = main(["fmt", "--check", str(doc)])
-    out = capsys.readouterr()
     assert rc == 0
 
 
@@ -469,7 +469,6 @@ def test_fmt_ai_projection(tmp_path, capsys):
 
     ai_file = write_fixture(tmp_path, "d.sdif.ai", ai_text)
     rc = main(["fmt", str(ai_file)])
-    out = capsys.readouterr()
     assert rc == 0
 
 
@@ -617,17 +616,19 @@ def test_parse_aliases_invalid_raises_system_exit():
 # ---------------------------------------------------------------------------
 
 
-def test_count_tokens_with_tiktoken():
+def test_count_tokens_with_tiktoken(monkeypatch):
     """When tiktoken is available, returns tiktoken/cl100k_base tokenizer."""
+    fake_encoder = types.SimpleNamespace(encode=lambda text: ["hello", "world"])
+    fake_tiktoken = types.SimpleNamespace(get_encoding=lambda _name: fake_encoder)
+    monkeypatch.setitem(sys.modules, "tiktoken", fake_tiktoken)
+
     tokenizer, count = _count_tokens("hello world", 11)
-    assert "tiktoken" in tokenizer
-    assert count > 0
+    assert tokenizer == "tiktoken/cl100k_base"
+    assert count == 2
 
 
 def test_count_tokens_without_tiktoken():
     """Simulate missing tiktoken: falls back to estimate/4bytes."""
-    original_import = __builtins__.__import__ if hasattr(__builtins__, "__import__") else None
-
     import builtins
 
     real_import = builtins.__import__
@@ -840,27 +841,23 @@ def test_outer_parse_error_non_json_output(tmp_path, capsys):
 def test_allow_include_path_flag(tmp_path, capsys):
     doc = write_fixture(tmp_path, "d.sdif", MINIMAL_SDIF)
     rc = main(["parse", str(doc), "--allow-include-path", str(tmp_path)])
-    out = capsys.readouterr()
     assert rc == 0
 
 
 def test_allow_include_flag(tmp_path, capsys):
     doc = write_fixture(tmp_path, "d.sdif", MINIMAL_SDIF)
     rc = main(["parse", str(doc), "--allow-include"])
-    out = capsys.readouterr()
     assert rc == 0
 
 
 def test_allow_remote_include_flag(tmp_path, capsys):
     doc = write_fixture(tmp_path, "d.sdif", MINIMAL_SDIF)
     rc = main(["parse", str(doc), "--allow-remote-include"])
-    out = capsys.readouterr()
     assert rc == 0
 
 
 def test_allow_remote_schema_then_still_fails(tmp_path, capsys):
     """--allow-remote-schema bypasses the first PolicyError check but the second raise still fires."""
-    from unittest.mock import MagicMock
     import sdif.cli as cli_mod
 
     doc = write_fixture(tmp_path, "d.sdif", MINIMAL_SDIF)

@@ -13,7 +13,6 @@ from sdif.core.ast import (
     Narrative,
     ObjectBlock,
     Relation,
-    Rule,
     Table,
 )
 from sdif.core.policy import PolicyError
