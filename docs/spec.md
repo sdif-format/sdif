@@ -2,7 +2,9 @@
 
 ## Document status
 
-**Version:** 1.0.0
+**Format version:** 1.0
+**Specification document version:** 1.0.0
+**Python package version:** 1.0.0
 **Name:** Semantic Data Interchange Format
 **Short name:** SDIF
 **Recommended source extension:** `.sdif`
@@ -14,7 +16,7 @@
 
 ### v1 stable contract
 
-The `1.0.0` document records the stable core specification. `@sdif 1.0` identifies the stable core syntax and semantic contract. The package version may advance independently from the document format version.
+The `1.0.0` specification document records the stable core specification. `@sdif 1.0` identifies the stable core syntax and semantic contract. The package version may advance independently from the document format version.
 
 Core v1 behavior includes parsing, the normative AST, schema-driven validation, canonical-syntax-v1, safe default policies, and `.sdif.ai` reversibility. Versioned extensions include remote includes, remote schemas, complex namespaces, deep graph validation, digital signatures, advanced type unions, and non-declarative rule execution.
 

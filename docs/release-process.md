@@ -5,7 +5,7 @@ This document records the minimal release process for SDIF `1.0.x` packages.
 ## Preconditions
 
 - The working tree is clean except for intentional release changes.
-- `pyproject.toml` and `docs/spec.md` agree on the package version.
+- `docs/spec.md` records the stable format version, specification document version, and current Python package version.
 - Tree-sitter and benchmark release gates run in the sibling `tree-sitter-sdif` and `sdif-benchmarks` repositories.
 - Public docs describe the stable v1 contract without contradicting package metadata.
 - `sdif-benchmarks/results/token_efficiency/` contains real benchmark artifacts from a completed run when publishing benchmark claims.
@@ -15,16 +15,22 @@ This document records the minimal release process for SDIF `1.0.x` packages.
 Run from the repository root:
 
 ```bash
+make release-check
+
+# sibling repository gates
+(cd sdif-benchmarks && make test)
+(cd tree-sitter-sdif && python3 scripts/check_tree_sitter_scaffold.py && npm test)
+```
+
+`make release-check` runs:
+
+```bash
 PYTHONPATH=src python3 scripts/check_conformance_fixtures.py
 PYTHONPATH=src python3 -m compileall -q src scripts tests tools
 uv run ruff check .
 uv run mypy
 uv run python -c "import sdif; print('sdif import OK')"
 PYTHONPATH=src python3 -m pytest -q
-
-# sibling repository gates
-(cd sdif-benchmarks && make test)
-(cd tree-sitter-sdif && python3 scripts/check_tree_sitter_scaffold.py && npm test)
 ```
 
 ## Artifact hygiene

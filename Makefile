@@ -1,7 +1,7 @@
 # Detect if uv is installed
 UV := $(shell command -v uv 2> /dev/null)
 
-.PHONY: install test test-cov lint format typecheck clean archive
+.PHONY: install test test-cov lint format typecheck release-check clean archive
 
 ifdef UV
 	INSTALL_CMD := uv pip install -e ".[dev]"
@@ -28,6 +28,14 @@ format:
 
 typecheck:
 	$(RUN_PREFIX) mypy
+
+release-check:
+	PYTHONPATH=src python3 scripts/check_conformance_fixtures.py
+	PYTHONPATH=src python3 -m compileall -q src scripts tests tools
+	$(RUN_PREFIX) ruff check .
+	$(RUN_PREFIX) mypy
+	$(RUN_PREFIX) python -c "import sdif; print('sdif import OK')"
+	PYTHONPATH=src python3 -m pytest -q
 
 clean:
 	rm -rf build/ dist/ *.egg-info src/*.egg-info .mypy_cache .pytest_cache .ruff_cache

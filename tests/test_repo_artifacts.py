@@ -15,15 +15,20 @@ def test_ci_and_docs_artifacts_exist():
     assert "CLI" in docs
 
 
-def test_spec_version_matches_package_version():
+def test_spec_records_format_spec_and_package_versions():
     pyproject = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
     spec = Path("docs/spec.md").read_text(encoding="utf-8")
-    match = re.search(
-        r"^\*\*Version:\*\*\s+([0-9]+\.[0-9]+\.[0-9]+)$", spec, re.MULTILINE
-    )
+    package_version = pyproject["project"]["version"]
 
+    assert "**Format version:** 1.0" in spec
+    match = re.search(
+        r"^\*\*Specification document version:\*\*\s+([0-9]+\.[0-9]+\.[0-9]+)$",
+        spec,
+        re.MULTILINE,
+    )
     assert match is not None
-    assert match.group(1) == pyproject["project"]["version"]
+    assert f"**Python package version:** {package_version}" in spec
+    assert "`@sdif 1.0`" in spec
 
 
 def test_normative_docs_table_examples_use_literal_htab_rows():
@@ -120,11 +125,14 @@ def test_public_release_metadata_has_no_draft_or_alpha_contradictions():
 
 def test_release_process_uses_git_archive_and_documents_required_gates():
     makefile = Path("Makefile").read_text(encoding="utf-8")
+    ci = Path(".github/workflows/ci.yml").read_text(encoding="utf-8")
     release_docs = Path("docs/release-process.md").read_text(encoding="utf-8")
     changelog = Path("CHANGELOG.md").read_text(encoding="utf-8")
 
     assert "git archive --format=tar.gz --output=dist/sdif.tar.gz HEAD" in makefile
     assert "mkdir -p dist" in makefile
+    assert "release-check:" in makefile
+    assert "make release-check" in ci
     for forbidden in ("__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".venv"):
         assert forbidden in release_docs
     for gate in (
