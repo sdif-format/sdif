@@ -731,7 +731,7 @@ def parse_file(filepath: Path | str, *, policy: Policy | None = None) -> Documen
                     included_doc = _resolve_include_directive(directive.args, abs_path)
                     resolved_statements.extend(included_doc.statements)
                     for d in included_doc.directives:
-                        if d.name != "include":
+                        if d.name not in {"include", "sdif", "sdif.ai"}:
                             resolved_directives.append(d)
                 else:
                     resolved_directives.append(directive)

@@ -516,6 +516,24 @@ def test_parse_file_successful_include(tmp_path):
     assert doc.fields["id"].value == "demo"
 
 
+def test_parse_file_include_does_not_propagate_format_directive(tmp_path):
+    other = tmp_path / "other.sdif"
+    other.write_text("@sdif 1.0\nincluded_field included_value\n", encoding="utf-8")
+    main_file = tmp_path / "main.sdif"
+    main_file.write_text("@sdif 1.0\n@include other.sdif\nid demo\n", encoding="utf-8")
+
+    policy = Policy(
+        allow_includes=True,
+        allow_remote_includes=False,
+        allowed_include_paths=frozenset([tmp_path]),
+    )
+    doc = parse_file(main_file, policy=policy)
+    canon = canonicalize(doc)
+
+    assert canon.count("@sdif 1.0") == 1
+    assert "included_field included_value" in canon
+
+
 def test_parse_file_include_cycle_raises(tmp_path):
     a = tmp_path / "a.sdif"
     b = tmp_path / "b.sdif"
