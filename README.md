@@ -100,6 +100,7 @@ sdif parse    examples/plan.sdif
 sdif canon    examples/plan.sdif
 sdif canon    examples/plan.sdif --schema examples/schema.sdif
 sdif hash     examples/plan.sdif
+sdif validate examples/plan.sdif
 sdif validate examples/plan.sdif --schema examples/schema.sdif
 sdif tokens   examples/plan.sdif
 sdif to-json  examples/plan.sdif
@@ -108,6 +109,31 @@ sdif ai       examples/plan.sdif --alias kind=k --alias status=st
 ```
 
 `sdif tokens` reports byte size, tokenizer identity and token count. It uses `tiktoken/cl100k_base` when available and falls back to a deterministic 4-bytes-per-token estimate.
+
+### `sdif validate`
+
+```
+sdif validate <file> [--schema <schema>] [--json] [--quiet]
+```
+
+Validates an SDIF document for syntactic correctness. If `--schema` is provided,
+the document is also validated against that schema.
+
+Exit codes:
+
+| Code | Meaning |
+|------|---------|
+| `0`  | The document is valid SDIF. |
+| `1`  | The document is invalid SDIF. |
+| `2`  | The command failed for an operational reason (file not found, policy denial). |
+
+Output modes:
+
+| Flag | Behaviour |
+|------|-----------|
+| *(default)* | Human-readable result and diagnostics on stdout. |
+| `--json` | Machine-readable JSON `{"valid": bool, "diagnostics": [...]}` on stdout. |
+| `--quiet` | No stdout; result communicated only through the exit code. Takes precedence over `--json`. |
 
 <br>
 

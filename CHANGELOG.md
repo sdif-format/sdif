@@ -25,6 +25,12 @@
 
 ### Added
 
+- `sdif validate` no longer requires `--schema`. Without it, the command checks
+  syntactic validity only and exits `0` (valid) or `1` (invalid SDIF). When
+  `--schema` is provided, schema validation is layered on top of the syntactic
+  check. A new `--quiet` flag suppresses stdout and communicates the result
+  exclusively through the exit code, taking precedence over `--json`. Operational
+  failures (file not found, policy denial) now consistently exit `2`.
 - Regression tests in `tests/test_json_conversion.py`:
   - `test_scalar_ambiguous_strings_survive_json_sdif_json_field_round_trip` — verifies
     strings matching typed SDIF literals (`"200"`, `"true"`, `"null"`, `"[1,2]"`, `""`,

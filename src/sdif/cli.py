@@ -145,18 +145,23 @@ def _build_parser() -> argparse.ArgumentParser:
     validate = sub.add_parser(
         "validate",
         parents=[policy_parser],
-        help="Validate an SDIF document against a given schema",
-        description="Validate an SDIF document against a given schema.",
+        help="Validate an SDIF document for syntactic correctness and, optionally, against a schema",
+        description="Validate an SDIF document for syntactic correctness and, optionally, against a schema.",
     )
     validate.add_argument("path", type=Path, help="Path to the SDIF file to validate")
     validate.add_argument(
-        "--schema", type=Path, required=True, help="Required schema file to validate against"
+        "--schema", type=Path, help="Optional schema file to validate against"
     )
     validate.add_argument(
         "--json",
         action="store_true",
         dest="json_output",
         help="Output validation results as structured JSON instead of plain text",
+    )
+    validate.add_argument(
+        "--quiet",
+        action="store_true",
+        help="Suppress stdout; communicate result via exit code only (0=valid, 1=invalid, 2=failure). Takes precedence over --json.",
     )
 
     inspect_cmd = sub.add_parser(
@@ -256,27 +261,29 @@ def _cmd_from_ai(args: argparse.Namespace, policy: Policy) -> int:
 
 
 def _cmd_validate(args: argparse.Namespace, policy: Policy) -> int:
-    schema = _load_schema(args.schema, policy=policy)
-    if schema is None:  # pragma: no cover - argparse requires --schema for validate
-        raise SystemExit("missing required --schema")
+    schema = _load_schema(args.schema, policy=policy) if args.schema is not None else None
     try:
         doc = parse_file(args.path, policy=policy)
     except ParseError as exc:
         diagnostics = [_diagnostic_from_parse_error(exc)]
+    except OSError as exc:
+        sys.stderr.write(f"Error reading {args.path}: {exc}\n")
+        return 2
     else:
-        diagnostics = validate_document(doc, schema)
-    if args.json_output:
-        json.dump(
-            {"valid": not diagnostics, "diagnostics": diagnostics_to_json(diagnostics)},
-            sys.stdout,
-            indent=2,
-        )
-        sys.stdout.write("\n")
-    elif diagnostics:
-        for diagnostic in diagnostics:
-            print(_format_diagnostic(diagnostic))
-    else:
-        print("valid")
+        diagnostics = validate_document(doc, schema) if schema is not None else []
+    if not args.quiet:
+        if args.json_output:
+            json.dump(
+                {"valid": not diagnostics, "diagnostics": diagnostics_to_json(diagnostics)},
+                sys.stdout,
+                indent=2,
+            )
+            sys.stdout.write("\n")
+        elif diagnostics:
+            for diagnostic in diagnostics:
+                print(_format_diagnostic(diagnostic))
+        else:
+            print("valid")
     return 0 if not diagnostics else 1
 
 

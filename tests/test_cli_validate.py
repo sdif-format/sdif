@@ -170,3 +170,128 @@ def test_cli_validate_reports_malformed_schema_without_traceback(tmp_path):
     assert "Traceback" not in run.stderr
     assert "invalid --schema" in run.stderr
     assert "schema table `fields` requires `required` column" in run.stderr
+
+
+# ---------------------------------------------------------------------------
+# Schema-optional (syntactic-only) validation
+# ---------------------------------------------------------------------------
+
+
+def test_cli_validate_no_schema_valid(tmp_path):
+    doc = tmp_path / "doc.sdif"
+    doc.write_text("@sdif 1.0\nkind Plan\n", encoding="utf-8")
+
+    run = subprocess.run(
+        [sys.executable, "tools/sdif-cli.py", "validate", str(doc)],
+        text=True,
+        capture_output=True,
+        check=False,
+        timeout=30,
+    )
+
+    assert run.returncode == 0
+    assert run.stdout.strip() == "valid"
+
+
+def test_cli_validate_no_schema_invalid(tmp_path):
+    doc = tmp_path / "doc.sdif"
+    doc.write_text("@sdif 1.0\nitems[id,status]:\n  one open\n", encoding="utf-8")
+
+    run = subprocess.run(
+        [sys.executable, "tools/sdif-cli.py", "validate", str(doc)],
+        text=True,
+        capture_output=True,
+        check=False,
+        timeout=30,
+    )
+
+    assert run.returncode == 1
+    assert "SDIF_TABLE_ARITY" in run.stdout
+
+
+def test_cli_validate_no_schema_file_not_found(tmp_path):
+    run = subprocess.run(
+        [sys.executable, "tools/sdif-cli.py", "validate", str(tmp_path / "missing.sdif")],
+        text=True,
+        capture_output=True,
+        check=False,
+        timeout=30,
+    )
+
+    assert run.returncode == 2
+    assert run.stderr != ""
+    assert run.stdout == ""
+
+
+# ---------------------------------------------------------------------------
+# --quiet mode
+# ---------------------------------------------------------------------------
+
+
+def test_cli_validate_quiet_valid(tmp_path):
+    doc = tmp_path / "doc.sdif"
+    doc.write_text("@sdif 1.0\nkind Plan\n", encoding="utf-8")
+
+    run = subprocess.run(
+        [sys.executable, "tools/sdif-cli.py", "validate", str(doc), "--quiet"],
+        text=True,
+        capture_output=True,
+        check=False,
+        timeout=30,
+    )
+
+    assert run.returncode == 0
+    assert run.stdout == ""
+    assert run.stderr == ""
+
+
+def test_cli_validate_quiet_invalid(tmp_path):
+    doc = tmp_path / "doc.sdif"
+    doc.write_text("@sdif 1.0\nitems[id,status]:\n  one open\n", encoding="utf-8")
+
+    run = subprocess.run(
+        [sys.executable, "tools/sdif-cli.py", "validate", str(doc), "--quiet"],
+        text=True,
+        capture_output=True,
+        check=False,
+        timeout=30,
+    )
+
+    assert run.returncode == 1
+    assert run.stdout == ""
+
+
+def test_cli_validate_quiet_json_quiet_wins(tmp_path):
+    doc = tmp_path / "doc.sdif"
+    doc.write_text("@sdif 1.0\nkind Plan\n", encoding="utf-8")
+
+    run = subprocess.run(
+        [sys.executable, "tools/sdif-cli.py", "validate", str(doc), "--quiet", "--json"],
+        text=True,
+        capture_output=True,
+        check=False,
+        timeout=30,
+    )
+
+    assert run.returncode == 0
+    assert run.stdout == ""
+
+
+def test_cli_validate_quiet_file_not_found_stderr_allowed(tmp_path):
+    run = subprocess.run(
+        [
+            sys.executable,
+            "tools/sdif-cli.py",
+            "validate",
+            str(tmp_path / "missing.sdif"),
+            "--quiet",
+        ],
+        text=True,
+        capture_output=True,
+        check=False,
+        timeout=30,
+    )
+
+    assert run.returncode == 2
+    assert run.stderr != ""
+    assert run.stdout == ""
