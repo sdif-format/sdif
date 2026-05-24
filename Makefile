@@ -23,13 +23,14 @@ PACKAGE := sdif
 PYTHONPATH := src
 SOURCE_DIRS := src scripts tests tools
 ARCHIVE_PATH := dist/sdif.tar.gz
+VERSION      := $(shell grep '^version' pyproject.toml | sed 's/version = "//;s/"//')
 
 
 # -----------------------------------------------------------------------------
 # Public targets
 # -----------------------------------------------------------------------------
 
-.PHONY: install test test-cov lint format typecheck release-check clean archive build
+.PHONY: install test test-cov lint format typecheck release-check clean archive build release
 
 
 install:
@@ -84,4 +85,11 @@ archive:
 build: clean
 	$(RUN_DEV) python3 -m build
 	$(RUN_DEV) python3 -m twine check dist/*
+
+
+release: release-check build
+	$(RUN_DEV) python3 -m twine upload dist/*
+	@VERSION=$$(grep '^version' pyproject.toml | sed 's/version = "//;s/"//'); \
+	NOTES=$$(sed -n "/^## \[$$VERSION\]/,/^## \[/{/^## \[/d;p}" CHANGELOG.md); \
+	gh release create "v$$VERSION" dist/* --title "v$$VERSION" --notes "$$NOTES"
 

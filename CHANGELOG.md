@@ -2,56 +2,44 @@
 
 ## [Unreleased]
 
-### Fixed
-
-- Fixed eager projection alias expansion in `aliases.py` by implementing document key-collection (traversing fields, tables/columns, relations, rules, and nested structures) and filtering `@sdif.ai` aliases to only canonical keys present in the document. Added anti-collision rules to drop any alias mapping whose target collides with an existing literal key.
-
-- Fixed canonicalization of list literals so `canonicalize → parse` preserves lists as
-  lists instead of converting them into quoted strings. Previously, `_quote_if_needed`
-  re-quoted any list literal containing a comma or double-quote — a semantic change, not
-  normalization. Both bare-token lists (`[a,b,c]`, `[1,2,3]`) and quoted-string lists
-  (`["alpha","beta"]`) now survive the round-trip unchanged.
-- Regenerated the `plan` canonical fixture and SHA-256 hash: the canonical representation
-  of `scope.in` was semantically incorrect (a quoted string instead of a list literal).
-  The new hash reflects the corrected canonical output.
-- Fixed SDIF AI expansion of `$`-suffixed table columns so numeric-looking strings such
-  as HTTP status codes (`"200"`, `"404"`) remain strings during round-trip conversion.
-  Previously, `expand_ai_doc()` recorded column indices in `Table.quoted_columns` but
-  `_parse_table_cell` ignored that set and coerced the values to integers.
-- Fixed release checks so CI runs development tooling through declared dev extras.
-- Fixed Python 3.10 type-checking compatibility for the `tomllib` fallback.
-- Added `expand_ai_doc()` to `sdif.ai` — expands `.sdif.ai` aliases and returns a `Document`
-  without calling `canonicalize()`. This preserves statement order (fields, rules, relations)
-  for callers that need semantic equivalence rather than canonical form.
-  `sdif_from_ai()` now delegates to `expand_ai_doc()` before canonicalizing.
+## [1.1.0] - 2026-05-24
 
 ### Added
 
-- `sdif validate` no longer requires `--schema`. Without it, the command checks
-  syntactic validity only and exits `0` (valid) or `1` (invalid SDIF). When
-  `--schema` is provided, schema validation is layered on top of the syntactic
-  check. A new `--quiet` flag suppresses stdout and communicates the result
-  exclusively through the exit code, taking precedence over `--json`. Operational
-  failures (file not found, policy denial) now consistently exit `2`.
-- Regression tests in `tests/test_json_conversion.py`:
-  - `test_scalar_ambiguous_strings_survive_json_sdif_json_field_round_trip` — verifies
-    strings matching typed SDIF literals (`"200"`, `"true"`, `"null"`, `"[1,2]"`, `""`,
-    etc.) round-trip through JSON→SDIF→JSON as strings.
-  - `test_scalar_ambiguous_strings_survive_json_sdif_json_table_round_trip` — same for
-    table cells.
-  - `test_scalar_ambiguous_strings_survive_sdif_ai_expand_table_round_trip` — same
-    through the SDIF AI → `expand_ai_doc` → `document_to_json_data` path.
-  - `test_canonicalize_preserves_list_literals` — guards against `canonicalize` converting
-    list literals to quoted strings; covers bare-token, numeric, and quoted-string variants.
-- Configured Dependabot updates for Python dependencies and GitHub Actions.
-- Exported `expand_ai_doc` from the `sdif.ai` public API.
+- `sdif validate` is now schema-optional. Without `--schema`, the command checks syntactic
+  validity only and exits `0` (valid) or `1` (invalid SDIF). With `--schema`, schema
+  validation is layered on top. A new `--quiet` flag suppresses stdout and communicates the
+  result through the exit code alone, taking precedence over `--json`. Operational failures
+  (file not found, policy denial) now exit `2` consistently.
+- `expand_ai_doc()` in `sdif.ai`: expands `.sdif.ai` aliases into a `Document` without
+  calling `canonicalize()`, preserving statement order for callers that need semantic
+  equivalence over canonical form. `sdif_from_ai()` now delegates to it before canonicalizing.
+  Exported from the public `sdif.ai` API.
+- Dependabot configuration for Python dependencies and GitHub Actions.
+
+### Fixed
+
+- Alias projection: `ai_view()` now filters aliases to keys actually present in the document
+  and drops any alias whose target collides with an existing literal key, preventing spurious
+  expansions in documents that share names with common aliases.
+- List literals: `canonicalize → parse` round-trips now preserve list type. `_quote_if_needed`
+  previously re-quoted lists containing commas or double-quotes (a semantic change, not
+  normalization). Both bare-token lists (`[a,b,c]`, `[1,2,3]`) and quoted-string lists
+  (`["alpha","beta"]`) now survive unchanged.
+- Canonical fixture: regenerated the `plan` fixture and its SHA-256 hash after `scope.in`
+  was found to be stored as a quoted string instead of a list literal.
+- SDIF AI table expansion: `$`-suffixed column values (e.g. HTTP status codes `"200"`,
+  `"404"`) now remain strings through `expand_ai_doc()`. Previously `_parse_table_cell`
+  coerced them to integers.
+- CI: development tooling now runs through declared dev extras.
+- Type checking: fixed Python 3.10 compatibility for the `tomllib` fallback import.
 
 ### Maintenance
 
-- Cleaned up test imports to satisfy CodeQL maintainability checks.
-- Refreshed the `uv.lock` lockfile after development dependency updates.
+- Cleaned up test imports to satisfy CodeQL maintainability rules.
+- Refreshed `uv.lock` after development dependency updates.
 
-## 1.0.0 - 2026-05-22
+## [1.0.0] - 2026-05-22
 
 ### Stable v1 contract
 

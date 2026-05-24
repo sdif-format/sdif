@@ -10,8 +10,8 @@
 ## Document status
 
 **Format version:** 1.0
-**Specification document version:** 1.0.0
-**Python package version:** 1.0.0
+**Specification document version:** 1.1.0
+**Python package version:** 1.1.0
 **Name:** Semantic Data Interchange Format
 **Short name:** SDIF
 **Recommended source extension:** `.sdif`
