@@ -1,0 +1,80 @@
+{
+  "kind": "AuditLog",
+  "id": "AUDIT-2026-05",
+  "artifact": "report-v2.sdif",
+  "events": [
+    {
+      "id": "EVT-001",
+      "actor": "alice",
+      "action": "create",
+      "timestamp": "2026-05-01T09:00Z"
+    },
+    {
+      "id": "EVT-002",
+      "actor": "bob",
+      "action": "review",
+      "timestamp": "2026-05-01T10:30Z"
+    },
+    {
+      "id": "EVT-003",
+      "actor": "carol",
+      "action": "approve",
+      "timestamp": "2026-05-01T11:45Z"
+    },
+    {
+      "id": "EVT-004",
+      "actor": "dave",
+      "action": "publish",
+      "timestamp": "2026-05-01T14:00Z"
+    },
+    {
+      "id": "EVT-005",
+      "actor": "eve",
+      "action": "archive",
+      "timestamp": "2026-05-02T08:00Z"
+    }
+  ],
+  "provenance": [
+    {
+      "artifact": "report-v2.sdif",
+      "derived_from": "report-v1.sdif",
+      "via": "patch-20260501"
+    },
+    {
+      "artifact": "summary.pdf",
+      "derived_from": "report-v2.sdif",
+      "via": "render-pipeline"
+    }
+  ],
+  "rel": [
+    {
+      "subject": "EVT-001",
+      "predicate": "follows",
+      "object": "EVT-002"
+    },
+    {
+      "subject": "EVT-002",
+      "predicate": "follows",
+      "object": "EVT-003"
+    },
+    {
+      "subject": "EVT-003",
+      "predicate": "follows",
+      "object": "EVT-004"
+    },
+    {
+      "subject": "report-v2.sdif",
+      "predicate": "derived_from",
+      "object": "report-v1.sdif"
+    },
+    {
+      "subject": "EVT-003",
+      "predicate": "approves",
+      "object": "report-v2.sdif"
+    }
+  ],
+  "rules": [
+    "(deny delete-event event.actor system)",
+    "(warn insufficient-approvers artifact.sensitivity high)"
+  ]
+}

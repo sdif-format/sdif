@@ -1,0 +1,96 @@
+{
+  "kind": "AgentWorkflow",
+  "id": "WF-2026-0521",
+  "session_id": "sess-abc123",
+  "model": "claude-sonnet-4-6",
+  "tasks": [
+    {
+      "id": "T001",
+      "agent": "planner",
+      "action": "decompose",
+      "status": "done",
+      "tokens": 312
+    },
+    {
+      "id": "T002",
+      "agent": "researcher",
+      "action": "search",
+      "status": "done",
+      "tokens": 870
+    },
+    {
+      "id": "T003",
+      "agent": "coder",
+      "action": "implement",
+      "status": "done",
+      "tokens": 1540
+    },
+    {
+      "id": "T004",
+      "agent": "reviewer",
+      "action": "critique",
+      "status": "done",
+      "tokens": 640
+    },
+    {
+      "id": "T005",
+      "agent": "writer",
+      "action": "summarise",
+      "status": "done",
+      "tokens": 420
+    }
+  ],
+  "tool_calls": [
+    {
+      "task_id": "T002",
+      "tool": "web_search",
+      "count": 4
+    },
+    {
+      "task_id": "T003",
+      "tool": "bash",
+      "count": 11
+    },
+    {
+      "task_id": "T003",
+      "tool": "edit_file",
+      "count": 7
+    },
+    {
+      "task_id": "T004",
+      "tool": "read_file",
+      "count": 3
+    }
+  ],
+  "rel": [
+    {
+      "subject": "T001",
+      "predicate": "depends_on",
+      "object": "T002"
+    },
+    {
+      "subject": "T002",
+      "predicate": "depends_on",
+      "object": "T003"
+    },
+    {
+      "subject": "T003",
+      "predicate": "depends_on",
+      "object": "T004"
+    },
+    {
+      "subject": "T004",
+      "predicate": "depends_on",
+      "object": "T005"
+    },
+    {
+      "subject": "T003",
+      "predicate": "uses_output_of",
+      "object": "T002"
+    }
+  ],
+  "rules": [
+    "(deny start-task task.depends_on.status pending)",
+    "(warn token-budget-exceeded task.tokens 1000)"
+  ]
+}

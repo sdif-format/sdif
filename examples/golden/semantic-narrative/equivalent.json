@@ -1,0 +1,91 @@
+{
+  "kind": "ResearchReport",
+  "id": "RPT-2026-001",
+  "title": "Security and Reliability Assessment Q1 2026",
+  "status": "published",
+  "narrative_methodology": "Automated scanning combined with manual expert review across four domains.",
+  "narrative_conclusion": "Four findings require remediation before the next release window.",
+  "findings": [
+    {
+      "id": "F001",
+      "category": "security",
+      "severity": "high",
+      "source": "pentest-2026-Q1"
+    },
+    {
+      "id": "F002",
+      "category": "privacy",
+      "severity": "medium",
+      "source": "gdpr-review"
+    },
+    {
+      "id": "F003",
+      "category": "availability",
+      "severity": "low",
+      "source": "sla-audit"
+    },
+    {
+      "id": "F004",
+      "category": "integrity",
+      "severity": "high",
+      "source": "code-review"
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "R001",
+      "finding_id": "F001",
+      "action": "rotate-credentials",
+      "priority": "P1"
+    },
+    {
+      "id": "R002",
+      "finding_id": "F002",
+      "action": "anonymize-logs",
+      "priority": "P2"
+    },
+    {
+      "id": "R003",
+      "finding_id": "F003",
+      "action": "add-redundancy",
+      "priority": "P2"
+    },
+    {
+      "id": "R004",
+      "finding_id": "F004",
+      "action": "enforce-signing",
+      "priority": "P1"
+    }
+  ],
+  "rel": [
+    {
+      "subject": "R001",
+      "predicate": "addresses",
+      "object": "F001"
+    },
+    {
+      "subject": "R002",
+      "predicate": "addresses",
+      "object": "F002"
+    },
+    {
+      "subject": "R003",
+      "predicate": "addresses",
+      "object": "F003"
+    },
+    {
+      "subject": "R004",
+      "predicate": "addresses",
+      "object": "F004"
+    },
+    {
+      "subject": "F001",
+      "predicate": "escalates",
+      "object": "F004"
+    }
+  ],
+  "rules": [
+    "(deny publish-if-unresolved finding.severity high finding.status open)",
+    "(warn missing-sign-off recommendation.priority P1)"
+  ]
+}

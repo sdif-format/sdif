@@ -1,0 +1,22 @@
+@sdif 1.0
+kind AuditLog
+id AUDIT-2026-05
+artifact report-v2.sdif
+events[id,actor,action,timestamp]:
+  EVT-001	alice	create	2026-05-01T09:00Z
+  EVT-002	bob	review	2026-05-01T10:30Z
+  EVT-003	carol	approve	2026-05-01T11:45Z
+  EVT-004	dave	publish	2026-05-01T14:00Z
+  EVT-005	eve	archive	2026-05-02T08:00Z
+provenance[artifact,derived_from,via]:
+  report-v2.sdif	report-v1.sdif	patch-20260501
+  summary.pdf	report-v2.sdif	render-pipeline
+rel:
+  EVT-001 follows EVT-002
+  EVT-002 follows EVT-003
+  EVT-003 follows EVT-004
+  report-v2.sdif derived_from report-v1.sdif
+  EVT-003 approves report-v2.sdif
+rules:
+  (deny delete-event event.actor system)
+  (warn insufficient-approvers artifact.sensitivity high)

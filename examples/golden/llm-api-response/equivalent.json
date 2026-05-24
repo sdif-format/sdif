@@ -1,0 +1,92 @@
+{
+  "kind": "APISnapshot",
+  "id": "SNAP-2026-0521",
+  "source": "github-api-v4",
+  "filtered_for": "syntax-highlighting",
+  "metadata_fetched_at": "2026-05-21T00:00:00Z",
+  "metadata_min_stars": 5000,
+  "metadata_active_last_days": 90,
+  "repos": [
+    {
+      "id": "REPO-001",
+      "name": "tree-sitter",
+      "language": "C",
+      "stars": 18200,
+      "last_commit": "2026-05-20"
+    },
+    {
+      "id": "REPO-002",
+      "name": "pygments",
+      "language": "Python",
+      "stars": 9400,
+      "last_commit": "2026-05-18"
+    },
+    {
+      "id": "REPO-003",
+      "name": "bat",
+      "language": "Rust",
+      "stars": 47000,
+      "last_commit": "2026-05-19"
+    },
+    {
+      "id": "REPO-004",
+      "name": "highlight.js",
+      "language": "JavaScript",
+      "stars": 23100,
+      "last_commit": "2026-04-30"
+    }
+  ],
+  "contributors": [
+    {
+      "repo_id": "REPO-001",
+      "login": "maxbrunsfeld",
+      "commits": 612
+    },
+    {
+      "repo_id": "REPO-002",
+      "login": "birkenfeld",
+      "commits": 1430
+    },
+    {
+      "repo_id": "REPO-003",
+      "login": "sharkdp",
+      "commits": 890
+    },
+    {
+      "repo_id": "REPO-004",
+      "login": "jvilk",
+      "commits": 340
+    }
+  ],
+  "rel": [
+    {
+      "subject": "REPO-001",
+      "predicate": "benchmarks",
+      "object": "REPO-002"
+    },
+    {
+      "subject": "REPO-003",
+      "predicate": "provides_editor_for",
+      "object": "REPO-001"
+    },
+    {
+      "subject": "REPO-004",
+      "predicate": "provides_editor_for",
+      "object": "REPO-001"
+    },
+    {
+      "subject": "REPO-002",
+      "predicate": "contributes_to",
+      "object": "REPO-004"
+    },
+    {
+      "subject": "REPO-003",
+      "predicate": "contributes_to",
+      "object": "REPO-002"
+    }
+  ],
+  "rules": [
+    "(deny include-repo repo.stars below-threshold)",
+    "(warn stale-metadata metadata.age_days 7)"
+  ]
+}
