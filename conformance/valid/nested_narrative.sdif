@@ -1,7 +1,0 @@
-@sdif 1.0
-owner:
-  bio """
-  Hello
-    indented line
-  world
-  """

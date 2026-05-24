@@ -1,4 +1,0 @@
-(source_file
-  (directive (identifier) (atom))
-  (block_header (identifier))
-  (narrative_block (identifier) (narrative_text)))

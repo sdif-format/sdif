@@ -1,12 +1,21 @@
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 from sdif import parse_text
 
+ROOT = Path(__file__).resolve().parents[1]
+if (ROOT / "conformance").is_dir():
+    CONF_ROOT = ROOT
+else:
+    CONF_ROOT = Path(os.environ.get("SDIF_SPEC_REPO") or ROOT.parent / "sdif-spec").expanduser().resolve()
+
+CONF_DIR = CONF_ROOT / "conformance"
+
 
 def test_conformance_manifest_is_sdif_and_lists_portable_core_agent_case():
-    manifest = Path("conformance/manifest.sdif")
+    manifest = CONF_DIR / "manifest.sdif"
     doc = parse_text(manifest.read_text(encoding="utf-8"))
 
     assert doc.fields["kind"].value == "ConformanceManifest"
@@ -33,12 +42,12 @@ def test_conformance_valid_invalid_fixtures():
     from sdif.parser import ParseError
 
     # Valid fixtures must parse successfully
-    valid_dir = Path("conformance/valid")
+    valid_dir = CONF_DIR / "valid"
     for path in sorted(valid_dir.glob("*.sdif")):
         parse_text(path.read_text(encoding="utf-8"))
 
     # Invalid fixtures must raise specific ParseErrors
-    invalid_dir = Path("conformance/invalid")
+    invalid_dir = CONF_DIR / "invalid"
 
     bad_close = invalid_dir / "nested_narrative_bad_close.sdif"
     with pytest.raises(ParseError) as excinfo:
@@ -75,13 +84,13 @@ def test_conformance_valid_invalid_fixtures():
     from sdif import Policy, PolicyError, parse_file
 
     allowed_policy = Policy(
-        allow_includes=True, allowed_include_paths=frozenset([Path("conformance")])
+        allow_includes=True, allowed_include_paths=frozenset([CONF_DIR])
     )
     doc = parse_file(valid_dir / "policy_allowed_include.sdif", policy=allowed_policy)
     assert doc.fields["included_field"].value == "included_value"
 
     cycle_policy = Policy(
-        allow_includes=True, allowed_include_paths=frozenset([Path("conformance")])
+        allow_includes=True, allowed_include_paths=frozenset([CONF_DIR])
     )
     with pytest.raises(PolicyError) as excinfo:
         parse_file(invalid_dir / "include_cycle.sdif", policy=cycle_policy)

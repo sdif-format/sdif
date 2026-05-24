@@ -10,6 +10,7 @@ source/canonical/hash fixture consistency.
 
 from __future__ import annotations
 
+import os
 import re
 import sys
 from pathlib import Path
@@ -25,6 +26,12 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
+# Resolve conformance root (fallback to local if running in legacy/monolithic tree)
+if (ROOT / "conformance").is_dir():
+    CONF_ROOT = ROOT
+else:
+    CONF_ROOT = Path(os.environ.get("SDIF_SPEC_REPO") or ROOT.parent / "sdif-spec").expanduser().resolve()
+
 
 # -----------------------------------------------------------------------------
 # SDIF imports
@@ -38,7 +45,7 @@ from sdif.core.ast import Document, Table  # noqa: E402
 # Constants
 # -----------------------------------------------------------------------------
 
-MANIFEST = ROOT / "conformance" / "manifest.sdif"
+MANIFEST = CONF_ROOT / "conformance" / "manifest.sdif"
 
 CASE_COLUMNS = [
     "id",
@@ -260,8 +267,8 @@ def _check_invalid_case(invalid_case: dict[str, str], errors: list[str]) -> None
 # -----------------------------------------------------------------------------
 
 def _repo_path(raw: str, errors: list[str], case_id: str, role: str) -> Path | None:
-    root = ROOT.resolve()
-    path = (ROOT / raw).resolve()
+    root = CONF_ROOT.resolve()
+    path = (CONF_ROOT / raw).resolve()
 
     try:
         path.relative_to(root)
@@ -280,7 +287,7 @@ def _read(path: Path, errors: list[str]) -> str | None:
     try:
         return path.read_text(encoding="utf-8")
     except FileNotFoundError:
-        errors.append(f"missing required file: {path.relative_to(ROOT)}")
+        errors.append(f"missing required file: {path.relative_to(CONF_ROOT)}")
         return None
 
 

@@ -1,5 +1,0 @@
-@sdif.ai 1.0
-alias[k=kind,st=status]
-k Check
-checks[id,st]:
-C1	done

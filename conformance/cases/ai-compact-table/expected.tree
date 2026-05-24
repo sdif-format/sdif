@@ -1,7 +1,0 @@
-(source_file
-  (directive (identifier) (atom))
-  (field (identifier) (atom))
-  (table
-    (table_header (identifier) (column (identifier)) (column (identifier)))
-    (table_row)
-    (table_row)))

@@ -1,3 +1,4 @@
+import os
 import re
 import sys
 from pathlib import Path
@@ -5,12 +6,19 @@ from pathlib import Path
 if sys.version_info >= (3, 11):
     import tomllib
 else:
-    import tomli as tomllib
+    import tomli as tomllib  # type: ignore[import-not-found]
+
+
+ROOT = Path(__file__).resolve().parents[1]
+if (ROOT / "docs" / "spec.md").is_file():
+    SPEC_DOCS_DIR = ROOT / "docs"
+else:
+    SPEC_DOCS_DIR = Path(os.environ.get("SDIF_SPEC_REPO") or ROOT.parent / "sdif-spec").expanduser().resolve() / "docs"
 
 
 def test_ci_and_docs_artifacts_exist():
     assert Path(".github/workflows/ci.yml").is_file()
-    docs = Path("docs/spec.md").read_text(encoding="utf-8")
+    docs = (SPEC_DOCS_DIR / "spec.md").read_text(encoding="utf-8")
     assert "Minimum normative AST" in docs
     assert "Canonicalization" in docs
     assert "CLI" in docs
@@ -18,7 +26,7 @@ def test_ci_and_docs_artifacts_exist():
 
 def test_spec_records_format_spec_and_package_versions():
     pyproject = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
-    spec = Path("docs/spec.md").read_text(encoding="utf-8")
+    spec = (SPEC_DOCS_DIR / "spec.md").read_text(encoding="utf-8")
     package_version = pyproject["project"]["version"]
 
     assert "**Format version:** 1.0" in spec
@@ -34,9 +42,9 @@ def test_spec_records_format_spec_and_package_versions():
 
 def test_normative_docs_table_examples_use_literal_htab_rows():
     for path in (
-        Path("docs/spec.md"),
+        SPEC_DOCS_DIR / "spec.md",
         Path("README.md"),
-        Path("docs/comparison.md"),
+        SPEC_DOCS_DIR / "comparison.md",
     ):
         _assert_sdif_table_rows_use_htab(path)
 
@@ -84,7 +92,7 @@ def test_docs_examples_describe_current_golden_fixture_policy():
 
 
 def test_spec_records_v1_m1_normative_decisions():
-    spec = Path("docs/spec.md").read_text(encoding="utf-8")
+    spec = (SPEC_DOCS_DIR / "spec.md").read_text(encoding="utf-8")
 
     for term in (
         "`@sdif 1.0` identifies the stable core syntax and semantic contract.",
@@ -108,7 +116,7 @@ def test_public_release_metadata_has_no_draft_or_alpha_contradictions():
     pyproject = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
     public_docs = "\n".join(
         Path(path).read_text(encoding="utf-8")
-        for path in ("README.md", "docs/spec.md", "docs/canonicalization.md")
+        for path in (Path("README.md"), SPEC_DOCS_DIR / "spec.md", SPEC_DOCS_DIR / "canonicalization.md")
     ).lower()
 
     assert "Development Status :: 5 - Production/Stable" in pyproject["project"]["classifiers"]
@@ -154,7 +162,7 @@ def test_release_process_uses_git_archive_and_documents_required_gates():
 
 
 def test_canonicalization_doc_records_m2_table_order_contract():
-    docs = Path("docs/canonicalization.md").read_text(encoding="utf-8")
+    docs = (SPEC_DOCS_DIR / "canonicalization.md").read_text(encoding="utf-8")
 
     for term in (
         "canonical-syntax-v1",
@@ -167,7 +175,7 @@ def test_canonicalization_doc_records_m2_table_order_contract():
 
 
 def test_spec_records_v1_m3_validation_contract():
-    spec = Path("docs/spec.md").read_text(encoding="utf-8")
+    spec = (SPEC_DOCS_DIR / "spec.md").read_text(encoding="utf-8")
 
     for term in (
         "fields[name,type,required,default]:",
@@ -187,7 +195,7 @@ def test_spec_records_v1_m3_validation_contract():
 
 
 def test_comparison_doc_includes_examples_for_all_compared_formats():
-    docs = Path("docs/comparison.md").read_text(encoding="utf-8")
+    docs = (SPEC_DOCS_DIR / "comparison.md").read_text(encoding="utf-8")
 
     for fence in ("```json", "```yaml", "```toon", "```sdif"):
         assert fence in docs
@@ -196,7 +204,7 @@ def test_comparison_doc_includes_examples_for_all_compared_formats():
 
 
 def test_ai_speed_profile_documents_llm_latency_contract() -> None:
-    docs = Path("docs/ai-speed-profile.md").read_text(encoding="utf-8")
+    docs = (SPEC_DOCS_DIR / "ai-speed-profile.md").read_text(encoding="utf-8")
     readme = Path("README.md").read_text(encoding="utf-8")
 
     for term in (

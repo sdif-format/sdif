@@ -305,15 +305,17 @@ SDIF focuses on a narrower problem:
 
 ## Documentation
 
+The official specifications and conformance suite are hosted in the sibling [sdif-spec](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif-spec) repository:
+
 | Document | Description |
 | --- | --- |
-| [`docs/spec.md`](docs/spec.md) | Full v1.0.0 specification |
-| [`docs/canonicalization.md`](docs/canonicalization.md) | Canonicalization contract |
-| [`docs/comparison.md`](docs/comparison.md) | Format comparison |
-| [`docs/semantic-quality.md`](docs/semantic-quality.md) | Semantic quality methodology |
-| [`docs/ai-speed-profile.md`](docs/ai-speed-profile.md) | AI speed profile contract |
-| [`examples/`](examples/) | Annotated examples |
-| [`conformance/`](conformance/) | Shared conformance fixtures |
+| [spec.md](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif-spec/docs/spec.md) | Full v1.0.0 specification |
+| [canonicalization.md](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif-spec/docs/canonicalization.md) | Canonicalization contract |
+| [comparison.md](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif-spec/docs/comparison.md) | Format comparison |
+| [semantic-quality.md](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif-spec/docs/semantic-quality.md) | Semantic quality methodology |
+| [ai-speed-profile.md](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif-spec/docs/ai-speed-profile.md) | AI speed profile contract |
+| [conformance/](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif-spec/conformance/) | Shared conformance fixtures |
+| [examples/](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif/examples/) | Annotated examples (local in this repo) |
 
 <br>
 
