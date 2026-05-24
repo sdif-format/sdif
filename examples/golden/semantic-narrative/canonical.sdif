@@ -1,0 +1,26 @@
+@sdif 1.0
+kind ResearchReport
+id RPT-2026-001
+narrative_conclusion "Four findings require remediation before the next release window."
+narrative_methodology "Automated scanning combined with manual expert review across four domains."
+status published
+title "Security and Reliability Assessment Q1 2026"
+findings[id,category,severity,source]:
+  F001	security	high	pentest-2026-Q1
+  F002	privacy	medium	gdpr-review
+  F003	availability	low	sla-audit
+  F004	integrity	high	code-review
+recommendations[id,finding_id,action,priority]:
+  R001	F001	rotate-credentials	P1
+  R002	F002	anonymize-logs	P2
+  R003	F003	add-redundancy	P2
+  R004	F004	enforce-signing	P1
+rel:
+  F001 escalates F004
+  R001 addresses F001
+  R002 addresses F002
+  R003 addresses F003
+  R004 addresses F004
+rules:
+  (deny publish-if-unresolved finding.severity high finding.status open)
+  (warn missing-sign-off recommendation.priority P1)

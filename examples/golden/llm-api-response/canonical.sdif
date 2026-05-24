@@ -1,0 +1,27 @@
+@sdif 1.0
+kind APISnapshot
+id SNAP-2026-0521
+filtered_for syntax-highlighting
+metadata_active_last_days 90
+metadata_fetched_at 2026-05-21T00:00:00Z
+metadata_min_stars 5000
+source github-api-v4
+repos[id,name,language,stars,last_commit]:
+  REPO-001	tree-sitter	C	18200	2026-05-20
+  REPO-002	pygments	Python	9400	2026-05-18
+  REPO-003	bat	Rust	47000	2026-05-19
+  REPO-004	highlight.js	JavaScript	23100	2026-04-30
+contributors[repo_id,login,commits]:
+  REPO-001	maxbrunsfeld	612
+  REPO-002	birkenfeld	1430
+  REPO-003	sharkdp	890
+  REPO-004	jvilk	340
+rel:
+  REPO-001 benchmarks REPO-002
+  REPO-002 contributes_to REPO-004
+  REPO-003 contributes_to REPO-002
+  REPO-003 provides_editor_for REPO-001
+  REPO-004 provides_editor_for REPO-001
+rules:
+  (deny include-repo repo.stars below-threshold)
+  (warn stale-metadata metadata.age_days 7)

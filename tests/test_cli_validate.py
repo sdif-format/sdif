@@ -223,6 +223,31 @@ def test_cli_validate_no_schema_file_not_found(tmp_path):
     assert run.stdout == ""
 
 
+def test_cli_validate_missing_schema_exits_2_without_traceback(tmp_path):
+    doc = tmp_path / "doc.sdif"
+    doc.write_text("@sdif 1.0\nkind Plan\n", encoding="utf-8")
+
+    run = subprocess.run(
+        [
+            sys.executable,
+            "tools/sdif-cli.py",
+            "validate",
+            str(doc),
+            "--schema",
+            str(tmp_path / "missing-schema.sdif"),
+        ],
+        text=True,
+        capture_output=True,
+        check=False,
+        timeout=30,
+    )
+
+    assert run.returncode == 2
+    assert "Traceback" not in run.stderr
+    assert "Error reading schema" in run.stderr
+    assert run.stdout == ""
+
+
 # ---------------------------------------------------------------------------
 # --quiet mode
 # ---------------------------------------------------------------------------

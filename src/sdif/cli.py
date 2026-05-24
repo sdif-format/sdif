@@ -261,7 +261,11 @@ def _cmd_from_ai(args: argparse.Namespace, policy: Policy) -> int:
 
 
 def _cmd_validate(args: argparse.Namespace, policy: Policy) -> int:
-    schema = _load_schema(args.schema, policy=policy) if args.schema is not None else None
+    try:
+        schema = _load_schema(args.schema, policy=policy) if args.schema is not None else None
+    except OSError as exc:
+        sys.stderr.write(f"Error reading schema {args.schema}: {exc}\n")
+        return 2
     try:
         doc = parse_file(args.path, policy=policy)
     except ParseError as exc:

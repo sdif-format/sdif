@@ -1,0 +1,25 @@
+@sdif 1.0
+kind AgentWorkflow
+id WF-2026-0521
+model claude-sonnet-4-6
+session_id sess-abc123
+tasks[id,agent,action,status,tokens]:
+  T001	planner	decompose	done	312
+  T002	researcher	search	done	870
+  T003	coder	implement	done	1540
+  T004	reviewer	critique	done	640
+  T005	writer	summarise	done	420
+tool_calls[task_id,tool,count]:
+  T002	web_search	4
+  T003	bash	11
+  T003	edit_file	7
+  T004	read_file	3
+rel:
+  T001 depends_on T002
+  T002 depends_on T003
+  T003 depends_on T004
+  T003 uses_output_of T002
+  T004 depends_on T005
+rules:
+  (deny start-task task.depends_on.status pending)
+  (warn token-budget-exceeded task.tokens 1000)
