@@ -89,8 +89,8 @@ def test_spec_records_v1_m1_normative_decisions():
     for term in (
         "`@sdif 1.0` identifies the stable core syntax and semantic contract.",
         "The package version may advance independently from the document format version.",
-        "Core v1 behavior includes parsing, the normative AST, schema-driven validation, canonical-syntax-v1, safe default policies, and `.sdif.ai` reversibility.",
-        "Versioned extensions include remote includes, remote schemas, complex namespaces, deep graph validation, digital signatures, advanced type unions, and non-declarative rule execution.",
+        "Core v1 behavior includes parsing, the reference AST shape, schema-driven validation, canonical-syntax-v1, safe default policies, local includes behind explicit policy, and `.sdif.ai` reversibility to canonical source.",
+        "Versioned or not-yet-implemented extensions include remote includes, remote schemas, complex namespaces, deep graph validation, digital signatures, advanced type unions, semantic numeric/date normalization, and non-declarative rule execution.",
         "For the v1.0 stabilization track, strict mode prohibits inline comments inside table rows.",
         "Table cells are captured as raw strings in the initial AST.",
         "Schema-driven typing is applied during validation or normalization, not during raw parsing.",
@@ -99,7 +99,7 @@ def test_spec_records_v1_m1_normative_decisions():
         "Complex namespace behavior is a versioned extension.",
         "RuleExpression(action, function, args)",
         "`@include` is disabled by default",
-        "Remote includes and remote schemas remain disabled unless an explicit policy enables them.",
+        "Remote includes and remote schemas are reserved extension surfaces and are rejected by the current reference implementation.",
     ):
         assert term in spec
 

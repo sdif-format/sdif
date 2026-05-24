@@ -1,3 +1,10 @@
+<!-- markdownlint-disable MD010 MD013 MD060 -->
+<!--
+  This specification intentionally contains literal HTAB characters in SDIF
+  table examples and long grammar/contract lines. Those are semantic examples,
+  not prose formatting defects.
+-->
+
 # SDIF — Semantic Data Interchange Format
 
 ## Document status
@@ -18,7 +25,7 @@
 
 The `1.0.0` specification document records the stable core specification. `@sdif 1.0` identifies the stable core syntax and semantic contract. The package version may advance independently from the document format version.
 
-Core v1 behavior includes parsing, the normative AST, schema-driven validation, canonical-syntax-v1, safe default policies, and `.sdif.ai` reversibility. Versioned extensions include remote includes, remote schemas, complex namespaces, deep graph validation, digital signatures, advanced type unions, and non-declarative rule execution.
+Core v1 behavior includes parsing, the reference AST shape, schema-driven validation, canonical-syntax-v1, safe default policies, local includes behind explicit policy, and `.sdif.ai` reversibility to canonical source. Versioned or not-yet-implemented extensions include remote includes, remote schemas, complex namespaces, deep graph validation, digital signatures, advanced type unions, semantic numeric/date normalization, and non-declarative rule execution.
 
 This document defines an initial public technical specification for SDIF, a compact semantic data interchange format designed for AI agents and deterministic machine workflows, with human-auditable source files.
 
@@ -58,7 +65,7 @@ SDIF should:
 3. Be deterministic to parse.
 4. Be validatable through schemas.
 5. Be canonicalizable.
-6. Support stable hashing and signing.
+6. Support stable hashing, with signing layered over canonical bytes by external tooling.
 7. Represent scalar data, objects, lists, tables, relations, rules, and narrative blocks.
 8. Avoid unnecessary repetition, especially in uniform arrays of objects.
 9. Support auditable source files and machine-normalized canonical files.
@@ -163,7 +170,7 @@ Relationships are first-class citizens of the format.
 
 Every valid SDIF document should be convertible into a unique canonical representation.
 
-The canonical form removes comments, stylistic variation, non-essential whitespace, ambiguous ordering, and syntactic sugar.
+The canonical form removes comments, stylistic variation, non-essential whitespace, and ambiguous ordering where v1 defines a deterministic policy. It does not perform semantic equivalence normalization for numbers, dates, aliases, or vocabularies in the current reference implementation.
 
 ### 4.5 Auditable source, machine truth
 
@@ -336,6 +343,8 @@ An SDIF document is composed of:
 8. Narrative blocks.
 9. Comments.
 
+The current Python reference AST is intentionally small: parsed scalar values, inline list literals, table cells, and relation objects are stored as strings plus quote-preservation metadata where needed. Schema validation and JSON conversion perform type interpretation after parsing.
+
 ### 7.1 Document
 
 An SDIF document is an ordered sequence of statements.
@@ -371,9 +380,9 @@ Initial reserved directives:
 | `@vocab`     | Declares a vocabulary.                                      |
 | `@base`      | Declares a base URI or semantic namespace.                  |
 | `@namespace` | Declares a namespace prefix.                                |
-| `@include`   | Includes another local document or vocabulary if permitted. |
+| `@include`   | Includes another local document or vocabulary if explicitly permitted by parser policy. |
 
-The `@include` directive must be disabled by default in secure validators or restricted through an explicit allowlist.
+The `@include` directive is disabled by default in the Python reference parser and must be enabled with explicit local path allowlists. Remote includes and remote schemas are reserved extension surfaces and are rejected by the current reference implementation even when experimental CLI flags are present.
 
 ### 7.3 Scalar fields
 
@@ -411,7 +420,7 @@ Inline list:
 tags [registry,validation,release]
 ```
 
-Block list:
+Block-list-compatible source syntax is represented in the current AST as an object block containing repeated `-` scalar fields, and the schema validator recognizes that shape for `List<T>` fields:
 
 ```sdif
 tags:
@@ -420,7 +429,7 @@ tags:
   - release
 ```
 
-The canonical form must choose one deterministic representation.
+Inline lists remain scalar field values in the parser AST; JSON conversion and validation interpret them after parsing.
 
 ### 7.6 Tables
 
@@ -539,7 +548,7 @@ Comments are allowed in SDIF Source but must be removed from SDIF Canonical.
 
 ## 8. Type system
 
-SDIF should support these base types:
+The v1 schema validator recognizes these base types after parsing; the parser itself preserves scalar text rather than constructing typed value nodes:
 
 | Type       | Example                    |
 | ---------- | -------------------------- |
@@ -584,13 +593,13 @@ Decimals:
 amount 10.75
 ```
 
-Scientific notation:
+Scientific notation is reserved for a future typed-normalization profile. The current reference parser preserves it as text, and the v1 schema validator does not treat it as `Decimal`:
 
 ```sdif
 ratio 1.2e-5
 ```
 
-Canonicalization must normalize numeric representation.
+Canonicalization preserves numeric spelling; semantic numeric normalization is a future versioned policy.
 
 ### 8.3 Strings
 
@@ -1006,7 +1015,7 @@ Required semantic rules:
 7. Canonical SDIF rows use `INDENT`; `.sdif.ai` rows may use `ai_table_row` only when the row contains `HTAB`.
 8. A `.sdif.ai` alias header uses `compact=semantic` entries and is preserved by canonicalization before data statements.
 9. A literal tab inside a cell must be escaped as `\t` in strict mode.
-10. Empty cells must be rejected in strict mode unless the schema explicitly allows them.
+10. Empty cells are syntactically valid raw cells in the reference parser; schemas may reject them through future validation policy.
 11. Multiline blocks are not valid inside tables in v1.
 12. Inline comments inside tables are prohibited in strict mode.
 
@@ -1038,7 +1047,7 @@ rel:
   release.v2 validated_by validation.report.v2
 ```
 
-In v1, a relation has exactly three parts: subject, predicate, and object.
+In v1 source, a relation has exactly three parts: subject, predicate, and object. In `.sdif.ai`, `rel[subject]:` is also accepted as subject-grouped compact syntax; each row then contains exactly predicate and object and expands back to ordinary relation triples. The grouped form is rejected in `@sdif` source documents.
 
 ### 11.10 Rules
 
@@ -1046,7 +1055,10 @@ In v1, a relation has exactly three parts: subject, predicate, and object.
 rule_block      = "rules", ":", inline_comment?, newline, rule_row+ ;
 rule_row        = INDENT, expression, inline_comment?, newline ;
 
-expression      = "(", function_name, expression_arg*, ")" ;
+expression      = "(", action_name, horizontal_space+, condition, ")" ;
+action_name     = "deny" | "warn" ;
+condition       = compact_call | IDENT ;
+compact_call    = function_name, "(", (value | compact_call), (",", (value | compact_call))* , ")" ;
 function_name   = IDENT ;
 expression_arg  = horizontal_space+, (value | expression) ;
 ```
@@ -1195,28 +1207,26 @@ This is a string.
 
 ## 12. Minimum normative AST
 
-The v1 implementation should produce an AST independent from the original text.
+The v1 Python reference implementation produces an AST independent from source comments and blank-line trivia. It is deliberately string-preserving at parse time; semantic typing is applied later by validators and converters.
 
 ### 12.1 Document
 
 ```text
 Document
-  format_version: Version
   directives: Directive[]
   statements: Statement[]
-  diagnostics: Diagnostic[]
 ```
 
 ### 12.2 Statements
 
 ```text
 Statement
-  Field(Field)
-  Object(Object)
-  Table(Table)
-  RelationBlock(Relation[])
-  RuleBlock(Expression[])
-  Narrative(Narrative)
+  Field(key: string, value: string, quoted: bool)
+  ObjectBlock(key: string, statements: Statement[])
+  Table(name: string, columns: string[], rows: string[][], quoted_columns: set<int>)
+  Relation(subject: string, predicate: string, object: string, object_quoted: bool)
+  Rule(source: string, expression: RuleExpression?)
+  Narrative(key: string, text: string)
 ```
 
 Comments may exist in a source-preserving AST, but they must not be part of the canonical AST.
@@ -1224,31 +1234,20 @@ Comments may exist in a source-preserving AST, but they must not be part of the 
 ### 12.3 Values
 
 ```text
-Value
-  Null
-  Boolean(bool)
-  Integer(i64)
-  Decimal(string)
-  String(string)
-  Identifier(string)
-  Date(string)
-  DateTime(string)
-  Duration(string)
-  List(Vec<Value>)
+ParsedValue = string
+Quotedness metadata is preserved for scalar fields, relation objects, and table columns restored from `.sdif.ai` `$` markers.
 ```
 
-Decimals should be represented as normalized strings or exact decimal values, not binary floating-point values.
+The schema validator recognizes `Null`, `Boolean`, `Integer`, `Decimal`, `String`, `Identifier`, `Path`, `Date`, `DateTime`, `Duration`, `Enum(...)`, and `List<T>` after parsing. Decimal validation accepts plain integers and fixed-point decimals; scientific notation and decimal normalization are deferred.
 
 ### 12.4 Tables
 
 ```text
 Table
-  name: Identifier
-  columns: Vec<Identifier>
-  rows: Vec<TableRow>
-
-TableRow
-  cells: Vec<Value>
+  name: string
+  columns: Vec<string>
+  rows: Vec<Vec<string>>
+  quoted_columns: Set<int>
 ```
 
 ### 12.5 Relations
@@ -1285,18 +1284,18 @@ An SDIF schema defines the expected shape and semantics of a document.
 
 A schema should define:
 
-1. Allowed kinds.
+1. Document kind through a required `kind` field and/or an `Enum(...)` field type.
 2. Required fields.
 3. Optional fields.
 4. Field types.
-5. Defaults.
+5. Defaults as schema metadata for tools; the current validator does not materialize default values.
 6. Enumerations.
 7. Allowed tables.
 8. Required columns.
 9. Allowed relation predicates.
 10. Allowed rule functions.
-11. Allowed aliases.
-12. Whether order is semantically significant.
+11. Alias policy as a future schema-governed extension; the current parser enforces only reserved-term and collision checks.
+12. Whether table row order is semantically significant.
 13. Canonicalization policy.
 
 ### 13.2 Minimal schema example
@@ -1342,8 +1341,6 @@ relations[predicate,subject_type,object_type,required]:
   emits	Identifier	Path	false
 
 rule_functions[name,min_args,max_args]:
-  deny	1	1
-  warn	1	1
   missing	1	1
   dangling	1	1
   invalid	1	1
@@ -1425,7 +1422,7 @@ Checks:
 Resolves:
 
 * Aliases.
-* Defaults.
+* Defaults as schema metadata; the current validator does not fill missing defaulted fields.
 * Type recognition.
 * Namespaces.
 * Includes, if enabled.
@@ -1608,21 +1605,17 @@ rules:
   (deny missing(evidence))
 ```
 
-Possible JSON:
+Current reference JSON projection:
 
 ```json
 {
   "rules": [
-    {
-      "action": "deny",
-      "condition": {
-        "function": "missing",
-        "args": ["evidence"]
-      }
-    }
+    "(deny missing(evidence))"
   ]
 }
 ```
+
+A structured rule-AST JSON shape is a possible future extension, but the current converter preserves rule rows as source strings.
 
 ### 16.6 Heterogeneous lists
 
@@ -1710,7 +1703,7 @@ Normative v1 policy:
 * Enabled only through explicit allowlists.
 * Reject absolute paths unless explicitly permitted.
 * Reject parent traversal in restricted contexts.
-* Remote includes and remote schemas remain disabled unless an explicit policy enables them.
+* Remote includes and remote schemas are reserved extension surfaces and are rejected by the current reference implementation.
 * Reject remote URLs in secure mode.
 * Detect include cycles.
 
@@ -1721,8 +1714,7 @@ Aliases must not hide protected fields or change meaning.
 Potentially dangerous:
 
 ```sdif
-alias:
-  authority status
+alias[st=status]
 ```
 
 Such aliases should be rejected when they target reserved or protected terms incorrectly.
@@ -1957,58 +1949,36 @@ rules:
 
 ## 25. Implementation components
 
-A complete SDIF implementation should include:
+The current Python reference implementation includes a parser, AST, canonicalizer/serializer, SHA-256 hashing, schema validator, JSON converter, `.sdif.ai` projector/reverser, policy checks, and structured validation diagnostics. A fuller multi-language ecosystem may add a separate lexer, richer normalizer, semantic rule evaluator, signing layer, and deeper diagnostic source mapping.
 
-1. Lexer.
-2. Parser.
-3. AST.
-4. Normalizer.
-5. Schema validator.
-6. Declarative rule evaluator.
-7. Canonicalizer.
-8. Serializer.
-9. JSON converter.
-10. Diagnostic generator.
-
-### 25.1 Conceptual AST
+### 25.1 Reference AST
 
 ```text
-Document
-  directives: Directive[]
-  statements: Statement[]
-
-Statement
-  Field(key, value)
-  Object(key, statements)
-  Table(name, columns, rows)
-  Relation(subject, predicate, object)
-  Rule(expression)
-  Narrative(key, text)
+Document(directives, statements)
+Directive(name, args)
+Field(key, value, quoted=False)
+ObjectBlock(key, statements)
+Table(name, columns, rows, quoted_columns=frozenset())
+Relation(subject, predicate, object, object_quoted=False)
+Rule(source, expression=None)
+Narrative(key, text)
 ```
 
-### 25.2 Conceptual value model
+### 25.2 Reference value handling
 
 ```text
-Value
-  Null
-  Boolean(bool)
-  Integer(i64)
-  Decimal(decimal)
-  String(string)
-  Identifier(string)
-  Date(date)
-  DateTime(datetime)
-  Duration(duration)
-  List(Value[])
+Parser values: string-preserving
+Validation values: interpreted by schema type
+JSON conversion values: converted to JSON-compatible scalars, arrays, objects, relations, and rule-source strings
 ```
 
 ---
 
 ## 26. v1 scope
 
-The first useful SDIF implementation should support:
+The first useful SDIF implementation supports:
 
-1. `@sdif` directive.
+1. `@sdif` and `@sdif.ai` directives.
 2. Scalar fields.
 3. Indented objects.
 4. Inline lists.
@@ -2021,6 +1991,8 @@ The first useful SDIF implementation should support:
 11. Basic schema validation.
 12. JSON conversion.
 13. Basic canonicalization.
+14. `.sdif.ai` projection and reversal to canonical source.
+15. Local includes behind explicit parser policy.
 
 Out of scope for v1:
 
@@ -2031,14 +2003,14 @@ Out of scope for v1:
 5. Remote schemas.
 6. Advanced type unions.
 7. Rule execution beyond declarative validation.
-8. Formal `.sdif.ai` profile beyond simple generation.
+8. Semantic normalization beyond canonical syntax, such as alias-equivalence hashing or numeric/date equivalence classes.
 
 ### 26.1 v1 acceptance criteria
 
 The v1 contract proves this pipeline:
 
 ```text
-source.sdif -> AST -> canonical bytes -> stable hash
+source.sdif or source.sdif.ai -> AST -> canonical bytes -> stable hash
 ```
 
 Minimum acceptance criteria:
@@ -2263,7 +2235,7 @@ Normative form:
 
 Includes are useful but security-sensitive.
 
-For v1, `@include` is disabled by default and may be enabled only through explicit policy. Local includes require allowlists. Remote includes and remote schemas remain disabled unless an explicit policy enables them. Include resolution must detect cycles.
+For v1, `@include` is disabled by default and may be enabled only through explicit policy. Local includes require allowlists. Remote includes and remote schemas are reserved extension surfaces and are rejected by the current reference implementation. Include resolution must detect cycles.
 
 ### 30.5 Rule expression syntax
 
@@ -2310,7 +2282,7 @@ SDIF = JSON-like data + compact tables + semantic triples + declarative rules + 
 The first implementation should avoid trying to support every possible feature. It should prove the essential technical spine:
 
 ```text
-source.sdif -> AST -> canonical bytes -> stable hash
+source.sdif or source.sdif.ai -> AST -> canonical bytes -> stable hash
 ```
 
 Once that pipeline is stable, schema validation, semantic validation, editor tooling, AI-optimized views, signing, and advanced vocabularies can evolve on top of a solid foundation.
@@ -2322,7 +2294,7 @@ Once that pipeline is stable, schema validation, semantic validation, editor too
 The repository implementation follows the portable conformance spine defined above:
 
 ```text
-source.sdif -> AST -> canonical bytes -> sha256 hash
+source.sdif or source.sdif.ai -> AST -> canonical bytes -> sha256 hash
 ```
 
 ### CLI
@@ -2338,6 +2310,9 @@ sdif tokens examples/plan.sdif
 sdif to-json examples/plan.sdif
 sdif from-json document.json
 sdif ai examples/plan.sdif --alias kind=k --alias status=st
+sdif from-ai examples/plan.sdif.ai
+sdif inspect examples/plan.sdif --json
+sdif fmt examples/plan.sdif --check
 ```
 
 `sdif tokens` emits `bytes=<n> tokenizer=<name> tokens=<n>`. The v1 CLI uses
@@ -2364,14 +2339,14 @@ values, relations, and rules that cannot fit in a single honest flat CSV table.
 
 The v1 AST is intentionally small and source-independent:
 
-- `Document(directives, statements)`
-- `Directive(name, args)`
-- `Field(key, value)`
-- `ObjectBlock(key, statements)`
-- `Table(name, columns, rows)`
-- `Relation(subject, predicate, object)`
-- `Rule(source)`
-- `Narrative(key, text)`
+* `Document(directives, statements)`
+* `Directive(name, args)`
+* `Field(key, value, quoted=False)`
+* `ObjectBlock(key, statements)`
+* `Table(name, columns, rows, quoted_columns=frozenset())`
+* `Relation(subject, predicate, object, object_quoted=False)`
+* `Rule(source, expression=None)`
+* `Narrative(key, text)`
 
 Comments are accepted in source but excluded from the canonical AST and canonical output.
 
@@ -2421,4 +2396,4 @@ Structured diagnostics use this shape:
 
 ### JSON conversion scope
 
-The v1 JSON converter supports scalar fields, nested objects, uniform arrays as SDIF tables, `rel` arrays as relation blocks, `rules` arrays as rule blocks, and scalar lists as inline SDIF lists.
+The v1 JSON converter supports scalar fields, nested objects, uniform arrays as SDIF tables, `rel` arrays as relation blocks, `rules` arrays as rule-source strings, scalar lists as inline SDIF lists, and heterogeneous or nested arrays through the reserved repeated `__item` / `__value` object-block convention. Quoted scalar markers and `.sdif.ai` `$` table columns are used to preserve JSON string semantics for values that otherwise look like `null`, booleans, numbers, or lists.
