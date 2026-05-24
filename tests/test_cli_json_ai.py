@@ -229,3 +229,39 @@ def test_source_sdif_rejects_subject_grouped_relations():
         assert exc.code == "SDIF_AI_REL_SUBJECT"
     else:  # pragma: no cover - defensive assertion message
         raise AssertionError("source SDIF must not accept rel[subject]: syntax")
+
+
+def test_alias_projection_filtering_collision_and_keys():
+    source = (
+        "@sdif 1.0\n"
+        "api_name compact-service-api\n"
+        "endpoints[id,method,path,tag,auth]:\n"
+        "  END-001\tPOST\t/v1/resources/1\tbilling\tuser\n"
+    )
+    aliases = {
+        "authority": "auth",
+        "description": "desc",
+        "version": "v",
+    }
+    ai = ai_view(source, aliases)
+    assert "alias[" not in ai
+    assert "endpoints[id,method,path,tag,auth]:" in ai
+
+    source2 = (
+        "@sdif 1.0\n"
+        "authority compact-service-api\n"
+    )
+    ai2 = ai_view(source2, aliases)
+    assert "alias[auth=authority]" in ai2
+    assert "auth compact-service-api" in ai2
+
+    source3 = (
+        "@sdif 1.0\n"
+        "authority compact-service-api\n"
+        "auth oauth\n"
+    )
+    ai3 = ai_view(source3, aliases)
+    assert "alias[" not in ai3
+    assert "authority compact-service-api" in ai3
+    assert "auth oauth" in ai3
+

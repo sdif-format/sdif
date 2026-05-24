@@ -20,6 +20,37 @@ from sdif.core.ast import (
 from sdif.core.policy import RESERVED_TERMS, Policy, PolicyError
 
 
+def _collect_document_keys(statements: Sequence[object]) -> set[str]:
+    import re
+    keys = set()
+    for statement in statements:
+        if isinstance(statement, Field):
+            keys.add(statement.key)
+        elif isinstance(statement, ObjectBlock):
+            keys.add(statement.key)
+            keys.update(_collect_document_keys(statement.statements))
+        elif isinstance(statement, Table):
+            keys.add(statement.name)
+            for col in statement.columns:
+                if col.endswith("$"):
+                    col = col[:-1]
+                keys.add(col)
+        elif isinstance(statement, Relation):
+            keys.add("rel")
+            keys.add(statement.predicate)
+            keys.add(statement.subject)
+            keys.add(statement.object)
+        elif isinstance(statement, Rule):
+            keys.add("rules")
+            source_str = getattr(statement, "source", "") or getattr(statement, "text", "")
+            if isinstance(source_str, str):
+                for word in re.findall(r"\b[a-zA-Z_][a-zA-Z0-9_.-]*\b", source_str):
+                    keys.add(word)
+        elif isinstance(statement, Narrative):
+            keys.add(statement.key)
+    return keys
+
+
 def ai_view(
     source: str | Document,
     aliases: dict[str, str],
@@ -29,12 +60,20 @@ def ai_view(
 ) -> str:
     doc = parse_text(source, policy=policy) if isinstance(source, str) else source
     _ensure_safe_projection(doc.statements)
-    inverse = {canonical: alias for canonical, alias in aliases.items()}
+    
+    present_keys = _collect_document_keys(doc.statements)
+    filtered_aliases = {
+        canonical: alias
+        for canonical, alias in aliases.items()
+        if canonical in present_keys and alias not in present_keys
+    }
+    
+    inverse = {canonical: alias for canonical, alias in filtered_aliases.items()}
     lines = ["@sdif.ai 1.0"] if include_header else []
-    if include_header and aliases:
+    if include_header and filtered_aliases:
         entries = ",".join(
             f"{alias}={canonical}"
-            for canonical, alias in sorted(aliases.items(), key=lambda item: item[1])
+            for canonical, alias in sorted(filtered_aliases.items(), key=lambda item: item[1])
         )
         lines.append(f"alias[{entries}]")
     _emit_statements(doc.statements, lines, inverse, 0)

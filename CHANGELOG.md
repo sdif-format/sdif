@@ -4,6 +4,8 @@
 
 ### Fixed
 
+- Fixed eager projection alias expansion in `aliases.py` by implementing document key-collection (traversing fields, tables/columns, relations, rules, and nested structures) and filtering `@sdif.ai` aliases to only canonical keys present in the document. Added anti-collision rules to drop any alias mapping whose target collides with an existing literal key.
+
 - Fixed canonicalization of list literals so `canonicalize → parse` preserves lists as
   lists instead of converting them into quoted strings. Previously, `_quote_if_needed`
   re-quoted any list literal containing a comma or double-quote — a semantic change, not
