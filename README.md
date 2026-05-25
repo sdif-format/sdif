@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/sdif-format/.github/d5ec91398d67baccbb1bf28f2dcf2781f1316545/profile/assets/sdif-logo-t.png" alt="SDIF Format" width="520">
+  <img src="https://raw.githubusercontent.com/sdif-format/.github/main/profile/assets/sdif-logo-t.png" alt="SDIF Format" width="520">
 </p>
 
 <p align="center">
@@ -112,7 +112,7 @@ sdif ai       examples/plan.sdif --alias kind=k --alias status=st
 
 ### `sdif validate`
 
-```
+```bash
 sdif validate <file> [--schema <schema>] [--json] [--quiet]
 ```
 
@@ -161,9 +161,9 @@ id   release.v1
 title "Release readiness plan"
 
 items[id,status,owner,evidence]:
-  R1	done	build	reports/build.md
-  R2	open	qa	reports/tests.md
-  R3	done	security	reports/audit.md
+  R1 done build reports/build.md
+  R2 open qa reports/tests.md
+  R3 done security reports/audit.md
 
 rel:
   release.v1  validated_by  R1
@@ -220,40 +220,115 @@ For full methodology, corpus model and per-document breakdowns, see [`sdif-bench
 
 ## Ecosystem
 
+This GitHub organization hosts the official SDIF ecosystem: the core format, reference tooling, benchmarks, examples, libraries, and editor extensions.
+
 <div align="center">
 
 <table>
   <tr>
     <td width="33%" valign="top">
-      <p><sub>CORE FORMAT</sub></p>
-      <h3>sdif</h3>
+      <p><sub>PYTHON CLIENT & CLI</sub></p>
+      <h3>sdif-py</h3>
       <p>
-        Specification, parser, canonicalizer and CLI.<br>
-        The normative reference for the format.
+        Specification, parser, canonicalizer, and CLI.<br>
+        The normative reference implementation.
       </p>
-      <p><em>This repository.</em></p>
+      <p><a href="https://github.com/sdif-format/sdif-py"><strong>Explore sdif-py →</strong></a></p>
     </td>
     <td width="33%" valign="top">
-      <p><sub>MEASUREMENT</sub></p>
+      <p><sub>SPECIFICATION (SSOT)</sub></p>
+      <h3>sdif-spec</h3>
+      <p>
+        Official format specification, canonicalization rules,<br>
+        and portable conformance test suite.
+      </p>
+      <p><a href="https://github.com/sdif-format/sdif-spec"><strong>View specification →</strong></a></p>
+    </td>
+    <td width="33%" valign="top">
+      <p><sub>BENCHMARKS</sub></p>
       <h3>sdif-benchmarks</h3>
       <p>
-        Reproducible benchmark datasets and reports comparing SDIF with existing formats across token efficiency, context packing, round-trip fidelity and retrieval accuracy.
+        Reproducible benchmark datasets and reports comparing SDIF with JSON, YAML, XML, and CSV.
       </p>
       <p><a href="https://github.com/sdif-format/sdif-benchmarks"><strong>View benchmarks →</strong></a></p>
     </td>
+  </tr>
+  <tr>
     <td width="33%" valign="top">
-      <p><sub>SYNTAX TOOLING</sub></p>
+      <p><sub>RUST IMPLEMENTATION</sub></p>
+      <h3>sdif-rs</h3>
+      <p>
+        Pure Rust parser implementation with a span-annotated AST designed for editor tooling.
+      </p>
+      <p><a href="https://github.com/sdif-format/sdif-rs"><strong>Explore sdif-rs →</strong></a></p>
+    </td>
+    <td width="33%" valign="top">
+      <p><sub>LANGUAGE SERVER (LSP)</sub></p>
+      <h3>sdif-lsp</h3>
+      <p>
+        LSP language server binary (tower-lsp) providing real-time diagnostics and IDE features.
+      </p>
+      <p><a href="https://github.com/sdif-format/sdif-lsp"><strong>View sdif-lsp →</strong></a></p>
+    </td>
+    <td width="33%" valign="top">
+      <p><sub>EDITOR INTEGRATION</sub></p>
+      <h3>vscode-sdif</h3>
+      <p>
+        VS Code extension client providing syntax highlighting, diagnostics, and LSP configuration.
+      </p>
+      <p><a href="https://github.com/sdif-format/vscode-sdif"><strong>Open extension →</strong></a></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <p><sub>GRAMMAR FOUNDATION</sub></p>
       <h3>tree-sitter-sdif</h3>
       <p>
-        Tree-sitter grammar foundation for syntax highlighting and editor integrations.
-        Registers both <code>.sdif</code> and <code>.sdif.ai</code> file types.
+        Tree-sitter grammar foundation for syntax highlighting and incremental parsing.
       </p>
       <p><a href="https://github.com/sdif-format/tree-sitter-sdif"><strong>Open grammar →</strong></a></p>
+    </td>
+    <td width="33%" valign="top">
+      <p><sub>DOCUMENTATION</sub></p>
+      <h3>sdif-format.github.io</h3>
+      <p>
+        Official documentation website containing specification guides, tutorials, and examples.
+      </p>
+      <p><a href="https://github.com/sdif-format/sdif-format.github.io"><strong>Read docs →</strong></a></p>
+    </td>
+    <td width="33%" valign="top">
+      <p><sub>ORGANIZATION META</sub></p>
+      <h3>.github</h3>
+      <p>
+        Organization profile, assets, and shared community configuration files.
+      </p>
+      <p><a href="https://github.com/sdif-format/.github"><strong>View profile →</strong></a></p>
     </td>
   </tr>
 </table>
 
 </div>
+
+<br>
+
+<details>
+  <summary><strong>Repository map</strong></summary>
+
+<br>
+
+| Repository | Purpose |
+| --------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [`sdif-py`](https://github.com/sdif-format/sdif-py)                   | Core Python parser, validator, canonicalizer, and CLI |
+| [`sdif-spec`](https://github.com/sdif-format/sdif-spec)               | Official format specification and conformance test suite (SSOT) |
+| [`sdif-benchmarks`](https://github.com/sdif-format/sdif-benchmarks)   | Benchmark datasets, reports, and comparison tooling |
+| [`sdif-rs`](https://github.com/sdif-format/sdif-rs)                   | Rust parser crate with span-annotated AST |
+| [`sdif-lsp`](https://github.com/sdif-format/sdif-lsp)                 | LSP language server binary |
+| [`tree-sitter-sdif`](https://github.com/sdif-format/tree-sitter-sdif) | Tree-sitter grammar foundation for syntax highlighting |
+| [`vscode-sdif`](https://github.com/sdif-format/vscode-sdif)           | VS Code extension client for SDIF |
+| [`sdif-format.github.io`](https://github.com/sdif-format/sdif-format.github.io) | Public documentation website (Docusaurus) |
+| [`.github`](https://github.com/sdif-format/.github)                   | Organization profile, assets, and shared GitHub community files |
+
+</details>
 
 <br>
 
@@ -305,17 +380,17 @@ SDIF focuses on a narrower problem:
 
 ## Documentation
 
-The official specifications and conformance suite are hosted in the sibling [sdif-spec](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif-spec) repository:
+The official specifications and conformance suite are hosted in the sibling [sdif-spec](../sdif-spec) repository:
 
 | Document | Description |
 | --- | --- |
-| [spec.md](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif-spec/docs/spec.md) | Full v1.0.0 specification |
-| [canonicalization.md](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif-spec/docs/canonicalization.md) | Canonicalization contract |
-| [comparison.md](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif-spec/docs/comparison.md) | Format comparison |
-| [semantic-quality.md](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif-spec/docs/semantic-quality.md) | Semantic quality methodology |
-| [ai-speed-profile.md](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif-spec/docs/ai-speed-profile.md) | AI speed profile contract |
-| [conformance/](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif-spec/conformance/) | Shared conformance fixtures |
-| [examples/](file:///home/alessbarb/workspace/repos/active/sdif-format/sdif/examples/) | Annotated examples (local in this repo) |
+| [spec.md](../sdif-spec/docs/spec.md) | Full v1.0.0 specification |
+| [canonicalization.md](../sdif-spec/docs/canonicalization.md) | Canonicalization contract |
+| [comparison.md](../sdif-spec/docs/comparison.md) | Format comparison |
+| [semantic-quality.md](../sdif-spec/docs/semantic-quality.md) | Semantic quality methodology |
+| [ai-speed-profile.md](../sdif-spec/docs/ai-speed-profile.md) | AI speed profile contract |
+| [conformance/](../sdif-spec/conformance/) | Shared conformance fixtures |
+| [examples/](examples/) | Annotated examples (local in this repo) |
 
 <br>
 
