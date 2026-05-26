@@ -161,9 +161,9 @@ id   release.v1
 title "Release readiness plan"
 
 items[id,status,owner,evidence]:
-  R1 done build reports/build.md
-  R2 open qa reports/tests.md
-  R3 done security reports/audit.md
+  R1	done	build	reports/build.md
+  R2	open	qa	reports/tests.md
+  R3	done	security	reports/audit.md
 
 rel:
   release.v1  validated_by  R1
