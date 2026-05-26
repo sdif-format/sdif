@@ -21,12 +21,14 @@ def test_ci_and_docs_artifacts_exist():
     docs = (SPEC_DOCS_DIR / "spec.md").read_text(encoding="utf-8")
     assert "Minimum normative AST" in docs
     assert "Canonicalization" in docs
-    assert "CLI" in docs
+    ref = (SPEC_DOCS_DIR / "reference-python.md").read_text(encoding="utf-8")
+    assert "CLI" in ref
 
 
 def test_spec_records_format_spec_and_package_versions():
     pyproject = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
     spec = (SPEC_DOCS_DIR / "spec.md").read_text(encoding="utf-8")
+    ref = (SPEC_DOCS_DIR / "reference-python.md").read_text(encoding="utf-8")
     package_version = pyproject["project"]["version"]
 
     assert "**Format version:** 1.0" in spec
@@ -36,7 +38,7 @@ def test_spec_records_format_spec_and_package_versions():
         re.MULTILINE,
     )
     assert match is not None
-    assert f"**Python package version:** {package_version}" in spec
+    assert f"**Reference Python implementation version:** {package_version}" in ref
     assert "`@sdif 1.0`" in spec
 
 
@@ -97,7 +99,7 @@ def test_spec_records_v1_m1_normative_decisions():
     for term in (
         "`@sdif 1.0` identifies the stable core syntax and semantic contract.",
         "The package version may advance independently from the document format version.",
-        "Stable core behavior includes parsing, the reference AST shape, schema-driven validation, canonical syntax, safe default policies, local includes behind explicit policy, and `.sdif.ai` reversibility to canonical source.",
+        "Stable core behavior includes parsing, the reference AST shape, schema-driven validation, canonical syntax, safe default policies, local includes behind explicit policy, and `.sdif.ai` reversibility to canonical SDIF.",
         "Versioned or not-yet-implemented extensions include remote includes, remote schemas, complex namespaces, deep graph validation, digital signatures, advanced type unions, semantic numeric/date normalization, and non-declarative rule execution.",
         "Under the stable core configuration, strict mode prohibits inline comments inside table rows.",
         "Table cells are captured as raw strings in the initial AST.",
@@ -107,7 +109,7 @@ def test_spec_records_v1_m1_normative_decisions():
         "Complex namespace behavior is reserved for future extensions.",
         "RuleExpression(action, function, args)",
         "`@include` is disabled by default",
-        "Remote includes and remote schemas are reserved extension surfaces and are rejected by the current reference implementation.",
+        "Remote includes and remote schemas are reserved extension surfaces. Conforming core processors MUST reject them unless an explicit extension profile enables them.",
     ):
         assert term in spec
 
